@@ -33,6 +33,7 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import NumbersOutlinedIcon from '@mui/icons-material/NumbersOutlined';
 import MiscellaneousServicesOutlinedIcon from '@mui/icons-material/MiscellaneousServicesOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 
 import { color } from '@mui/system';
 import { red } from '@mui/material/colors';
@@ -57,7 +58,7 @@ const masterTables = {
     type: 'group',
     children: 
             [
-                // tabla CANAL
+                // tabla Tarifas
                 {
                     id: 'TARIFAS',
                     title: <FormattedMessage id="TARIFAS" />,
@@ -113,13 +114,30 @@ const masterTables = {
                         
                     ]
                 },
-                // LISTA DE CARGA
+                // LISTA DE Constantes
                 {
                     id: 'CONSTANTES',
                     title: <FormattedMessage id="CONSTANTES" />,
                     type: 'collapse',
                     icon: FormatListNumberedOutlinedIcon,
                     children: [
+                        // tabla PAIS
+                        {
+                            id: 'pais-region',
+                            title: <FormattedMessage id="pais-region" />,
+                            type: 'item',
+                            icon: PublicOutlinedIcon,
+                            url: '/paisRegion/paisRegion',
+                            /*children: [
+                                {
+                                    id: 'canal',
+                                    title: <FormattedMessage id="canal" />,
+                                    type: 'item',
+                                    url: '/canal/canal',
+                                    breadcrumbs: false
+                                },
+                            ]*/
+                        },
                         // tabla CANAL
                         {
                             id: 'canal',
@@ -171,7 +189,7 @@ const masterTables = {
                                 },
                             ]*/
                         },   
-                         // LISTA DE IMPUESTOS
+                         // LISTA DE CALCULOS
                          {
                             id: 'constantescalculo',
                             title: <FormattedMessage id="CONSTANTES DE CALCULO"   />,

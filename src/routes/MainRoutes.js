@@ -93,6 +93,8 @@ const AppTRANSPORTELOC = Loadable(lazy(() => import('views/application/tablasDis
 const AppPOLIZAS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/POLIZAS')));
 
 // application --> Constantes - canal routing
+const AppPaisRegion = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Constantes/paisRegion')));
+// application --> Constantes - canal routing
 const AppCanalProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Constantes/canal')));
 // application --> Constantes - carga routing
 const AppCargaProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Constantes/carga')));
@@ -329,6 +331,11 @@ const MainRoutes = {
         {
             path: '/CONST/CONST',
             element: <AppConstProduct />
+        },
+        //LISTA PAIS REGION
+        {
+            path: '/paisRegion/paisRegion',
+            element: <AppPaisRegion />
         },
         //LISTA RUTA CANAL
         {
