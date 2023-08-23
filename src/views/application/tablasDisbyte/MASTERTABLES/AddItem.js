@@ -37,7 +37,7 @@ const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} 
 
 // ==============================|| CANAL ADD DIALOG ||============================== //
 
-const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAPI }) => {
+const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAPI, dataSelect }) => {
     const theme = useTheme();
     // console.log(headCells)
     // handle tag select
@@ -49,7 +49,7 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
     // mostrar las alertas
     const [showAlert, setShowAlert] = useState(false);
     // almacena para el select paises y regiones
-    const [paisRegion, setPaisRegion] = useState([]);
+    const [datosSelect, setDatosSelect] = useState([]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -104,20 +104,11 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
         setShowAlert(false); // Cierra la alerta
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const dataPais = await PaisRegionHelper.fetchData();
-                setPaisRegion(dataPais);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+    useEffect(()=> {
+        setDatosSelect(dataSelect); // lista los paises a mostrar en el select, ya vienen del comp padre
+    },[dataSelect])
 
-        fetchData();
-    }, []);
-    console.log(paisRegion);
-    useEffect(() => {
+    useEffect(() => { // hace que la alerta se quite en 2 segundos
         setTimeout(() => {
             setShowAlert(false);
         }, 2000);
@@ -163,7 +154,7 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
                                                         onChange={handleChange}
                                                         label={`Seleccione ${cell.label}${cell.isRequired ? ' *Requerido' : ''}`}
                                                     >
-                                                        {paisRegion.map((option) => (
+                                                        {datosSelect.map((option) => (
                                                             <MenuItem key={option.id} value={option.id}>
                                                                 {option.description} - {option.region}
                                                             </MenuItem>
