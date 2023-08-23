@@ -1,41 +1,32 @@
 import { FetchService } from "utils/FetchService";
 
-export const BancoHelper = {
+export const PaisRegionHelper = {
     baseUrl: process.env.REACT_APP_BASE_URL,
-    rutaTabla: 'Banco',
-    constructor(baseUrl) {
+    rutaTabla: 'PaisRegion',
+    constructor(baseUrl){
         this.baseUrl = baseUrl;
     },
 
     //Consulta a la API
-    // fetchData: async function () {
-    //     try {
-    //         const response = await fetch(`${this.baseUrl}/${this.rutaTabla}`);
-    //         const jsonData = await response.json();
-    //         const jsonDataStatus = await response;
-    //         return [jsonData, jsonDataStatus];
-    //     } catch (error) {
-    //         console.error('Error', error);
-    //         return null;
-    //     }
-    // },
+    /*
+   fetchData: async function () {
+       try {
+           const response = await fetch(`${this.baseUrl}/${this.rutaTabla}`);
+           const jsonData = await response.json();
+           const jsonDataStatus = await response;
+           return [jsonData, jsonDataStatus];
+       } catch (error) {
+           console.error('Error', error);
+           return null;
+       }
+   },   
+   */
 
     // METODO POR GUSTAVO
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('BancoHelper.fetchData::response', response);
-
-            return response;
-        } catch (error) {
-            console.error('Error', error);
-            return null;
-        }
-    },
-    fetchDataPais: async function () {
-        try {
-            const response = await FetchService.Get(`${this.rutaTabla}/pais`);
-            console.log('BancoHelper.fetchData::response', response);
+            console.log('PaisRegionHelper.fetchData::response', response);
 
             return response;
         } catch (error) {
@@ -82,7 +73,7 @@ export const BancoHelper = {
         }
     },
     // Leer un registro de la tabla por ID
-    readDataById: async function (id) {
+    readDataById: async function(id) {
         try {
             const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${id}`);
             const jsonData = await response.json();

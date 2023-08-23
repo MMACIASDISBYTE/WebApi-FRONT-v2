@@ -10,11 +10,15 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControl,
     FormControlLabel,
     Grid,
     IconButton,
+    InputLabel,
+    MenuItem,
     Radio,
     RadioGroup,
+    Select,
     Slide,
     TextField,
     Typography,
@@ -26,6 +30,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 import { AlertComp } from './AlertComp';
+import { PaisRegionHelper } from 'helpers/PaisRegionHelper';
 
 // animation
 const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
@@ -35,7 +40,6 @@ const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} 
 const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAPI }) => {
     const theme = useTheme();
     // console.log(headCells)
-
     // handle tag select
     const [dataName, setDataName] = useState('');
     // Estado para almacenar la lista de elementos
@@ -44,6 +48,8 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
     const [dataValues, setDataValues] = useState({});
     // mostrar las alertas
     const [showAlert, setShowAlert] = useState(false);
+    // almacena para el select paises y regiones
+    const [paisRegion, setPaisRegion] = useState([]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -63,7 +69,7 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
     const handleAdd = () => {
         // Validar si todos los campos requeridos están llenos
         const requiredFieldsFilled = headCells.every(
-            (cell) => !cell.isRequired || dataValues[cell.id] !== undefined
+            (cell) => !cell.isRequired || dataValues[cell.id] !== undefined && dataValues[cell.id] !== ''
         );
 
         if (!requiredFieldsFilled) {
@@ -98,6 +104,25 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
         setShowAlert(false); // Cierra la alerta
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const dataPais = await PaisRegionHelper.fetchData();
+                setPaisRegion(dataPais);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    console.log(paisRegion);
+    useEffect(() => {
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 2000);
+    },[showAlert])
+
     return (
         <Dialog
             open={open}
@@ -129,17 +154,22 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
                                     {cell.id !== 'id' && (
                                         <>
                                             <Typography variant="subtitle1">{cell.label}</Typography>
-                                            {cell.numeric === true ? (
-                                                <TextField
-                                                    type="number"
-                                                    fullWidth
-                                                    name={cell.id}
-                                                    value={dataValues[cell.id] || ''}
-                                                    placeholder={`Ingrese ${cell.label}${cell.isRequired ? ' *Requerido' : ''}`}
-                                                    onChange={handleChange}
-                                                    sx={{ marginTop: '5px' }}
-                                                    required={cell.isRequired}
-                                                />
+                                            {cell.select === 'paisRegion' ? (
+                                                <FormControl fullWidth variant="outlined" sx={{ marginTop: '5px' }}>
+                                                    <InputLabel>{`Seleccione ${cell.label}${cell.isRequired ? ' *Requerido' : ''}`}</InputLabel>
+                                                    <Select
+                                                        name={cell.id}
+                                                        value={dataValues[cell.id] || ''}
+                                                        onChange={handleChange}
+                                                        label={`Seleccione ${cell.label}${cell.isRequired ? ' *Requerido' : ''}`}
+                                                    >
+                                                        {paisRegion.map((option) => (
+                                                            <MenuItem key={option.id} value={option.id}>
+                                                                {option.description} - {option.region}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                             ) : cell.numeric === false ? (
                                                 <TextField
                                                     fullWidth
@@ -150,7 +180,17 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
                                                     sx={{ marginTop: '5px' }}
                                                     required={cell.isRequired}
                                                 />
-                                            ) : (
+                                            ) : cell.numeric === true ? (
+                                                <TextField
+                                                    type="number"
+                                                    fullWidth
+                                                    name={cell.id}
+                                                    value={dataValues[cell.id] || ''}
+                                                    placeholder={`Ingrese ${cell.label}${cell.isRequired ? ' *Requerido' : ''}`}
+                                                    onChange={handleChange}
+                                                    sx={{ marginTop: '5px' }}
+                                                    required={cell.isRequired}
+                                                />) : (
                                                 <RadioGroup
                                                     row
                                                     name={cell.id}
@@ -178,18 +218,18 @@ const AddItem = ({ open, handleCloseDialog, TableName, headCells, handleCreateAP
                     </DialogContent>
 
                     {showAlert ? (
-                        <AlertComp handleCloseAlert={handleCloseAlert}/>
+                        <AlertComp handleCloseAlert={handleCloseAlert} />
                     ) : (
 
-                    <DialogActions>
-                        <AnimateButton>
-                            <Button variant="contained" onClick={handleAdd}>Create</Button>
-                        </AnimateButton>
-                        <Button variant="text" color="error" onClick={handleCloseDialog}>
-                            Close
-                        </Button>
-                    </DialogActions>
-            )}
+                        <DialogActions>
+                            <AnimateButton>
+                                <Button variant="contained" onClick={handleAdd}>Create</Button>
+                            </AnimateButton>
+                            <Button variant="text" color="error" onClick={handleCloseDialog}>
+                                Close
+                            </Button>
+                        </DialogActions>
+                    )}
                 </>
             )}
 

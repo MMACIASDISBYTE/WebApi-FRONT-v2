@@ -1,5 +1,3 @@
-// LISTED 12/7/2023 15:44PM
-//
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
@@ -27,24 +25,22 @@ import {
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
+
 // project imports
+import CompUpdate from '../../CompUpdate';
 import MainCard from 'ui-component/cards/MainCard';
 
-//importamos el useNavigate para manejar navegaciones y redireccciones
-import { redirect, useNavigate } from "react-router-dom";
-
 // assets
-import SaveIcon from '@mui/icons-material/Save'; // SE IMPORTA ICONO DE SAVE
 import EditIcon from '@mui/icons-material/Edit'; // SE IMPORTA ICONO DE EDIT
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/AddTwoTone';
-import UndoOutlinedIcon from '@mui/icons-material/UndoOutlined';
 
-//importacion del helper fwette
-import { TarifasTerminalHelper } from '../../../../../../helpers/TarifasTerminalHelper';
+//importacion del helper
+import { PaisRegionHelper } from 'helpers/PaisRegionHelper';
+
+import { useNavigate } from 'react-router-dom';
 import AddItem from '../../AddItem';
-import CompUpdate from '../../CompUpdate';
 import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
 
 // table sort
@@ -71,86 +67,44 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-// table header options/ATRIBUTOS DEL MODELO IIBB
+// table header options ATRIBUTOS DEL MODELO
 const headCells = [
-
     {
         id: 'id',
         numeric: true,
         isRequired: false,
         label: 'ID',
-        align: 'Left'
+        align: 'left'
     },
     {
         id: 'description',
         numeric: false,
         isRequired: true,
-        label: 'DESCRIPCION',
-        align: 'Left'
+        label: 'Description',
+        align: 'left'
     },
     {
-        id: 'terminal_id',
+        id: 'region',
         numeric: false,
         isRequired: true,
-        label: 'TERMINAL',
-        align: 'Left'
+        label: 'Region',
+        align: 'left'
     },
     {
-        id: 'carga_id',
+        id: 'moneda',
         numeric: false,
         isRequired: true,
-        label: 'CARGA',
-        align: 'Left'
+        label: 'Moneda',
+        align: 'left'
     },
     {
-        id: 'paisregion_id',
+        id: 'puerto',
         numeric: false,
         isRequired: true,
-        label: 'PAIS/REGION',
-        align: 'Left'
+        label: 'Puerto',
+        align: 'left'
     },
-    {
-        id: 'gastoFijo',
-        numeric: true,
-        isRequired: true,
-        label: 'GASTO FIJO',
-        align: 'Left'
-    },
-    {
-        id: 'gastoVariable',
-        numeric: true,
-        isRequired: true,
-        label: 'GASTO VARIABLE',
-        align: 'Left'
-    },
-    {
-        id: 'gasto_otro1',
-        numeric: true,
-        isRequired: true,
-        label: 'Otros gastos1',
-        align: 'Left'
-    },
-    {
-        id: 'gasto_otro2',
-        numeric: true,
-        isRequired: true,
-        label: 'Otros gastos2',
-        align: 'Left'
-    },
-    {
-        id: 'notas',
-        numeric: false,
-        isRequired: true,
-        label: 'NOTAS',
-        align: 'Left'
-    },
-    {
-        id: 'htimestamp',
-        numeric: true,
-        isRequired: true,
-        label: 'Fecha/hora',
-        align: 'Left'
-    },
+
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -163,6 +117,11 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
     return (
         <TableHead>
             <TableRow>
+                {numSelected > 0 && (
+                    <TableCell padding="none" colSpan={7}>
+                        <EnhancedTableToolbar numSelected={selected.length} />
+                    </TableCell>
+                )}
                 {numSelected <= 0 &&
                     headCells.map((headCell) => (
                         <TableCell
@@ -186,7 +145,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
                         </TableCell>
                     ))}
                 {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
+                    <TableCell sortDirection={false} align="right" sx={{ pr: 3 }}>
                         <Typography variant="subtitle1" sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}>
                             Action
                         </Typography>
@@ -250,7 +209,7 @@ EnhancedTableToolbar.propTypes = {
 const ProductList = () => {
     const navigate = useNavigate();
     const theme = useTheme();
-    const TableName = 'Terminales';
+    const TableName = 'Pais Region';
 
     //Gestion de permisos
     const permisos = useAccessTokenJWT();
@@ -292,7 +251,7 @@ const ProductList = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [search, setSearch] = React.useState('');
     const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
-    const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
+    const [rows, setRows] = React.useState([]); //estoy almacenando la data
 
     // logica para que actuallizar / renderizar el componente a la hora de eliminar
     const [actualizacion, SetActualizacion] = React.useState(false);
@@ -301,49 +260,49 @@ const ProductList = () => {
         SetActualizacion(false);
     }, [actualizacion]);
 
-    // traigo data de fwette Y LO ALMACENO EN EL STATE DE setRows
-
     const fetchData = async (accessToken) => {
         try {
             //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-            const jsonData = await TarifasTerminalHelper.fetchData();
-            // const jsonData = await BancoHelper.fetchData(accessToken);
+            // const [jsonData, jsonDataStatus] = await PaisRegionHelper.fetchData();
+            const jsonData = await PaisRegionHelper.fetchData();
 
             //console.log(jsonData);
             //console.log(jsonDataStatus.status);
             setRows(jsonData);
-
-            console.log(accessToken);
-            // console.log('Data del json: ', jsonData)
-            setRows(jsonData);
+            // aca manejo los errores, y rederijo hay q importar navegate
+            // if (jsonDataStatus.status !== 200) {
+            //     navigate('/pages/error');
+            // }
         } catch (error) {
             console.log(error);
             console.log('Prueba')
             navigate('/pages/error');
         }
     };
-
     //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
+    const exclude = []; //aqui van los elementos a no listar en la vista
     const attributes = Array.from(
-        new Set(rows.flatMap((row) => Object.keys(row)))
+        new Set(rows.flatMap((row) => Object.keys(row).filter(attr => !exclude.includes(attr))))
     );
+    console.log(attributes);
 
     // AQUI ELEMINO ELEMENTOS
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, description) => {
         // Aquí debes implementar la lógica para eliminar los productos seleccionados
-        await TarifasTerminalHelper.deleteDataById(id);
+        await PaisRegionHelper.deleteDataById(id);
         // para actualizar el componente
         SetActualizacion(true);
-        console.log(`Tarifa TERMINAL con ID ${id} se ha sido eliminada`);
+        console.log("Productos eliminados: ", description);
+        console.log(id)
     };
 
     const handleCreateAPI = async (newData) => {
-        await TarifasTerminalHelper.createData(newData);
+        await PaisRegionHelper.createData(newData);
     }
 
-    // Función para actualizar la API utilizando
+    // Función para actualizar la API utilizando 
     const handleUpdateAPI = async (id, data) => {
-        await TarifasTerminalHelper.updateDataById(id, data);
+        await PaisRegionHelper.updateDataById(id, data);
     };
 
     // uso metodo Update (que trabaja en el componente hijo)
@@ -369,16 +328,15 @@ const ProductList = () => {
                 const properties = [
                     'id',
                     'description',
-                    'contype',
-                    'gastoFijo',
-                    'gastoVariable',
+                    'region',
+                    'moneda',
+                    'puerto',
                 ];
 
                 let containsQuery = false;
 
                 properties.forEach((property) => {
-                    //console.log(newString)
-                    if (row[property]?.toString().toLowerCase().includes(newString.toString().toLowerCase())) {
+                    if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
                         containsQuery = true;
                     }
                 });
@@ -388,7 +346,6 @@ const ProductList = () => {
                 }
                 return matches;
             });
-            console.log(newRows);
             setRows(newRows);
         } else {
             setRows(rows);
@@ -537,7 +494,7 @@ const ProductList = () => {
                                                                         <IconButton size="large">
                                                                             <DeleteIcon
                                                                                 fontSize="small"
-                                                                                onClick={() => handleDelete(row.fwdfrom, row.contype)}
+                                                                                onClick={() => handleDelete(row.id)}
                                                                             />
                                                                         </IconButton>
                                                                     </Tooltip>
@@ -594,5 +551,4 @@ const ProductList = () => {
         </>
     );
 };
-
 export default ProductList;
