@@ -45,6 +45,7 @@ import { BancoHelper } from "../../../../../../../helpers/BancoHelper";
 import AddItem from "../../../AddItem";
 import CompUpdate from "../../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -117,7 +118,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ['id'];
+  const excludedColumns = ["id"];
 
   return (
     <TableHead>
@@ -297,7 +298,7 @@ const ProductList = () => {
   };
 
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ['id', 'paisregion_id'];
+  const exclude = ["id", "paisregion_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
@@ -311,7 +312,7 @@ const ProductList = () => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
     await BancoHelper.deleteDataById(id);
     SetActualizacion(true);
-    console.log(`El id eliinado es: ${id}`)
+    console.log(`El id eliinado es: ${id}`);
     console.log("Productos eliminados: ", description);
   };
 
@@ -401,6 +402,22 @@ const ProductList = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  // almacena para el select paises y regiones
+  const [paisRegion, setPaisRegion] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchDataPais = async () => {
+      try {
+        const dataPais = await PaisRegionHelper.fetchData();
+        setPaisRegion(dataPais);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataPais();
+  }, []);
+
   return (
     <>
       {
@@ -455,6 +472,7 @@ const ProductList = () => {
                       handleCreateAPI={handleCreateAPI}
                       TableName={TableName}
                       headCells={headCells}
+                      dataSelect={paisRegion}
                     />
                   </>
                 )}
@@ -527,9 +545,7 @@ const ProductList = () => {
                                   <IconButton size="large">
                                     <DeleteIcon
                                       fontSize="small"
-                                      onClick={() =>
-                                        handleDelete(row.id)
-                                      }
+                                      onClick={() => handleDelete(row.id)}
                                     />
                                   </IconButton>
                                 </Tooltip>
@@ -555,6 +571,8 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
+                          dataSelect={paisRegion}
+                          selectPais={true}
                         />
                       </TableRow>
                     );
