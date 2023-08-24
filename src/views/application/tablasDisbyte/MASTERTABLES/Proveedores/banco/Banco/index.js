@@ -330,6 +330,21 @@ const ProductList = () => {
     setOpenUpdate(true);
   };
 
+  // almacena para el select paises y regiones
+  const [paisRegion, setPaisRegion] = React.useState([]);
+  React.useEffect(() => {
+    //consulta tabla pais para enviar al componente
+    const fetchDataPais = async () => {
+      try {
+        const dataPais = await PaisRegionHelper.fetchData();
+        setPaisRegion(dataPais);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDataPais();
+  }, []);
+
   const handleSearch = (event) => {
     const newString = event?.target.value;
     setSearch(newString || "");
@@ -401,22 +416,6 @@ const ProductList = () => {
   const isSelected = (name) => selected.indexOf(name) !== -1;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  // almacena para el select paises y regiones
-  const [paisRegion, setPaisRegion] = React.useState([]);
-
-  React.useEffect(() => {
-    const fetchDataPais = async () => {
-      try {
-        const dataPais = await PaisRegionHelper.fetchData();
-        setPaisRegion(dataPais);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchDataPais();
-  }, []);
 
   return (
     <>

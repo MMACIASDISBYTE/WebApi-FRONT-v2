@@ -26,6 +26,7 @@ import {
 import { gridSpacing } from "store/constant";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { AlertComp } from "./AlertComp";
+import { SelectPaises } from "./SelectPaises";
 
 // animation
 const Transition = forwardRef((props, ref) => (
@@ -175,32 +176,13 @@ const CompUpdate = ({
 
               {/* Nuevo código para añadir el select */}
               {selectPais && (
-                <Grid item xs={12}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    sx={{ marginTop: "5px" }}
-                  >
-                    <InputLabel htmlFor="paisregion_id">
-                      Seleccione País
-                    </InputLabel>
-                    <Select
-                      value={dataName.paisregion_id || ""}
-                      onChange={handleChange}
-                      label="Seleccione País"
-                      inputProps={{
-                        name: "paisregion_id",
-                        id: "paisregion_id",
-                      }}
-                    >
-                      {datosSelect.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                          {option.description} - {option.region}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
+
+                <SelectPaises 
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelect}
+                />
               )}
               
             </Grid>

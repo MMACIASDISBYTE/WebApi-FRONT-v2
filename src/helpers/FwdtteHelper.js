@@ -35,6 +35,18 @@ export const FwdtteHelper = {
         }
     },
 
+    fetchDataPais: async function () {
+        try {
+            const response = await FetchService.Get(`${this.rutaTabla}/pais`);
+            console.log('FwdtteHelper.fetchData::response', response);
+
+            return response;
+        } catch (error) {
+            console.error('Error', error);
+            return null;
+        }
+    },
+
     // fetchData: async function () { // METODO PARA OPTENER EL ESTADO
     //     try {
     //         const response = await FetchService.Get(this.rutaTabla);
