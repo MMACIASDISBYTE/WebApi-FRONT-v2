@@ -32,6 +32,7 @@ export const BancoHelper = {
             return null;
         }
     },
+    
     fetchDataPais: async function () {
         try {
             const response = await FetchService.Get(`${this.rutaTabla}/pais`);
