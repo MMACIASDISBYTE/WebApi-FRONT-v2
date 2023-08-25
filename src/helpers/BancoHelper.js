@@ -35,7 +35,7 @@ export const BancoHelper = {
     
     fetchDataPais: async function () {
         try {
-            const response = await FetchService.Get(`${this.rutaTabla}/pais`);
+            const response = await FetchService.Get(`${this.rutaTabla}/vista`);
             console.log('BancoHelper.fetchData::response', response);
 
             return response;

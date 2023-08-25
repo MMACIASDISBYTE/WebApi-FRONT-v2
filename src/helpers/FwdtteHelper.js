@@ -37,7 +37,7 @@ export const FwdtteHelper = {
 
     fetchDataPais: async function () {
         try {
-            const response = await FetchService.Get(`${this.rutaTabla}/pais`);
+            const response = await FetchService.Get(`${this.rutaTabla}/vista`);
             console.log('FwdtteHelper.fetchData::response', response);
 
             return response;

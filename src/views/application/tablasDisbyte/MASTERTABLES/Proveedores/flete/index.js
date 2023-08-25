@@ -73,6 +73,7 @@ const headCells = [
   {
     id: "id",
     numeric: true,
+    select: null,
     isRequired: false,
     label: "ID",
     align: "left",
@@ -80,6 +81,7 @@ const headCells = [
   {
     id: "description",
     numeric: false,
+    select: null,
     isRequired: true,
     label: "Description",
     align: "left",
@@ -351,7 +353,7 @@ const ProductList = () => {
         let matches = true;
 
         // las propiedades que debe listar/buscar, deben de ser igual al modelo
-        const properties = ["id", "description"];
+        const properties = ["id", "description", "pais"];
 
         let containsQuery = false;
 

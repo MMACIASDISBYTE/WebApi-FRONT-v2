@@ -413,10 +413,10 @@ const MainRoutes = {
             element: <AppProveedorOemProduct />
         },
 
-        {
-            path: '/seguros/seguros',
-            element: <AppProveedorSeguro />
-        },
+        // {
+        //     path: '/seguros/seguros',
+        //     element: <AppProveedorSeguro />
+        // },
 
         // RUTA CONTANTES
         {

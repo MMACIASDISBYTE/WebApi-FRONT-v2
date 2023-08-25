@@ -37,8 +37,8 @@ export const FleteHelper = {
 
   fetchDataPais: async function () {
     try {
-      const response = await FetchService.Get(`${this.rutaTabla}/pais`);
-      console.log("FwdtteHelper.fetchData::response", response);
+      const response = await FetchService.Get(`${this.rutaTabla}/vista`);
+      console.log("FleteHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

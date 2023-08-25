@@ -73,6 +73,7 @@ const headCells = [
   {
     id: "id",
     numeric: true,
+    select: null,
     isRequired: false,
     label: "ID",
     align: "left",
@@ -80,6 +81,7 @@ const headCells = [
   {
     id: "description",
     numeric: false,
+    select: null,
     isRequired: true,
     label: "Description",
     align: "left",
