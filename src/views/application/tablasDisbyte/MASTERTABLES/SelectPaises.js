@@ -2,36 +2,28 @@ import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { useEffect, useState } from "react";
 
-export const SelectPaises = ({ dataName, MenuItem, handleChange, datosSelect}) => {
-
-  const [paisRegion, setPaisRegion] = useState([]);
-
-  console.log(MenuItem);
-  useEffect(() => {
-    //consulta tabla pais para enviar al componente
-    const fetchDataPais = async () => {
-      try {
-        const dataPais = await PaisRegionHelper.fetchData();
-        setPaisRegion(dataPais);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchDataPais();
-  }, []);
+export const SelectPaises = ({
+  nameSelect,
+  dataName,
+  MenuItem,
+  handleChange,
+  datosSelect,
+}) => {
 
   return (
     <>
       <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" sx={{ marginTop: "5px" }}>
-          <InputLabel htmlFor="paisregion_id">Seleccione País</InputLabel>
+          <InputLabel htmlFor={nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? "terminal_id" : nameSelect === 'Carga' ? "carga_id" : ''}>
+            Seleccione {nameSelect}
+          </InputLabel>
           <Select
-            value={dataName.paisregion_id || ""}
+            value={nameSelect === 'Pais' ? dataName.paisregion_id : nameSelect === 'Terminal' ? dataName.terminal_id : nameSelect === 'Carga' ? dataName.carga_id : null}
             onChange={handleChange}
-            label="Seleccione País"
+            label={`Seleccione un  ${nameSelect}`}
             inputProps={{
-              name: "paisregion_id",
-              id: "paisregion_id",
+              name: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? 'terminal_id' : 'carga_id',
+              id: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? 'terminal_id' : 'carga_id',
             }}
           >
             {datosSelect.map((option, index) => (

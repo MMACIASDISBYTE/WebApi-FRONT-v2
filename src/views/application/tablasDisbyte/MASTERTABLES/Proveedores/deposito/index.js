@@ -567,7 +567,7 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
-                          dataSelect={paisRegion}
+                          dataSelectPais={paisRegion}
                           selectPais={true}
                         />
                       </TableRow>
