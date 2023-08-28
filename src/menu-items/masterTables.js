@@ -388,23 +388,23 @@ const masterTables = {
                             ]
                         },
         
-                        // LISTA DE Proveedor OEM
-                        {
-                            id: 'Seguros',
-                            title: <FormattedMessage id="Seguros" />,
-                            type: 'item',
-                            icon: SupervisorAccountOutlinedIcon,
-                            url: '/seguros/seguros',
-                            children: [
-                                {
-                                    id: 'Seguros',
-                                    title: <FormattedMessage id="Seguros" />,
-                                    type: 'item',
-                                    url: '/seguros/seguros',
-                                    breadcrumbs: false
-                                },
-                            ]
-                        },
+                        // LISTA DE seguros
+                        // {
+                        //     id: 'Seguros',
+                        //     title: <FormattedMessage id="Seguros" />,
+                        //     type: 'item',
+                        //     icon: SupervisorAccountOutlinedIcon,
+                        //     url: '/seguros/seguros',
+                        //     children: [
+                        //         {
+                        //             id: 'Seguros',
+                        //             title: <FormattedMessage id="Seguros" />,
+                        //             type: 'item',
+                        //             url: '/seguros/seguros',
+                        //             breadcrumbs: false
+                        //         },
+                        //     ]
+                        // },
                     ]     
                 },
 

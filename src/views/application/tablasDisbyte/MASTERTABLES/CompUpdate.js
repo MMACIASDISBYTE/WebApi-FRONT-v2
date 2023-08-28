@@ -45,7 +45,7 @@ const CompUpdate = ({
   selectPais,
 }) => {
   const theme = useTheme();
-  console.log(dataRow);
+  // console.log(dataRow);
   // console.log(TableName);
   // handle tag select
   const [dataName, setDataName] = useState(dataRow || {});
