@@ -41,8 +41,12 @@ const CompUpdate = ({
   handleCloseDialog,
   TableName,
   handleUpdateAPI,
-  dataSelect,
   selectPais,
+  selectCarga,
+  selectTerminal,
+  dataSelectPais = null,
+  dataSelectTerminal = null,
+  dataSelectCarga = null,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -52,7 +56,10 @@ const CompUpdate = ({
   // mostrar las alertas
   const [showAlert, setShowAlert] = useState(false);
   // almacena para el select paises y regiones
-  const [datosSelect, setDatosSelect] = useState([]);
+  const [datosSelectPais, setDatosSelectPais] = useState([]);
+  const [datosSelectTerminal, setDatosSelectTerminal] = useState([]);
+  const [datosSelectCarga, setDatosSelectCarga] = useState([]);
+
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -99,8 +106,16 @@ const CompUpdate = ({
   };
 
   useEffect(() => {
-    setDatosSelect(dataSelect); // lista los paises a mostrar en el select, ya vienen del comp padre
-  }, [dataSelect]);
+    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
+  }, [dataSelectPais]);
+
+  useEffect(() => {
+    setDatosSelectTerminal(dataSelectTerminal); // lista los paises a mostrar en el select, ya vienen del comp padre
+  }, [dataSelectTerminal]);
+
+  useEffect(() => {
+    setDatosSelectCarga(dataSelectCarga); // lista los paises a mostrar en el select, ya vienen del comp padre
+  }, [dataSelectCarga]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -139,7 +154,9 @@ const CompUpdate = ({
                   // Ocultar el campo de entrada cuando el atributo es igual a "id"
                   key !== "id" &&
                   key !== "pais" &&
-                  key !== "paisregion_id" && (
+                  key !== "paisregion_id" &&
+                  key !== "carga_id" &&
+                  key !== "terminal_id" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -174,14 +191,34 @@ const CompUpdate = ({
                   )
               )}
 
-              {/* Nuevo código para añadir el select */}
+              {/* código para añadir el selectPais */}
               {selectPais && (
-
                 <SelectPaises 
+                    nameSelect={'Pais'}
                     dataName={dataName}
                     MenuItem={MenuItem}
                     handleChange={handleChange}
-                    datosSelect={datosSelect}
+                    datosSelect={datosSelectPais}
+                />
+              )}
+              {/* código para añadir el selectCarga */}
+              {selectCarga && (
+                <SelectPaises 
+                    nameSelect={'Carga'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectCarga}
+                />
+              )}
+              {/* código para añadir el selectTerminal */}
+              {selectTerminal && (
+                <SelectPaises 
+                  nameSelect={'Terminal'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectTerminal}
                 />
               )}
               

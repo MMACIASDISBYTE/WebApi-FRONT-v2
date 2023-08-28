@@ -679,8 +679,12 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
-                          dataSelect={paisRegion}
                           selectPais={true}
+                          selectCarga={true}
+                          selectTerminal={true}
+                          dataSelectPais={paisRegion}
+                          dataSelectTerminal={Terminales}
+                          dataSelectCarga={paisRegion}
                         />
                       </TableRow>
                     );
