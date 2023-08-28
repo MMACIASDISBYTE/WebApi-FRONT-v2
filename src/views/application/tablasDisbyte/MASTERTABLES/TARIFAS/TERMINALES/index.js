@@ -47,6 +47,8 @@ import AddItem from "../../AddItem";
 import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
+import { TerminalHelper } from "helpers/TerminalHelper";
+import { CargaHelper } from "helpers/CargaHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -95,7 +97,7 @@ const headCells = [
   {
     id: "terminal_id",
     numeric: false,
-    select: null,
+    select: "Terminal",
     isRequired: true,
     label: "Terminal",
     align: "Left",
@@ -103,7 +105,7 @@ const headCells = [
   {
     id: "carga_id",
     numeric: false,
-    select: null,
+    select: "Carga",
     isRequired: true,
     label: "Carga",
     align: "Left",
@@ -111,14 +113,13 @@ const headCells = [
   {
     id: "paisregion_id",
     numeric: false,
-    select: null,
     select: "paisRegion",
     isRequired: true,
     label: "Pais/Region",
     align: "Left",
   },
   {
-    id: "gastoFijo",
+    id: "gasto_fijo",
     numeric: true,
     select: null,
     isRequired: true,
@@ -126,7 +127,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gastoVariable",
+    id: "gasto_variable",
     numeric: true,
     select: null,
     isRequired: false,
@@ -161,7 +162,7 @@ const headCells = [
     id: "htimestamp",
     numeric: 'fecha',
     select: null,
-    isRequired: true,
+    isRequired: false,
     label: "Fecha/hora",
     align: "Left",
   },
@@ -354,7 +355,7 @@ const ProductList = () => {
       //console.log(jsonDataStatus.status);
       setRows(jsonData);
 
-      console.log(accessToken);
+      // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
       setRows(jsonData);
     } catch (error) {
@@ -412,6 +413,33 @@ const ProductList = () => {
     };
     fetchDataPais();
   }, []);
+
+  const [Terminales, setTerminales] = React.useState([]);
+  React.useEffect(() => {
+    const FetchDataTerminales = async () => {
+      try{
+        const dataTerminal = await TerminalHelper.fetchData();
+        setTerminales(dataTerminal);
+      }catch(error){
+        console.log('Error en traer data terminal: ', error);
+      }
+    };
+    FetchDataTerminales();
+  },[]);
+
+  const [Carga, setCarga] = React.useState([]);
+  React.useEffect(() => {
+    const FetchDataCarga = async () => {
+      try{
+        const dataCarga = await CargaHelper.fetchData();
+        setCarga(dataCarga);
+        console.log(Carga);
+      }catch(error){
+        console.log('Error en traer data terminal: ', error);
+      }
+    };
+    FetchDataCarga();
+  },[]);
 
   const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -550,7 +578,9 @@ const ProductList = () => {
                       handleCreateAPI={handleCreateAPI}
                       TableName={TableName}
                       headCells={headCells}
-                      dataSelect={paisRegion}
+                      dataSelectPais={paisRegion}
+                      dataTerminales={Terminales}
+                      dataCarga={Carga}
                     />
                   </>
                 )}

@@ -465,7 +465,7 @@ const ProductList = () => {
                       handleCreateAPI={handleCreateAPI}
                       TableName={TableName}
                       headCells={headCells}
-                      dataSelect={paisRegion}
+                      dataSelectPais={paisRegion}
                     />
                   </>
                 )}

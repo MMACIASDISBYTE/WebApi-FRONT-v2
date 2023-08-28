@@ -44,7 +44,9 @@ const AddItem = ({
   TableName,
   headCells,
   handleCreateAPI,
-  dataSelect,
+  dataSelectPais = null,
+  dataTerminales = null,
+  dataCarga = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -57,9 +59,10 @@ const AddItem = ({
   // mostrar las alertas
   const [showAlert, setShowAlert] = useState(false);
   // almacena para el select paises y regiones
-  const [datosSelect, setDatosSelect] = useState([]);
+  const [datosSelectPais, setDatosSelect] = useState([]);
+  const [datosSelectTerminal, setDatosSelectTerminal] = useState([]);
+  const [datosSelectCarga, setDatosSelectCarga] = useState([]);
 
-//   console.log(datosSelect);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -117,8 +120,16 @@ const AddItem = ({
   };
 
   useEffect(() => {
-    setDatosSelect(dataSelect); // lista los paises a mostrar en el select, ya vienen del comp padre
-  }, [dataSelect]);
+    setDatosSelect(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
+  }, [dataSelectPais]);
+
+  useEffect(() => {
+    setDatosSelectTerminal(dataTerminales);
+  }, [dataTerminales]);
+
+  useEffect(() => {
+    setDatosSelectCarga(dataCarga);
+  }, [dataCarga]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -174,9 +185,57 @@ const AddItem = ({
                               cell.isRequired ? " *Requerido" : ""
                             }`}
                           >
-                            {datosSelect.map((option) => (
+                            {datosSelectPais.map((option) => (
                               <MenuItem key={option.id} value={option.id}>
                                 {option.description} - {option.region}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Terminal" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectTerminal.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description} - {option.paisregion_id}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Carga" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectCarga.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
                               </MenuItem>
                             ))}
                           </Select>
