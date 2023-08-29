@@ -76,13 +76,15 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-// table header options/ATRIBUTOS DEL MODELO IIBB
+// table header options/ATRIBUTOS DEL MODELO, tambien este arr le da la caracteristica al formulario tanto de AddIetm como CompUpdate
 const headCells = [
   {
     id: "id",
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Id",
     align: "Left",
   },
@@ -91,6 +93,8 @@ const headCells = [
     numeric: false,
     select: null,
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Descripcion",
     align: "Left",
   },
@@ -99,6 +103,8 @@ const headCells = [
     numeric: false,
     select: "Terminal",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Terminal",
     align: "Left",
   },
@@ -107,6 +113,8 @@ const headCells = [
     numeric: false,
     select: "Carga",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Carga",
     align: "Left",
   },
@@ -115,6 +123,8 @@ const headCells = [
     numeric: false,
     select: "paisRegion",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Pais/Region",
     align: "Left",
   },
@@ -123,6 +133,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Gasto Fijo",
     align: "Left",
   },
@@ -131,6 +143,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Gasto Variable",
     align: "Left",
   },
@@ -139,6 +153,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Otros gastos1",
     align: "Left",
   },
@@ -147,6 +163,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Otros gastos2",
     align: "Left",
   },
@@ -155,6 +173,8 @@ const headCells = [
     numeric: false,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "NOTAS",
     align: "Left",
   },
@@ -163,6 +183,8 @@ const headCells = [
     numeric: 'fecha',
     select: null,
     isRequired: false,
+    isDisabled: true,
+    ocultar: false,
     label: "Fecha/hora",
     align: "Left",
   },
@@ -679,12 +701,12 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
-                          selectPais={true}
-                          selectCarga={true}
-                          selectTerminal={true}
                           dataSelectPais={paisRegion}
                           dataSelectTerminal={Terminales}
                           dataSelectCarga={paisRegion}
+                          selectPais={true}
+                          selectCarga={true}
+                          selectTerminal={true}
                         />
                       </TableRow>
                     );

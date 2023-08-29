@@ -63,7 +63,6 @@ const AddItem = ({
   const [datosSelectTerminal, setDatosSelectTerminal] = useState([]);
   const [datosSelectCarga, setDatosSelectCarga] = useState([]);
 
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setDataValues((prevDataValues) => ({
@@ -243,40 +242,52 @@ const AddItem = ({
                       ) : cell.numeric === false ? (
                         <TextField
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           required={cell.isRequired}
                         />
                       ) : cell.numeric === true ? (
                         <TextField
                           type="number"
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           required={cell.isRequired}
                         />
                       ) : cell.numeric === "fecha" ? (
                         <TextField
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           type="datetime-local"
                           defaultValue={new Date().toISOString().slice(0, 16)} // Fecha y hora actuales en formato "yyyy-MM-ddTHH:mm"
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
                           required={cell.isRequired}
                         />
                       ) : (

@@ -3,7 +3,7 @@ import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { useEffect, useState } from "react";
 
 export const SelectPaises = ({
-  nameSelect,
+  nameSelect = 'Pais', //pongo este valor por defecto asi no rompe a todos los a aplica unicamente el pais
   dataName,
   MenuItem,
   handleChange,
