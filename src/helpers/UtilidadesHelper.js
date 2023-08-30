@@ -2,7 +2,7 @@ export const UtilidadesHelper = {
 
     baseUrl: 'https://api.apilayer.com/exchangerates_data/convert?to=',
     baseUrlLive: 'https://api.apilayer.com/currency_data/live?source=USD&currencies=',
-    paises: 'ARS%2C%20BRL%2C%20MXN%2C%20CNY',
+    paises: 'ARS%2C%20BRL%2C%20MXN%2C%20COP%2C%20CNY',
 
     // CONSULTA DE TIPO DE CAMBIO VERSION GRATUITA, SON 1000 CONSULTAS AL DIA
     tipoCambioGeneral: async function(){

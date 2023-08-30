@@ -14,16 +14,16 @@ export const SelectPaises = ({
     <>
       <Grid item xs={12}>
         <FormControl fullWidth variant="outlined" sx={{ marginTop: "5px" }}>
-          <InputLabel htmlFor={nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? "terminal_id" : nameSelect === 'Carga' ? "carga_id" : ''}>
+          <InputLabel htmlFor={nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Pais Fwd' ? 'paisfwd_id' : nameSelect === 'Terminal' ? "terminal_id" : nameSelect === 'Carga' ? "carga_id" : nameSelect === 'Poliza' ? 'poliza_id' : nameSelect === 'Fwd' ? 'fwdtte_id' : ''}>
             Seleccione {nameSelect}
           </InputLabel>
           <Select
-            value={nameSelect === 'Pais' ? dataName.paisregion_id : nameSelect === 'Terminal' ? dataName.terminal_id : nameSelect === 'Carga' ? dataName.carga_id : null}
+            value={nameSelect === 'Pais' ? dataName.paisregion_id : nameSelect === 'Pais Fwd' ? dataName.paisfwd_id : nameSelect === 'Terminal' ? dataName.terminal_id : nameSelect === 'Carga' ? dataName.carga_id : nameSelect === 'Poliza' ? dataName.poliza_id : nameSelect === 'Fwd' ? dataName.fwdtte_id : null}
             onChange={handleChange}
             label={`Seleccione un  ${nameSelect}`}
             inputProps={{
-              name: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? 'terminal_id' : 'carga_id',
-              id: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Terminal' ? 'terminal_id' : 'carga_id',
+              name: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Pais Fwd' ? 'paisfwd_id' : nameSelect === 'Terminal' ? 'terminal_id' : nameSelect === 'Carga' ? 'carga_id' : nameSelect === 'Fwd'? 'fwdtte_id' : 'poliza_id',
+              id: nameSelect === 'Pais' ? "paisregion_id" : nameSelect === 'Pais Fwd' ? 'paisfwd_id' : nameSelect === 'Terminal' ? 'terminal_id' : nameSelect === 'Carga' ? 'carga_id' : nameSelect === 'Fwd'? 'fwdtte_id' : 'poliza_id',
             }}
           >
             {datosSelect.map((option, index) => (

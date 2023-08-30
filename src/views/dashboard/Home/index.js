@@ -56,7 +56,7 @@ const Inicio = () => {
 
         setCotizacionDate(Paises);
     };
-    // console.log(cotizacionDate.quotes)
+    console.log(cotizacionDate.quotes)
 
     const [isLoading, setLoading] = useState(true);
 
@@ -105,7 +105,7 @@ const Inicio = () => {
                                         />
                                     </Grid>
 
-                                    <Grid item xs={12} lg={3} sm={6}>
+                                    <Grid item xs={12} lg={12} sm={12}>
                                         {cotizacionDate.quotes ?
                                             (<HoverSocialCard
                                                 primary="Peso - Dolar"
@@ -161,6 +161,22 @@ const Inicio = () => {
                                                 secondary={`¥${(cotizacionDate.quotes.USDMXN).toFixed(2)}`}
                                                 iconPrimary={MonetizationOnTwoToneIcon}
                                                 color={theme.palette.warning.dark}
+                                            />) : (
+                                                <Grid item xs={12} sm={6} md={4}>
+                                                    <Grid item style={{ textAlign: 'center', padding: '20px 0' }}>
+                                                        <CircularProgress color="secondary" aria-label="progress with secondary color" />
+                                                    </Grid>
+                                                </Grid>
+                                            )}
+                                    </Grid>
+
+                                    <Grid item xs={12} lg={3} sm={6}>
+                                        {cotizacionDate.quotes ?
+                                            (<HoverSocialCard
+                                                primary="Peso Colombiano - Dolar"
+                                                secondary={`COL$${(cotizacionDate.quotes.USDCOP).toFixed(2)}`}
+                                                iconPrimary={MonetizationOnTwoToneIcon}
+                                                color={theme.palette.success.dark}
                                             />) : (
                                                 <Grid item xs={12} sm={6} md={4}>
                                                     <Grid item style={{ textAlign: 'center', padding: '20px 0' }}>

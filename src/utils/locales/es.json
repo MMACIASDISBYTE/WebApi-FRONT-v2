@@ -187,11 +187,11 @@
     "Cargas de Tarifas" : "DESDE ACA TARIFAS",
 
     "TARIFAS" : " Tarifas",
-    "DEPOSITOS" : " Depositos",
-    "POLIZAS" : " Polizas",
-    "SHIPPING" : " Shipping",   
-    "TERMINALES" : " Terminales",
-    "TRANSPORTE LOCAL" : " Tte. Local",
+    "DEPOSITOS" : " Tarifas Depositos",
+    "POLIZAS" : " Tarifas Polizas",
+    "SHIPPING" : " Tarifas Shipping",   
+    "TERMINALES" : " Tarifas Terminales",
+    "TRANSPORTE LOCAL" : " Tarifas Flete",
     "APLICACIONES": " Aplicaciones",
 
     "Carga de principales": "Otros libros principales",
