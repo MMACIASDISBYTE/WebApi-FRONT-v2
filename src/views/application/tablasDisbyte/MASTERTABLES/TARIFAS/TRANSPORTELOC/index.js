@@ -48,6 +48,8 @@ import { PolizaHelper } from "helpers/PolizaHelper";
 import { CargaHelper } from "helpers/CargaHelper";
 import { TerminalHelper } from "helpers/TerminalHelper";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
+import { FleteHelper } from "helpers/FleteHelper";
+import { TruckSemiHelper } from "helpers/TruckHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -501,6 +503,8 @@ const ProductList = () => {
   const [Poliza, setPoliza] = React.useState([]);
   const [Terminales, setTerminales] = React.useState([]);
   const [Fwd, setFwd] = React.useState([]);
+  const [Flete, setFlete] = React.useState([]);
+  const [Truck, setTruck] = React.useState([]);
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -528,7 +532,7 @@ const ProductList = () => {
         const dataCarga = await CargaHelper.fetchData();
         setCarga(dataCarga);
       } catch (error) {
-        console.log("Error en traer data terminal: ", error);
+        console.log("Error en traer data Carga: ", error);
       }
     };
     FetchDataCarga();
@@ -538,20 +542,40 @@ const ProductList = () => {
         const dataPoliza = await PolizaHelper.fetchData();
         setPoliza(dataPoliza);
       } catch (error) {
-        console.log("Error en traer data terminal: ", error);
+        console.log("Error en traer data Poliza: ", error);
       }
     };
     FetchDataPoliza();
 
     const FetchDataFwd = async () => {
       try {
-        const dataPoliza = await FwdtteHelper.fetchData();
-        setFwd(dataPoliza);
+        const dataFwdtte = await FwdtteHelper.fetchData();
+        setFwd(dataFwdtte);
       } catch (error) {
-        console.log("Error en traer data terminal: ", error);
+        console.log("Error en traer data Fwdtte: ", error);
       }
     };
     FetchDataFwd();
+
+    const FetchDataFlete = async () => {
+        try {
+          const dataFlete = await FleteHelper.fetchData();
+          setFlete(dataFlete);
+        } catch (error) {
+          console.log("Error en traer data Flete: ", error);
+        }
+      };
+      FetchDataFlete();
+
+      const FetchDataTruck = async () => {
+        try {
+          const dataTruck = await TruckSemiHelper.fetchData();
+          setTruck(dataTruck);
+        } catch (error) {
+          console.log("Error en traer data Truck: ", error);
+        }
+      };
+      FetchDataTruck();
   }, []);
 
   const handleSearch = (event) => {
@@ -702,6 +726,13 @@ const ProductList = () => {
                       handleCreateAPI={handleCreateAPI}
                       TableName={TableName}
                       headCells={headCells}
+                      dataSelectPais={paisRegion}
+                      dataTerminales={Terminales}
+                      dataCarga={Carga}
+                      dataPoliza={Poliza}
+                      dataFwd={Fwd}
+                      dataFlete={Flete}
+                      dataTruck={Truck}
                     />
                   </>
                 )}
@@ -775,7 +806,7 @@ const ProductList = () => {
                                     <DeleteIcon
                                       fontSize="small"
                                       onClick={() =>
-                                        handleDelete(row.fwdfrom, row.contype)
+                                        handleDelete(row.id)
                                       }
                                     />
                                   </IconButton>
@@ -802,6 +833,21 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
+                          dataSelectPais={paisRegion}
+                          dataSelectTerminal={Terminales}
+                          dataSelectCarga={Carga}
+                          dataSelectPoliza={Poliza}
+                          dataSelectFwd={Fwd}
+                          dataSelectFlete={Flete}
+                          dataSelectTruck={Truck}
+                          selectPais={true}
+                          selectCarga={true}
+                          selectTerminal={false}
+                          selectPoliza={false}
+                          selectFwd={false}
+                          selectPaisFwd={false}
+                          selectFlete={true}
+                          selectTruck={true}
                         />
                       </TableRow>
                     );

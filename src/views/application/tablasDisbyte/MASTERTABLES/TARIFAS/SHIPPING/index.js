@@ -49,6 +49,7 @@ import { PolizaHelper } from "helpers/PolizaHelper";
 import { CargaHelper } from "helpers/CargaHelper";
 import { TerminalHelper } from "helpers/TerminalHelper";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
+import { FleteHelper } from "helpers/FleteHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -437,6 +438,7 @@ const ProductList = () => {
   const [Poliza, setPoliza] = React.useState([]);
   const [Terminales, setTerminales] = React.useState([]);
   const [Fwd, setFwd] = React.useState([]);
+  const [Flete, setFlete] = React.useState([]);
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -488,6 +490,16 @@ const ProductList = () => {
       }
     };
     FetchDataFwd();
+
+    const FetchDataFlete = async () => {
+      try {
+        const dataFlete = await FleteHelper.fetchData();
+        setFlete(dataFlete);
+      } catch (error) {
+        console.log("Error en traer data Flete: ", error);
+      }
+    };
+    FetchDataFlete();
   }, []);
 
   const handleSearch = (event) => {
@@ -636,6 +648,7 @@ const ProductList = () => {
                       dataCarga={Carga}
                       dataPoliza={Poliza}
                       dataFwd={Fwd}
+                      dataFlete={Flete}
                     />
                   </>
                 )}

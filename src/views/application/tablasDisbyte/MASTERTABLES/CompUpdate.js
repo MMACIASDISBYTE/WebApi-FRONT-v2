@@ -47,11 +47,15 @@ const CompUpdate = ({
   selectPoliza = false,
   selectFwd = false,
   selectPaisFwd = false,
+  selectFlete = false,
+  selectTruck = false,
   dataSelectPais = null,
   dataSelectTerminal = null,
   dataSelectCarga = null,
   dataSelectPoliza = null,
   dataSelectFwd = null,
+  dataSelectFlete = null,
+  dataSelectTruck = null,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -66,6 +70,8 @@ const CompUpdate = ({
   const [datosSelectCarga, setDatosSelectCarga] = useState([]);
   const [datosSelectPoliza, setDatosSelectPoliza] = useState([]);
   const [datosSelectFwd, setDatosSelectFwd] = useState([]);
+  const [datosSelectFlete, setDatosSelectFlete] = useState([]);
+  const [datosSelectTruck, setDatosSelectTruck] = useState([]);
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -117,7 +123,9 @@ const CompUpdate = ({
     setDatosSelectCarga(dataSelectCarga);
     setDatosSelectPoliza(dataSelectPoliza);
     setDatosSelectFwd(dataSelectFwd);
-  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd]);
+    setDatosSelectFlete(dataSelectFlete);
+    setDatosSelectTruck(dataSelectTruck);
+  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -161,7 +169,9 @@ const CompUpdate = ({
                   key !== "terminal_id" &&
                   key !== "poliza_id" &&
                   key !== "fwdtte_id" && 
-                  key !== "paisfwd_id" && (
+                  key !== "paisfwd_id" &&
+                  key !== "flete_id" &&
+                  key !== "trucksemi_id" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -254,6 +264,26 @@ const CompUpdate = ({
                     MenuItem={MenuItem}
                     handleChange={handleChange}
                     datosSelect={datosSelectPoliza}
+                />
+              )}
+              {/* código para añadir el selectFlete */}
+              {selectFlete && (
+                <SelectPaises 
+                  nameSelect={'Flete'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectFlete}
+                />
+              )}
+              {/* código para añadir el selectTruck */}
+              {selectTruck && (
+                <SelectPaises 
+                  nameSelect={'Truck'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectTruck}
                 />
               )}
               
