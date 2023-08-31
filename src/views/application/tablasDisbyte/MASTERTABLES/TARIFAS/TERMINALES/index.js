@@ -49,6 +49,7 @@ import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { TerminalHelper } from "helpers/TerminalHelper";
 import { CargaHelper } from "helpers/CargaHelper";
+import { PolizaHelper } from "helpers/PolizaHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -76,13 +77,15 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-// table header options/ATRIBUTOS DEL MODELO IIBB
+// table header options/ATRIBUTOS DEL MODELO, tambien este arr le da la caracteristica al formulario tanto de AddIetm como CompUpdate
 const headCells = [
   {
     id: "id",
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Id",
     align: "Left",
   },
@@ -91,6 +94,8 @@ const headCells = [
     numeric: false,
     select: null,
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Descripcion",
     align: "Left",
   },
@@ -99,6 +104,8 @@ const headCells = [
     numeric: false,
     select: "Terminal",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Terminal",
     align: "Left",
   },
@@ -107,6 +114,8 @@ const headCells = [
     numeric: false,
     select: "Carga",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Carga",
     align: "Left",
   },
@@ -115,6 +124,8 @@ const headCells = [
     numeric: false,
     select: "paisRegion",
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Pais/Region",
     align: "Left",
   },
@@ -123,6 +134,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: true,
+    isDisabled: false,
+    ocultar: false,
     label: "Gasto Fijo",
     align: "Left",
   },
@@ -131,6 +144,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Gasto Variable",
     align: "Left",
   },
@@ -139,6 +154,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Otros gastos1",
     align: "Left",
   },
@@ -147,6 +164,8 @@ const headCells = [
     numeric: true,
     select: null,
     isRequired: false,
+    isDisabled: false,
+    ocultar: false,
     label: "Otros gastos2",
     align: "Left",
   },
@@ -155,14 +174,18 @@ const headCells = [
     numeric: false,
     select: null,
     isRequired: false,
-    label: "NOTAS",
+    isDisabled: false,
+    ocultar: false,
+    label: "Notas",
     align: "Left",
   },
   {
     id: "htimestamp",
-    numeric: 'fecha',
+    numeric: "fecha",
     select: null,
     isRequired: false,
+    isDisabled: true,
+    ocultar: false,
     label: "Fecha/hora",
     align: "Left",
   },
@@ -399,8 +422,11 @@ const ProductList = () => {
     setOpenUpdate(true);
   };
 
-  // almacena para el select paises y regiones
+  // almacena data para los SELECT de paisRegion, Poliza, terminales y carga
   const [paisRegion, setPaisRegion] = React.useState([]);
+  const [Carga, setCarga] = React.useState([]);
+  const [Poliza, setPoliza] = React.useState([]);
+  const [Terminales, setTerminales] = React.useState([]);
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -412,34 +438,39 @@ const ProductList = () => {
       }
     };
     fetchDataPais();
-  }, []);
 
-  const [Terminales, setTerminales] = React.useState([]);
-  React.useEffect(() => {
     const FetchDataTerminales = async () => {
-      try{
+      try {
         const dataTerminal = await TerminalHelper.fetchData();
         setTerminales(dataTerminal);
-      }catch(error){
-        console.log('Error en traer data terminal: ', error);
+      } catch (error) {
+        console.log("Error en traer data terminal: ", error);
       }
     };
     FetchDataTerminales();
-  },[]);
 
-  const [Carga, setCarga] = React.useState([]);
-  React.useEffect(() => {
     const FetchDataCarga = async () => {
-      try{
+      try {
         const dataCarga = await CargaHelper.fetchData();
         setCarga(dataCarga);
         console.log(Carga);
-      }catch(error){
-        console.log('Error en traer data terminal: ', error);
+      } catch (error) {
+        console.log("Error en traer data terminal: ", error);
       }
     };
     FetchDataCarga();
-  },[]);
+
+    const FetchDataPoliza = async () => {
+      try {
+        const dataCarga = await PolizaHelper.fetchData();
+        setPoliza(dataCarga);
+        console.log(Carga);
+      } catch (error) {
+        console.log("Error en traer data terminal: ", error);
+      }
+    };
+    FetchDataPoliza();
+  }, []);
 
   const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -581,6 +612,7 @@ const ProductList = () => {
                       dataSelectPais={paisRegion}
                       dataTerminales={Terminales}
                       dataCarga={Carga}
+                      dataPoliza={Poliza}
                     />
                   </>
                 )}
@@ -679,12 +711,14 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
-                          selectPais={true}
-                          selectCarga={true}
-                          selectTerminal={true}
                           dataSelectPais={paisRegion}
                           dataSelectTerminal={Terminales}
                           dataSelectCarga={paisRegion}
+                          dataSelectPoliza={Poliza}
+                          selectPais={true}
+                          selectCarga={true}
+                          selectTerminal={true}
+                          selectPoliza={false}
                         />
                       </TableRow>
                     );

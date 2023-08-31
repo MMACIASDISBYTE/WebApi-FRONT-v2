@@ -1,9 +1,6 @@
 import PropTypes from "prop-types";
 import * as React from "react";
 
-//importamos el useNavigate para manejar navegaciones y redireccciones
-import { redirect, useNavigate } from "react-router-dom";
-
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -37,15 +34,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/AddTwoTone";
 
-//importamos auth para usar el token
-import useAuth from "hooks/useAuth";
-
-//importacion del helper Banco
-import { BancoHelper } from "../../../../../../../helpers/BancoHelper";
-import AddItem from "../../../AddItem";
-import CompUpdate from "../../../CompUpdate";
+//importacion del helper
+import AddItem from "../../AddItem";
+import CompUpdate from "../../CompUpdate";
+import { useNavigate } from "react-router-dom";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
+import { TruckSemiHelper } from "helpers/TruckHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -78,26 +73,82 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    select: null,
     isRequired: false,
-    label: "ID",
-    align: "left",
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Id",
+    align: "Left",
   },
   {
     id: "description",
     numeric: false,
-    select: null,
     isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
     label: "Description",
     align: "left",
   },
   {
     id: "paisregion_id",
     numeric: false,
-    select: "paisRegion",
     isRequired: true,
-    label: "Pais",
-    align: "left",
+    select: "paisRegion",
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais/Region",
+    align: "Left",
+  },
+  {
+    id: "pesomin",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Peso Minimo",
+    align: "Left",
+  },
+  {
+    id: "pesomax",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Peso Maximo",
+    align: "Left",
+  },
+  {
+    id: "largo",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Largo",
+    align: "Left",
+  },
+  {
+    id: "costindex1",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Costo Index 1",
+    align: "Left",
+  },
+  {
+    id: "costindex2",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Costo Index 2",
+    align: "Left",
   },
 ];
 
@@ -222,12 +273,12 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-// ==============================|| Banco LIST ||============================== //
+// ==============================|| Flete LIST ||============================== //
 
 const ProductList = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const TableName = "Banco";
+  const TableName = "Flete";
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
@@ -268,7 +319,7 @@ const ProductList = () => {
     SetActualizacion(true);
   };
 
-  const [order, setOrder] = React.useState("desc");
+  const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
@@ -288,15 +339,14 @@ const ProductList = () => {
 
   const fetchData = async (accessToken) => {
     try {
-      const jsonData = await BancoHelper.fetchDataPais();
+      const jsonData = await TruckSemiHelper.fetchDataPais();
       // const {data, status} = await TarifasFwdContHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
       setRows(jsonData);
     } catch (error) {
-      console.log("fwdtteIndex.fetchData::erro: ".error);
+      console.log("fleteIndex.fetchDataPais::erro: ".error);
       navigate("/pages/error");
     }
   };
-
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
   const exclude = ["id", "paisregion_id"];
   const attributes = Array.from(
@@ -310,18 +360,18 @@ const ProductList = () => {
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id, description) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await BancoHelper.deleteDataById(id);
+    await TruckSemiHelper.deleteDataById(id);
+    // para actualizar el componente
     SetActualizacion(true);
-    console.log(`El id eliinado es: ${id}`);
-    console.log("Productos eliminados: ", description);
+    console.log(`El Flete ${description} con ${id}, ha sido eliminado`);
   };
 
   const handleCreateAPI = async (newData) => {
-    await BancoHelper.createData(newData);
+    await TruckSemiHelper.createData(newData);
   };
   // Función para actualizar la API utilizando
   const handleUpdateAPI = async (id, data) => {
-    await BancoHelper.updateDataById(id, data);
+    await TruckSemiHelper.updateDataById(id, data);
   };
 
   // uso metodo Update (que trabaja en el componente hijo)

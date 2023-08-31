@@ -47,6 +47,10 @@ const AddItem = ({
   dataSelectPais = null,
   dataTerminales = null,
   dataCarga = null,
+  dataPoliza = null,
+  dataFwd = null,
+  dataFlete = null,
+  dataTruck = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -59,10 +63,13 @@ const AddItem = ({
   // mostrar las alertas
   const [showAlert, setShowAlert] = useState(false);
   // almacena para el select paises y regiones
-  const [datosSelectPais, setDatosSelect] = useState([]);
+  const [datosSelectPais, setDatosSelectPais] = useState([]);
   const [datosSelectTerminal, setDatosSelectTerminal] = useState([]);
   const [datosSelectCarga, setDatosSelectCarga] = useState([]);
-
+  const [datosSelectPoliza, setDatosSelectPoliza] = useState([]);
+  const [datosSelectFwd, setDatosSelectFwd] = useState([]);
+  const [datosSelectFlete, setDatosSelectFlete] = useState([]);
+  const [datosSelectTruck, setDatosSelectTruck] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -120,16 +127,14 @@ const AddItem = ({
   };
 
   useEffect(() => {
-    setDatosSelect(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
-  }, [dataSelectPais]);
-
-  useEffect(() => {
+    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
     setDatosSelectTerminal(dataTerminales);
-  }, [dataTerminales]);
-
-  useEffect(() => {
     setDatosSelectCarga(dataCarga);
-  }, [dataCarga]);
+    setDatosSelectPoliza(dataPoliza);
+    setDatosSelectFwd(dataFwd);
+    setDatosSelectFlete(dataFlete);
+    setDatosSelectTruck(dataTruck);
+  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -168,7 +173,7 @@ const AddItem = ({
                   {cell.id !== "id" && (
                     <>
                       <Typography variant="subtitle1">{cell.label}</Typography>
-                      {cell.select === "paisRegion" ? (
+                      {(cell.select === "paisRegion") ? (
                         <FormControl
                           fullWidth
                           variant="outlined"
@@ -240,43 +245,151 @@ const AddItem = ({
                             ))}
                           </Select>
                         </FormControl>
+                      ) : cell.select === "Poliza" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectPoliza.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Fwd" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectFwd.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Flete" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectFlete.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Truck" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectTruck.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       ) : cell.numeric === false ? (
                         <TextField
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           required={cell.isRequired}
                         />
                       ) : cell.numeric === true ? (
                         <TextField
                           type="number"
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           required={cell.isRequired}
                         />
                       ) : cell.numeric === "fecha" ? (
                         <TextField
+                          sx={{
+                            display: cell.ocultar ? "none" : "block",
+                            marginTop: "5px",
+                          }}
                           type="datetime-local"
                           defaultValue={new Date().toISOString().slice(0, 16)} // Fecha y hora actuales en formato "yyyy-MM-ddTHH:mm"
                           fullWidth
+                          disabled={cell.isDisabled ? true : false}
                           name={cell.id}
                           value={dataValues[cell.id] || ""}
                           placeholder={`Ingrese ${cell.label}${
                             cell.isRequired ? " *Requerido" : ""
                           }`}
                           onChange={handleChange}
-                          sx={{ marginTop: "5px" }}
                           required={cell.isRequired}
                         />
                       ) : (
