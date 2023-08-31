@@ -51,6 +51,7 @@ const AddItem = ({
   dataFwd = null,
   dataFlete = null,
   dataTruck = null,
+  dataDeposito = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -70,6 +71,7 @@ const AddItem = ({
   const [datosSelectFwd, setDatosSelectFwd] = useState([]);
   const [datosSelectFlete, setDatosSelectFlete] = useState([]);
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
+  const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -134,7 +136,8 @@ const AddItem = ({
     setDatosSelectFwd(dataFwd);
     setDatosSelectFlete(dataFlete);
     setDatosSelectTruck(dataTruck);
-  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck]);
+    setDatosSelectDeposito(dataDeposito);
+  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -335,6 +338,30 @@ const AddItem = ({
                             }`}
                           >
                             {datosSelectTruck.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Deposito" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectDeposito.map((option) => (
                               <MenuItem key={option.id} value={option.id}>
                                 {option.description}
                               </MenuItem>

@@ -1,593 +1,856 @@
 // LISTED 12/7/2023 17:28PM
-import PropTypes from 'prop-types';
-import * as React from 'react';
+import PropTypes from "prop-types";
+import * as React from "react";
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import {
-    Box,
-    CardContent,
-    Checkbox,
-    Fab,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-    TableSortLabel,
-    TextField,
-    Toolbar,
-    Tooltip,
-    Typography
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
-
+  Box,
+  CardContent,
+  Checkbox,
+  Fab,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  TextField,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
+import MainCard from "ui-component/cards/MainCard";
 
 //importamos el useNavigate para manejar navegaciones y redireccciones
 import { redirect, useNavigate } from "react-router-dom";
 
 // assets
-import SaveIcon from '@mui/icons-material/Save'; // SE IMPORTA ICONO DE SAVE
-import EditIcon from '@mui/icons-material/Edit'; // SE IMPORTA ICONO DE EDIT
-import DeleteIcon from '@mui/icons-material/Delete';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/AddTwoTone';
-import UndoOutlinedIcon from '@mui/icons-material/UndoOutlined';
+import SaveIcon from "@mui/icons-material/Save"; // SE IMPORTA ICONO DE SAVE
+import EditIcon from "@mui/icons-material/Edit"; // SE IMPORTA ICONO DE EDIT
+import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/AddTwoTone";
+import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 //importacion del helper fwette
-import { TarifasDepositoHelper } from '../../../../../../helpers/TarifasDepositoHelper';
-import AddItem from '../../AddItem';
-import CompUpdate from '../../CompUpdate';
-import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
+import { TarifasDepositoHelper } from "../../../../../../helpers/TarifasDepositoHelper";
+import AddItem from "../../AddItem";
+import CompUpdate from "../../CompUpdate";
+import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { PaisRegionHelper } from "helpers/PaisRegionHelper";
+import { TerminalHelper } from "helpers/TerminalHelper";
+import { CargaHelper } from "helpers/CargaHelper";
+import { PolizaHelper } from "helpers/PolizaHelper";
+import { FwdtteHelper } from "helpers/FwdtteHelper";
+import { FleteHelper } from "helpers/FleteHelper";
+import { TruckSemiHelper } from "helpers/TruckHelper";
+import { DepositoHelper } from "helpers/DepositoHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
 }
 
 const getComparator = (order, orderBy) =>
-    order === 'asc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
+  order === "asc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 // table header options/ATRIBUTOS DEL MODELO IIBB
 const headCells = [
-
-    {
-        id: 'id',
-        numeric: true,
-        isRequired: false,
-        label: 'ID',
-        align: 'center'
-    },
-    {
-        id: 'depo',
-        numeric: false,
-        isRequired: true,
-        label: 'DEPOSITO',
-        align: 'center'
-    },
-    {
-        id: 'contype',
-        numeric: false,
-        isRequired: true,
-        label: 'TIPO DE CONTENEDOR',
-        align: 'center'
-    },
-    {
-        id: 'descarga',
-        numeric: true,
-        isRequired: true,
-        label: 'DESCARGA',
-        align: 'center'
-    },
-    {
-        id: 'ingreso',
-        numeric: true,
-        isRequired: true,
-        label: 'INGRESO',
-        align: 'center'
-    },
-    {
-        id: 'totingreso',
-        numeric: true,
-        isRequired: true,
-        label: 'TOTAL INGRESO',
-        align: 'center'
-    },
-    {
-        id: 'carga',
-        numeric: true,
-        isRequired: true,
-        label: 'CARGA',
-        align: 'center'
-    },
-    {
-        id: 'armado',
-        numeric: true,
-        isRequired: true,
-        label: 'ARMADO',
-        align: 'center'
-    },
-    {
-        id: 'egreso',
-        numeric: true,
-        isRequired: true,
-        label: 'EGRESO',
-        align: 'center'
-    },
-    {
-        id: 'totegreso',
-        numeric: true,
-        isRequired: true,
-        label: 'TOTAL EGRESO',
-        align: 'center'
-    }
+  {
+    id: "id",
+    numeric: true,
+    isRequired: false,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Id",
+    align: "Left",
+  },
+  {
+    id: "description",
+    numeric: false,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Descripcion",
+    align: "Left",
+  },
+  {
+    id: "depositos_id",
+    numeric: true,
+    isRequired: true,
+    select: "Deposito",
+    isDisabled: false,
+    ocultar: false,
+    label: "Deposito",
+    align: "Left",
+  },
+  {
+    id: "carga_id",
+    numeric: false,
+    isRequired: true,
+    select: "Carga",
+    isDisabled: false,
+    ocultar: false,
+    label: "Tipo Carga",
+    align: "Left",
+  },
+  {
+    id: "paisregion_id",
+    numeric: false,
+    select: "paisRegion",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais/Region",
+    align: "Left",
+  },
+  {
+    id: "trucksemi_id",
+    numeric: true,
+    isRequired: true,
+    select: "Truck",
+    isDisabled: false,
+    ocultar: false,
+    label: "Truck",
+    align: "Left",
+  },
+  {
+    id: "descarga",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Descarga",
+    align: "Left",
+  },
+  {
+    id: "ingreso",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Ingreso",
+    align: "Left",
+  },
+  {
+    id: "total_ingreso",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Total Ingreso",
+    align: "Left",
+  },
+  {
+    id: "carga",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Carga",
+    align: "Left",
+  },
+  {
+    id: "armado",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Armado",
+    align: "Left",
+  },
+  {
+    id: "egreso",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Egreso",
+    align: "Left",
+  },
+  {
+    id: "total_egreso",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Total Egreso",
+    align: "Left",
+  },
+  {
+    id: "gasto_otro1",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Gasto Otro 1",
+    align: "Left",
+  },
+  {
+    id: "gasto_otro2",
+    numeric: true,
+    isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Gasto Otro 2",
+    align: "Left",
+  },
+  {
+    id: "notas",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: false,
+    ocultar: false,
+    label: "NOTAS",
+    align: "Left",
+  },
+  {
+    id: "htimestamp",
+    numeric: "fecha",
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Fecha/hora",
+    align: "Left",
+  },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
 
-function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, theme, selected }) {
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
+function EnhancedTableHead({
+  onSelectAllClick,
+  order,
+  orderBy,
+  numSelected,
+  rowCount,
+  onRequestSort,
+  theme,
+  selected,
+}) {
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
 
-    return (
-        <TableHead>
-            <TableRow>
-                {numSelected > 0 && (
-                    <TableCell padding="none" colSpan={7}>
-                        <EnhancedTableToolbar numSelected={selected.length} />
-                    </TableCell>
-                )}
-                {numSelected <= 0 &&
-                    headCells.map((headCell) => (
-                        <TableCell
-                            key={headCell.id}
-                            align={headCell.align}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
-                            sortDirection={orderBy === headCell.id ? order : false}
-                        >
-                            <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                            >
-                                {headCell.label}
-                                {orderBy === headCell?.id ? (
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    ))}
-                {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
-                        <Typography variant="subtitle1" sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}>
-                            Action
-                        </Typography>
-                    </TableCell>
-                )}
-            </TableRow>
-        </TableHead>
-    );
+  //manejo excepciones de cabecera del listado
+  const excludedColumns = ["id"];
+
+  return (
+    <TableHead>
+      <TableRow>
+        {numSelected > 0 && (
+          <TableCell padding="none" colSpan={7}>
+            <EnhancedTableToolbar numSelected={selected.length} />
+          </TableCell>
+        )}
+        {numSelected <= 0 &&
+          headCells
+            .filter((headCell) => !excludedColumns.includes(headCell.id)) // Excluimos las columnas no deseadas
+            .map((headCell) => (
+              <TableCell
+                key={headCell.id}
+                align={headCell.align}
+                padding={headCell.disablePadding ? "none" : "normal"}
+                sortDirection={orderBy === headCell.id ? order : false}
+              >
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  {headCell.label}
+                  {orderBy === headCell?.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+            ))}
+        {numSelected <= 0 && (
+          <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: theme.palette.mode === "dark" ? "grey.600" : "grey.900",
+              }}
+            >
+              Action
+            </Typography>
+          </TableCell>
+        )}
+      </TableRow>
+    </TableHead>
+  );
 }
 
 EnhancedTableHead.propTypes = {
-    theme: PropTypes.object,
-    selected: PropTypes.array,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
+  theme: PropTypes.object,
+  selected: PropTypes.array,
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
 };
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
 const EnhancedTableToolbar = ({ numSelected }) => (
-    <Toolbar
-        sx={{
-            p: 0,
-            pl: 1,
-            pr: 1,
-            ...(numSelected > 0 && {
-                color: (theme) => theme.palette.secondary.main
-            })
-        }}
-    >
-        {numSelected > 0 ? (
-            <Typography color="inherit" variant="h4">
-                {numSelected} Selected
-            </Typography>
-        ) : (
-            <Typography variant="h6" id="tableTitle">
-                Nutrition
-            </Typography>
-        )}
-        <Box sx={{ flexGrow: 1 }} />
-        {numSelected > 0 && (
-            <Tooltip title="Delete">
-                <IconButton size="large">
-                    <DeleteIcon fontSize="small" />
-                </IconButton>
-            </Tooltip>
-        )}
-    </Toolbar>
+  <Toolbar
+    sx={{
+      p: 0,
+      pl: 1,
+      pr: 1,
+      ...(numSelected > 0 && {
+        color: (theme) => theme.palette.secondary.main,
+      }),
+    }}
+  >
+    {numSelected > 0 ? (
+      <Typography color="inherit" variant="h4">
+        {numSelected} Selected
+      </Typography>
+    ) : (
+      <Typography variant="h6" id="tableTitle">
+        Nutrition
+      </Typography>
+    )}
+    <Box sx={{ flexGrow: 1 }} />
+    {numSelected > 0 && (
+      <Tooltip title="Delete">
+        <IconButton size="large">
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    )}
+  </Toolbar>
 );
 
 EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired
+  numSelected: PropTypes.number.isRequired,
 };
 
 // ==============================|| DEPOSITOS LIST ||============================== //
 
 const ProductList = () => {
-    //almaceno en una constante el navigate para poder utilizarlo
-    const navigate = useNavigate();
-    const theme = useTheme();
-    const TableName = 'Depositos';
+  //almaceno en una constante el navigate para poder utilizarlo
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const TableName = "Depositos";
 
-    //Gestion de permisos
-    const permisos = useAccessTokenJWT();
-    const permiTotal = ['presupuesto:all', 'presupuesto:create', 'presupuesto:edit']; //declaro los permisos que necesita para acceder a este componente
-    const permiIngreso = ['CEO', 'Gerencia', 'Lider'];
-    const permiCreate = ['CEO', 'Gerencia', 'Lider'];
-    const permiEdicion = ['CEO', 'Gerencia'];
-    const permiDelele = ['CEO'];
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = ["CEO", "Gerencia", "Lider"];
+  const permiCreate = ["CEO", "Gerencia", "Lider"];
+  const permiEdicion = ["CEO", "Gerencia"];
+  const permiDelele = ["CEO"];
 
-    const ingresoAutorizado = permiIngreso.some(permiso => permisos.includes(permiso)); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
-    const AddOK = permiCreate.some(permiso => permisos.includes(permiso));
-    const EditOK = permiEdicion.some(permiso => permisos.includes(permiso));
-    const DeleleOK = permiDelele.every(permiso => permisos.includes(permiso));
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
 
-    if (!ingresoAutorizado) {
-        navigate('/NoAutorizado');
+  if (!ingresoAutorizado) {
+    navigate("/NoAutorizado");
+  }
+
+  // show a right sidebar when clicked on new product
+  const [open, setOpen] = React.useState(false);
+  const [openUpdate, setOpenUpdate] = React.useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setOpen(false);
+    SetActualizacion(true);
+  };
+  const handleCloseDialogUpdate = () => {
+    setOpenUpdate(false);
+    SetActualizacion(true);
+  };
+
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("id");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [search, setSearch] = React.useState("");
+  const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
+  const [rows, setRows] = React.useState([]); //estoy almacenando la data
+
+  // logica para que actuallizar / renderizar el componente a la hora de eliminar
+  const [actualizacion, SetActualizacion] = React.useState(false);
+  React.useEffect(() => {
+    fetchData();
+    SetActualizacion(false);
+  }, [actualizacion]);
+
+  // traigo data de banco Y LO ALMACENO EN EL STATE DE setRows
+  const fetchData = async () => {
+    try {
+      //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
+      const jsonData = await TarifasDepositoHelper.fetchData();
+      setRows(jsonData);
+    } catch (error) {
+      console.log(error);
+      navigate("/pages/error");
+    }
+  };
+
+  //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
+  const exclude = ["id"];
+  const attributes = Array.from(
+    new Set(
+      rows.flatMap((row) =>
+        Object.keys(row).filter((attr) => !exclude.includes(attr))
+      )
+    )
+  );
+
+  // AQUI ELEMINO ELEMENTOS
+  const handleDelete = async (id) => {
+    // Aquí debes implementar la lógica para eliminar los productos seleccionados
+    await TarifasDepositoHelper.deleteDataById(id);
+    // para actualizar el componente
+    SetActualizacion(true);
+    console.log(`Tarifa DEPO con ID ${id} ha sido eliminada`);
+  };
+
+  const handleCreateAPI = async (newData) => {
+    await TarifasDepositoHelper.createData(newData);
+  };
+  // Función para actualizar la API utilizando
+  const handleUpdateAPI = async (id, data) => {
+    await TarifasDepositoHelper.updateDataById(id, data);
+  };
+
+  // uso metodo Update (que trabaja en el componente hijo)
+  const handleEdit = async (row) => {
+    setSelectedRow(row);
+    setOpenUpdate(true);
+  };
+
+  // almacena data para los SELECT de paisRegion, Poliza, terminales y carga
+  const [paisRegion, setPaisRegion] = React.useState([]);
+  const [Carga, setCarga] = React.useState([]);
+  const [Poliza, setPoliza] = React.useState([]);
+  const [Terminales, setTerminales] = React.useState([]);
+  const [Fwd, setFwd] = React.useState([]);
+  const [Flete, setFlete] = React.useState([]);
+  const [Truck, setTruck] = React.useState([]);
+  const [Deposito, setDeposito] = React.useState([]);
+  React.useEffect(() => {
+    //consulta tabla pais para enviar al componente
+    const fetchDataPais = async () => {
+      try {
+        const dataPais = await PaisRegionHelper.fetchData();
+        setPaisRegion(dataPais);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
+    fetchDataPais();
 
-    // show a right sidebar when clicked on new product
-    const [open, setOpen] = React.useState(false);
-    const [openUpdate, setOpenUpdate] = React.useState(false);
-
-    const handleClickOpenDialog = () => {
-        setOpen(true);
+    const FetchDataTerminales = async () => {
+      try {
+        const dataTerminal = await TerminalHelper.fetchData();
+        setTerminales(dataTerminal);
+      } catch (error) {
+        console.log("Error en traer data terminal: ", error);
+      }
     };
-    const handleCloseDialog = () => {
-        setOpen(false);
-        SetActualizacion(true);
+    FetchDataTerminales();
+
+    const FetchDataCarga = async () => {
+      try {
+        const dataCarga = await CargaHelper.fetchData();
+        setCarga(dataCarga);
+      } catch (error) {
+        console.log("Error en traer data Carga: ", error);
+      }
     };
-    const handleCloseDialogUpdate = () => {
-        setOpenUpdate(false);
-        SetActualizacion(true);
+    FetchDataCarga();
+
+    const FetchDataPoliza = async () => {
+      try {
+        const dataPoliza = await PolizaHelper.fetchData();
+        setPoliza(dataPoliza);
+      } catch (error) {
+        console.log("Error en traer data Poliza: ", error);
+      }
     };
+    FetchDataPoliza();
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('id');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [search, setSearch] = React.useState('');
-    const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
-    const [rows, setRows] = React.useState([]); //estoy almacenando la data
+    const FetchDataFwd = async () => {
+      try {
+        const dataFwdtte = await FwdtteHelper.fetchData();
+        setFwd(dataFwdtte);
+      } catch (error) {
+        console.log("Error en traer data Fwdtte: ", error);
+      }
+    };
+    FetchDataFwd();
 
-    // logica para que actuallizar / renderizar el componente a la hora de eliminar
-    const [actualizacion, SetActualizacion] = React.useState(false);
-    React.useEffect(() => {
-        fetchData();
-        SetActualizacion(false);
-    }, [actualizacion]);
+    const FetchDataFlete = async () => {
+      try {
+        const dataFlete = await FleteHelper.fetchData();
+        setFlete(dataFlete);
+      } catch (error) {
+        console.log("Error en traer data Flete: ", error);
+      }
+    };
+    FetchDataFlete();
 
-    // traigo data de banco Y LO ALMACENO EN EL STATE DE setRows
-    const fetchData = async () => {
+    const FetchDataTruck = async () => {
+      try {
+        const dataTruck = await TruckSemiHelper.fetchData();
+        setTruck(dataTruck);
+      } catch (error) {
+        console.log("Error en traer data Truck: ", error);
+      }
+    };
+    FetchDataTruck();
+
+    const FetchDataDeposito = async () => {
         try {
-            //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-            const jsonData = await TarifasDepositoHelper.fetchData();
-            setRows(jsonData);
-
+          const dataDeposito = await DepositoHelper.fetchData();
+          setDeposito(dataDeposito);
         } catch (error) {
-            console.log(error);
-            navigate('/pages/error');
+          console.log("Error en traer data Deposito: ", error);
         }
-    };
+      };
+      FetchDataDeposito();
+  }, []);
 
-    //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-    const attributes = Array.from(
-        new Set(rows.flatMap((row) => Object.keys(row)))
-    );
+  const handleSearch = (event) => {
+    const newString = event?.target.value;
+    setSearch(newString || "");
 
-    // AQUI ELEMINO ELEMENTOS
-    const handleDelete = async (id) => {
-        // Aquí debes implementar la lógica para eliminar los productos seleccionados
-        await TarifasDepositoHelper.deleteDataById(id);
-        // para actualizar el componente
-        SetActualizacion(true);
-        console.log(`Tarifa DEPO con ID ${id} ha sido eliminada`);
-    };
+    //cuando se vacia el search renderiza nuevamente gracias al setActualizacion
+    if (event.target.value == "") {
+      SetActualizacion(true);
+    }
 
-    const handleCreateAPI = async (newData) => {
-        await TarifasDepositoHelper.createData(newData);
-    };
-    // Función para actualizar la API utilizando
-    const handleUpdateAPI = async (id, data) => {
-        await TarifasDepositoHelper.updateDataById(id, data);
-    };
+    if (newString) {
+      const newRows = rows.filter((row) => {
+        let matches = true;
 
-    // uso metodo Update (que trabaja en el componente hijo)
-    const handleEdit = async (row) => {
-        setSelectedRow(row);
-        setOpenUpdate(true);
-    };
+        // las propiedades que debe listar/buscar, deben de ser igual al modelo
+        const properties = [
+          "id",
+          "depo",
+          "contype",
+          "descarga",
+          "ingreso",
+          "totingreso",
+          "carga",
+          "armado",
+          "egreso",
+          "totegreso",
+        ];
 
-    const handleSearch = (event) => {
-        const newString = event?.target.value;
-        setSearch(newString || '');
+        let containsQuery = false;
 
-        //cuando se vacia el search renderiza nuevamente gracias al setActualizacion
-        if (event.target.value == '') {
-            SetActualizacion(true);
-        };
+        properties.forEach((property) => {
+          //console.log(newString)
+          if (
+            row[property]
+              ?.toString()
+              .toLowerCase()
+              .includes(newString.toString().toLowerCase())
+          ) {
+            containsQuery = true;
+          }
+        });
 
-        if (newString) {
-            const newRows = rows.filter((row) => {
-                let matches = true;
-
-                // las propiedades que debe listar/buscar, deben de ser igual al modelo
-                const properties = [
-                    'id',
-                    'depo',
-                    'contype',
-                    'descarga',
-                    'ingreso',
-                    'totingreso',
-                    'carga',
-                    'armado',
-                    'egreso',
-                    'totegreso'
-                ];
-
-                let containsQuery = false;
-
-                properties.forEach((property) => {
-                    //console.log(newString)
-                    if (row[property]?.toString().toLowerCase().includes(newString.toString().toLowerCase())) {
-                        containsQuery = true;
-                    }
-                });
-
-                if (!containsQuery) {
-                    matches = false;
-                }
-                return matches;
-            });
-            console.log(newRows);
-            setRows(newRows);
-        } else {
-            setRows(rows);
+        if (!containsQuery) {
+          matches = false;
         }
-    };
+        return matches;
+      });
+      console.log(newRows);
+      setRows(newRows);
+    } else {
+      setRows(rows);
+    }
+  };
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            if (selected.length > 0) {
-                setSelected([]);
-            } else {
-                const newSelectedId = rows.map((n) => n.name);
-                setSelected(newSelectedId);
-            }
-            return;
-        }
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      if (selected.length > 0) {
         setSelected([]);
-    };
+      } else {
+        const newSelectedId = rows.map((n) => n.name);
+        setSelected(newSelectedId);
+      }
+      return;
+    }
+    setSelected([]);
+  };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event?.target.value, 10));
-        setPage(0);
-    };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event?.target.value, 10));
+    setPage(0);
+  };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    return (
-        <>
-            {
-                <MainCard title={`Maestro Tarifas ${TableName} List`} content={false}>
-                    <CardContent>
-                        <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                            {/* BOTON DE SEARCH */}
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon fontSize="small" />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    onChange={handleSearch}
-                                    placeholder={`Buscar en ${TableName}`}
-                                    value={search}
-                                    size="small"
-                                />
-                            </Grid>
+  return (
+    <>
+      {
+        <MainCard title={`Maestro Tarifas ${TableName} List`} content={false}>
+          <CardContent>
+            <Grid
+              container
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
+            >
+              {/* BOTON DE SEARCH */}
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleSearch}
+                  placeholder={`Buscar en ${TableName}`}
+                  value={search}
+                  size="small"
+                />
+              </Grid>
 
-                            <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
-                                {/* add & dialog */}
-                                {AddOK &&
-                                    <>
-                                        <Tooltip title="Add item">
-                                            <Fab
-                                                color="primary"
-                                                size="small"
-                                                onClick={handleClickOpenDialog}
-                                                sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
-                                            >
-                                                <AddIcon fontSize="small" />
-                                            </Fab>
-                                        </Tooltip>
-                                        <AddItem
-                                            open={open}
-                                            handleCloseDialog={handleCloseDialog}
-                                            handleCreateAPI={handleCreateAPI}
-                                            TableName={TableName}
-                                            headCells={headCells}
-                                        />
-                                    </>
-                                }
-                            </Grid>
-
-                        </Grid>
-                    </CardContent>
-
-                    {/* table */}
-                    <TableContainer>
-                        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
-                                rowCount={rows.length}
-                                theme={theme}
-                                selected={selected}
-                            />
-                            <TableBody>
-                                {stableSort(rows, getComparator(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
-                                        if (typeof row === 'number') return null;
-                                        const isItemSelected = isSelected(row.description);
-                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                        return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                aria-checked={isItemSelected}
-                                                tabIndex={-1}
-                                                key={index}
-                                                selected={isItemSelected}
-                                            >
-                                                {attributes.map((attribute) => (
-                                                    <TableCell align="left" component="th" id={labelId} scope="row"
-                                                        sx={{
-                                                            fontSize: 20,
-                                                            '&:hover': {
-                                                                fontStyle: 'italic',
-                                                            },
-                                                        }}>
-                                                        <Typography
-                                                            variant="subtitle1"
-                                                            sx={{
-                                                                color:
-                                                                    theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900',
-                                                            }}
-                                                        >
-                                                            {row[attribute]}
-                                                        </Typography>
-                                                    </TableCell>
-                                                ))}
-
-                                                <TableCell align="right">
-                                                    {
-                                                        EditOK ? (
-                                                            <>
-                                                                {
-                                                                    DeleleOK &&
-                                                                    <Tooltip title="Delete">
-                                                                        <IconButton size="large">
-                                                                            <DeleteIcon
-                                                                                fontSize="small"
-                                                                                onClick={() => handleDelete(row.fwdfrom, row.contype)}
-                                                                            />
-                                                                        </IconButton>
-                                                                    </Tooltip>
-                                                                }
-
-                                                                <Tooltip title="Edit item">
-                                                                    <IconButton
-                                                                        size="large"
-                                                                        onClick={() => handleEdit(row)}
-                                                                    >
-                                                                        <EditIcon />
-                                                                    </IconButton>
-                                                                </Tooltip>
-                                                            </>
-                                                        ) : ('Sin permisos')
-                                                    }
-                                                </TableCell>
-
-                                                <CompUpdate
-                                                    open={openUpdate}
-                                                    dataRow={selectedRow}
-                                                    handleUpdateAPI={handleUpdateAPI}
-                                                    handleCloseDialog={handleCloseDialogUpdate}
-                                                    TableName={TableName}
-                                                />
-                                            </TableRow>
-                                        );
-                                    })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: 53 * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    {/* table pagination */}
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+              <Grid item xs={12} sm={6} sx={{ textAlign: "right" }}>
+                {/* add & dialog */}
+                {AddOK && (
+                  <>
+                    <Tooltip title="Add item">
+                      <Fab
+                        color="primary"
+                        size="small"
+                        onClick={handleClickOpenDialog}
+                        sx={{
+                          boxShadow: "none",
+                          ml: 1,
+                          width: 32,
+                          height: 32,
+                          minHeight: 32,
+                        }}
+                      >
+                        <AddIcon fontSize="small" />
+                      </Fab>
+                    </Tooltip>
+                    <AddItem
+                      open={open}
+                      handleCloseDialog={handleCloseDialog}
+                      handleCreateAPI={handleCreateAPI}
+                      TableName={TableName}
+                      headCells={headCells}
+                      dataSelectPais={paisRegion}
+                      dataTerminales={Terminales}
+                      dataCarga={Carga}
+                      dataPoliza={Poliza}
+                      dataFwd={Fwd}
+                      dataFlete={Flete}
+                      dataTruck={Truck}
+                      dataDeposito={Deposito}
                     />
-                </MainCard>
-            }
-        </>
-    );
+                  </>
+                )}
+              </Grid>
+            </Grid>
+          </CardContent>
+
+          {/* table */}
+          <TableContainer>
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+                theme={theme}
+                selected={selected}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    if (typeof row === "number") return null;
+                    const isItemSelected = isSelected(row.description);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={index}
+                        selected={isItemSelected}
+                      >
+                        {attributes.map((attribute) => (
+                          <TableCell
+                            align="left"
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            sx={{
+                              fontSize: 20,
+                              "&:hover": {
+                                fontStyle: "italic",
+                              },
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle1"
+                              sx={{
+                                color:
+                                  theme.palette.mode === "dark"
+                                    ? "grey.600"
+                                    : "grey.900",
+                              }}
+                            >
+                              {row[attribute]}
+                            </Typography>
+                          </TableCell>
+                        ))}
+
+                        <TableCell align="right">
+                          {EditOK ? (
+                            <>
+                              {DeleleOK && (
+                                <Tooltip title="Delete">
+                                  <IconButton size="large">
+                                    <DeleteIcon
+                                      fontSize="small"
+                                      onClick={() =>
+                                        handleDelete(row.fwdfrom, row.contype)
+                                      }
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
+
+                              <Tooltip title="Edit item">
+                                <IconButton
+                                  size="large"
+                                  onClick={() => handleEdit(row)}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </>
+                          ) : (
+                            "Sin permisos"
+                          )}
+                        </TableCell>
+
+                        <CompUpdate
+                          open={openUpdate}
+                          dataRow={selectedRow}
+                          handleUpdateAPI={handleUpdateAPI}
+                          handleCloseDialog={handleCloseDialogUpdate}
+                          TableName={TableName}
+                        />
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 53 * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* table pagination */}
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </MainCard>
+      }
+    </>
+  );
 };
 
 export default ProductList;
