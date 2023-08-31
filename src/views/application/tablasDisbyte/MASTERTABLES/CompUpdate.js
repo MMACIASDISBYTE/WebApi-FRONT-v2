@@ -41,6 +41,14 @@ const CompUpdate = ({
   handleCloseDialog,
   TableName,
   handleUpdateAPI,
+  dataSelectPais = null,
+  dataSelectTerminal = null,
+  dataSelectCarga = null,
+  dataSelectPoliza = null,
+  dataSelectFwd = null,
+  dataSelectFlete = null,
+  dataSelectTruck = null,
+  dataSelectDeposito = null,
   selectPais = false,
   selectCarga = false,
   selectTerminal = false,
@@ -49,13 +57,7 @@ const CompUpdate = ({
   selectPaisFwd = false,
   selectFlete = false,
   selectTruck = false,
-  dataSelectPais = null,
-  dataSelectTerminal = null,
-  dataSelectCarga = null,
-  dataSelectPoliza = null,
-  dataSelectFwd = null,
-  dataSelectFlete = null,
-  dataSelectTruck = null,
+  selectDeposito = false,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -72,6 +74,7 @@ const CompUpdate = ({
   const [datosSelectFwd, setDatosSelectFwd] = useState([]);
   const [datosSelectFlete, setDatosSelectFlete] = useState([]);
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
+  const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -125,7 +128,8 @@ const CompUpdate = ({
     setDatosSelectFwd(dataSelectFwd);
     setDatosSelectFlete(dataSelectFlete);
     setDatosSelectTruck(dataSelectTruck);
-  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck]);
+    setDatosSelectDeposito(dataSelectDeposito);
+  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -171,7 +175,8 @@ const CompUpdate = ({
                   key !== "fwdtte_id" && 
                   key !== "paisfwd_id" &&
                   key !== "flete_id" &&
-                  key !== "trucksemi_id" && (
+                  key !== "trucksemi_id" &&
+                  key !== "depositos_id" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -284,6 +289,16 @@ const CompUpdate = ({
                     MenuItem={MenuItem}
                     handleChange={handleChange}
                     datosSelect={datosSelectTruck}
+                />
+              )}
+              {/* código para añadir el selectDeposito */}
+              {selectDeposito && (
+                <SelectPaises 
+                  nameSelect={'Deposito'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectDeposito}
                 />
               )}
               
