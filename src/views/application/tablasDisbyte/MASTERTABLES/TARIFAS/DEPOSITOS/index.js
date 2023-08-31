@@ -793,7 +793,7 @@ const ProductList = () => {
                                     <DeleteIcon
                                       fontSize="small"
                                       onClick={() =>
-                                        handleDelete(row.fwdfrom, row.contype)
+                                        handleDelete(row.id)
                                       }
                                     />
                                   </IconButton>
@@ -820,6 +820,23 @@ const ProductList = () => {
                           handleUpdateAPI={handleUpdateAPI}
                           handleCloseDialog={handleCloseDialogUpdate}
                           TableName={TableName}
+                          dataSelectPais={paisRegion}
+                          dataSelectTerminal={Terminales}
+                          dataSelectCarga={Carga}
+                          dataSelectPoliza={Poliza}
+                          dataSelectFwd={Fwd}
+                          dataSelectFlete={Flete}
+                          dataSelectTruck={Truck}
+                          dataSelectDeposito={Deposito}
+                          selectPais={true}
+                          selectCarga={true}
+                          selectTerminal={false}
+                          selectPoliza={false}
+                          selectFwd={false}
+                          selectPaisFwd={false}
+                          selectFlete={false}
+                          selectTruck={true}
+                          selectDeposito={true}
                         />
                       </TableRow>
                     );

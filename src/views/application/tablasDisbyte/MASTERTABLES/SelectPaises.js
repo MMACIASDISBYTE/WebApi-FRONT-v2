@@ -23,6 +23,7 @@ export const SelectPaises = ({
           : nameSelect === 'Fwd' ? 'fwdtte_id'
           : nameSelect === 'Flete' ? 'flete_id'
           : nameSelect === 'Truck' ? 'trucksemi_id'
+          : nameSelect === 'Deposito' ? 'depositos_id'
           : ''
           }>
             Seleccione {nameSelect}
@@ -37,6 +38,7 @@ export const SelectPaises = ({
               : nameSelect === 'Fwd' ? dataName.fwdtte_id
               : nameSelect === 'Flete' ? dataName.flete_id
               : nameSelect === 'Truck' ? dataName.trucksemi_id
+              : nameSelect === 'Deposito' ? dataName.depositos_id
               : null
             }
             onChange={handleChange}
@@ -49,6 +51,7 @@ export const SelectPaises = ({
               : nameSelect === 'Fwd'? 'fwdtte_id'
               : nameSelect === 'Flete'? 'flete_id'
               : nameSelect === 'Truck'? 'trucksemi_id'
+              : nameSelect === 'Deposito'? 'depositos_id'
               : 'poliza_id',
 
               id: nameSelect === 'Pais' ? "paisregion_id"
@@ -58,6 +61,7 @@ export const SelectPaises = ({
               : nameSelect === 'Fwd'? 'fwdtte_id'
               : nameSelect === 'Flete'? 'flete_id'
               : nameSelect === 'Truck'? 'trucksemi_id'
+              : nameSelect === 'Deposito'? 'depositos_id'
               : 'poliza_id',
             }}
           >
