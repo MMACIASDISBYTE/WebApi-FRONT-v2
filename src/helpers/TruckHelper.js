@@ -26,7 +26,7 @@ export const TruckSemiHelper = {
   fetchData: async function () {
     try {
       const response = await FetchService.Get(this.rutaTabla);
-      console.log("FletetHelper.fetchData::response", response);
+      console.log("TrucktHelper.fetchData::response", response);
 
       return response;
     } catch (error) {
@@ -38,7 +38,7 @@ export const TruckSemiHelper = {
   fetchDataPais: async function () {
     try {
       const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-      console.log("FleteHelper.fetchData::response", response);
+      console.log("TrucktHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

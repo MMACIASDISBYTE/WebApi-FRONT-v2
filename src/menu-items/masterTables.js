@@ -301,6 +301,24 @@ const masterTables = {
                                 },
                             ]*/
                         },
+                        // LISTA DE Truck
+                        {
+                            id: 'truck',
+                            title: <FormattedMessage id="truck" />,
+                            // type: 'collapse',
+                            type: 'item',
+                            url: '/truck/truck',
+                            icon: LocalShippingOutlinedIcon,
+                            children: [
+                                {
+                                    id: 'truck',
+                                    title: <FormattedMessage id="truck" />,
+                                    type: 'item',
+                                    url: '/truck/truck',
+                                    breadcrumbs: false
+                                },
+                            ]
+                        },
                         // LISTA DE Despechantes
                         {
                             id: 'despachante',

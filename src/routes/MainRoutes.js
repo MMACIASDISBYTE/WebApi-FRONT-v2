@@ -61,6 +61,8 @@ const AppFwdtteProduct = Loadable(lazy(() => import('views/application/tablasDis
 const AppCustodiaProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Proveedores/custodia')));
 // application --> proveedores - Flete routing
 const AppFleteProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Proveedores/flete')));
+// application --> proveedores - Truck routing
+const AppTruckProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Proveedores/Truck')));
 // application --> proveedores - Despachante routing
 const AppDespachanteProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Proveedores/despachante')));
 // application --> proveedores - Deposito routing
@@ -391,6 +393,10 @@ const MainRoutes = {
         {
             path: '/flete/flete',
             element: <AppFleteProduct />
+        },
+        {
+            path: '/truck/truck',
+            element: <AppTruckProduct />
         },
         {
             path: '/despachante/despachante',
