@@ -91,16 +91,6 @@ const headCells = [
     align: "left",
   },
   {
-    id: "paisregion_id",
-    numeric: false,
-    isRequired: true,
-    select: "paisRegion",
-    isDisabled: false,
-    ocultar: false,
-    label: "Pais/Region",
-    align: "Left",
-  },
-  {
     id: "pesomin",
     numeric: true,
     isRequired: true,
@@ -148,6 +138,16 @@ const headCells = [
     isDisabled: false,
     ocultar: false,
     label: "Costo Index 2",
+    align: "Left",
+  },
+  {
+    id: "paisregion_id",
+    numeric: false,
+    isRequired: true,
+    select: "paisRegion",
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais/Region",
     align: "Left",
   },
 ];
