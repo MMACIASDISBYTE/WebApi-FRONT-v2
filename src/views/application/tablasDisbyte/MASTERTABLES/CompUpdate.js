@@ -51,6 +51,7 @@ const CompUpdate = ({
   dataSelectDeposito = null,
   dataSelectBanco = null,
   dataGestDig = null,
+  dataDespachante = null,
   selectPais = false,
   selectCarga = false,
   selectTerminal = false,
@@ -62,6 +63,7 @@ const CompUpdate = ({
   selectDeposito = false,
   selectBanco = false,
   selectGestDig = false,
+  selectDespachante = false,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -81,6 +83,7 @@ const CompUpdate = ({
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
   const [datosSelectBanco, setDatosSelectBanco] = useState([]);
   const [datosSelectGestDig, setDatosSelectGestDig] = useState([]);
+  const [datosSelectDespachante, setDatosSelectDespachante] = useState([]);
   useEffect(() => {
     setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
     setDatosSelectTerminal(dataSelectTerminal);
@@ -92,7 +95,8 @@ const CompUpdate = ({
     setDatosSelectDeposito(dataSelectDeposito);
     setDatosSelectBanco(dataSelectBanco);
     setDatosSelectGestDig(dataGestDig);
-  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito, dataSelectBanco, dataGestDig]);
+    setDatosSelectDespachante(dataDespachante);
+  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito, dataSelectBanco, dataGestDig, dataDespachante]);
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -172,7 +176,7 @@ const CompUpdate = ({
             <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
               {Object.entries(dataName).map(
                 ([key, value]) =>
-                  // Ocultar el campo de entrada cuando el atributo es igual a "id"
+                  // Ocultar el campo de entrada cuando el atributo es igual a los siguientes elementos:
                   key !== "id" &&
                   key !== "pais" &&
                   key !== "paisregion_id" &&
@@ -187,7 +191,9 @@ const CompUpdate = ({
                   key !== "banco_id" &&
                   key !== "banco" &&
                   key !== "region" &&
-                  key !== "gestdigdoc_id" && (
+                  key !== "gestdigdoc_id" &&
+                  key !== "despachantes_id" &&
+                  key !== "despachante" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -330,6 +336,16 @@ const CompUpdate = ({
                     MenuItem={MenuItem}
                     handleChange={handleChange}
                     datosSelect={datosSelectGestDig}
+                />
+              )}
+              {/* código para añadir el selectDespachante */}
+              {selectDespachante && (
+                <SelectPaises 
+                  nameSelect={'Despachante'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectDespachante}
                 />
               )}
               

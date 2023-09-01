@@ -54,6 +54,7 @@ const AddItem = ({
   dataDeposito = null,
   dataBanco = null,
   dataGestDig = null,
+  dataDespachante = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -76,6 +77,7 @@ const AddItem = ({
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
   const [datosSelectBanco, setDatosSelectBanco] = useState([]);
   const [datosSelectGestDig, setDatosSelectGestDig] = useState([]);
+  const [datosSelectDespachante, setDatosSelectDespachante] = useState([]);
   useEffect(() => {
     setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
     setDatosSelectTerminal(dataTerminales);
@@ -87,7 +89,8 @@ const AddItem = ({
     setDatosSelectDeposito(dataDeposito);
     setDatosSelectBanco(dataBanco);
     setDatosSelectGestDig(dataGestDig)
-  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito, dataBanco, dataGestDig]);
+    setDatosSelectDespachante(dataDespachante);
+  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito, dataBanco, dataGestDig, dataDespachante]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -152,7 +155,7 @@ const AddItem = ({
   }, [showAlert]);
 
   //excluimos elementos del formulario para casos de vistas
-  const excludedColumns = ["pais", "region"];
+  const excludedColumns = ["pais", "region", "despachante"];
 
   return (
     <Dialog
@@ -420,6 +423,30 @@ const AddItem = ({
                             }`}
                           >
                             {datosSelectGestDig.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Despachante" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectDespachante.map((option) => (
                               <MenuItem key={option.id} value={option.id}>
                                 {option.description}
                               </MenuItem>
