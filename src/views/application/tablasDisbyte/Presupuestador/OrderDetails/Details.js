@@ -53,7 +53,7 @@ const Details = ({ presupuestador, usuario }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const permisos = useAccessTokenJWT();
-    console.log(permisos);
+    // console.log(permisos);
 
     const editarPresu = permisos.includes('presupuesto:edit');
 

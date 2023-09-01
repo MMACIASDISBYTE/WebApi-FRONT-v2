@@ -91,7 +91,7 @@ const OrderDetails = () => {
     useEffect(() => {
         // console.log(rows);
         // console.log('Mostraremos el doble entrada')
-        console.log(rowsDoble)
+        // console.log(rowsDoble)
     }, [rows, rowsDoble]); // este useEffect se ejecutará cada vez que 'rows' cambie
 
     return (

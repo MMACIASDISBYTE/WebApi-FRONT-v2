@@ -113,7 +113,7 @@ function CreateInvoice() {
     const theme = useTheme();
     const navigate = useNavigate();
     const permisos = useAccessTokenJWT();
-    console.log(permisos);
+    // console.log(permisos);
     const editPresu = permisos.includes('presupuesto:edit');
     console.log(editPresu);
 
