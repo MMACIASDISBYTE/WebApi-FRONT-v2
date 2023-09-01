@@ -26,6 +26,7 @@ export const SelectPaises = ({
           : nameSelect === 'Deposito' ? 'depositos_id'
           : nameSelect === 'Banco' ? 'banco_id'
           : nameSelect === 'GestDig' ? 'gestdigdoc_id'
+          : nameSelect === 'Despachante' ? 'despachantes_id'
           : ''
           }>
             Seleccione {nameSelect}
@@ -43,6 +44,7 @@ export const SelectPaises = ({
               : nameSelect === 'Deposito' ? dataName.depositos_id
               : nameSelect === 'Banco' ? dataName.banco_id
               : nameSelect === 'GestDig' ? dataName.gestdigdoc_id
+              : nameSelect === 'Despachante' ? dataName.despachantes_id
               : null
             }
             onChange={handleChange}
@@ -58,6 +60,7 @@ export const SelectPaises = ({
               : nameSelect === 'Deposito'? 'depositos_id'
               : nameSelect === 'Banco'? 'banco_id'
               : nameSelect === 'GestDig' ? 'gestdigdoc_id'
+              : nameSelect === 'Despachante' ? 'despachantes_id'
               : 'poliza_id',
 
               id: nameSelect === 'Pais' ? "paisregion_id"
@@ -70,6 +73,7 @@ export const SelectPaises = ({
               : nameSelect === 'Deposito'? 'depositos_id'
               : nameSelect === 'Banco'? 'banco_id'
               : nameSelect === 'GestDig' ? 'gestdigdoc_id'
+              : nameSelect === 'Despachante' ? 'despachantes_id'
               : 'poliza_id',
             }}
           >
