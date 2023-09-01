@@ -463,7 +463,9 @@ const ProductList = () => {
                                                             theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900',
                                                     }}
                                                 >
-                                                    {row[attribute]}
+                                                    {attribute === "htimestamp"
+                                ? new Date(row[attribute]).toLocaleDateString()
+                                : row[attribute]}
                                                 </Typography>
                                             </TableCell>
                                         ))}

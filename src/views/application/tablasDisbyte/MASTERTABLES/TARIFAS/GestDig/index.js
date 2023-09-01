@@ -708,7 +708,9 @@ const ProductList = () => {
                                     : "grey.900",
                               }}
                             >
-                              {row[attribute]}
+                              {attribute === "htimestamp"
+                                ? new Date(row[attribute]).toLocaleDateString()
+                                : row[attribute]}
                             </Typography>
                           </TableCell>
                         ))}

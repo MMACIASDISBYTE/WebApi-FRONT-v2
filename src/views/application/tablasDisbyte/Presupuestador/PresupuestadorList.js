@@ -72,13 +72,13 @@ const headCells = [
     //     align: 'center'
     // },
     {
-        id: 'estNumber',
+        id: 'id',
         numeric: true,
         label: 'N° de Presupuesto',
         align: 'left'
     },
     {
-        id: 'estVers',
+        id: 'estvers',
         numeric: false,
         label: 'Version',
         align: 'left'
@@ -102,7 +102,7 @@ const headCells = [
         align: 'left'
     },
     {
-        id: 'hTimeStamp',
+        id: 'htimestamp',
         numeric: true,
         label: 'Fecha',
         align: 'right'
@@ -212,12 +212,12 @@ const CustomerList = () => {
     const navigate = useNavigate();
 
     const permisos = useAccessTokenJWT();
-    console.log(permisos);
+    // console.log(permisos);
     //LOGICA PERSMISOS
     const editarPresu = permisos.includes('presupuesto:edit');
 
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('estNumber');
+    const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -239,12 +239,12 @@ const CustomerList = () => {
                 let matches = true;
 
                 const properties = [
-                    'estNumber',
-                    'estVers',
+                    'id',
+                    'estvers',
                     'description',
                     'freightFwd',
                     'own',
-                    'hTimeStamp'
+                    'htimestamp'
                 ];
                 let containsQuery = false;
 
@@ -314,12 +314,12 @@ const CustomerList = () => {
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const verDetalle = (estNumber, estVers) => {
-        navigate(`/estimate/details/${estNumber}/${estVers}`);
+    const verDetalle = (id, estvers) => {
+        navigate(`/estimate/details/${id}/${estvers}`);
     };
 
-    const nuevoPresupuesto = (estNumber, estVers) => {
-        navigate(`/estimate/update-estimate/${estNumber}/${estVers}`);
+    const nuevoPresupuesto = (id, estvers) => {
+        navigate(`/estimate/update-estimate/${id}/${estvers}`);
     };
 
     // console.log(rows);
@@ -438,23 +438,23 @@ const CustomerList = () => {
 
                                         <TableCell align='left'>N°
                                             - {(
-                                                row.estNumber
-                                                !== null && row.estNumber
-                                                !== undefined) ? row.estNumber
+                                                row.id
+                                                !== null && row.id
+                                                !== undefined) ? row.id
                                                 : 'Sin data'
                                             }
                                         </TableCell>
                                         <TableCell align="left">
                                             Ver N° {(
-                                                row.estVers
-                                                !== null && row.estVers
-                                                !== undefined) ? row.estVers
+                                                row.estvers
+                                                !== null && row.estvers
+                                                !== undefined) ? row.estvers
                                                 : 'Sin data'
                                             }
                                         </TableCell>
                                         <TableCell align="left">
                                             {(
-                                                row.estVers
+                                                row.estvers
                                                 !== null && row.description
                                                 !== undefined) ? row.description
                                                 : 'Sin data'
@@ -478,9 +478,9 @@ const CustomerList = () => {
                                         </TableCell>
                                         <TableCell align="right">
                                             {(
-                                                new Date(row.hTimeStamp).toLocaleDateString()
-                                                !== null && new Date(row.hTimeStamp).toLocaleDateString()
-                                                !== undefined) ? new Date(row.hTimeStamp).toLocaleDateString()
+                                                new Date(row.htimestamp).toLocaleDateString()
+                                                !== null && new Date(row.htimestamp).toLocaleDateString()
+                                                !== undefined) ? new Date(row.htimestamp).toLocaleDateString()
                                                 : 'Sin data'
                                             }
                                         </TableCell>
@@ -491,12 +491,12 @@ const CustomerList = () => {
                                         </TableCell> */}
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton color="primary" size="large" aria-label="view">
-                                                <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} onClick={() => verDetalle(row.estNumber, row.estVers)} />
+                                                <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} onClick={() => verDetalle(row.id, row.estvers)} />
                                             </IconButton>
                                             {
                                                 editarPresu &&
                                                 (<IconButton color="secondary" size="large" aria-label="edit">
-                                                    <EditTwoToneIcon sx={{ fontSize: '1.3rem' }} onClick={() => nuevoPresupuesto(row.estNumber, row.estVers)} />
+                                                    <EditTwoToneIcon sx={{ fontSize: '1.3rem' }} onClick={() => nuevoPresupuesto(row.id, row.estvers)} />
                                                 </IconButton>)
                                             }
                                         </TableCell>

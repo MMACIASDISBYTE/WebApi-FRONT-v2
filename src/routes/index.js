@@ -15,7 +15,7 @@ import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
 export default function ThemeRoutes() {
     //manejo rutas segun permiso
     const autorizacion = useAccessTokenJWT();
-    console.log(autorizacion);
+    // console.log(autorizacion);
     // return useRoutes([{ path: '/', element: <PagesLanding /> }, AuthenticationRoutes, LoginRoutes, MainRoutes]);
     return useRoutes([LoginRoutes, AuthenticationRoutes, MainRoutes]);
 }
