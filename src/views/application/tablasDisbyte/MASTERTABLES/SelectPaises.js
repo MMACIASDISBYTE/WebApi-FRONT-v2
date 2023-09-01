@@ -24,6 +24,8 @@ export const SelectPaises = ({
           : nameSelect === 'Flete' ? 'flete_id'
           : nameSelect === 'Truck' ? 'trucksemi_id'
           : nameSelect === 'Deposito' ? 'depositos_id'
+          : nameSelect === 'Banco' ? 'banco_id'
+          : nameSelect === 'GestDig' ? 'gestdigdoc_id'
           : ''
           }>
             Seleccione {nameSelect}
@@ -39,6 +41,8 @@ export const SelectPaises = ({
               : nameSelect === 'Flete' ? dataName.flete_id
               : nameSelect === 'Truck' ? dataName.trucksemi_id
               : nameSelect === 'Deposito' ? dataName.depositos_id
+              : nameSelect === 'Banco' ? dataName.banco_id
+              : nameSelect === 'GestDig' ? dataName.gestdigdoc_id
               : null
             }
             onChange={handleChange}
@@ -52,6 +56,8 @@ export const SelectPaises = ({
               : nameSelect === 'Flete'? 'flete_id'
               : nameSelect === 'Truck'? 'trucksemi_id'
               : nameSelect === 'Deposito'? 'depositos_id'
+              : nameSelect === 'Banco'? 'banco_id'
+              : nameSelect === 'GestDig' ? 'gestdigdoc_id'
               : 'poliza_id',
 
               id: nameSelect === 'Pais' ? "paisregion_id"
@@ -62,6 +68,8 @@ export const SelectPaises = ({
               : nameSelect === 'Flete'? 'flete_id'
               : nameSelect === 'Truck'? 'trucksemi_id'
               : nameSelect === 'Deposito'? 'depositos_id'
+              : nameSelect === 'Banco'? 'banco_id'
+              : nameSelect === 'GestDig' ? 'gestdigdoc_id'
               : 'poliza_id',
             }}
           >

@@ -52,6 +52,8 @@ const AddItem = ({
   dataFlete = null,
   dataTruck = null,
   dataDeposito = null,
+  dataBanco = null,
+  dataGestDig = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -72,6 +74,20 @@ const AddItem = ({
   const [datosSelectFlete, setDatosSelectFlete] = useState([]);
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
+  const [datosSelectBanco, setDatosSelectBanco] = useState([]);
+  const [datosSelectGestDig, setDatosSelectGestDig] = useState([]);
+  useEffect(() => {
+    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
+    setDatosSelectTerminal(dataTerminales);
+    setDatosSelectCarga(dataCarga);
+    setDatosSelectPoliza(dataPoliza);
+    setDatosSelectFwd(dataFwd);
+    setDatosSelectFlete(dataFlete);
+    setDatosSelectTruck(dataTruck);
+    setDatosSelectDeposito(dataDeposito);
+    setDatosSelectBanco(dataBanco);
+    setDatosSelectGestDig(dataGestDig)
+  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito, dataBanco, dataGestDig]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -129,22 +145,14 @@ const AddItem = ({
   };
 
   useEffect(() => {
-    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
-    setDatosSelectTerminal(dataTerminales);
-    setDatosSelectCarga(dataCarga);
-    setDatosSelectPoliza(dataPoliza);
-    setDatosSelectFwd(dataFwd);
-    setDatosSelectFlete(dataFlete);
-    setDatosSelectTruck(dataTruck);
-    setDatosSelectDeposito(dataDeposito);
-  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito]);
-
-  useEffect(() => {
     // hace que la alerta se quite en 2 segundos
     setTimeout(() => {
       setShowAlert(false);
     }, 2000);
   }, [showAlert]);
+
+  //excluimos elementos del formulario para casos de vistas
+  const excludedColumns = ["pais", "region"];
 
   return (
     <Dialog
@@ -171,7 +179,9 @@ const AddItem = ({
           <DialogTitle>Agregar {TableName}</DialogTitle>
           <DialogContent>
             <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-              {headCells.map((cell) => (
+              {headCells
+              .filter((headCell) => !excludedColumns.includes(headCell.id))
+              .map((cell) => (
                 <Grid item xs={12} key={cell.id}>
                   {cell.id !== "id" && (
                     <>
@@ -362,6 +372,54 @@ const AddItem = ({
                             }`}
                           >
                             {datosSelectDeposito.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "Banco" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectBanco.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "GestDig" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectGestDig.map((option) => (
                               <MenuItem key={option.id} value={option.id}>
                                 {option.description}
                               </MenuItem>

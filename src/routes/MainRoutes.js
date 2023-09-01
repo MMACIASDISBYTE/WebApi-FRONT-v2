@@ -93,6 +93,13 @@ const AppDEPOSITOS = Loadable(lazy(() => import('views/application/tablasDisbyte
 const AppTRANSPORTELOC = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/TRANSPORTELOC')));
 // application --> TARIFAS -> POLIZAS 
 const AppPOLIZAS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/POLIZAS')));
+// application --> TARIFAS -> POLIZAS 
+const AppBANCOS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/BANCOS')));
+// application --> TARIFAS -> POLIZAS 
+const AppGestDig = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/GestDig')));
+// application --> TARIFAS -> POLIZAS 
+const AppDESPACHANTES = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/DESPACHANTES')));
+
 
 // application --> Constantes - canal routing
 const AppPaisRegion = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Constantes/paisRegion')));
@@ -375,6 +382,21 @@ const MainRoutes = {
         {
             path: '/TARIFAS/POLIZAS',
             element: <AppPOLIZAS />
+        },
+        // CHILD BANCOS
+        {
+            path: '/TARIFAS/BANCOS',
+            element: <AppBANCOS />
+        },
+        // CHILD GestDig
+        {
+            path: '/TARIFAS/GestDig',
+            element: <AppGestDig />
+        },
+        // CHILD DESPACHANTES
+        {
+            path: '/TARIFAS/DESPACHANTES',
+            element: <AppDESPACHANTES />
         },
 
         //lista padre Proveedores

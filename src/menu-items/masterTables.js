@@ -109,7 +109,34 @@ const masterTables = {
                             icon: LibraryBooksOutlinedIcon,
                             url:  '/TARIFAS/POLIZAS',
                             breadcrumbs: false
-                        }
+                        },
+                        // LISTA DE Tarifas BANCOS
+                        {
+                            id: 'BANCOS',
+                            title: <FormattedMessage id="BANCOS" />,
+                            type: 'item',
+                            icon: AccountBalanceOutlinedIcon,
+                            url:  '/TARIFAS/BANCOS',
+                            breadcrumbs: false
+                        },
+                        // LISTA DE Tarifas GestDig
+                        {
+                            id: 'GestDig',
+                            title: <FormattedMessage id="GestDig" />,
+                            type: 'item',
+                            icon: CopyAllOutlinedIcon,
+                            url:  '/TARIFAS/GestDig',
+                            breadcrumbs: false
+                        },
+                        // LISTA DE Tarifas Despachantes
+                        {
+                            id: 'Despachantes',
+                            title: <FormattedMessage id="Despachantes" />,
+                            type: 'item',
+                            icon: PersonOutlineOutlinedIcon,
+                            url:  '/TARIFAS/Despachantes',
+                            breadcrumbs: false
+                        },
         
                         
                     ]
@@ -336,7 +363,7 @@ const masterTables = {
                                 },
                             ]*/
                         },
-                        // LISTA DE Despechantes
+                        // LISTA DE Deposito
                         {
                             id: 'deposito',
                             title: <FormattedMessage id="DEPOSITO" />,

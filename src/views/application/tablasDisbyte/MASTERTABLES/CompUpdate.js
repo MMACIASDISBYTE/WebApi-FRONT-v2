@@ -49,6 +49,8 @@ const CompUpdate = ({
   dataSelectFlete = null,
   dataSelectTruck = null,
   dataSelectDeposito = null,
+  dataSelectBanco = null,
+  dataGestDig = null,
   selectPais = false,
   selectCarga = false,
   selectTerminal = false,
@@ -58,6 +60,8 @@ const CompUpdate = ({
   selectFlete = false,
   selectTruck = false,
   selectDeposito = false,
+  selectBanco = false,
+  selectGestDig = false,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -75,6 +79,20 @@ const CompUpdate = ({
   const [datosSelectFlete, setDatosSelectFlete] = useState([]);
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
+  const [datosSelectBanco, setDatosSelectBanco] = useState([]);
+  const [datosSelectGestDig, setDatosSelectGestDig] = useState([]);
+  useEffect(() => {
+    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
+    setDatosSelectTerminal(dataSelectTerminal);
+    setDatosSelectCarga(dataSelectCarga);
+    setDatosSelectPoliza(dataSelectPoliza);
+    setDatosSelectFwd(dataSelectFwd);
+    setDatosSelectFlete(dataSelectFlete);
+    setDatosSelectTruck(dataSelectTruck);
+    setDatosSelectDeposito(dataSelectDeposito);
+    setDatosSelectBanco(dataSelectBanco);
+    setDatosSelectGestDig(dataGestDig);
+  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito, dataSelectBanco, dataGestDig]);
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -121,17 +139,6 @@ const CompUpdate = ({
   };
 
   useEffect(() => {
-    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
-    setDatosSelectTerminal(dataSelectTerminal);
-    setDatosSelectCarga(dataSelectCarga);
-    setDatosSelectPoliza(dataSelectPoliza);
-    setDatosSelectFwd(dataSelectFwd);
-    setDatosSelectFlete(dataSelectFlete);
-    setDatosSelectTruck(dataSelectTruck);
-    setDatosSelectDeposito(dataSelectDeposito);
-  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito]);
-
-  useEffect(() => {
     // hace que la alerta se quite en 2 segundos
     setTimeout(() => {
       setShowAlert(false);
@@ -176,7 +183,11 @@ const CompUpdate = ({
                   key !== "paisfwd_id" &&
                   key !== "flete_id" &&
                   key !== "trucksemi_id" &&
-                  key !== "depositos_id" && (
+                  key !== "depositos_id" &&
+                  key !== "banco_id" &&
+                  key !== "banco" &&
+                  key !== "region" &&
+                  key !== "gestdigdoc_id" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -299,6 +310,26 @@ const CompUpdate = ({
                     MenuItem={MenuItem}
                     handleChange={handleChange}
                     datosSelect={datosSelectDeposito}
+                />
+              )}
+              {/* código para añadir el selectBanco */}
+              {selectBanco && (
+                <SelectPaises 
+                  nameSelect={'Banco'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectBanco}
+                />
+              )}
+              {/* código para añadir el selectGestDig */}
+              {selectGestDig && (
+                <SelectPaises 
+                  nameSelect={'GestDig'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectGestDig}
                 />
               )}
               
