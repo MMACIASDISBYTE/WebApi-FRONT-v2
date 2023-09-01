@@ -190,10 +190,14 @@
     "TARIFAS" : " Tarifas",
     "DEPOSITOS" : " Tarifas Depositos",
     "POLIZAS" : " Tarifas Polizas",
-    "SHIPPING" : " Tarifas Shipping",   
+    "SHIPPING" : " Tarifas Fwd",   
     "TERMINALES" : " Tarifas Terminales",
     "TRANSPORTE LOCAL" : " Tarifas Flete",
     "APLICACIONES": " Aplicaciones",
+    "BANCOS": " Tarifas Bancos",
+    "GestDig": " Tarifas GestDig",
+    "Despachantes": " Tarifas Despachantes",
+
 
     "Carga de principales": "Otros libros principales",
     "NCM": " NCM",

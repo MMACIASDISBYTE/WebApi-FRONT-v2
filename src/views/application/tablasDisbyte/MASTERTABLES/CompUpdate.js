@@ -49,6 +49,7 @@ const CompUpdate = ({
   dataSelectFlete = null,
   dataSelectTruck = null,
   dataSelectDeposito = null,
+  dataSelectBanco = null,
   selectPais = false,
   selectCarga = false,
   selectTerminal = false,
@@ -58,6 +59,7 @@ const CompUpdate = ({
   selectFlete = false,
   selectTruck = false,
   selectDeposito = false,
+  selectBanco = false,
 }) => {
   const theme = useTheme();
   // console.log(dataRow);
@@ -75,6 +77,7 @@ const CompUpdate = ({
   const [datosSelectFlete, setDatosSelectFlete] = useState([]);
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
+  const [datosSelectBanco, setDatosSelectBanco] = useState([]);
 
   useEffect(() => {
     setDataName(dataRow || {});
@@ -129,7 +132,8 @@ const CompUpdate = ({
     setDatosSelectFlete(dataSelectFlete);
     setDatosSelectTruck(dataSelectTruck);
     setDatosSelectDeposito(dataSelectDeposito);
-  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito]);
+    setDatosSelectBanco(dataSelectBanco);
+  }, [dataSelectPais, dataSelectTerminal, dataSelectCarga, dataSelectPoliza, dataSelectFwd, dataSelectFlete, dataSelectTruck, dataSelectDeposito, dataSelectBanco]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -176,7 +180,10 @@ const CompUpdate = ({
                   key !== "paisfwd_id" &&
                   key !== "flete_id" &&
                   key !== "trucksemi_id" &&
-                  key !== "depositos_id" && (
+                  key !== "depositos_id" &&
+                  key !== "banco_id" &&
+                  key !== "banco" &&
+                  key !== "region" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (
@@ -299,6 +306,16 @@ const CompUpdate = ({
                     MenuItem={MenuItem}
                     handleChange={handleChange}
                     datosSelect={datosSelectDeposito}
+                />
+              )}
+              {/* código para añadir el selectBanco */}
+              {selectBanco && (
+                <SelectPaises 
+                  nameSelect={'Banco'}
+                    dataName={dataName}
+                    MenuItem={MenuItem}
+                    handleChange={handleChange}
+                    datosSelect={datosSelectBanco}
                 />
               )}
               
