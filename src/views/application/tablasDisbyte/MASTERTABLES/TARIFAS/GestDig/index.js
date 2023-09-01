@@ -39,7 +39,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/AddTwoTone";
 
 //importacion del helper fwette
-import { TarifasFleteHelper } from "../../../../../../helpers/TarifasFleteHelper";
 import CompUpdate from "../../CompUpdate";
 import AddItem from "../../AddItem";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
@@ -50,6 +49,9 @@ import { TerminalHelper } from "helpers/TerminalHelper";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { FleteHelper } from "helpers/FleteHelper";
 import { TruckSemiHelper } from "helpers/TruckHelper";
+import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
+import { BancoHelper } from "helpers/BancoHelper";
+import { GestDigitalDocHelper } from "helpers/GestDigitalDocHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -100,23 +102,13 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_id",
-    numeric: false,
+    id: "gestdigdoc_id",
+    numeric: true,
     isRequired: true,
-    select: "Flete",
+    select: "GestDig",
     isDisabled: false,
     ocultar: false,
-    label: "Flete",
-    align: "Left",
-  },
-  {
-    id: "carga_id",
-    numeric: false,
-    isRequired: true,
-    select: "Carga",
-    isDisabled: false,
-    ocultar: false,
-    label: "Carga",
+    label: "Gestion Digital",
     align: "Left",
   },
   {
@@ -130,56 +122,6 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "trucksemi_id",
-    numeric: true,
-    isRequired: true,
-    select: "Truck",
-    isDisabled: false,
-    ocultar: false,
-    label: "Truck",
-    align: "Left",
-  },
-  {
-    id: "flete_interno",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Flete Interno",
-    align: "Left",
-  },
-  {
-    id: "devolucion_vacio",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Devolucion Vacio",
-    align: "Left",
-  },
-  {
-    id: "demora",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Demora",
-    align: "Left",
-  },
-  {
-    id: "guarderia",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Guarderia",
-    align: "Left",
-  },
-  {
     id: "costo",
     numeric: true,
     isRequired: true,
@@ -190,13 +132,13 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "descarga_depo",
+    id: "factor1",
     numeric: true,
     isRequired: true,
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Descarga Depo",
+    label: "Factor",
     align: "Left",
   },
   {
@@ -206,47 +148,7 @@ const headCells = [
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Otro gasto 1",
-    align: "Left",
-  },
-  {
-    id: "gasto_otro2",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Otro gasto 2",
-    align: "Left",
-  },
-  {
-    id: "description_depo",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Descrip Deposito",
-    align: "Left",
-  },
-  {
-    id: "peso_minimo",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Peso Min",
-    align: "Left",
-  },
-  {
-    id: "peso_maximo",
-    numeric: true,
-    isRequired: true,
-    select: null,
-    isDisabled: false,
-    ocultar: false,
-    label: "Peso Max",
+    label: "Otros Gastos",
     align: "Left",
   },
   {
@@ -456,7 +358,7 @@ const ProductList = () => {
 
   const fetchData = async (accessToken) => {
     try {
-      const jsonData = await TarifasFleteHelper.fetchData();
+      const jsonData = await TarifasGestDigDocHelper.fetchData();
 
       setRows(jsonData);
     } catch (error) {
@@ -477,18 +379,18 @@ const ProductList = () => {
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await TarifasFleteHelper.deleteDataById(id);
+    await TarifasGestDigDocHelper.deleteDataById(id);
     // para actualizar el componente
     SetActualizacion(true);
     console.log(`Transporte local ${id} ha sido eliminada`);
   };
 
   const handleCreateAPI = async (newData) => {
-    await TarifasFleteHelper.createData(newData);
+    await TarifasGestDigDocHelper.createData(newData);
   };
   // Función para actualizar la API utilizando
   const handleUpdateAPI = async (id, data) => {
-    await TarifasFleteHelper.updateDataById(id, data);
+    await TarifasGestDigDocHelper.updateDataById(id, data);
   };
 
   // uso metodo Update (que trabaja en el componente hijo)
@@ -505,6 +407,8 @@ const ProductList = () => {
   const [Fwd, setFwd] = React.useState([]);
   const [Flete, setFlete] = React.useState([]);
   const [Truck, setTruck] = React.useState([]);
+  const [Banco, setBanco] = React.useState([]);
+  const [GestDig, setGestDig] = React.useState([]);
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -576,6 +480,26 @@ const ProductList = () => {
         }
       };
       FetchDataTruck();
+
+      const FetchDataBanco = async () => {
+        try {
+          const dataBanco = await BancoHelper.fetchData();
+          setBanco(dataBanco);
+        } catch (error) {
+          console.log("Error en traer data Banco: ", error);
+        }
+      };
+      FetchDataBanco();
+
+      const FetchDataGestDig = async () => {
+        try {
+          const dataGestDig = await GestDigitalDocHelper.fetchData();
+          setGestDig(dataGestDig);
+        } catch (error) {
+          console.log("Error en traer data GestDig: ", error);
+        }
+      };
+      FetchDataGestDig();
   }, []);
 
   const handleSearch = (event) => {
@@ -595,21 +519,11 @@ const ProductList = () => {
         const properties = [
           "id",
           "description",
-          "flete_id",
-          "carga_id",
+          "gestdigdoc_id",
           "paisregion_id",
-          "trucksemi_id",
-          "flete_interno",
-          "devolucion_vacio",
-          "demora",
-          "guarderia",
           "costo",
-          "descarga_depo",
+          "factor1",
           "gasto_otro1",
-          "gasto_otro2",
-          "description_depo",
-          "peso_minimo",
-          "peso_maximo",
           "notas",
           "htimestamp",
         ];
@@ -733,6 +647,8 @@ const ProductList = () => {
                       dataFwd={Fwd}
                       dataFlete={Flete}
                       dataTruck={Truck}
+                      dataBanco={Banco}
+                      dataGestDig={GestDig}
                     />
                   </>
                 )}
@@ -840,14 +756,16 @@ const ProductList = () => {
                           dataSelectFwd={Fwd}
                           dataSelectFlete={Flete}
                           dataSelectTruck={Truck}
+                          dataGestDig={GestDig}
                           selectPais={true}
-                          selectCarga={true}
+                          selectCarga={false}
                           selectTerminal={false}
                           selectPoliza={false}
                           selectFwd={false}
                           selectPaisFwd={false}
-                          selectFlete={true}
-                          selectTruck={true}
+                          selectFlete={false}
+                          selectTruck={false}
+                          selectGestDig={true}
                         />
                       </TableRow>
                     );

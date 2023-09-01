@@ -53,6 +53,7 @@ const AddItem = ({
   dataTruck = null,
   dataDeposito = null,
   dataBanco = null,
+  dataGestDig = null,
 }) => {
   const theme = useTheme();
   // console.log(headCells)
@@ -74,7 +75,19 @@ const AddItem = ({
   const [datosSelectTruck, setDatosSelectTruck] = useState([]);
   const [datosSelectDeposito, setDatosSelectDeposito] = useState([]);
   const [datosSelectBanco, setDatosSelectBanco] = useState([]);
-
+  const [datosSelectGestDig, setDatosSelectGestDig] = useState([]);
+  useEffect(() => {
+    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
+    setDatosSelectTerminal(dataTerminales);
+    setDatosSelectCarga(dataCarga);
+    setDatosSelectPoliza(dataPoliza);
+    setDatosSelectFwd(dataFwd);
+    setDatosSelectFlete(dataFlete);
+    setDatosSelectTruck(dataTruck);
+    setDatosSelectDeposito(dataDeposito);
+    setDatosSelectBanco(dataBanco);
+    setDatosSelectGestDig(dataGestDig)
+  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito, dataBanco, dataGestDig]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -130,18 +143,6 @@ const AddItem = ({
   const handleCloseAlert = () => {
     setShowAlert(false); // Cierra la alerta
   };
-
-  useEffect(() => {
-    setDatosSelectPais(dataSelectPais); // lista los paises a mostrar en el select, ya vienen del comp padre
-    setDatosSelectTerminal(dataTerminales);
-    setDatosSelectCarga(dataCarga);
-    setDatosSelectPoliza(dataPoliza);
-    setDatosSelectFwd(dataFwd);
-    setDatosSelectFlete(dataFlete);
-    setDatosSelectTruck(dataTruck);
-    setDatosSelectDeposito(dataDeposito);
-    setDatosSelectBanco(dataBanco);
-  }, [dataSelectPais, dataTerminales, dataCarga, dataPoliza, dataFwd, dataFlete, dataTruck, dataDeposito, dataBanco]);
 
   useEffect(() => {
     // hace que la alerta se quite en 2 segundos
@@ -395,6 +396,30 @@ const AddItem = ({
                             }`}
                           >
                             {datosSelectBanco.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.description}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : cell.select === "GestDig" ? (
+                        <FormControl
+                          fullWidth
+                          variant="outlined"
+                          sx={{ marginTop: "5px" }}
+                        >
+                          <InputLabel>{`Seleccione ${cell.label}${
+                            cell.isRequired ? " *Requerido" : ""
+                          }`}</InputLabel>
+                          <Select
+                            name={cell.id}
+                            value={dataValues[cell.id] || ""}
+                            onChange={handleChange}
+                            label={`Seleccione ${cell.label}${
+                              cell.isRequired ? " *Requerido" : ""
+                            }`}
+                          >
+                            {datosSelectGestDig.map((option) => (
                               <MenuItem key={option.id} value={option.id}>
                                 {option.description}
                               </MenuItem>

@@ -51,6 +51,7 @@ import { FleteHelper } from "helpers/FleteHelper";
 import { TruckSemiHelper } from "helpers/TruckHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { BancoHelper } from "helpers/BancoHelper";
+import { GestDigitalDocHelper } from "helpers/GestDigitalDocHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -427,6 +428,7 @@ const ProductList = () => {
   const [Flete, setFlete] = React.useState([]);
   const [Truck, setTruck] = React.useState([]);
   const [Banco, setBanco] = React.useState([]);
+  const [GestDig, setGestDig] = React.useState([]);
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -480,34 +482,44 @@ const ProductList = () => {
     FetchDataFwd();
 
     const FetchDataFlete = async () => {
-        try {
-          const dataFlete = await FleteHelper.fetchData();
-          setFlete(dataFlete);
-        } catch (error) {
-          console.log("Error en traer data Flete: ", error);
-        }
-      };
-      FetchDataFlete();
+      try {
+        const dataFlete = await FleteHelper.fetchData();
+        setFlete(dataFlete);
+      } catch (error) {
+        console.log("Error en traer data Flete: ", error);
+      }
+    };
+    FetchDataFlete();
 
-      const FetchDataTruck = async () => {
-        try {
-          const dataTruck = await TruckSemiHelper.fetchData();
-          setTruck(dataTruck);
-        } catch (error) {
-          console.log("Error en traer data Truck: ", error);
-        }
-      };
-      FetchDataTruck();
+    const FetchDataTruck = async () => {
+      try {
+        const dataTruck = await TruckSemiHelper.fetchData();
+        setTruck(dataTruck);
+      } catch (error) {
+        console.log("Error en traer data Truck: ", error);
+      }
+    };
+    FetchDataTruck();
 
-      const FetchDataBanco = async () => {
-        try {
-          const dataBanco = await BancoHelper.fetchData();
-          setBanco(dataBanco);
-        } catch (error) {
-          console.log("Error en traer data Banco: ", error);
-        }
-      };
-      FetchDataBanco();
+    const FetchDataBanco = async () => {
+      try {
+        const dataBanco = await BancoHelper.fetchData();
+        setBanco(dataBanco);
+      } catch (error) {
+        console.log("Error en traer data Banco: ", error);
+      }
+    };
+    FetchDataBanco();
+
+    const FetchDataGestDig = async () => {
+      try {
+        const dataGestDig = await GestDigitalDocHelper.fetchData();
+        setGestDig(dataGestDig);
+      } catch (error) {
+        console.log("Error en traer data GestDig: ", error);
+      }
+    };
+    FetchDataGestDig();
   }, []);
 
   const handleSearch = (event) => {
@@ -527,22 +539,15 @@ const ProductList = () => {
         const properties = [
           "id",
           "description",
-          "flete_id",
-          "carga_id",
           "paisregion_id",
-          "trucksemi_id",
-          "flete_interno",
-          "devolucion_vacio",
           "demora",
-          "guarderia",
           "costo",
-          "descarga_depo",
+          "factor1",
           "gasto_otro1",
-          "gasto_otro2",
-          "description_depo",
-          "peso_minimo",
-          "peso_maximo",
           "notas",
+          "banco_id",
+          "pais",
+          "region",
           "htimestamp",
         ];
 
@@ -666,6 +671,7 @@ const ProductList = () => {
                       dataFlete={Flete}
                       dataTruck={Truck}
                       dataBanco={Banco}
+                      dataGestDig={GestDig}
                     />
                   </>
                 )}
@@ -738,9 +744,7 @@ const ProductList = () => {
                                   <IconButton size="large">
                                     <DeleteIcon
                                       fontSize="small"
-                                      onClick={() =>
-                                        handleDelete(row.id)
-                                      }
+                                      onClick={() => handleDelete(row.id)}
                                     />
                                   </IconButton>
                                 </Tooltip>
