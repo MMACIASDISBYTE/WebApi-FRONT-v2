@@ -193,7 +193,12 @@ const CompUpdate = ({
                   key !== "region" &&
                   key !== "gestdigdoc_id" &&
                   key !== "despachantes_id" &&
-                  key !== "despachante" && (
+                  key !== "despachante" &&
+                  key !== "deposito" &&
+                  key !== "freight" &&
+                  key !== "semi" &&
+                  key !== "flete" &&
+                  key !== "carga" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (

@@ -241,7 +241,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id", "despachantes_id", "paisregion_id"];
 
   return (
     <TableHead>
@@ -418,7 +418,7 @@ const ProductList = () => {
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id", "despachantes_id", "paisregion_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
