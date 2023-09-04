@@ -19,9 +19,9 @@ export const CargaHelper = {
     }, 
 
     //Consulta a la API
-    DetalleContenedor: async function (tipo) {
+    DetalleContenedor: async function (id) {
         try {
-            const response = await fetch(`${this.baseUrl}/Contenedor/${tipo}`);
+            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${id}`);
             const jsonData = await response.json();
 
             return jsonData;

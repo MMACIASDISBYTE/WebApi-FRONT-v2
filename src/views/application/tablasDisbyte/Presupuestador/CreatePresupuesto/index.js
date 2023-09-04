@@ -229,6 +229,7 @@ function CreateInvoice() {
     ];
 
     console.log(cellInput);
+    console.log(dataHelp.carga);
 
     useEffect(() => {
         dataHelpers();

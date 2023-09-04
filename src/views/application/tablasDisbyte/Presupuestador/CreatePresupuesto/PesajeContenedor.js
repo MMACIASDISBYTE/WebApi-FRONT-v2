@@ -6,7 +6,8 @@ import { CargaHelper } from 'helpers/CargaHelper';
 import { UtilidadesHelper } from 'helpers/UtilidadesHelper';
 import { useTheme } from '@emotion/react';
 
-export const PesajeContenedor = ({ productsData, tipoContenedor }) => {
+export const PesajeContenedor = ({ productsData = null, tipoContenedor = null }) => {
+    console.log(productsData, tipoContenedor);
     const theme = useTheme();
     const [peso, setPeso] = useState(0);
     const [volume, setVolumen] = useState(0);
@@ -15,7 +16,9 @@ export const PesajeContenedor = ({ productsData, tipoContenedor }) => {
 
     useEffect(() => {
         if (tipoContenedor) {
-            const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
+            const ContenedorConcatenado = tipoContenedor.id;
+            console.log(ContenedorConcatenado);
+            // const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
             const contenedorDetalle = async (ContenedorConcatenado) => {
                 const ContenedorData = await CargaHelper.DetalleContenedor(ContenedorConcatenado);
                 console.log(ContenedorData);
