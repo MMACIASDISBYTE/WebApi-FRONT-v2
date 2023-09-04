@@ -155,7 +155,7 @@ const AddItem = ({
   }, [showAlert]);
 
   //excluimos elementos del formulario para casos de vistas
-  const excludedColumns = ["pais", "region", "despachante"];
+  const excludedColumns = ["pais", "region", "deposito", "despachante", "freight", "semi"];
 
   return (
     <Dialog

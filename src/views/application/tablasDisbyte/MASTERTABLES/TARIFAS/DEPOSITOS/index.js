@@ -253,6 +253,56 @@ const headCells = [
     label: "Fecha/hora",
     align: "Left",
   },
+  {
+    id: "deposito",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Deposito",
+    align: "Left",
+  },
+  {
+    id: "freight",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Tipo Contenedor",
+    align: "Left",
+  },
+  {
+    id: "pais",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Pais",
+    align: "Left",
+  },
+  {
+    id: "region",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Region",
+    align: "Left",
+  },
+  {
+    id: "semi",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Semi",
+    align: "Left",
+  },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -272,7 +322,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id", "depositos_id", "carga_id", "paisregion_id", "trucksemi_id"];
 
   return (
     <TableHead>
@@ -440,7 +490,7 @@ const ProductList = () => {
   const fetchData = async () => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const jsonData = await TarifasDepositoHelper.fetchData();
+      const jsonData = await TarifasDepositoHelper.fetchDataPais();
       setRows(jsonData);
     } catch (error) {
       console.log(error);
@@ -449,7 +499,7 @@ const ProductList = () => {
   };
 
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id", "depositos_id", "carga_id", "paisregion_id", "trucksemi_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>

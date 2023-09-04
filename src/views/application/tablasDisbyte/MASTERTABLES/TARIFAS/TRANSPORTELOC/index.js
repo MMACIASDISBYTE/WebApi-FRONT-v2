@@ -152,7 +152,7 @@ const headCells = [
   {
     id: "devolucion_vacio",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -202,7 +202,7 @@ const headCells = [
   {
     id: "gasto_otro1",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -212,7 +212,7 @@ const headCells = [
   {
     id: "gasto_otro2",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -222,7 +222,7 @@ const headCells = [
   {
     id: "description_depo",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -269,6 +269,56 @@ const headCells = [
     label: "Fecha/hora",
     align: "Left",
   },
+  {
+    id: "deposito",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Deposito",
+    align: "Left",
+  },
+  {
+    id: "freight",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Tipo Contenedor",
+    align: "Left",
+  },
+  {
+    id: "pais",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Pais",
+    align: "Left",
+  },
+  {
+    id: "region",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Region",
+    align: "Left",
+  },
+  {
+    id: "semi",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: true,
+    ocultar: false,
+    label: "Semi",
+    align: "Left",
+  },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -288,7 +338,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id", "depositos_id", "carga_id", "paisregion_id", "trucksemi_id", "flete_id"];
 
   return (
     <TableHead>
@@ -456,7 +506,7 @@ const ProductList = () => {
 
   const fetchData = async (accessToken) => {
     try {
-      const jsonData = await TarifasFleteHelper.fetchData();
+      const jsonData = await TarifasFleteHelper.fetchDataPais();
 
       setRows(jsonData);
     } catch (error) {
@@ -465,7 +515,7 @@ const ProductList = () => {
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id", "depositos_id", "carga_id", "paisregion_id", "trucksemi_id", "flete_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
@@ -675,7 +725,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`Tarifas ${TableName} List`} content={false}>
+        <MainCard title={`${TableName} List`} content={false}>
           <CardContent>
             <Grid
               container
