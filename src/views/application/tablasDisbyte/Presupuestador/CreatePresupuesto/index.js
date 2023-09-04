@@ -411,6 +411,12 @@ function CreateInvoice() {
     }, [productsData]);
 
     // to delete row in order details
+    const editProductHandler = (id) => {
+        console.log(`El producto seleccionado es el: `, id)
+        // setProductsData(productsData.filter((item) => item.id !== id));
+    };
+
+    // to delete row in order details
     const deleteProductHandler = (id) => {
         setProductsData(productsData.filter((item) => item.id !== id));
     };
@@ -606,7 +612,7 @@ function CreateInvoice() {
                                 <Divider />
                             </Grid>
 
-                            <ProductsPage productsData={productsData} deleteProductHandler={deleteProductHandler} />
+                            <ProductsPage productsData={productsData} deleteProductHandler={deleteProductHandler} editProductHandler={editProductHandler} />
 
                             {addItemClicked ? (
                                 <Grid item xs={12}>

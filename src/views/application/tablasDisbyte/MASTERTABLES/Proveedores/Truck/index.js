@@ -147,8 +147,18 @@ const headCells = [
     select: "paisRegion",
     isDisabled: false,
     ocultar: false,
-    label: "Pais/Region",
+    label: "Pais",
     align: "Left",
+  },
+  {
+    id: "region",
+    numeric: false,
+    isRequired: false,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region",
+    align: "left",
   },
 ];
 
@@ -273,12 +283,12 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-// ==============================|| Flete LIST ||============================== //
+// ==============================|| Transporte LIST ||============================== //
 
 const ProductList = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const TableName = "Flete";
+  const TableName = "Transporte";
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
@@ -470,7 +480,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`Maestro Tarifas ${TableName} List`} content={false}>
+        <MainCard title={`${TableName} List`} content={false}>
           <CardContent>
             <Grid
               container

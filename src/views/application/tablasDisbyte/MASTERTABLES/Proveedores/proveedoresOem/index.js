@@ -389,7 +389,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`Maestro Tarifas ${TableName} List`} content={false}>
+        <MainCard title={`${TableName} List`} content={false}>
           <CardContent>
             <Grid
               container
