@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 // material-ui
 import { Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
-function ProductsPage({ productsData, deleteProductHandler }) {
+function ProductsPage({ productsData, deleteProductHandler, editProductHandler }) {
     
     
     return (
@@ -49,6 +50,14 @@ function ProductsPage({ productsData, deleteProductHandler }) {
                                         <TableCell align="right">{row.ncm}</TableCell> 
                                         <TableCell align="right">${row.total}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
+                                            <IconButton
+                                                color="secondary"
+                                                size="small"
+                                                onClick={() => editProductHandler(row)}
+                                                aria-label="Product Delete"
+                                            >
+                                                <EditTwoToneIcon fontSize="small" />
+                                            </IconButton>
                                             <IconButton
                                                 color="error"
                                                 size="small"

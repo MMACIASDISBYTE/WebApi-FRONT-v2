@@ -506,7 +506,7 @@ const ProductList = () => {
                                                                         <IconButton size="large">
                                                                             <DeleteIcon
                                                                                 fontSize="small"
-                                                                                onClick={() => handleDelete(row.fwdfrom, row.contype)}
+                                                                                onClick={() => handleDelete(row.id)}
                                                                             />
                                                                         </IconButton>
                                                                     </Tooltip>

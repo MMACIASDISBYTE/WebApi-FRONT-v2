@@ -78,25 +78,41 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    select: null,
     isRequired: false,
-    label: "ID",
-    align: "left",
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Id",
+    align: "Left",
   },
   {
     id: "description",
     numeric: false,
-    select: null,
     isRequired: true,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
     label: "Description",
     align: "left",
   },
   {
     id: "paisregion_id",
     numeric: false,
-    select: "paisRegion",
     isRequired: true,
+    select: "paisRegion",
+    isDisabled: false,
+    ocultar: false,
     label: "Pais",
+    align: "left",
+  },
+  {
+    id: "region",
+    numeric: false,
+    isRequired: false,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region",
     align: "left",
   },
 ];
@@ -420,7 +436,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`Maestro Tarifas ${TableName} List`} content={false}>
+        <MainCard title={`${TableName} List`} content={false}>
           <CardContent>
             <Grid
               container

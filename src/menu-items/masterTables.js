@@ -217,7 +217,7 @@ const masterTables = {
                             ]*/
                         },   
                          // LISTA DE CALCULOS
-                         {
+                        /* {
                             id: 'constantescalculo',
                             title: <FormattedMessage id="CONSTANTES DE CALCULO"   />,
                             type: 'item', 
@@ -231,8 +231,8 @@ const masterTables = {
                                     url: '/CONST/CONST',
                                     breadcrumbs: false
                                 },
-                            ]*/
-                        }     
+                            ]
+                        }    */ 
                     ]
                 },
                 {
