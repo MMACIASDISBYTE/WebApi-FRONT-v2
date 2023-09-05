@@ -26,7 +26,7 @@ export const DepositoHelper = {
   fetchData: async function () {
     try {
       const response = await FetchService.Get(this.rutaTabla);
-      console.log("DepositoContHelper.fetchData::response", response);
+      // console.log("DepositoContHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

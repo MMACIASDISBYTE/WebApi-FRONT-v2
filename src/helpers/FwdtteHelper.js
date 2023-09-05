@@ -26,7 +26,7 @@ export const FwdtteHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('FwdtteHelper.fetchData::response', response);
+            // console.log('FwdtteHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

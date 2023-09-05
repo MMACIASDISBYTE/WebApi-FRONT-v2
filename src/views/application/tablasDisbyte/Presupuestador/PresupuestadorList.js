@@ -92,9 +92,21 @@ const headCells = [
     align: "left",
   },
   {
-    id: "freightFwd",
+    id: "cantidad_contenedores",
     numeric: true,
-    label: "FreightFwd.",
+    label: "Cant. Contenedores",
+    align: "left",
+  },
+  {
+    id: "gastos_loc_total",
+    numeric: true,
+    label: "Gasto Local Total",
+    align: "left",
+  },
+  {
+    id: "fob_grand_total",
+    numeric: true,
+    label: "Fob Total",
     align: "left",
   },
   {
@@ -242,6 +254,7 @@ const CustomerList = () => {
   }, [dispatch]);
   React.useEffect(() => {
     setRows(customers);
+    console.log(customers);
   }, [customers]);
   const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -255,7 +268,9 @@ const CustomerList = () => {
           "id",
           "estvers",
           "description",
-          "freightFwd",
+          "cantidad_contenedores",
+          "gastos_loc_total",
+          "fob_grand_total",
           "own",
           "htimestamp",
         ];
@@ -483,8 +498,18 @@ const CustomerList = () => {
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
-                      {row.freightFwd !== null && row.freightFwd !== undefined
-                        ? row.freightFwd
+                      {row.cantidad_contenedores !== null && row.cantidad_contenedores !== undefined
+                        ? (row.cantidad_contenedores).toFixed(3)
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.gastos_loc_total !== null && row.gastos_loc_total !== undefined
+                        ? (row.gastos_loc_total).toFixed(2)
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.fob_grand_total !== null && row.fob_grand_total !== undefined
+                        ? (row.fob_grand_total).toFixed(2)
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">

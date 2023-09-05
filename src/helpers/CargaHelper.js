@@ -9,7 +9,7 @@ export const CargaHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('CargaHelper.fetchData::response', response);
+            // console.log('CargaHelper.fetchData::response', response);
     
             return response;
         } catch (error) {

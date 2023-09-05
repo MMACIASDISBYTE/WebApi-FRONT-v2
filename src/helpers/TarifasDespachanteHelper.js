@@ -36,7 +36,7 @@ export const TarifasDespachanteHelper = {
     fetchDataPais: async function () {
         try {
             const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-            console.log('TarifasDespachanteHelper/vista.fetchData::response', response);
+            // console.log('TarifasDespachanteHelper/vista.fetchData::response', response);
 
             return response;
         } catch (error) {

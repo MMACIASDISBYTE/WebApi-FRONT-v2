@@ -25,7 +25,7 @@ fetchData2: async function () {
     try {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.error('TarifasFwdContHelper.fetchData.response', response);
+            // console.error('TarifasFwdContHelper.fetchData.response', response);
 
             return response;
         } catch (error) {

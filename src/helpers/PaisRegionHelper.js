@@ -26,7 +26,7 @@ export const PaisRegionHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('PaisRegionHelper.fetchData::response', response);
+            // console.log('PaisRegionHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

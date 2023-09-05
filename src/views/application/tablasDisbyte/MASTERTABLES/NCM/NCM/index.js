@@ -73,17 +73,17 @@ function stableSort(array, comparator) {
 // table header options ATRIBUTOS DEL MODELO
 const headCells = [
   {
-    id: "code",
-    numeric: false,
-    isRequired: false,
-    label: "Codigo",
-    align: "left",
-  },
-  {
     id: "id",
     numeric: true,
     isRequired: false,
     label: "ID",
+    align: "left",
+  },
+  {
+    id: "code",
+    numeric: false,
+    isRequired: false,
+    label: "Codigo",
     align: "left",
   },
   {
@@ -152,14 +152,14 @@ const headCells = [
   {
     id: "vc",
     numeric: false,
-    isRequired: false,
+    isRequired: true,
     label: "vc",
     align: "center",
   },
   {
     id: "peso_valor",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     label: "Peso/Valor",
     align: "center",
   },
@@ -194,30 +194,30 @@ function EnhancedTableHead({
         )}
         {numSelected <= 0 &&
           headCells
-          .filter((headCell) => !excludedColumns.includes(headCell.id)) // Excluimos las columnas no deseadas
-          .map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.align}
-              padding={headCell.disablePadding ? "none" : "normal"}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
+            .filter((headCell) => !excludedColumns.includes(headCell.id)) // Excluimos las columnas no deseadas
+            .map((headCell) => (
+              <TableCell
+                key={headCell.id}
+                align={headCell.align}
+                padding={headCell.disablePadding ? "none" : "normal"}
+                sortDirection={orderBy === headCell.id ? order : false}
               >
-                {headCell.label}
-                {orderBy === headCell?.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  {headCell.label}
+                  {orderBy === headCell?.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+            ))}
         {numSelected <= 0 && (
           <>
             <TableCell sortDirection={false} align="right" sx={{ pr: 3 }}>
@@ -377,12 +377,12 @@ const ProductList = () => {
   );
 
   // AQUI ELEMINO ELEMENTOS
-  const handleDelete = async (code) => {
+  const handleDelete = async (id) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await NcmHelper.deleteDataByCode(code);
+    await NcmHelper.deleteDataByCode(id);
+    console.log(`La Posicion ${id} ha sido eliminado`);
     // para actualizar el componente
     SetActualizacion(true);
-    console.log(`La Posicion ${code} ha sido eliminado`);
   };
 
   const handleCreateAPI = async (newData) => {
@@ -396,6 +396,7 @@ const ProductList = () => {
 
   // uso metodo Update (que trabaja en el componente hijo)
   const handleEdit = async (row) => {
+    console.log('hola');
     setSelectedRow(row);
     setOpenUpdate(true);
   };
@@ -616,9 +617,7 @@ const ProductList = () => {
                                   <IconButton size="large">
                                     <DeleteIcon
                                       fontSize="small"
-                                      onClick={() =>
-                                        handleDelete(row.fwdfrom, row.contype)
-                                      }
+                                      onClick={() => handleDelete(row.code)}
                                     />
                                   </IconButton>
                                 </Tooltip>
