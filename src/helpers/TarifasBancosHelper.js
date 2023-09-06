@@ -24,7 +24,7 @@ export const TarifasBancosHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('TarifasBancosHelper.fetchData::response', response);
+            // console.log('TarifasBancosHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

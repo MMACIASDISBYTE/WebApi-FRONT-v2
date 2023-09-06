@@ -24,7 +24,7 @@ export const TarifasGestDigDocHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('TarifasGestDigDocHelper.fetchData::response', response);
+            // console.log('TarifasGestDigDocHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

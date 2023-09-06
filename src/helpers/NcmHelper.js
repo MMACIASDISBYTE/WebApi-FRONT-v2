@@ -78,9 +78,9 @@ export const NcmHelper = {
         }
     },
     // Eliminar un registro de la tabla por ID
-    deleteDataByCode: async function (code) {
+    deleteDataByCode: async function (id) {
         try {
-            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${code}`, {
+            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${id}`, {
                 method: 'DELETE',
             });
             const jsonData = await response.json();

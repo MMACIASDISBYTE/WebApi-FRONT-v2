@@ -17,7 +17,7 @@ export const PresupuestoHelper = {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const jsonData = await response.json();
-            console.log('Res Presupuesto: ', jsonData);
+            // console.log('Res Presupuesto: ', jsonData);
             return jsonData;
         } catch (error) {
             console.error('Error', error);

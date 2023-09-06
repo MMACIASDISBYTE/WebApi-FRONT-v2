@@ -27,7 +27,7 @@ export const TerminalHelper = {
   fetchData: async function () {
     try {
       const response = await FetchService.Get(this.rutaTabla);
-      console.log("TarifasFwdContHelper.fetchData::response", response);
+      // console.log("TarifasFwdContHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

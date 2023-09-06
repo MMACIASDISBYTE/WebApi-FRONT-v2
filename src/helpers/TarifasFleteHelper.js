@@ -34,7 +34,7 @@ export const TarifasFleteHelper = {
   fetchDataPais: async function () {
     try {
       const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-      console.log("TarifasFleteHelper/vista.fetchData::response", response);
+      // console.log("TarifasFleteHelper/vista.fetchData::response", response);
 
       return response;
     } catch (error) {

@@ -2,11 +2,19 @@ import React from 'react';
 import { Grid, Stack, Select, MenuItem, FormHelperText } from '@mui/material';
 import InputLabel from 'ui-component/extended/Form/InputLabel';
 
-export const CustomSelect = ({ id, name, em, inputLabel, data, formik }) => {
+export const CustomSelect = ({ id, name, em, inputLabel, data, formik, XS=12,  MD=3, PaisRegion = null }) => {
 
+    // console.log(PaisRegion);
+    // Filtramos los datos basados en paisregion_id
+    const filteredData = data.filter((item) => {
+        if (item.hasOwnProperty('paisregion_id')) {
+            return item.paisregion_id === PaisRegion;
+        }
+        return true; // De lo contrario, lo mostramos como está.
+    });
     return (
         <>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={XS} md={MD}>
                 <Stack>
                     <InputLabel required>{inputLabel}</InputLabel>
                     <Select
@@ -29,12 +37,21 @@ export const CustomSelect = ({ id, name, em, inputLabel, data, formik }) => {
                             <em>{em}</em>
                         </MenuItem>
                         {
-                            data && data.length > 0
-                                ? data.map((item) =>
-                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
+                            filteredData && filteredData.length > 0
+                                ? filteredData.map((item) =>
+                                    <MenuItem key={item.id} value={item}>
+                                        {item.description} {item.paisregion_id ? ` - ${item.paisregion_id}`: ''} {item.region ? ` - ${item.region}` : ''}
+                                    </MenuItem>
                                 )
                                 : <MenuItem value="">Sin datos</MenuItem>
                         }
+                        {/* {
+                            data && data.length > 0
+                                ? data.map((item) =>
+                                    <MenuItem key={item.id} value={item}>{item.description} {item.paisregion_id ? ` - ${item.paisregion_id}`: ''} {item.region ? ` - ${item.region}` : ''}</MenuItem>
+                                )
+                                : <MenuItem value="">Sin datos</MenuItem>
+                        } */}
                     </Select>
                     {formik.errors[name] && <FormHelperText error>{formik.errors[name]}</FormHelperText>}
                 </Stack>

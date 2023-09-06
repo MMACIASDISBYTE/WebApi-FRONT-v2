@@ -6,7 +6,8 @@ import { CargaHelper } from 'helpers/CargaHelper';
 import { UtilidadesHelper } from 'helpers/UtilidadesHelper';
 import { useTheme } from '@emotion/react';
 
-export const PesajeContenedor = ({ productsData, tipoContenedor }) => {
+export const PesajeContenedor = ({ productsData = null, tipoContenedor = null }) => {
+    // console.log(productsData, tipoContenedor);
     const theme = useTheme();
     const [peso, setPeso] = useState(0);
     const [volume, setVolumen] = useState(0);
@@ -15,22 +16,23 @@ export const PesajeContenedor = ({ productsData, tipoContenedor }) => {
 
     useEffect(() => {
         if (tipoContenedor) {
-            const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
+            const ContenedorConcatenado = tipoContenedor.id;
+            // console.log(ContenedorConcatenado);
+            // const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
             const contenedorDetalle = async (ContenedorConcatenado) => {
                 const ContenedorData = await CargaHelper.DetalleContenedor(ContenedorConcatenado);
                 console.log(ContenedorData);
                 setContenedor(ContenedorData);
             };
             contenedorDetalle(ContenedorConcatenado);
-            console.log('detalle del contenedor', contenedor);
+            // console.log('detalle del contenedor', contenedor);
             // console.log(contenedor.weight);
-            console.log(ContenedorConcatenado);
+            // console.log(ContenedorConcatenado);
         }
     }, [productsData, tipoContenedor]);
 
 
     useEffect(() => {
-        console.log(contenedor)
         if (contenedor) {
             // 1. Suma de todos los pesoUnitxCaja
             const pesoTotal = productsData.reduce((acc, product) => {
@@ -58,7 +60,7 @@ export const PesajeContenedor = ({ productsData, tipoContenedor }) => {
 
             console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
-        console.log(productsData);
+        // console.log(productsData);
     }, [productsData]);
 
     return (
