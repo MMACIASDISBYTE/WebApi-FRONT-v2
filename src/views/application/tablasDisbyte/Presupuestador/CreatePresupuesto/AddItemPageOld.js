@@ -344,15 +344,15 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
   const [selectedItem, setSelectedItem] = useState({
     id: "",
     modelo: "",
-    qty: 0,
-    ncm_id: "",
-    gwctn: "",
-    pcsctn: "",
-    cbmctn: "",
+    amount: 0,
+    code: "",
+    pesoUnitxCaja: "",
+    cbmxCaja: "",
+    pcsxCaja: "",
   });
 
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [qty, setQty] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [errors, setErrors] = useState({
     quantityError: "",
   });
@@ -362,15 +362,15 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
   const NCMList = dataHelp.NCM.map((item) => ({
     id: item.id,
     description: item.description,
-    ncm_id: item.ncm_id,
-    gwctn: item.gwctn,
-    cbmctn: item.cbmctn,
-    pcsctn: item.pcsctn,
+    code: item.code,
+    pesoUnitxCaja: item.pesoUnitxCaja,
+    cbmxCaja: item.cbmxCaja,
+    pcsxCaja: item.pcsxCaja,
   }));
 
   useEffect(() => {
-    if (selectedItem?.qty) {
-      setQty(selectedItem.qty * selectedQuantity);
+    if (selectedItem?.amount) {
+      setAmount(selectedItem.amount * selectedQuantity);
     }
   }, [selectedQuantity, selectedItem]);
 
@@ -401,7 +401,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       setSelectedItem({
         ...selectedItem,
         id: selectedOption.id++,
-        ncm_id: selectedOption.ncm_id,
+        code: selectedOption.code,
       });
       console.log(selectedItem);
     }
@@ -419,19 +419,19 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       errors.productError = "Product Name is required";
     }
     // Validacion FOb unitario
-    if (!selectedItem?.qty || selectedItem?.qty <= 0) {
+    if (!selectedItem?.amount || selectedItem?.amount <= 0) {
       errors.ValorFOBunitError = "Value Fob is required";
     }
     // Validacion Valor unitario
-    if (!selectedItem?.gwctn || selectedItem?.gwctn <= 0) {
+    if (!selectedItem?.pesoUnitxCaja || selectedItem?.pesoUnitxCaja <= 0) {
       errors.ValorUnitError = "Value is required";
     }
     // Validacion Vol x caja
-    if (!selectedItem?.cbmctn || selectedItem?.cbmctn <= 0) {
+    if (!selectedItem?.cbmxCaja || selectedItem?.cbmxCaja <= 0) {
       errors.cbmxCajaError = "Value Vol. x caja is required";
     }
     // Validacion Piezas x caja
-    if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
+    if (!selectedItem?.pcsxCaja || selectedItem?.pcsxCaja <= 0) {
       errors.pcsxCajaError = "Value Pieza x caja is required";
     }
 
@@ -444,7 +444,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     const data = {
       ...selectedItem,
       id: counter, // Aquí es donde generas el nuevo id
-      totalAmount: qty,
+      totalAmount: amount,
       selectedQuantity,
     };
 
@@ -454,9 +454,17 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
 
   return (
     <>
+
+
+
+
+
+
+
+
+    
       {/* PRODUCTO */}
       <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} md={6}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">Producto</Typography>
@@ -522,7 +530,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       >
                         {selectedData.description}
                       </Typography>
-                      <Typography>Code : {selectedData.ncm_id}</Typography>
+                      <Typography>Code : {selectedData.code}</Typography>
                     </Stack>
                   );
                 }}
@@ -542,7 +550,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       <Typography variant="subtitle1">
                         {item.description}
                       </Typography>
-                      <Typography>Code : {item.ncm_id}</Typography>
+                      <Typography>Code : {item.code}</Typography>
                     </Stack>
                   </MenuItem>
                 ))}
@@ -589,9 +597,9 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                   fullWidth
                   type="number"
                   name="ValorFOBunit"
-                  value={selectedItem?.qty || ""}
+                  value={selectedItem?.amount || ""}
                   onChange={(e) =>
-                    setSelectedItem({ ...selectedItem, qty: e.target.value })
+                    setSelectedItem({ ...selectedItem, amount: e.target.value })
                   }
                   error={Boolean(errors.ValorFOBunitError)}
                   placeholder="Enter Product Value"
@@ -617,11 +625,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                   type="number"
                   name="ValorUnit"
                   displayEmpty
-                  value={selectedItem?.gwctn || ""}
+                  value={selectedItem?.pesoUnitxCaja || ""}
                   onChange={(e) =>
                     setSelectedItem({
                       ...selectedItem,
-                      gwctn: e.target.value,
+                      pesoUnitxCaja: e.target.value,
                     })
                   }
                   error={Boolean(errors.ValorUnitError)}
@@ -646,13 +654,13 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                 <TextField
                   fullWidth
                   type="number"
-                  name="cbmctn"
+                  name="cbmxCaja"
                   displayEmpty
-                  value={selectedItem?.cbmctn || ""}
+                  value={selectedItem?.cbmxCaja || ""}
                   onChange={(e) =>
                     setSelectedItem({
                       ...selectedItem,
-                      cbmctn: e.target.value,
+                      cbmxCaja: e.target.value,
                     })
                   }
                   error={Boolean(errors.cbmxCajaError)}
@@ -677,13 +685,13 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                 <TextField
                   fullWidth
                   type="number"
-                  name="pcsctn"
+                  name="pcsxCaja"
                   displayEmpty
-                  value={selectedItem?.pcsctn || ""}
+                  value={selectedItem?.pcsxCaja || ""}
                   onChange={(e) =>
                     setSelectedItem({
                       ...selectedItem,
-                      pcsctn: e.target.value,
+                      pcsxCaja: e.target.value,
                     })
                   }
                   error={Boolean(errors.pcsxCajaError)}
@@ -705,7 +713,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         <Typography variant="subtitle1" id="itemAmount">
                             FOB Total
                         </Typography>
-                        <TextField fullWidth name="qty" value={qty} disabled />
+                        <TextField fullWidth name="amount" value={amount} disabled />
                     </Stack>
                 </Grid> */}
 

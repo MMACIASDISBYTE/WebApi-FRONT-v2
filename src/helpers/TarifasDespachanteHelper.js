@@ -24,7 +24,7 @@ export const TarifasDespachanteHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('TarifasDespachanteHelper.fetchData::response', response);
+            // console.log('TarifasDespachanteHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

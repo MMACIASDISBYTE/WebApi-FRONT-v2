@@ -386,7 +386,6 @@ function CreateInvoice() {
       usarmoneda_local: "true",
       carga_id: null,
       fwdpaisregion_id: null,
-      freightFwd: "PANAMA", //hardcodeado
       //   polizaProv: null,
       dolar: "",
       tarifsource: 511, //harcodeado (formula de calculo)
@@ -594,12 +593,12 @@ function CreateInvoice() {
         modelo: addingData.modelo,
         // description: addingData.desc,
         cantPcs: addingData.selectedQuantity,
-        cbmxCaja: addingData.cbmxCaja,
+        cbmctn: addingData.cbmctn,
         fobUnit: addingData.amount,
-        ncm: addingData.code,
+        ncm_id: addingData.ncm_id,
         total: addingData.totalAmount,
-        pcsxCaja: addingData.pcsxCaja,
-        pesoUnitxCaja: addingData.pesoUnitxCaja,
+        pcsxCaja: addingData.pcsctn,
+        gwctn: addingData.gwctn,
       },
     ]);
     console.log(addingData);

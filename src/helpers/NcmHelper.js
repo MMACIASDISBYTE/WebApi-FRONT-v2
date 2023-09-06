@@ -13,7 +13,8 @@ export const NcmHelper = {
             const response = await fetch(`${this.baseUrl}/${this.rutaTabla}`);
             const jsonData = await response.json();
             const jsonDataStatus = await response;
-            return [jsonData, jsonDataStatus];
+            // return [jsonData, jsonDataStatus];
+            return jsonData;
         } catch (error) {
             console.error('Error', error);
             return null;

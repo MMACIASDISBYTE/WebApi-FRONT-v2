@@ -21,16 +21,18 @@ export const CustomSelect = ({
   MD = 3,
   PaisRegion = null,
 }) => {
-    // console.log(PaisRegion);
-    // Filtramos los datos basados en paisregion_id solo si data es un array
+  // console.log(PaisRegion);
+  // Filtramos los datos basados en paisregion_id solo si data es un array
 
-    // Podemos acceder al valor seleccionado desde formik.values[name]
-   const selectedValue = formik.values[name];
+  // Podemos acceder al valor seleccionado desde formik.values[name], para poder manejar la fecha en el tooltip
+  const selectedValue = formik.values[name];
+  // Vamos a obtener la información que queremos mostrar en el tooltip
+  const tooltipInfo =
+    selectedValue && selectedValue != null
+      ? `Fecha: ${new Date(selectedValue.htimestamp).toLocaleDateString()}`
+      : "";
 
-   // Vamos a obtener la información que queremos mostrar en el tooltip
-  const tooltipInfo = (selectedValue && selectedValue != null) ? `Fecha: ${new Date(selectedValue.htimestamp).toLocaleDateString()}`   : "";
-  console.log(tooltipInfo);
-
+  //filtro  si es un select o un String para el input, como tambien unicamente muestro los que corresponden al pais seleccionado en la primera parte de la cabecera
   const filteredData = Array.isArray(data)
     ? data.filter((item) => {
         if (item.hasOwnProperty("paisregion_id")) {
@@ -46,7 +48,9 @@ export const CustomSelect = ({
           <InputLabel required>{inputLabel}</InputLabel>
           {/* Si data existe, mostramos el Select. Si no, mostramos el TextField. */}
           {data !== "String" ? (
-            <Tooltip title={tooltipInfo != 'Fecha: Invalid Date' ? tooltipInfo : ''}>
+            <Tooltip    //consulto si trae una fecha valida mostrar la fecha con formato sino no mostrar nada
+              title={tooltipInfo != "Fecha: Invalid Date" ? tooltipInfo : ""}
+            >
               <Select
                 id={id}
                 name={name}

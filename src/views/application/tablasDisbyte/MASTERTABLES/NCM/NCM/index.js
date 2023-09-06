@@ -352,18 +352,19 @@ const ProductList = () => {
   const fetchData = async (accessToken) => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const [jsonData, jsonDataStatus] = await NcmHelper.fetchData();
+      // const [jsonData, jsonDataStatus] = await NcmHelper.fetchData();
+      const jsonData = await NcmHelper.fetchData();
       //console.log(jsonData);
       //console.log(jsonDataStatus.status);
       setRows(jsonData);
       // aca manejo los errores, y rederijo hay q importar navegate
-      if (jsonDataStatus.status !== 200) {
-        navigate("/pages/error");
-      }
+      // if (jsonDataStatus.status !== 200) {
+      //   navigate("/pages/error");
+      // }
     } catch (error) {
       console.log(error);
-      console.log("Prueba");
-      navigate("/pages/error");
+      // console.log("Prueba");
+      // navigate("/pages/error");
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
