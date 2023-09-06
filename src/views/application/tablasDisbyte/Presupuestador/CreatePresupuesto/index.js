@@ -85,7 +85,7 @@ const validationSchema = yup.object({
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
   description: yup.string().nullable().required("La descripcion is required"),
-    
+
   // freightFwd: yup.object().nullable().required('Pais de origen is required'),
 
   //   p_gloc_banco: yup
@@ -183,7 +183,6 @@ const validationSchema = yup.object({
     })
     .nullable()
     .required("Proveedor Oem is required"),
-
 });
 
 // ==============================|| CREATE INVOICE ||============================== //
@@ -343,7 +342,6 @@ function CreateInvoice() {
       inputLabel: "Proveedores Oem",
       data: dataHelp.proveedoresOem,
     },
-    
   ];
   //   console.log(cellInput);
 
@@ -359,12 +357,12 @@ function CreateInvoice() {
 
   const cabeceraNota = [
     {
-        id: "description",
-        name: "description",
-        em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
-        inputLabel: "Descripcion",
-        data: 'String',
-      },
+      id: "description",
+      name: "description",
+      em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
+      inputLabel: "Descripcion",
+      data: "String",
+    },
   ];
 
   useEffect(() => {
@@ -402,7 +400,6 @@ function CreateInvoice() {
       tarifasgestdigdoc_id: null,
 
       pesoTotal: 0,
-      
 
       //gastos
       extrag_comex1: 0,
@@ -436,7 +433,6 @@ function CreateInvoice() {
       iibb_total: 0,
 
       proveedores_id: null, //va en el details
-      
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -485,8 +481,9 @@ function CreateInvoice() {
               ? values.tarifasgestdigdoc_id.id
               : "",
 
-            proveedores_id: values.proveedores_id ? values.proveedores_id.description : "",
-            
+            proveedores_id: values.proveedores_id
+              ? values.proveedores_id.description
+              : "",
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -919,14 +916,14 @@ function CreateInvoice() {
                   {
                     //COMPONENTE DE INPUTS que maneja la data de cellInput *
                     cellInput.map((field) => (
-                      <CustomSelect
-                        key={field.id}
-                        {...field}
-                        formik={formik}
-                        XS={12}
-                        MD={2}
-                        PaisRegion={formik.values.paisregion_id.id}
-                      />
+                        <CustomSelect
+                          key={field.id}
+                          {...field}
+                          formik={formik}
+                          XS={12}
+                          MD={2}
+                          PaisRegion={formik.values.paisregion_id.id}
+                        />
                     ))
                   }
                   {/* CARGA DE PRODUCTOS */}
