@@ -84,7 +84,8 @@ const validationSchema = yup.object({
   own: yup.string().required("Customer Name is Required"),
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
-
+  description: yup.string().nullable().required("La descripcion is required"),
+    
   // freightFwd: yup.object().nullable().required('Pais de origen is required'),
 
   //   p_gloc_banco: yup
@@ -183,37 +184,6 @@ const validationSchema = yup.object({
     .nullable()
     .required("Proveedor Oem is required"),
 
-  //   p_gloc_tte: yup
-  //     .object()
-  //     .shape({
-  //       description: yup.string(),
-  //     })
-  //     .nullable()
-  //     .required("Flete is required"),
-
-  //   p_gloc_cust: yup
-  //     .object()
-  //     .shape({
-  //       description: yup.string(),
-  //     })
-  //     .nullable()
-  //     .required("Custodia is required"),
-
-  //   p_gloc_gestdigdoc: yup
-  //     .object()
-  //     .shape({
-  //       description: yup.string(),
-  //     })
-  //     .nullable()
-  //     .required("Gest Digital is required"),
-
-  //   p_gloc_despa: yup
-  //     .object()
-  //     .shape({
-  //       description: yup.string(),
-  //     })
-  //     .nullable()
-  //     .required("Despachante is required"),
 });
 
 // ==============================|| CREATE INVOICE ||============================== //
@@ -261,17 +231,17 @@ function CreateInvoice() {
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
 
     const objData = {
-    //   banco,
-    //   poliza,
-    //   custodia,
-    //   flete,
-    //   gesDigDoc,
-    //   despachante,
-    //   canal,
-    //   deposito,
-    //   estimate,
-    //   fwdtte,
-    // origen,
+      //   banco,
+      //   poliza,
+      //   custodia,
+      //   flete,
+      //   gesDigDoc,
+      //   despachante,
+      //   canal,
+      //   deposito,
+      //   estimate,
+      //   fwdtte,
+      // origen,
       carga,
       proveedoresOem,
       NCM,
@@ -373,55 +343,7 @@ function CreateInvoice() {
       inputLabel: "Proveedores Oem",
       data: dataHelp.proveedoresOem,
     },
-    // {
-    //   id: "Notas",
-    //   name: "notas",
-    //   em: "Seleccione un Proveedor",
-    //   inputLabel: "Nota",
-    //   data: null,
-    // },
-    // {
-    //   id: "p_gloc_banco",
-    //   name: "p_gloc_banco",
-    //   em: "Seleccione un banco",
-    //   inputLabel: "Banco",
-    //   data: dataHelp.banco,
-    // },
-    // {
-    //   id: "polizaProv",
-    //   name: "polizaProv",
-    //   em: "Seleccione un Poliza",
-    //   inputLabel: "Poliza",
-    //   data: dataHelp.poliza,
-    // },
-    // {
-    //   id: "p_gloc_tte",
-    //   name: "p_gloc_tte",
-    //   em: "Seleccione un Flete",
-    //   inputLabel: "Flete",
-    //   data: dataHelp.flete,
-    // },
-    // {
-    //   id: "p_gloc_cust",
-    //   name: "p_gloc_cust",
-    //   em: "Seleccione un Custodia",
-    //   inputLabel: "Custodia",
-    //   data: dataHelp.custodia,
-    // },
-    // {
-    //   id: "p_gloc_gestdigdoc",
-    //   name: "p_gloc_gestdigdoc",
-    //   em: "Seleccione una Gest. Digital",
-    //   inputLabel: "Gestion DIgital",
-    //   data: dataHelp.gesDigDoc,
-    // },
-    // {
-    //   id: "p_gloc_despa",
-    //   name: "p_gloc_despa",
-    //   em: "Seleccione un Despachante",
-    //   inputLabel: "Despachante",
-    //   data: dataHelp.despachante,
-    // },
+    
   ];
   //   console.log(cellInput);
 
@@ -435,6 +357,16 @@ function CreateInvoice() {
     },
   ];
 
+  const cabeceraNota = [
+    {
+        id: "description",
+        name: "description",
+        em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
+        inputLabel: "Descripcion",
+        data: 'String',
+      },
+  ];
+
   useEffect(() => {
     dataHelpers();
   }, []);
@@ -442,6 +374,7 @@ function CreateInvoice() {
 
   const formik = useFormik({
     initialValues: {
+      description: null,
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -469,13 +402,7 @@ function CreateInvoice() {
       tarifasgestdigdoc_id: null,
 
       pesoTotal: 0,
-    //   p_gloc_banco: null,
-    //   p_gloc_fwder: "No aplica", //proveedor local
-    //   p_gloc_term: "No aplica",
-    //   p_gloc_despa: null,
-    //   p_gloc_tte: null,
-    //   p_gloc_cust: null,
-    //   p_gloc_gestdigdoc: null,
+      
 
       //gastos
       extrag_comex1: 0,
@@ -508,30 +435,8 @@ function CreateInvoice() {
       freight_insurance_cost: 0,
       iibb_total: 0,
 
-      proveedores_id: null,
-      //   oemprove2: "",
-      //   oemprove3: "",
-      //   oemprove4: "",
-      //   oemprove5: "",
-      //   oemprove6: "",
-      //   oemprove7: "",
-
-    //   id_PolizaProv: 1,
-    //   id_p_gloc_banco: null,
-    //   id_p_gloc_fwder: 1,
-    //   id_p_gloc_term: 1,
-    //   id_p_gloc_despa: 1,
-    //   id_p_gloc_tte: 1,
-    //   id_p_gloc_cust: 1,
-    //   id_p_gloc_gestdigdoc: 1,
-
-      //   id_oemprove1: 1,
-      //   id_oemprove2: 1,
-      //   id_oemprove3: 1,
-      //   id_oemprove4: 1,
-      //   id_oemprove5: 1,
-      //   id_oemprove6: 1,
-      //   id_oemprove7: 1,
+      proveedores_id: null, //va en el details
+      
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -549,8 +454,8 @@ function CreateInvoice() {
             ivaExcento: values.ivaExcento === "true", // Convierte el string a booleano
 
             // nuevos inputs
+            description: values.description ? values.description : "",
             paisregion_id: values.paisregion_id ? values.paisregion_id.id : "",
-
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
 
@@ -580,40 +485,8 @@ function CreateInvoice() {
               ? values.tarifasgestdigdoc_id.id
               : "",
 
-            // antiguos inputs
-            // polizaProv: values.polizaProv ? values.polizaProv.description : "",
-            // id_PolizaProv: values.polizaProv ? values.polizaProv.id : 1,
-
-            // p_gloc_banco: values.p_gloc_banco
-            //   ? values.p_gloc_banco.description
-            //   : "",
-            // id_p_gloc_banco: values.p_gloc_banco ? values.p_gloc_banco.id : 3, // valor harcodeado
-            // id_p_gloc_fwder: values.fwdtte ? values.fwdtte.id : 1, // proveedor local solo mostrar el id
-            // id_p_gloc_term: 1,
-            // p_gloc_despa: values.p_gloc_despa
-            //   ? values.p_gloc_despa.description
-            //   : "",
-            // id_p_gloc_despa: values.p_gloc_despa ? values.p_gloc_despa.id : 1, // Recupera el id,
-            // p_gloc_tte: values.p_gloc_tte ? values.p_gloc_tte.description : "",
-            // id_p_gloc_tte: values.p_gloc_tte ? values.p_gloc_tte.id : 1,
-            // p_gloc_cust: values.p_gloc_cust
-            //   ? values.p_gloc_cust.description
-            //   : "",
-            // id_p_gloc_cust: values.p_gloc_cust ? values.p_gloc_cust.id : 1,
-            // p_gloc_gestdigdoc: values.p_gloc_gestdigdoc
-            //   ? values.p_gloc_gestdigdoc.description
-            //   : "",
-            // id_p_gloc_gestdigdoc: values.p_gloc_gestdigdoc
-            //   ? values.p_gloc_gestdigdoc.id
-            //   : 1,
-            // proveedores_id: values.proveedores_id ? values.proveedores_id.description : "",
-            // id_oemprove1: values.proveedores_id ? values.proveedores_id.id : 1,
-            // id_oemprove2: 1,
-            // id_oemprove3: 1,
-            // id_oemprove4: 1,
-            // id_oemprove5: 1,
-            // id_oemprove6: 1,
-            // id_oemprove7: 1,
+            proveedores_id: values.proveedores_id ? values.proveedores_id.description : "",
+            
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -811,8 +684,32 @@ function CreateInvoice() {
                 </Stack>
               </Grid>
 
+              {/* STATUS */}
+              <Grid
+                item
+                xs={12}
+                md={3}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-end",
+                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
+                }}
+              >
+                <Chip
+                  label={`Status: ${
+                    formik.values.status == 1
+                      ? "Estado inicial"
+                      : "Segundo estadio"
+                  }`}
+                  size="string"
+                  chipcolor="orange"
+                />
+              </Grid>
+
               {/* ESPACIO DE RELLENO */}
-              <Grid item md={3}></Grid>
+              <Grid item md={1}></Grid>
 
               {/* RADIO DE MONEDA LOCAL */}
               <Grid item xs={12} md={2} align="right">
@@ -860,7 +757,7 @@ function CreateInvoice() {
               </Grid>
 
               {/* TIPO DE CAMBIO */}
-              <Grid item xs={12} md={3} align="right">
+              <Grid item xs={12} md={2} align="right">
                 <Stack>
                   <InputLabel required>Dolar</InputLabel>
                   <TextField
@@ -936,32 +833,18 @@ function CreateInvoice() {
                 </Stack>
               </Grid>
 
-              {/* STATUS */}
-              <Grid
-                item
-                xs={12}
-                md={2}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-end",
-                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
-                }}
-              >
-                <Chip
-                  label={`Status: ${
-                    formik.values.status == 1
-                      ? "Estado inicial"
-                      : "Segundo estadio"
-                  }`}
-                  size="string"
-                  chipcolor="orange"
+              {cabeceraNota.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={4}
                 />
-              </Grid>
+              ))}
 
               {/* ESPACIO DE RELLENO */}
-              <Grid item md={1}></Grid>
+              {/* <Grid item md={0}></Grid> */}
 
               {/* RADIO DEL IVA */}
               <Grid item xs={12} md={2} align="right">
@@ -1007,7 +890,7 @@ function CreateInvoice() {
               </Grid>
 
               {/* FECHA DE FACTURACION */}
-              <Grid item xs={12} md={3} align="right">
+              <Grid item xs={12} md={2} align="right">
                 <Stack>
                   <InputLabel required>Fecha de Emisión</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -1041,7 +924,7 @@ function CreateInvoice() {
                         {...field}
                         formik={formik}
                         XS={12}
-                        MD={3}
+                        MD={2}
                         PaisRegion={formik.values.paisregion_id.id}
                       />
                     ))
