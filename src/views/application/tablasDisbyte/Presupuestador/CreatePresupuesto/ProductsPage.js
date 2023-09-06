@@ -9,7 +9,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 //
 function ProductsPage({ productsData, deleteProductHandler, editProductHandler }) {
     
-    
+    console.log(productsData);
     return (
         <>
             {productsData.length ? (
@@ -43,11 +43,11 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                             </Typography> */}
                                         </TableCell>
                                         <TableCell align="right">{row.cantPcs}</TableCell>
-                                        <TableCell align="right">${row.fobUnit}</TableCell>
-                                        <TableCell align="right">{row.pesoUnitxCaja}</TableCell>
-                                        <TableCell align="right">{row.cbmxCaja}</TableCell> 
-                                        <TableCell align="right">{row.pcsxCaja}</TableCell> 
-                                        <TableCell align="right">{row.ncm}</TableCell> 
+                                        <TableCell align="right">${row.qty}</TableCell>
+                                        <TableCell align="right">{row.gwctn}</TableCell>
+                                        <TableCell align="right">{row.cbmctn}</TableCell> 
+                                        <TableCell align="right">{row.pcsctn}</TableCell> 
+                                        <TableCell align="right">{row.ncm_id}</TableCell> 
                                         <TableCell align="right">${row.total}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
                                             <IconButton

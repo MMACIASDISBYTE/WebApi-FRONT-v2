@@ -362,7 +362,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
   const NCMList = dataHelp.NCM.map((item) => ({
     id: item.id,
     description: item.description,
-    ncm_id: item.ncm_id,
+    ncm_id: item.id,
+    ncm_code: item.code,
     gwctn: item.gwctn,
     cbmctn: item.cbmctn,
     pcsctn: item.pcsctn,

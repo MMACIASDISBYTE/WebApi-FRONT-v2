@@ -594,10 +594,11 @@ function CreateInvoice() {
         // description: addingData.desc,
         cantPcs: addingData.selectedQuantity,
         cbmctn: addingData.cbmctn,
-        fobUnit: addingData.amount,
+        qty: addingData.qty,
         ncm_id: addingData.ncm_id,
+        ncm_code: addingData.ncm_id,
         total: addingData.totalAmount,
-        pcsxCaja: addingData.pcsctn,
+        pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
       },
     ]);
