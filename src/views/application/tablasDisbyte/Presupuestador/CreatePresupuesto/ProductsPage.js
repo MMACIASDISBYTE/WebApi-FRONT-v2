@@ -34,7 +34,7 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                     <TableRow key={index}>
                                         <TableCell sx={{ pl: 3 }}>
                                             <Typography align="left" variant="subtitle1">
-                                                {row.modelo}
+                                                {row.description}
                                             </Typography>
                                             {/*<Typography align="left" variant="body2"> X SI AGREGAMOS ALGUNA DESCRIPTCION
                                             {row.description}
@@ -47,7 +47,8 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                         <TableCell align="right">{row.gwctn}</TableCell>
                                         <TableCell align="right">{row.cbmctn}</TableCell> 
                                         <TableCell align="right">{row.pcsctn}</TableCell> 
-                                        <TableCell align="right">{row.ncm_id}</TableCell> 
+                                        {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
+                                        <TableCell align="right">{row.ncm_code}</TableCell> 
                                         <TableCell align="right">${row.total}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
                                             <IconButton

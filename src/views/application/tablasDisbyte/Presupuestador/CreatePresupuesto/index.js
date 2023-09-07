@@ -444,8 +444,8 @@ function CreateInvoice() {
         const postData = {
           estHeaderDB: {
             ...values, // Incluye los valores del formulario (cabecera)
-            ArticleFamily: productsData[0].modelo || "Sin Detalle de familia",
-            description: productsData[0].modelo || "Sin Detalle de familia",
+            ArticleFamily: productsData[0].description || "Sin Detalle de familia",
+            description: productsData[0].description || "Sin Detalle de familia",
             ivaExcento: values.ivaExcento === "true", // Convierte el string a booleano
 
             // nuevos inputs
@@ -590,16 +590,20 @@ function CreateInvoice() {
       ...productsData,
       {
         id: addingData.id,
-        modelo: addingData.modelo,
+        description: addingData.description,
         // description: addingData.desc,
         cantPcs: addingData.selectedQuantity,
         cbmctn: addingData.cbmctn,
         qty: addingData.qty,
         ncm_id: addingData.ncm_id,
-        ncm_code: addingData.ncm_id,
+        ncm_code: addingData.ncm_code,
         total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
+        proveedores_id: addingData.proveedores_id,
+        ncm_ack: true, //aplicar el RadioGroup,
+        sku: addingData.sku,
+        
       },
     ]);
     console.log(addingData);

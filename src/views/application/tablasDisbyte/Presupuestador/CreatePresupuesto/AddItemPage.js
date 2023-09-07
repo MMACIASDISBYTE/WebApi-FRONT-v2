@@ -343,12 +343,14 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
 
   const [selectedItem, setSelectedItem] = useState({
     id: "",
-    modelo: "",
+    description: "",
     qty: 0,
     ncm_id: "",
     gwctn: "",
     pcsctn: "",
     cbmctn: "",
+    proveedores_id: null,
+    sku: "",
   });
 
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -369,42 +371,87 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     pcsctn: item.pcsctn,
   }));
 
+  const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
+    id: item.id,
+    description: item.description,
+    // ncm_id: item.id,
+    // ncm_code: item.code,
+    // gwctn: item.gwctn,
+    // cbmctn: item.cbmctn,
+    // pcsctn: item.pcsctn,
+  }));
+
   useEffect(() => {
     if (selectedItem?.qty) {
       setQty(selectedItem.qty * selectedQuantity);
     }
   }, [selectedQuantity, selectedItem]);
 
+  //   const handleChange = (event) => {
+  //     const value = event.target.value;
+  //     if (event.target.name === "quantity") {
+  //       if (Number(value) < 0) {
+  //         setErrors({
+  //           ...errors,
+  //           quantityError: "negative values not allowed",
+  //         });
+  //         setSelectedQuantity(value);
+  //       } else if (Number(value) === 0) {
+  //         setErrors({
+  //           ...errors,
+  //           quantityError: "quantity can not be zero",
+  //         });
+  //         setSelectedQuantity(value);
+  //       } else {
+  //         setSelectedQuantity(value);
+  //         setErrors({
+  //           ...errors,
+  //           quantityError: "",
+  //         });
+  //       }
+  //     } else {
+  //       const selectedOption = NCMList.find((item) => item.id === value);
+  //       setSelectedItem({
+  //         ...selectedItem,
+  //         id: selectedOption.id++,
+  //         ncm_id: selectedOption.ncm_id,
+  //         ncm_code: selectedOption.ncm_code,
+  //       });
+  //       console.log(selectedItem);
+  //     }
+  //   };
+
   const handleChange = (event) => {
     const value = event.target.value;
     if (event.target.name === "quantity") {
-      if (Number(value) < 0) {
-        setErrors({
-          ...errors,
-          quantityError: "negative values not allowed",
-        });
-        setSelectedQuantity(value);
-      } else if (Number(value) === 0) {
-        setErrors({
-          ...errors,
-          quantityError: "quantity can not be zero",
-        });
-        setSelectedQuantity(value);
-      } else {
-        setSelectedQuantity(value);
-        setErrors({
-          ...errors,
-          quantityError: "",
-        });
-      }
-    } else {
-      const selectedOption = NCMList.find((item) => item.id === value);
-      setSelectedItem({
-        ...selectedItem,
-        id: selectedOption.id++,
-        ncm_id: selectedOption.ncm_id,
+      setErrors({
+        ...errors,
+        quantityError: "negative values not allowed",
       });
-      console.log(selectedItem);
+      setSelectedQuantity(value);
+    } else {
+      let selectedList;
+      let selectedData = {};
+      if (event.target.name === "ncm_id") {
+        selectedList = NCMList;
+        selectedData = {
+          ncm_id: "id",
+          ncm_code: "ncm_code",
+          // otros campos relevantes aquí
+        };
+      } else if (event.target.name === "proveedores_id") {
+        selectedList = ProveedoresList;
+        selectedData = {
+          proveedores_id: "id",
+          // otros campos relevantes aquí
+        };
+      }
+      const selectedOption = selectedList.find((item) => item.id === value);
+      let updatedSelectedItem = { ...selectedItem };
+      Object.keys(selectedData).forEach((key) => {
+        updatedSelectedItem[key] = selectedOption[selectedData[key]];
+      });
+      setSelectedItem(updatedSelectedItem);
     }
   };
 
@@ -412,11 +459,14 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     let errors = {}; // creo objeto de errores
     // validación de campos
     // Validacion NCM
-    if (!selectedItem?.id) {
+    if (!selectedItem?.ncm_id) {
       errors.NCMError = "NCM is required";
     }
+    if (!selectedItem?.proveedores_id) {
+      errors.ProveedoresError = "Proveedor is required";
+    }
     // Validacion producto
-    if (!selectedItem?.modelo || !selectedItem?.modelo.trim()) {
+    if (!selectedItem?.description || !selectedItem?.description.trim()) {
       errors.productError = "Product Name is required";
     }
     // Validacion FOb unitario
@@ -455,9 +505,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
 
   return (
     <>
-      {/* PRODUCTO */}
       <Grid container spacing={gridSpacing}>
-        
+      {/* PRODUCTO */}
         <Grid item xs={12} md={6}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">Producto</Typography>
@@ -467,11 +516,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                   fullWidth
                   displayEmpty
                   error={Boolean(errors.productError)}
-                  value={selectedItem?.modelo || ""}
+                  value={selectedItem?.description || ""}
                   onChange={(e) =>
                     setSelectedItem({
                       ...selectedItem,
-                      modelo: e.target.value,
+                      description: e.target.value,
                     })
                   }
                   placeholder="Enter Product Name"
@@ -485,15 +534,116 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
           </Stack>
         </Grid>
 
+        {/* SKU */}
+        <Grid item xs={12} md={3}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">Sku</Typography>
+            <FormControl>
+              <tooltip title="Sku a importar">
+                <TextField
+                  fullWidth
+                  displayEmpty
+                  error={Boolean(errors.productError)}
+                  value={selectedItem?.sku || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      sku: e.target.value,
+                    })
+                  }
+                  placeholder="Enter Sku Name"
+                />
+              </tooltip>
+              {errors.productError && (
+                <FormHelperText>{errors.productError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
+
+        {/* Select PROVEEDORES */}
+        <Grid item xs={12} md={3}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">Proveedores</Typography>
+            <FormControl fullWidth error={Boolean(errors.ProveedoresError)}>
+              <Select
+                name="proveedores_id"
+                fullWidth
+                displayEmpty
+                value={selectedItem?.proveedores_id || ""}
+                onChange={handleChange}
+                input={<OutlinedInput />}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return (
+                      <Typography
+                        color="textSecondary"
+                        sx={{ lineHeight: "1.4375em" }}
+                      >
+                        Select Proveedor
+                      </Typography>
+                    );
+                  }
+                  const selectedData = ProveedoresList.filter(
+                    (item) => item.id === selected
+                  )[0];
+                  return (
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{ width: "100%" }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ lineHeight: "1.4375em" }}
+                      >
+                        {selectedData.description}
+                      </Typography>
+                      <Typography>Id : {selectedData.id}</Typography>
+                    </Stack>
+                  );
+                }}
+                inputProps={{ "aria-label": "Without label" }}
+              >
+                <MenuItem disabled value="">
+                  <Typography color="textSecondary">Select NCM</Typography>
+                </MenuItem>
+                {ProveedoresList.map((item, i) => (
+                  <MenuItem key={i} value={item.id}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{ width: "100%" }}
+                    >
+                      <Typography variant="subtitle1">
+                        {item.description}
+                      </Typography>
+                      <Typography>id : {item.id}</Typography>
+                    </Stack>
+                  </MenuItem>
+                ))}
+              </Select>
+              {errors.ProveedoresError && (
+                <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
+
         {/* POSICION ARANCELARIA // NCM */}
         <Grid item xs={12} md={6}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">NCM</Typography>
             <FormControl fullWidth error={Boolean(errors.NCMError)}>
               <Select
+                name="ncm_id"
                 fullWidth
                 displayEmpty
-                value={selectedItem?.id || ""}
+                value={selectedItem?.ncm_id || ""}
                 onChange={handleChange}
                 input={<OutlinedInput />}
                 renderValue={(selected) => {
@@ -523,7 +673,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       >
                         {selectedData.description}
                       </Typography>
-                      <Typography>Code : {selectedData.ncm_id}</Typography>
+                      <Typography>Code : {selectedData.ncm_code}</Typography>
                     </Stack>
                   );
                 }}
@@ -543,7 +693,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       <Typography variant="subtitle1">
                         {item.description}
                       </Typography>
-                      <Typography>Code : {item.ncm_id}</Typography>
+                      <Typography>Code : {item.code}</Typography>
                     </Stack>
                   </MenuItem>
                 ))}
