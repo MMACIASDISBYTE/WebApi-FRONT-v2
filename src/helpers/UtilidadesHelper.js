@@ -50,5 +50,15 @@ export const UtilidadesHelper = {
     formatNumber: function(number) {
         return new Intl.NumberFormat('es-ES').format(parseFloat(number));
     },
+    fechaParaVista: function(){
+        const today = new Date();
+        const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
+        return dateString;
+    },
+    fechaParaDB: function(){
+        const today = new Date();
+        const isoString = today.toISOString();
+        return isoString;
+    },
 
 };

@@ -34,16 +34,16 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
 
     useEffect(() => {
         if (contenedor) {
-            // 1. Suma de todos los pesoUnitxCaja
+            // 1. Suma de todos los gwctn
             const pesoTotal = productsData.reduce((acc, product) => {
-                const peso = parseFloat(product.pesoUnitxCaja || product.pesounitxcaja || 0);
+                const peso = parseFloat(product.gwctn || product.gwctn || 0);
                 const cantPcs = parseFloat(product.cantPcs || product.cantpcs || 1); 
                 return acc + (peso * cantPcs);
             }, 0);
 
-            // 2. Suma de todos los cbmxCaja
+            // 2. Suma de todos los cbmctn
             const CMB_grandTotal = productsData.reduce((acc, product) => {
-                const cbm = parseFloat(product.cbmxCaja || product.cbmxcaja || 0);
+                const cbm = parseFloat(product.cbmctn || product.cbmctn || 0);
                 const cantPcs = parseFloat(product.cantPcs || product.cantpcs || 1); 
                 return acc + (cbm * cantPcs);
             }, 0);
@@ -60,7 +60,7 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
 
             console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
-        // console.log(productsData);
+        console.log(productsData);
     }, [productsData]);
 
     return (

@@ -12,13 +12,11 @@ import {
   Select,
   Stack,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 
 // project imports
 import { gridSpacing } from "store/constant";
-import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // ==============================|| ADD ITEM PAGE ||============================== //
 //
@@ -29,7 +27,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "sku",
       name: "sku",
-      inputName: "Sku",
       em: "Ingrese un sku",
       data: "String",
       xs_md: [12, 3],
@@ -39,48 +36,43 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "description",
       name: "description",
-      inputName: "Descripcion",
       em: "Ingrese una Descripcion",
       data: "String",
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
     },
-    // {
-    //   id: "proveedores_id",
-    //   name: "proveedores_id",
-    //   inputName: '',
-    //   em: "Ingrese un Proveedor",
-    //   data: dataHelp.proveedoresOem,
-    //   xs_md: [12, 3],
-    //   isDisabled: false,
-    //   oculto: false,
-    // },
-    // {
-    //   id: "ncm_id",
-    //   name: "ncm_id",
-    //   inputName: '',
-    //   em: "Ingrese una Descripcion",
-    //   data: dataHelp.NCM,
-    //   xs_md: [12, 3],
-    //   isDisabled: false,
-    //   oculto: false,
-    // },
+    {
+      id: "proveedores_id",
+      name: "proveedores_id",
+      em: "Ingrese un Proveedor",
+      data: dataHelp.proveedoresOem,
+      xs_md: [12, 3],
+      isDisabled: false,
+      oculto: false,
+    },
+    {
+      id: "ncm_id",
+      name: "ncm_id",
+      em: "Ingrese una Descripcion",
+      data: dataHelp.NCM,
+      xs_md: [12, 3],
+      isDisabled: false,
+      oculto: false,
+    },
     {
       id: "ncm_ack",
       name: "ncm_ack",
-      inputName: "NCM ack",
       em: "Ingrese una Descripcion",
       data: "Bool",
       xs_md: [12, 3],
-      isDisabled: true,
-      oculto: true,
+      isDisabled: false,
+      oculto: false,
     },
     {
       id: "imageurl",
       name: "imageurl",
-      inputName: "URL de Imagen",
-      em: "Ingrese una URL",
+      em: "Ingrese un URL de imageurl",
       data: "URL",
       xs_md: [12, 3],
       isDisabled: false,
@@ -89,8 +81,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "exw_u",
       name: "exw_u",
-      inputName: "Costo seguro y flete (exw_u)",
-      em: "Ingrese exw_u",
+      em: "Ingrese un exw_u",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -99,7 +90,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "fob_u",
       name: "fob_u",
-      inputName: "FOB u.",
       em: "Ingrese un fob U.",
       data: "Number",
       xs_md: [12, 3],
@@ -109,7 +99,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "qty",
       name: "qty",
-      inputName: "Cantidad",
       em: "Ingrese una Cantidad",
       data: "Number",
       xs_md: [12, 3],
@@ -119,8 +108,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "pcsctn",
       name: "pcsctn",
-      inputName: "Piezas x Caja",
-      em: "Ingrese Piezas x Caja",
+      em: "Ingrese una pcsctn",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -129,8 +117,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "cbmctn",
       name: "cbmctn",
-      inputName: "Mt3 x Caja",
-      em: "Ingrese Mt3 x Caja",
+      em: "Ingrese una cbmctn",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -139,8 +126,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "gwctn",
       name: "gwctn",
-      inputName: "Peso x Caja",
-      em: "Ingrese Peso x Caja",
+      em: "Ingrese una gwctn",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -149,8 +135,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "cambios_notas",
       name: "cambios_notas",
-      inputName: "Notas de cambios",
-      em: "Ingrese una notas de cambios",
+      em: "Ingrese una cambios notas",
       data: "String",
       xs_md: [12, 3],
       isDisabled: false,
@@ -159,7 +144,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_arancel",
       name: "ncm_arancel",
-      inputName: "Cambios Arancelarios",
       em: "Ingrese una cambios Arancel NCM",
       data: "Number",
       xs_md: [12, 3],
@@ -169,7 +153,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_te_dta_otro",
       name: "ncm_te_dta_otro",
-      inputName: "",
       em: "Ingrese una ncm_te_dta_otro",
       data: "Number",
       xs_md: [12, 3],
@@ -179,8 +162,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_iva",
       name: "ncm_iva",
-      inputName: "NCM Iva",
-      em: "Ingrese una NCM Iva",
+      em: "Ingrese una ncm_iva",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -189,8 +171,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_ivaad",
       name: "ncm_ivaad",
-      inputName: "NCM Iva Adicional",
-      em: "Ingrese una NCM Iva Adicional",
+      em: "Ingrese una ncm_ivaad",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -199,8 +180,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "gcias",
       name: "gcias",
-      inputName: "Ganancias",
-      em: "Ingrese una Ganancia",
+      em: "Ingrese una gcias",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -209,7 +189,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_sp1",
       name: "ncm_sp1",
-      inputName: "NCM sp1",
       em: "Ingrese una ncm_sp1",
       data: "String",
       xs_md: [12, 3],
@@ -219,7 +198,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "ncm_sp2",
       name: "ncm_sp2",
-      inputName: "NCM sp2",
       em: "Ingrese una ncm_sp2",
       data: "String",
       xs_md: [12, 3],
@@ -229,7 +207,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "precio_u",
       name: "precio_u",
-      inputName: "",
       em: "Ingrese una precio_u",
       data: "Number",
       xs_md: [12, 3],
@@ -239,7 +216,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_comex1",
       name: "extrag_comex1",
-      inputName: "Extra gasto comex",
       em: "Ingrese un Extra gasto comex",
       data: "Number",
       xs_md: [12, 3],
@@ -249,7 +225,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_comex2",
       name: "extrag_comex2",
-      inputName: "Extra gasto comex 2",
       em: "Ingrese un Extra gasto comex",
       data: "Number",
       xs_md: [12, 3],
@@ -259,7 +234,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_comex3",
       name: "extrag_comex3",
-      inputName: "Extra gasto comex 3",
       em: "Ingrese un Extra gasto comex",
       data: "Number",
       xs_md: [12, 3],
@@ -269,7 +243,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_comex_notas",
       name: "extrag_comex_notas",
-      inputName: "Nota Extra gasto comex",
       em: "Ingrese una Nota de Extra gasto comex",
       data: "String",
       xs_md: [12, 3],
@@ -279,7 +252,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_local1",
       name: "extrag_local1",
-      inputName: "Extra gasto local",
       em: "Ingrese un Extra gasto local",
       data: "Number",
       xs_md: [12, 3],
@@ -289,7 +261,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_local2",
       name: "extrag_local2",
-      inputName: "Extra gasto local 2",
       em: "Ingrese un Extra gasto local",
       data: "Number",
       xs_md: [12, 3],
@@ -299,7 +270,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_finan1",
       name: "extrag_finan1",
-      inputName: "Extra Gasto Financiero 1",
       em: "Ingrese un Extra gasto Financiero",
       data: "Number",
       xs_md: [12, 3],
@@ -309,7 +279,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_finan2",
       name: "extrag_finan2",
-      inputName: "Ext. Gasto Financiero 2",
       em: "Ingrese un Extra gasto Financiero",
       data: "Number",
       xs_md: [12, 3],
@@ -319,7 +288,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_finan3",
       name: "extrag_finan3",
-      inputName: "Ext. Gasto Financiero 3",
       em: "Ingrese un Extra gasto Financiero",
       data: "Number",
       xs_md: [12, 3],
@@ -329,7 +297,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "extrag_finan_notas",
       name: "extrag_finan_notas",
-      inputName: "Nota Extra Gasto Financiero",
       em: "Ingrese una nota de Extra gasto Financiero",
       data: "String",
       xs_md: [12, 3],
@@ -339,7 +306,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "costo_u_est",
       name: "costo_u_est",
-      inputName: "Costo u. Est",
       em: "Ingrese un costo_u_est",
       data: "Number",
       xs_md: [12, 3],
@@ -349,7 +315,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "costo_u",
       name: "costo_u",
-      inputName: "Costo U.",
       em: "Ingrese un costo_u",
       data: "Number",
       xs_md: [12, 3],
@@ -359,7 +324,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "updated",
       name: "updated",
-      inputName: "Update",
       em: "Ingrese un updated",
       data: "Number",
       xs_md: [12, 3],
@@ -369,178 +333,77 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "htimestamp",
       name: "htimestamp",
-      inputName: "Fecha",
       em: "Ingrese una Fecha",
       data: "Date",
       xs_md: [12, 3],
       isDisabled: true,
-      oculto: true,
+      oculto: false,
     },
   ];
 
   const [selectedItem, setSelectedItem] = useState({
     id: "",
-    description: "",
-    ncm_id: 0,
-    gwctn: "",
-    proveedores_id: null,
-    sku: "",
-    imageurl: '',
-    exw_u: '',
-    fob_u: '',
-    qty: 0,
-    pcsctn: 0,
-    cbmctn: 0,
-    gwctn: 0,
-
-    cambios_notas: '',
-    ncm_arancel: 0,
-    ncm_te_dta_otro: 0,
-    ncm_iva: 0,
-    ncm_ivaad: 0,
-    gcias: 0,
-
-    ncm_sp1: '',
-    ncm_sp2: '',
-    precio_u: 0,
-
-    extrag_comex1: 0,
-    extrag_comex2: 0,
-    extrag_comex3: 0,
-    extrag_comex_notas: '',
-
-    extrag_local1: 0,
-    extrag_local2: 0,
-
-    extrag_finan1: 0,
-    extrag_finan2: 0,
-    extrag_finan3: 0,
-    extrag_finan_notas: '',
-
-    costo_u_est: 0,
-    costo_u_prov: 0,
-    costo_u: 0,
-    updated: false,
-    htimestamp: UtilidadesHelper.fechaParaDB(),
+    modelo: "",
+    amount: 0,
+    code: "",
+    pesoUnitxCaja: "",
+    cbmxCaja: "",
+    pcsxCaja: "",
   });
 
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [qty, setQty] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  console.log(dataHelp.proveedoresOem);
-//   console.log(dataHelp.NCM);
+  console.log(dataHelp);
+  console.log(dataHelp.NCM);
 
   const NCMList = dataHelp.NCM.map((item) => ({
     id: item.id,
     description: item.description,
-    ncm_id: item.id,
-    ncm_code: item.code,
-    gwctn: item.gwctn,
-    cbmctn: item.cbmctn,
-    pcsctn: item.pcsctn,
-  }));
-
-  const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
-    id: item.id,
-    description: item.description,
-    // ncm_id: item.id,
-    // ncm_code: item.code,
-    // gwctn: item.gwctn,
-    // cbmctn: item.cbmctn,
-    // pcsctn: item.pcsctn,
+    code: item.code,
+    pesoUnitxCaja: item.pesoUnitxCaja,
+    cbmxCaja: item.cbmxCaja,
+    pcsxCaja: item.pcsxCaja,
   }));
 
   useEffect(() => {
-    if (selectedItem?.qty) {
-      setQty(selectedItem.qty * selectedQuantity);
+    if (selectedItem?.amount) {
+      setAmount(selectedItem.amount * selectedQuantity);
     }
   }, [selectedQuantity, selectedItem]);
 
-  //   const handleChange = (event) => {
-  //     const value = event.target.value;
-  //     if (event.target.name === "quantity") {
-  //       if (Number(value) < 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "negative values not allowed",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else if (Number(value) === 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "quantity can not be zero",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else {
-  //         setSelectedQuantity(value);
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "",
-  //         });
-  //       }
-  //     } else {
-  //       const selectedOption = NCMList.find((item) => item.id === value);
-  //       setSelectedItem({
-  //         ...selectedItem,
-  //         id: selectedOption.id++,
-  //         ncm_id: selectedOption.ncm_id,
-  //         ncm_code: selectedOption.ncm_code,
-  //       });
-  //       console.log(selectedItem);
-  //     }
-  //   };
-
-  const handleChange = (event, type) => {
-    const { name, value } = event.target;
-    // console.log("EVENT ", event);
-    // console.log("Type ", type);
-    // console.log(event.target.name);
+  const handleChange = (event) => {
+    const value = event.target.value;
     if (event.target.name === "quantity") {
-      setErrors({
-        ...errors,
-        quantityError: "negative values not allowed",
-      });
-      setSelectedQuantity(event.target.value);
-    //   console.log(value);
-    } else {
-      let selectedList;
-      let selectedData = {};
-      if (event.target.name === "ncm_id") {
-        selectedList = NCMList;
-        selectedData = {
-          ncm_id: "id",
-          ncm_code: "ncm_code",
-          // otros campos relevantes aquí
-        };
-      } else if (event.target.name === "proveedores_id") {
-        selectedList = ProveedoresList;
-        selectedData = {
-          proveedores_id: "id",
-          proovedores_name: "description",
-          // otros campos relevantes aquí
-        };
-      }
-      //   const selectedOption = selectedList.find((item) => item.id === value);
-      //   let updatedSelectedItem = { ...selectedItem };
-      //   Object.keys(selectedData).forEach((key) => {
-      //     updatedSelectedItem[key] = selectedOption[selectedData[key]];
-      //   });
-      const selectedOption = selectedList?.find((item) => item.id === value);
-      let updatedSelectedItem = { ...selectedItem };
-
-      // Si hay un selectedList y un selectedData, actualiza según eso
-      if (selectedList && selectedData) {
-        Object.keys(selectedData).forEach((key) => {
-          updatedSelectedItem[key] = selectedOption[selectedData[key]];
+      if (Number(value) < 0) {
+        setErrors({
+          ...errors,
+          quantityError: "negative values not allowed",
         });
+        setSelectedQuantity(value);
+      } else if (Number(value) === 0) {
+        setErrors({
+          ...errors,
+          quantityError: "quantity can not be zero",
+        });
+        setSelectedQuantity(value);
       } else {
-        // Actualización general de selectedItem
-        updatedSelectedItem[name] = type === "Number" ? Number(value) : value;
+        setSelectedQuantity(value);
+        setErrors({
+          ...errors,
+          quantityError: "",
+        });
       }
-      setSelectedQuantity(event.target.value);
-      setSelectedItem(updatedSelectedItem);
+    } else {
+      const selectedOption = NCMList.find((item) => item.id === value);
+      setSelectedItem({
+        ...selectedItem,
+        id: selectedOption.id++,
+        code: selectedOption.code,
+      });
+      console.log(selectedItem);
     }
   };
 
@@ -548,46 +411,28 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     let errors = {}; // creo objeto de errores
     // validación de campos
     // Validacion NCM
-    if (!selectedItem?.ncm_id) {
+    if (!selectedItem?.id) {
       errors.NCMError = "NCM is required";
     }
-    if (!selectedItem?.proveedores_id) {
-      errors.ProveedoresError = "Proveedor is required";
-    }
-    // Validacion Descripcion
-    if (!selectedItem?.description || !selectedItem?.description.trim()) {
-      errors.descriptionError = "Description Name is required";
-    }
-
-    // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku.trim()) { // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
-        errors.exw_uError = "Valor exw_u is required";
-      }
-
-    // Validacion sku
-    if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
-      errors.skuError = "Sku Name is required";
+    // Validacion producto
+    if (!selectedItem?.modelo || !selectedItem?.modelo.trim()) {
+      errors.productError = "Product Name is required";
     }
     // Validacion FOb unitario
-    if (!selectedItem?.fob_u || selectedItem?.fob_u <= 0) {
-      errors.fob_uError = "Valor Fob is required";
+    if (!selectedItem?.amount || selectedItem?.amount <= 0) {
+      errors.ValorFOBunitError = "Value Fob is required";
     }
-    // Validacion qty cantidad
-    if (!selectedItem?.qty || selectedItem?.qty <= 0) {
-      errors.qtyError = "Cantidad is required";
+    // Validacion Valor unitario
+    if (!selectedItem?.pesoUnitxCaja || selectedItem?.pesoUnitxCaja <= 0) {
+      errors.ValorUnitError = "Value is required";
     }
     // Validacion Vol x caja
-    if (!selectedItem?.cbmctn || selectedItem?.cbmctn <= 0) {
-      errors.cbmctnError = "Vol. x caja is required";
+    if (!selectedItem?.cbmxCaja || selectedItem?.cbmxCaja <= 0) {
+      errors.cbmxCajaError = "Value Vol. x caja is required";
     }
     // Validacion Piezas x caja
-    if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
-      errors.pcsctnError = "Pieza x caja is required";
-    }
-
-    // Validacion Peso x caja
-    if (!selectedItem?.gwctn || selectedItem?.gwctn <= 0) {
-      errors.gwctnError = "Peso x caja is required";
+    if (!selectedItem?.pcsxCaja || selectedItem?.pcsxCaja <= 0) {
+      errors.pcsxCajaError = "Value Pieza x caja is required";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -599,7 +444,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     const data = {
       ...selectedItem,
       id: counter, // Aquí es donde generas el nuevo id
-      totalAmount: qty,
+      totalAmount: amount,
       selectedQuantity,
     };
 
@@ -609,110 +454,38 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
 
   return (
     <>
-      <Grid container spacing={gridSpacing}>
-        {/* Mapeo objetos itemDetails */}
-        {itemDetails.map(
-          (item, index) =>
-            !item.oculto && (
-              <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index}>
-                <Stack spacing={1}>
-                  <Typography variant="subtitle1">{item.inputName}</Typography>
-                  <FormControl>
-                    <Tooltip title={item.name}>
-                      <TextField
-                        fullWidth
-                        name={item.name}
-                        type={item.data === "Number" ? "number" : "text"}
-                        error={Boolean(errors[`${item.name}Error`])}
-                        value={selectedItem[item.id] || ""}
-                        onChange={(e) => handleChange(e, item.data)}
-                        placeholder={`Ingrese ${item.name}`}
-                        disabled={item.isDisabled}
-                        // Si es tipo Date, añade el atributo inputType
-                        inputProps={
-                          item.data === "Date" ? { type: "date" } : {}
-                        }
-                      />
-                    </Tooltip>
-                    {errors[`${item.name}Error`] && (
-                      <FormHelperText>
-                        {errors[`${item.name}Error`]}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Stack>
-              </Grid>
-            )
-        )}
 
-        {/* Select PROVEEDORES */}
-        <Grid item xs={12} md={3}>
+
+
+
+
+
+
+
+    
+      {/* PRODUCTO */}
+      <Grid container spacing={gridSpacing}>
+        <Grid item xs={12} md={6}>
           <Stack spacing={1}>
-            <Typography variant="subtitle1">Proveedores</Typography>
-            <FormControl fullWidth error={Boolean(errors.ProveedoresError)}>
-              <Select
-                name="proveedores_id"
-                fullWidth
-                displayEmpty
-                value={selectedItem?.proveedores_id || ""}
-                onChange={handleChange}
-                input={<OutlinedInput />}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return (
-                      <Typography
-                        color="textSecondary"
-                        sx={{ lineHeight: "1.4375em" }}
-                      >
-                        Select Proveedor
-                      </Typography>
-                    );
+            <Typography variant="subtitle1">Producto</Typography>
+            <FormControl>
+              <tooltip title="Producto a importar">
+                <TextField
+                  fullWidth
+                  displayEmpty
+                  error={Boolean(errors.productError)}
+                  value={selectedItem?.modelo || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      modelo: e.target.value,
+                    })
                   }
-                  const selectedData = ProveedoresList.filter(
-                    (item) => item.id === selected
-                  )[0];
-                  return (
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ width: "100%" }}
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ lineHeight: "1.4375em" }}
-                      >
-                        {selectedData.description}
-                      </Typography>
-                      <Typography>Id : {selectedData.id}</Typography>
-                    </Stack>
-                  );
-                }}
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem disabled value="">
-                  <Typography color="textSecondary">
-                    Select Proveedor
-                  </Typography>
-                </MenuItem>
-                {ProveedoresList.map((item, i) => (
-                  <MenuItem key={i} value={item.id}>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ width: "100%" }}
-                    >
-                      <Typography variant="subtitle1">
-                        {item.description}
-                      </Typography>
-                      <Typography>id : {item.id}</Typography>
-                    </Stack>
-                  </MenuItem>
-                ))}
-              </Select>
-              {errors.ProveedoresError && (
-                <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                  placeholder="Enter Product Name"
+                />
+              </tooltip>
+              {errors.productError && (
+                <FormHelperText>{errors.productError}</FormHelperText>
               )}{" "}
               {/* alerta de MANEJO DEL ERROR */}
             </FormControl>
@@ -720,15 +493,14 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         </Grid>
 
         {/* POSICION ARANCELARIA // NCM */}
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={6}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">NCM</Typography>
             <FormControl fullWidth error={Boolean(errors.NCMError)}>
               <Select
-                name="ncm_id"
                 fullWidth
                 displayEmpty
-                value={selectedItem?.ncm_id || ""}
+                value={selectedItem?.id || ""}
                 onChange={handleChange}
                 input={<OutlinedInput />}
                 renderValue={(selected) => {
@@ -758,7 +530,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       >
                         {selectedData.description}
                       </Typography>
-                      <Typography>Code : {selectedData.ncm_code}</Typography>
+                      <Typography>Code : {selectedData.code}</Typography>
                     </Stack>
                   );
                 }}
@@ -778,7 +550,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       <Typography variant="subtitle1">
                         {item.description}
                       </Typography>
-                      <Typography>Code : {item.ncm_code}</Typography>
+                      <Typography>Code : {item.code}</Typography>
                     </Stack>
                   </MenuItem>
                 ))}
@@ -792,7 +564,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         </Grid>
 
         {/* CANTIDAD */}
-        {/* <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3}>
           <Stack spacing={1}>
             <Typography variant="subtitle1" id="itemQuantity">
               Cantidad de Piezas a Imp
@@ -813,7 +585,127 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
               </tooltip>
             </FormControl>
           </Stack>
-        </Grid> */}
+        </Grid>
+
+        {/* VALOR UNITARIO */}
+        <Grid item xs={12} md={3}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">FOB u$s</Typography>
+            <FormControl>
+              <tooltip title="Valor en u$s de una pieza en Origen">
+                <TextField
+                  fullWidth
+                  type="number"
+                  name="ValorFOBunit"
+                  value={selectedItem?.amount || ""}
+                  onChange={(e) =>
+                    setSelectedItem({ ...selectedItem, amount: e.target.value })
+                  }
+                  error={Boolean(errors.ValorFOBunitError)}
+                  placeholder="Enter Product Value"
+                  inputProps={{ style: { textAlign: "right" } }} // Aquí se alinea el texto a la derecha
+                />
+              </tooltip>
+              {errors.ValorFOBunitError && (
+                <FormHelperText>{errors.ValorFOBunitError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
+
+        {/* PESO UNITARIO CAJA */}
+        <Grid item xs={12} md={2}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">Peso U. x caja</Typography>
+            <FormControl>
+              <tooltip title="Peso unitario por caja">
+                <TextField
+                  fullWidth
+                  type="number"
+                  name="ValorUnit"
+                  displayEmpty
+                  value={selectedItem?.pesoUnitxCaja || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      pesoUnitxCaja: e.target.value,
+                    })
+                  }
+                  error={Boolean(errors.ValorUnitError)}
+                  placeholder="Enter Peso Unitario"
+                  inputProps={{ style: { textAlign: "right" } }} // Aquí se alinea el texto a la derecha
+                />
+              </tooltip>
+              {errors.ValorUnitError && (
+                <FormHelperText>{errors.ValorUnitError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
+
+        {/* CMB x CAJA (volumen x caja) */}
+        <Grid item xs={12} md={2}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">Volumen x caja</Typography>
+            <FormControl>
+              <tooltip title="Volumen por caja en contenedor">
+                <TextField
+                  fullWidth
+                  type="number"
+                  name="cbmxCaja"
+                  displayEmpty
+                  value={selectedItem?.cbmxCaja || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      cbmxCaja: e.target.value,
+                    })
+                  }
+                  error={Boolean(errors.cbmxCajaError)}
+                  placeholder="Enter Peso Unitario"
+                  inputProps={{ style: { textAlign: "right" } }} // Aquí se alinea el texto a la derecha
+                />
+              </tooltip>
+              {errors.cbmxCajaError && (
+                <FormHelperText>{errors.cbmxCajaError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
+
+        {/* Piezas x CAJA (volumen x caja) */}
+        <Grid item xs={12} md={2}>
+          <Stack spacing={1}>
+            <Typography variant="subtitle1">Piezas x caja</Typography>
+            <FormControl>
+              <tooltip title="Piezas por cajas">
+                <TextField
+                  fullWidth
+                  type="number"
+                  name="pcsxCaja"
+                  displayEmpty
+                  value={selectedItem?.pcsxCaja || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      pcsxCaja: e.target.value,
+                    })
+                  }
+                  error={Boolean(errors.pcsxCajaError)}
+                  placeholder="Enter Peso Unitario"
+                  inputProps={{ style: { textAlign: "right" } }} // Aquí se alinea el texto a la derecha
+                />
+              </tooltip>
+              {errors.pcsxCajaError && (
+                <FormHelperText>{errors.pcsxCajaError}</FormHelperText>
+              )}{" "}
+              {/* alerta de MANEJO DEL ERROR */}
+            </FormControl>
+          </Stack>
+        </Grid>
 
         {/* CANTIDAD fob total */}
         {/* <Grid item xs={12} md={4}>
@@ -821,7 +713,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         <Typography variant="subtitle1" id="itemAmount">
                             FOB Total
                         </Typography>
-                        <TextField fullWidth name="qty" value={qty} disabled />
+                        <TextField fullWidth name="amount" value={amount} disabled />
                     </Stack>
                 </Grid> */}
 
