@@ -319,7 +319,7 @@ function CreateInvoice() {
       name: "tarifasdespachantes_id",
       em: "Seleccione una Tarifa Despachantes",
       inputLabel: "Tarifa Despachantes",
-      data: dataHelp.TarifasDepositos,
+      data: dataHelp.TarifasDespachantes,
     },
     {
       id: "tarifasbancos_id",
@@ -370,6 +370,11 @@ function CreateInvoice() {
   }, []);
   //   console.log(dataHelp);
 
+  // const today = new Date();
+  // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
+  // const isoString = today.toISOString();
+  // // console.log(isoString);
+
   const formik = useFormik({
     initialValues: {
       description: null,
@@ -379,11 +384,10 @@ function CreateInvoice() {
       paisregion_id: "",
       SeleccionPais: "Seleccione un pais",
       own: user.name,
-      ArticleFamily: "",
       ivaExcento: "true",
-      htimestamp: "",
+      htimestamp: UtilidadesHelper.fechaParaDB(),
 
-      usarmoneda_local: "true",
+      usarmoneda_local: "false",
       carga_id: null,
       fwdpaisregion_id: null,
       //   polizaProv: null,
@@ -444,9 +448,8 @@ function CreateInvoice() {
         const postData = {
           estHeaderDB: {
             ...values, // Incluye los valores del formulario (cabecera)
-            ArticleFamily: productsData[0].description || "Sin Detalle de familia",
-            description: productsData[0].description || "Sin Detalle de familia",
             ivaExcento: values.ivaExcento === "true", // Convierte el string a booleano
+            usarmoneda_local: values.usarmoneda_local === "true",
 
             // nuevos inputs
             description: values.description ? values.description : "",
@@ -512,7 +515,7 @@ function CreateInvoice() {
       }
     },
   });
-  console.log(formik.values);
+  // console.log(formik.values);
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
@@ -589,21 +592,55 @@ function CreateInvoice() {
     setProductsData([
       ...productsData,
       {
+        // VALORES DEL DETAILS
         id: addingData.id,
         description: addingData.description,
         // description: addingData.desc,
-        cantPcs: addingData.selectedQuantity,
-        cbmctn: addingData.cbmctn,
-        qty: addingData.qty,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
         total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
-        proveedores_id: addingData.proveedores_id,
         ncm_ack: true, //aplicar el RadioGroup,
+        proovedores_name: addingData.proovedores_name,
+        proveedores_id: addingData.proveedores_id,
         sku: addingData.sku,
-        
+        imageurl: addingData.imageurl,
+        exw_u: addingData.exw_u,
+        fob_u: addingData.fob_u,
+        qty: addingData.qty,
+        pcsctn: addingData.pcsctn,
+        cbmctn: addingData.cbmctn,
+        gwctn: addingData.gwctn,
+
+        cambios_notas: addingData.cambios_notas,
+        ncm_arancel: addingData.ncm_arancel,
+        ncm_te_dta_otro: addingData.ncm_te_dta_otro,
+        ncm_iva: addingData.ncm_iva,
+        ncm_ivaad: addingData.ncm_ivaad,
+        gcias: addingData.gcias,
+        ncm_sp1: addingData.ncm_sp1,
+        ncm_sp2: addingData.ncm_sp2,
+        precio_u: addingData.precio_u,
+
+        extrag_comex1: addingData.extrag_comex1,
+        extrag_comex2: addingData.extrag_comex2,
+        extrag_comex3: addingData.extrag_comex3,
+        extrag_comex_notas: addingData.extrag_comex_notas,
+
+        extrag_local1: addingData.extrag_local1,
+        extrag_local2: addingData.extrag_local2,
+
+        extrag_finan1: addingData.extrag_finan1,
+        extrag_finan2: addingData.extrag_finan2,
+        extrag_finan3: addingData.extrag_finan3,
+        extrag_finan_notas: addingData.extrag_finan_notas,
+
+        costo_u_est: addingData.costo_u_est,
+        costo_u_prov: addingData.costo_u_prov,
+        costo_u: addingData.costo_u,
+        updated: addingData.updated,
+        htimestamp: addingData.htimestamp,
       },
     ]);
     console.log(addingData);
@@ -920,14 +957,14 @@ function CreateInvoice() {
                   {
                     //COMPONENTE DE INPUTS que maneja la data de cellInput *
                     cellInput.map((field) => (
-                        <CustomSelect
-                          key={field.id}
-                          {...field}
-                          formik={formik}
-                          XS={12}
-                          MD={2}
-                          PaisRegion={formik.values.paisregion_id.id}
-                        />
+                      <CustomSelect
+                        key={field.id}
+                        {...field}
+                        formik={formik}
+                        XS={12}
+                        MD={2}
+                        PaisRegion={formik.values.paisregion_id.id}
+                      />
                     ))
                   }
                   {/* CARGA DE PRODUCTOS */}

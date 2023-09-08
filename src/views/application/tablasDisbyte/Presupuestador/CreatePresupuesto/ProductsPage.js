@@ -18,6 +18,7 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                         <Table>
                             <TableHead>
                                 <TableRow>
+                                    <TableCell sx={{ pl: 3 }}>SKU</TableCell>
                                     <TableCell sx={{ pl: 3 }}>Description</TableCell>
                                     <TableCell align="right">Piezas de Importacion</TableCell>
                                     <TableCell align="right">Amount FOB</TableCell>
@@ -25,6 +26,7 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                     <TableCell align="right">Volumen U.</TableCell>
                                     <TableCell align="right">Piezas x Caja</TableCell>
                                     <TableCell align="right">NCM</TableCell>
+                                    <TableCell align="right">Proveedor</TableCell>
                                     <TableCell align="right">Total</TableCell>
                                     <TableCell align="right" sx={{ pr: 3 }} />
                                 </TableRow>
@@ -34,7 +36,7 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                     <TableRow key={index}>
                                         <TableCell sx={{ pl: 3 }}>
                                             <Typography align="left" variant="subtitle1">
-                                                {row.description}
+                                                {row.sku}
                                             </Typography>
                                             {/*<Typography align="left" variant="body2"> X SI AGREGAMOS ALGUNA DESCRIPTCION
                                             {row.description}
@@ -42,13 +44,15 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                             {row.description || "sin descripción"} 
                                             </Typography> */}
                                         </TableCell>
-                                        <TableCell align="right">{row.cantPcs}</TableCell>
-                                        <TableCell align="right">${row.qty}</TableCell>
+                                        <TableCell align="right">{row.description}</TableCell>
+                                        <TableCell align="right">{row.qty}</TableCell>
+                                        <TableCell align="right">${row.fob_u}</TableCell>
                                         <TableCell align="right">{row.gwctn}</TableCell>
                                         <TableCell align="right">{row.cbmctn}</TableCell> 
                                         <TableCell align="right">{row.pcsctn}</TableCell> 
                                         {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
-                                        <TableCell align="right">{row.ncm_code}</TableCell> 
+                                        <TableCell align="right">{row.ncm_code}</TableCell>
+                                        <TableCell align="right">{row.proovedores_name}</TableCell>  
                                         <TableCell align="right">${row.total}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
                                             <IconButton
