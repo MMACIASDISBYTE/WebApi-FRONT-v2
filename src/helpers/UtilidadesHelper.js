@@ -60,5 +60,13 @@ export const UtilidadesHelper = {
         const isoString = today.toISOString();
         return isoString;
     },
+    formatFecha: function(fechaJSON) {
+        const fecha = new Date(fechaJSON);
+        const dia = fecha.getDate();
+        const mes = fecha.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+        const ano = fecha.getFullYear();
+      
+        return `${dia}/${mes}/${ano}`;
+      }
 
 };

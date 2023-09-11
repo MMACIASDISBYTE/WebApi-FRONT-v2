@@ -82,11 +82,11 @@ const Details = ({ presupuestador, usuario }) => {
   }, [presupuestador]);
 
   useEffect(() => {
-    if (presupuestador.fob_grand_total != null) {
+    if ((presupuestador.estHeader != null && loading == false)) {
       setLoading2(false);
     }
     console.log(rows);
-  }, [rows]);
+  }, [rows, loading]);
 
   const deteleDetails = async (id) => {
     console.log(`se hizo click en el ${id}`);
@@ -164,9 +164,11 @@ const Details = ({ presupuestador, usuario }) => {
               </Grid>
 
               <Grid item xs={12}>
-                <Typography variant="h3">
-                  Presupuesto #00{presupuestador.estnumber} /00
-                  {presupuestador.estvers}
+                <Typography variant="h2">
+                  Presupuesto #00{presupuestador.estHeader.estnumber ? presupuestador.estHeader.estnumber : 'Sin data'} /00
+                  {presupuestador.estHeader.estvers ? presupuestador.estHeader.estvers : 'Sin data'}
+                </Typography><Typography variant="h4">
+                  Fecha Emision: {presupuestador.estHeader.htimestamp ? ( UtilidadesHelper.formatFecha(presupuestador.estHeader.htimestamp) )  : 'Sin data'}
                 </Typography>
 
                 {editarPresu && (
@@ -201,8 +203,8 @@ const Details = ({ presupuestador, usuario }) => {
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">Tipo :</Typography>
                           <Typography variant="body2">
-                            {presupuestador.carga_id
-                              ? presupuestador.carga_id
+                            {presupuestador.estHeader.carga_id
+                              ? presupuestador.estHeader.carga_id
                               : "Sin data"}
                           </Typography>
                         </Stack>
@@ -219,9 +221,9 @@ const Details = ({ presupuestador, usuario }) => {
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">CBM m3 :</Typography>
                           <Typography variant="body2">
-                            {presupuestador.cbm_grand_total
-                              ? presupuestador.cbm_grand_total.toFixed(3)
-                              : "Sin data"}
+                            {(presupuestador.estHeader.cbm_grand_total || 0)
+                              ? presupuestador.estHeader.cbm_grand_total.toFixed(3)
+                              : "Sin dataa"}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
@@ -229,8 +231,8 @@ const Details = ({ presupuestador, usuario }) => {
                             Pais de Origen :
                           </Typography>
                           <Typography variant="body2">
-                            {presupuestador.paisregion_id
-                              ? presupuestador.paisregion_id
+                            {presupuestador.estHeader.paisregion_id
+                              ? presupuestador.estHeader.paisregion_id
                               : "Sin data"}
                           </Typography>
                         </Stack>
@@ -238,33 +240,33 @@ const Details = ({ presupuestador, usuario }) => {
                           <Typography variant="subtitle1">Flete :</Typography>
                           <Typography variant="body2">
                             USD{" "}
-                            {presupuestador.gloc_flete
+                            {presupuestador.estHeader.gloc_flete
                               ? UtilidadesHelper.formatNumber(
-                                  presupuestador.gloc_flete.toFixed(2)
+                                  presupuestador.estHeader.gloc_flete.toFixed(2)
                                 )
                               : "Sin data"}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">Seguro :</Typography>
+                          <Typography variant="subtitle1">Freight Cost :</Typography>
                           <Typography variant="body2">
                             USD{" "}
-                            {presupuestador.seguro
+                            {presupuestador.estHeader.freight_cost
                               ? UtilidadesHelper.formatNumber(
-                                  presupuestador.seguro.toFixed(2)
+                                  presupuestador.estHeader.freight_cost.toFixed(2)
                                 )
                               : "Sin data"}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">
-                            FOB Total :
+                            Freight Insurance Cost :
                           </Typography>
                           <Typography variant="body2">
                             USD{" "}
-                            {presupuestador.fob_grand_total
+                            {presupuestador.estHeader.freight_insurance_cost
                               ? UtilidadesHelper.formatNumber(
-                                  presupuestador.fob_grand_total.toFixed(2)
+                                  presupuestador.estHeader.freight_insurance_cost.toFixed(2)
                                 )
                               : "Sin data"}
                           </Typography>
@@ -275,9 +277,9 @@ const Details = ({ presupuestador, usuario }) => {
                           </Typography>
                           <Typography variant="body2">
                             USD{" "}
-                            {presupuestador.cif_grand_total
+                            {presupuestador.estHeader.cif_grand_total
                               ? UtilidadesHelper.formatNumber(
-                                  presupuestador.cif_grand_total.toFixed(2)
+                                  presupuestador.estHeader.cif_grand_total.toFixed(2)
                                 )
                               : "Sin data"}
                           </Typography>
@@ -288,9 +290,9 @@ const Details = ({ presupuestador, usuario }) => {
                           </Typography>
                           <Typography variant="body2">
                             USD{" "}
-                            {presupuestador.impuestos_total
+                            {presupuestador.estHeader.impuestos_total
                               ? UtilidadesHelper.formatNumber(
-                                  presupuestador.impuestos_total.toFixed(2)
+                                  presupuestador.estHeader.impuestos_total.toFixed(2)
                                 )
                               : "Sin data"}
                           </Typography>
@@ -805,9 +807,9 @@ const Details = ({ presupuestador, usuario }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
                                 USD{" "}
-                                {presupuestador.fob_grand_total
+                                {presupuestador.estHeader.fob_grand_total
                                   ? UtilidadesHelper.formatNumber(
-                                      presupuestador.fob_grand_total.toFixed(2)
+                                      presupuestador.estHeader.fob_grand_total.toFixed(2)
                                     )
                                   : "Sin data"}
                               </Typography>
@@ -821,9 +823,9 @@ const Details = ({ presupuestador, usuario }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
                                 USD{" "}
-                                {presupuestador.impuestos_total
+                                {presupuestador.estHeader.impuestos_total
                                   ? UtilidadesHelper.formatNumber(
-                                      presupuestador.impuestos_total.toFixed(2)
+                                      presupuestador.estHeader.impuestos_total.toFixed(2)
                                     )
                                   : "Sin data"}
                               </Typography>
@@ -837,14 +839,14 @@ const Details = ({ presupuestador, usuario }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
                                 USD{" "}
-                                {presupuestador.gloc_flete
+                                {presupuestador.estHeader.gloc_flete
                                   ? UtilidadesHelper.formatNumber(
-                                      presupuestador.gloc_flete.toFixed(2)
+                                      presupuestador.estHeader.gloc_flete.toFixed(2)
                                     )
                                   : "Sin data"}
                               </Typography>
                             </Grid>
-                            <Grid item xs={6}>
+                            {/* <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
                                 Seguro:
                               </Typography>
@@ -852,13 +854,13 @@ const Details = ({ presupuestador, usuario }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
                                 USD{" "}
-                                {presupuestador.seguro
+                                {presupuestador.estHeader.seguro
                                   ? UtilidadesHelper.formatNumber(
-                                      presupuestador.seguro.toFixed(2)
+                                      presupuestador.estHeader.seguro.toFixed(2)
                                     )
                                   : "Sin data"}
                               </Typography>
-                            </Grid>
+                            </Grid> */}
                           </Grid>
                         </Grid>
                         <Grid item xs={12}>
@@ -882,9 +884,9 @@ const Details = ({ presupuestador, usuario }) => {
                                 variant="subtitle1"
                               >
                                 USD{" "}
-                                {presupuestador.cif_grand_total
+                                {presupuestador.estHeader.cif_grand_total
                                   ? UtilidadesHelper.formatNumber(
-                                      presupuestador.cif_grand_total.toFixed(2)
+                                      presupuestador.estHeader.cif_grand_total.toFixed(2)
                                     )
                                   : "Sin data"}
                               </Typography>
@@ -907,12 +909,12 @@ const Details = ({ presupuestador, usuario }) => {
                                 variant="subtitle1"
                               >
                                 ARS{" "}
-                                {presupuestador.cif_grand_total &&
-                                presupuestador.dolar
+                                {presupuestador.estHeader.cif_grand_total &&
+                                presupuestador.estHeader.dolar
                                   ? UtilidadesHelper.formatNumber(
                                       (
-                                        presupuestador.cif_grand_total *
-                                        presupuestador.dolar
+                                        presupuestador.estHeader.cif_grand_total *
+                                        presupuestador.estHeader.dolar
                                       ).toFixed(2)
                                     )
                                   : "Sin data"}

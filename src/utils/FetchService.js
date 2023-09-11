@@ -28,7 +28,7 @@ export const FetchService = {
         const claims = await auth0.getIdTokenClaims();
         return claims.__raw;
     }, // original x Gus
-    Get: async function(url){
+    Get2: async function(url){
         const token = await this.GetToken();
         const requestUrl = `${process.env.REACT_APP_BASE_URL}/${url}`;
         const response = await fetch(requestUrl, {
@@ -36,6 +36,13 @@ export const FetchService = {
                 authorization: `Bearer ${token}`, // Incluye el token en la cabecera de la solicitud.
             },
         });
+        const jsonData = await response.json();
+        return jsonData;
+    },
+    Get: async function(url){
+        // const token = await this.GetToken();
+        const requestUrl = `${process.env.REACT_APP_BASE_URL}/${url}`;
+        const response = await fetch(requestUrl);
         const jsonData = await response.json();
         return jsonData;
     },
