@@ -538,7 +538,7 @@ const CustomerList = () => {
                         >
                           <VisibilityTwoToneIcon
                             sx={{ fontSize: "1.3rem" }}
-                            onClick={() => verDetalle(row.id, row.estvers)}
+                            onClick={() => verDetalle(row.estnumber, row.estvers)}
                           />
                         </IconButton>
                       </Tooltip>
@@ -552,7 +552,7 @@ const CustomerList = () => {
                             <EditTwoToneIcon
                               sx={{ fontSize: "1.3rem" }}
                               onClick={() =>
-                                nuevoPresupuesto(row.id, row.estvers)
+                                nuevoPresupuesto(row.estnumber, row.estvers)
                               }
                             />
                           </IconButton>
