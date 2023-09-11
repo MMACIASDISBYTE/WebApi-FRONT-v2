@@ -37,11 +37,11 @@ const Invoice = ({ presupuestador, usuario }) => {
     const theme = useTheme();
     const componentRef = useRef(null);
     console.log(presupuestador);
-    console.log(usuario);
+    // console.log(usuario);
     return (
         <Grid container justifyContent="center" spacing={gridSpacing}>
             <Grid item xs={12} md={10} lg={8} ref={componentRef}>
-                <SubCard darkTitle title={`Presupuesto #00${presupuestador.estNumber} /00${presupuestador.estVers}`} secondary={<img width="240" height="100" viewBox="0 0 92 32" fill="none" src={LogoDisbyteAzul} alt="Logo Disbyte Azul" />}>
+                <SubCard darkTitle title={`Presupuesto #00${presupuestador.estHeader.estnumber ? presupuestador.estHeader.estnumber : 'Sin data'} /00${presupuestador.estHeader.estvers ? presupuestador.estHeader.estvers : 'Sin data'}`} secondary={<img width="240" height="100" viewBox="0 0 92 32" fill="none" src={LogoDisbyteAzul} alt="Logo Disbyte Azul" />}>
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12}>
                             <Grid container spacing={0}>
@@ -74,17 +74,17 @@ const Invoice = ({ presupuestador, usuario }) => {
                                         <Grid item xs={12}>
                                             <Grid container spacing={0}>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="subtitle1">{presupuestador.p_gloc_despa}</Typography>
+                                                    <Typography variant="subtitle1">{presupuestador.estHeader.gloc_despachantes ? presupuestador.estHeader.gloc_despachantes : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="body2">Origen: {presupuestador.freightFwd}</Typography>
-                                                    <Typography variant="body2">Tipo Cont: {presupuestador.freightType}</Typography>
+                                                    <Typography variant="body2">Origen: {presupuestador.estHeader.fwdpaisregion_id ? presupuestador.estHeader.fwdpaisregion_id : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Tipo Cont: {presupuestador.estHeader.freightType ? presupuestador.estHeader.freightType : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="body2">Cant. Cont: {(presupuestador.cantidadContenedores).toFixed(4)}</Typography>
+                                                    <Typography variant="body2">Cant. Cont: {presupuestador.cantidadContenedores ?(presupuestador.cantidadContenedores).toFixed(4) : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="body2">Dolar Billete: ARS$ {presupuestador.dolarBillete}</Typography>
+                                                    <Typography variant="body2">Dolar Billete: ARS$ {presupuestador.estHeader.dolar ? presupuestador.estHeader.dolar : 'Sin data'}</Typography>
                                                 </Grid>
                                                 {/* <Grid item xs={12}>
                                                     <Typography component={Link} to="#" variant="body2" color="primary">
@@ -106,7 +106,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     <Typography variant="body2">Date :</Typography>
                                                 </Grid>
                                                 <Grid item xs={8}>
-                                                    <Typography variant="body2">{format(new Date(presupuestador.timeStamp), 'dd/MM/yy HH:mm')}hs</Typography>
+                                                    <Typography variant="body2">{presupuestador.estHeader.htimestamp ? UtilidadesHelper.formatFecha(presupuestador.estHeader.htimestamp) : 'Sin data'}hs</Typography>
                                                 </Grid>
                                                 <Grid item xs={4} sx={{ my: 0.5 }}>
                                                     <Typography variant="body2">Status :</Typography>
@@ -119,7 +119,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                 </Grid>
                                                 <Grid item xs={8}>
                                                     <Typography variant="body2" component={Link} to="#">
-                                                        # {`00${presupuestador.estNumber} /00${presupuestador.estVers}`}
+                                                        # {`00${presupuestador.estHeader.estnumber ? presupuestador.estHeader.estnumber : 'Sin data'} /00${presupuestador.estHeader.estvers ? presupuestador.estHeader.estvers : 'Sin data'}`}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -162,18 +162,18 @@ const Invoice = ({ presupuestador, usuario }) => {
                                             <TableRow key={index}>
                                                 <TableCell sx={{ pl: 3 }}>
                                                     <Typography align="left" variant="subtitle1">
-                                                        {row.modelo}
+                                                        {row.description}
                                                     </Typography>
                                                     {/* SE PUEDE AGREGAR UNA DESCRIPTION */}
                                                     {/* <Typography align="left" variant="body2">
                                                         {row.description}
                                                     </Typography> */}
                                                 </TableCell>
-                                                <TableCell align="right">{row.cantpcs}u.</TableCell>
-                                                <TableCell align="right">USD {UtilidadesHelper.formatNumber((row.fobunit).toFixed(2))}</TableCell>
-                                                <TableCell align="right" sx={{ pr: 3 }}>USD {UtilidadesHelper.formatNumber((row.fob).toFixed(2))}</TableCell>
+                                                <TableCell align="right">{row.qty ? row.qty : 'Sin data'}u.</TableCell>
+                                                <TableCell align="right">USD { row.fob_u ? UtilidadesHelper.formatNumber((row.fob_u).toFixed(2)) : 'Sin data'}</TableCell>
+                                                <TableCell align="right" sx={{ pr: 3 }}>USD { (row.totalfob || row.totalfob == 0) ? UtilidadesHelper.formatNumber((row.totalfob).toFixed(2)) : 'Sin data'}</TableCell>
                                                 
-                                                <TableCell align="right">USD {UtilidadesHelper.formatNumber((row.cif).toFixed(2))}</TableCell>
+                                                <TableCell align="right">USD {(row.cifunit || row.cifunit == 0) ? UtilidadesHelper.formatNumber((row.cifunit).toFixed(2)) : 'Sin data'}</TableCell>
                                                 {/* <TableCell align="center">u$s{(row.costoUnitEstimadoUSS).toFixed(2)}</TableCell> */}
                                             </TableRow>
                                         ))}
@@ -199,7 +199,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="body2">
-                                                            USD {UtilidadesHelper.formatNumber(presupuestador.fobGrandTotal.toFixed(2))}
+                                                            USD {presupuestador.estHeader.fob_grand_total ? UtilidadesHelper.formatNumber(presupuestador.estHeader.fob_grand_total.toFixed(2)) : 'Sin data'}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
@@ -210,28 +210,50 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="body2">
-                                                            USD {UtilidadesHelper.formatNumber(presupuestador.pagado.toFixed(2))}
+                                                            USD {presupuestador.estHeader.impuestos_total ? UtilidadesHelper.formatNumber(presupuestador.estHeader.impuestos_total.toFixed(2)) : 'Sin data'}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
                                                             {/* Discount (5%) : */}
-                                                            Flete:
+                                                            Freight Costo:
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="body2">
-                                                            USD {UtilidadesHelper.formatNumber(presupuestador.fleteTotal.toFixed(2))}
+                                                            {presupuestador.estHeader.freight_cost ? UtilidadesHelper.formatNumber(presupuestador.estHeader.freight_cost.toFixed(2)) : 'Sin data'}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
-                                                            Seguro:
+                                                            {/* Discount (5%) : */}
+                                                            Freight Insurance Costo:
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="body2">
-                                                            USD {UtilidadesHelper.formatNumber(presupuestador.seguro.toFixed(2))}
+                                                            {presupuestador.estHeader.freight_insurance_cost ? UtilidadesHelper.formatNumber(presupuestador.estHeader.freight_insurance_cost.toFixed(2)) : 'Sin data'}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <Typography align="right" variant="subtitle1">
+                                                            {/* Discount (5%) : */}
+                                                            IIBB Total:
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <Typography align="right" variant="body2">
+                                                            % {presupuestador.estHeader.iibb_total ? UtilidadesHelper.formatNumber(presupuestador.estHeader.iibb_total.toFixed(2)) : 'Sin data'}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <Typography align="right" variant="subtitle1">
+                                                            Extra gastos Total:
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <Typography align="right" variant="body2">
+                                                            USD {(presupuestador.estHeader.extragastos_total || presupuestador.estHeader.extragastos_total == 0) ? UtilidadesHelper.formatNumber(presupuestador.estHeader.extragastos_total.toFixed(2)) : 'Sin data'}
                                                         </Typography>
                                                     </Grid>
                                                     {/* <Grid item xs={6}>
@@ -258,7 +280,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" color="primary" variant="subtitle1">
-                                                            USD {UtilidadesHelper.formatNumber((presupuestador.cifTot).toFixed(2))}
+                                                            USD {presupuestador.estHeader.cif_grand_total ? UtilidadesHelper.formatNumber((presupuestador.estHeader.cif_grand_total).toFixed(2)) : 'SIn data'}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={6}>
@@ -268,7 +290,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" color="primary" variant="subtitle1">
-                                                            ARS {UtilidadesHelper.formatNumber((presupuestador.cifTot).toFixed(2) * presupuestador.dolarBillete)}
+                                                            ARS { presupuestador.estHeader.gastos_loc_total? UtilidadesHelper.formatNumber((presupuestador.estHeader.gastos_loc_total).toFixed(2) * presupuestador.estHeader.dolar) : 'Sin data'}
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
