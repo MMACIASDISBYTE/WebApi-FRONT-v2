@@ -482,7 +482,7 @@ const MainRoutes = {
             element: <AppPresupuestadorOrderDetails />
         },
         {
-            path: '/estimate/details/:estNumber/:vers',
+            path: '/estimate/details/:estnumber/:vers',
             element: <AppPresupuestadorOrderDetails />
         },
         {
@@ -494,7 +494,7 @@ const MainRoutes = {
             element: <AppPresupuestadorProductReview />
         }, 
         {   // ACTUALIZAR PRESUPUESTO
-            path: '/estimate/update-estimate/:estNumber/:vers',
+            path: '/estimate/update-estimate/:estnumber/:vers',
             element: <AppPresupuestadorUpdate />
         },
 

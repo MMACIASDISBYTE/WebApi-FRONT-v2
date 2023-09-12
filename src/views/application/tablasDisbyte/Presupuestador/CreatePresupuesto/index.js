@@ -392,7 +392,8 @@ function CreateInvoice() {
       fwdpaisregion_id: null,
       //   polizaProv: null,
       dolar: "",
-      tarifsource: 511, //harcodeado (formula de calculo)
+      tarifupdate: 1023, //harcodeado (formula de calculo)
+      tarifrecent: 1023,
       tarifasfwd_id: null,
       tarifasflete_id: null,
       tarifasterminales_id: null,

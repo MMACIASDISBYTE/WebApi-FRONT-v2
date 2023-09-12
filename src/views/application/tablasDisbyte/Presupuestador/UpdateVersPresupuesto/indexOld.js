@@ -60,13 +60,16 @@ import { PresupuestoHelper } from 'helpers/PresupuestoHelper';
 import { TarifasPolizaHelper } from 'helpers/TarifasPolizaHelper';
 import { TarifasFwdContHelper } from 'helpers/TarifasFwdContHelper';
 import { PesajeContenedor } from '../CreatePresupuesto/PesajeContenedor';
+import { CustomSelectUpdate } from './CustomSelectUpdate';
+import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
+import NoAutorizado from 'views/pages/maintenance/NoAutorizado';
 
 // yup validation-schema
 const validationSchema = yup.object({
-    estNumber: yup.string().required('Invoice Number is Required'),
+    estnumber: yup.string().required('Invoice Number is Required'),
     versionNumber: yup.string().required('Version Number is Required'),
     own: yup.string().required('Customer Name is Required'),
-    dolarBillete: yup.string().required('Tipo de cambio is Required'),
+    dolar: yup.string().required('Tipo de cambio is Required'),
     ivaExcento: yup.string().required('Iva Status is required'),
 
     // freightFwd: yup.string().required('Pais de origen Status is required'),
@@ -109,8 +112,13 @@ function CreateInvoice() {
     const { user } = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
-    const { estNumber, vers, presupuesto } = useParams();
-    // console.log(user);
+    const permisos = useAccessTokenJWT();
+    // console.log(permisos);
+    const editPresu = permisos.includes('presupuesto:edit');
+    console.log(editPresu);
+
+    const { estnumber, vers, presupuesto } = useParams();
+    // console.log(estnumber, vers, presupuesto);
     const [open, setOpen] = useState(false);
     const [valueColor, setValueColor] = React.useState('false');
     const [dataHelp, setDataHelp] = useState({});
@@ -131,8 +139,8 @@ function CreateInvoice() {
         const proveedoresOem = await ProveedoresOemHelper.fetchData();
         const gesDigDoc = await GestDigitalDocHelper.fetchData();
         const NCM = await NcmHelper.fetchData();
-        const header = await PresupuestoHelper.readDataById(estNumber);
-        const presupuesto = await PresupuestoHelper.readDataEstVers(estNumber, vers);
+        const header = await PresupuestoHelper.readDataById(estnumber);
+        const presupuesto = await PresupuestoHelper.readDataEstVers(estnumber, vers, '');
         const poliza = await TarifasPolizaHelper.fetchData();
         const origen = await TarifasFwdContHelper.fetchDataCountryOrigen();
 
@@ -163,11 +171,105 @@ function CreateInvoice() {
         dataHelpers();
     }, []);
     // console.log(dataHelp);
-    // console.log(dataHelp.presupuesto);
+    console.log(dataHelp.presupuesto);
+
+    const cellInput = [
+        {
+            id: 'p_gloc_banco',
+            name: 'p_gloc_banco',
+            em: 'Seleccione un banco',
+            inputLabel: 'Banco',
+            data: dataHelp.banco,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_p_gloc_banco,
+            selected_description: dataHelp?.presupuesto?.p_gloc_banco,
+        },
+        {
+            id: 'freightType',
+            name: 'freightType',
+            em: 'Seleccione una Carga',
+            inputLabel: 'Carga',
+            data: dataHelp?.carga,
+            dataType: 'objectArray',
+            selected_id: 23,
+            selected_description: dataHelp?.presupuesto?.freightType,
+        },
+        // { // NO ENTIENDO XQ NO FUNCIONA
+        //     id: 'freightFwd',
+        //     name: 'freightFwd',
+        //     em: 'Seleccione Pais de Origen',
+        //     inputLabel: 'Pais de Origen',
+        //     data: dataHelp?.origen || '',
+        //     dataType: 'stringArray',
+        //     selected_id: 1,
+        //     selected_description: dataHelp?.presupuesto?.freightFwd,
+        // },
+        {
+            id: 'polizaProv',
+            name: 'polizaProv',
+            em: 'Seleccione un Poliza',
+            inputLabel: 'Poliza',
+            data: dataHelp.poliza,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_PolizaProv,
+            selected_description: dataHelp?.presupuesto?.polizaProv,
+        },
+        {
+            id: 'p_gloc_tte',
+            name: 'p_gloc_tte',
+            em: 'Seleccione un Flete',
+            inputLabel: 'Flete',
+            data: dataHelp.flete,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_p_gloc_tte,
+            selected_description: dataHelp?.presupuesto?.p_gloc_tte,
+        },
+        {
+            id: 'p_gloc_cust',
+            name: 'p_gloc_cust',
+            em: 'Seleccione un Custodia',
+            inputLabel: 'Custodia',
+            data: dataHelp.custodia,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_p_gloc_cust,
+            selected_description: dataHelp?.presupuesto?.p_gloc_cust,
+        },
+        {
+            id: 'p_gloc_gestdigdoc',
+            name: 'p_gloc_gestdigdoc',
+            em: 'Seleccione una Gest. Digital',
+            inputLabel: 'Gestion DIgital',
+            data: dataHelp.gesDigDoc,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_p_gloc_gestdigdoc,
+            selected_description: dataHelp?.presupuesto?.p_gloc_gestdigdoc,
+        },
+        {
+            id: 'oemprove1',
+            name: 'oemprove1',
+            em: 'Seleccione un Proveedor',
+            inputLabel: 'Proveedores Oem',
+            data: dataHelp.proveedoresOem,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_oemprove1,
+            selected_description: dataHelp?.presupuesto?.oemprove1,
+        },
+        {
+            id: 'p_gloc_despa',
+            name: 'p_gloc_despa',
+            em: 'Seleccione un Despachante',
+            inputLabel: 'Despachante',
+            data: dataHelp.despachante,
+            dataType: 'objectArray',
+            selected_id: dataHelp?.presupuesto?.id_p_gloc_despa,
+            selected_description: dataHelp?.presupuesto?.p_gloc_despa,
+        },
+    ];
+    console.log(dataHelp);
 
     const formik = useFormik({
         initialValues: {
-            estNumber: estNumber,
+            estnumber: estnumber,
             versionNumber: parseInt(vers) + 1,
             own: user.name,
             ArticleFamily: '',
@@ -175,7 +277,7 @@ function CreateInvoice() {
             freightType: null,
             freightFwd: null,
             polizaProv: null,
-            dolarBillete: '',
+            dolar: '',
             pesoTotal: 0,
             p_gloc_banco: '',
             p_gloc_fwder: 'No aplica', //proveedor local
@@ -276,7 +378,7 @@ function CreateInvoice() {
 
                 // Solo se llama a createData si estDetailsDB tiene algún elemento.
                 if (postData.estDetailsDB.length > 0) {
-                    PresupuestoHelper.createNewPresupuesto(postData, estNumber);
+                    PresupuestoHelper.createNewPresupuesto(postData, estnumber);
                     console.log('Creacion exitosa de: ', postData);
                 } else {
                     console.log('Error: estDetailsDB no contiene ningún elemento.');
@@ -296,19 +398,19 @@ function CreateInvoice() {
     // Carga los elementos del estado inicial una vez llegado la dataHelp
     useEffect(() => {
         if (dataHelp.presupuesto) {
-            formik.setFieldValue('dolarBillete', dataHelp?.presupuesto?.dolarBillete);
+            formik.setFieldValue('dolar', dataHelp?.presupuesto?.dolar);
         }
         /*try {
             if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
-                formik.setFieldValue('estNumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1]);
+                formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1]);
             };
  
             if (dataHelp.presupuesto) {
-                formik.setFieldValue('dolarBillete', dataHelp?.presupuesto?.dolarBillete);
+                formik.setFieldValue('dolar', dataHelp?.presupuesto?.dolar);
             }
  
             if (dataHelp.presupuesto) {
-                formik.setFieldValue('dolarBillete', dataHelp?.presupuesto?.dolarBillete);
+                formik.setFieldValue('dolar', dataHelp?.presupuesto?.dolar);
             }
  
             if (dataHelp.presupuesto) {
@@ -421,199 +523,178 @@ function CreateInvoice() {
 
     return (
         <>
-            <MainCard title="Actualiza Presupuesto">
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <AnimateButton>
-                        <Button variant="contained" onClick={() => navigate('/estimate/estimate-list')}>
-                            Volver a la lista
-                        </Button>
-                    </AnimateButton>
-                </div>
-                {loading ? (
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh'
-                    }}>
-                        <CircularProgress />
-                    </div>
-                ) : (
-                    <form onSubmit={formik.handleSubmit}>
-                        <Grid container spacing={gridSpacing}>
-                            {/* NUM DE FACTURA */}
-                            <Grid item xs={12} md={2}>
-                                <Stack>
-                                    <InputLabel required>#</InputLabel>
-                                    <TextField
-                                        id="estNumber"
-                                        name="estNumber"
-                                        disabled
-                                        value={formik.values.estNumber}
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.estNumber && Boolean(formik.errors.estNumber)}
-                                        helperText={formik.touched.estNumber && formik.errors.estNumber}
-                                        onChange={formik.handleChange}
-                                        fullWidth
-                                        placeholder="Invoice #"
-                                    />
-                                </Stack>
-                            </Grid>
-                            {/* NUM DE VERSION */}
-                            <Grid item xs={12} md={2}>
-                                <Stack>
-                                    <InputLabel required>Version</InputLabel>
-                                    <TextField
-                                        id="versionNumber"
-                                        name="versionNumber"
-                                        disabled
-                                        value={formik.values.versionNumber}
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.versionNumber && Boolean(formik.errors.versionNumber)}
-                                        helperText={formik.touched.versionNumber && formik.errors.versionNumber}
-                                        onChange={formik.handleChange}
-                                        fullWidth
-                                        placeholder="Version #"
-                                    />
-                                </Stack>
-                            </Grid>
-                            {/* RADIO DEL IVA */}
-                            <Grid item xs={12} md={3}>
-                                <InputLabel required>Iva Exento</InputLabel>
-                                <FormControl>
-                                    <RadioGroup
-                                        row
-                                        aria-label="ivaExcento"
-                                        value={valueColor}
-                                        onChange={(e) => setValueColor(e.target.value)}
-                                        name="row-radio-buttons-group"
-                                    >
-                                        <FormControlLabel
-                                            value="true"
-                                            control={
-                                                <Radio
-                                                    sx={{
-                                                        color: theme.palette.primary.main,
-                                                        '&.Mui-checked': { color: theme.palette.primary.main }
-                                                    }}
+            {
+                !editPresu ?
+                    (
+                        <NoAutorizado />
+                    ) :
+                    (
+
+                        <MainCard title="Actualiza Presupuesto">
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
+                                <AnimateButton>
+                                    <Button variant="contained" onClick={() => navigate('/estimate/estimate-list')}>
+                                        Volver a la lista
+                                    </Button>
+                                </AnimateButton>
+                            </div>
+                            {loading ? (
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    height: '100vh'
+                                }}>
+                                    <CircularProgress />
+                                </div>
+                            ) : (
+                                <form onSubmit={formik.handleSubmit}>
+                                    <Grid container spacing={gridSpacing}>
+
+                                        {/* CABECERA DE PRESUPUESTADOR */}
+                                        {/* NUM DE FACTURA */}
+                                        <Grid item xs={12} md={2}>
+                                            <Stack>
+                                                <InputLabel required>#</InputLabel>
+                                                <TextField
+                                                    id="estnumber"
+                                                    name="estnumber"
+                                                    disabled
+                                                    value={formik.values.estnumber}
+                                                    onBlur={formik.handleBlur}
+                                                    error={formik.touched.estnumber && Boolean(formik.errors.estnumber)}
+                                                    helperText={formik.touched.estnumber && formik.errors.estnumber}
+                                                    onChange={formik.handleChange}
+                                                    fullWidth
+                                                    placeholder="Invoice #"
                                                 />
-                                            }
-                                            label="Si"
-                                        />
-                                        <FormControlLabel
-                                            value="false"
-                                            control={
-                                                <Radio
-                                                    sx={{
-                                                        color: theme.palette.error.main,
-                                                        '&.Mui-checked': { color: theme.palette.error.main }
-                                                    }}
+                                            </Stack>
+                                        </Grid>
+                                        {/* NUM DE VERSION */}
+                                        <Grid item xs={12} md={2}>
+                                            <Stack>
+                                                <InputLabel required>Version</InputLabel>
+                                                <TextField
+                                                    id="versionNumber"
+                                                    name="versionNumber"
+                                                    disabled
+                                                    value={formik.values.versionNumber}
+                                                    onBlur={formik.handleBlur}
+                                                    error={formik.touched.versionNumber && Boolean(formik.errors.versionNumber)}
+                                                    helperText={formik.touched.versionNumber && formik.errors.versionNumber}
+                                                    onChange={formik.handleChange}
+                                                    fullWidth
+                                                    placeholder="Version #"
                                                 />
-                                            }
-                                            label="No"
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-                            </Grid>
+                                            </Stack>
+                                        </Grid>
 
-                            {/* TIPO DE CAMBIO */}
-                            <Grid item xs={12} md={2}>
-                                <Stack>
-                                    <InputLabel required>Dolar</InputLabel>
-                                    <TextField
-                                        id="dolarBillete"
-                                        name="dolarBillete"
-                                        type='number'
-                                        value={formik.values.dolarBillete}
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.dolarBillete && Boolean(formik.errors.dolarBillete)}
-                                        helperText={formik.touched.dolarBillete && formik.errors.dolarBillete}
-                                        onChange={formik.handleChange}
-                                        fullWidth
-                                        placeholder="$$$"
-                                        inputProps={{ style: { textAlign: 'right' } }} // Aquí se alinea el texto a la derecha
-                                    />
-                                </Stack>
-                            </Grid>
+                                        {/* ESPACIO DE RELLENO */}
+                                        <Grid item md={2}></Grid>
 
-                            <Grid item xs={12}>
-                                <Divider />
-                            </Grid>
+                                        {/* RADIO DEL IVA */}
+                                        <Grid item xs={12} md={2} align='right'>
+                                            <InputLabel required>Iva Exento</InputLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    row
+                                                    aria-label="ivaExcento"
+                                                    value={valueColor}
+                                                    onChange={(e) => setValueColor(e.target.value)}
+                                                    name="row-radio-buttons-group"
+                                                >
+                                                    <FormControlLabel
+                                                        value="true"
+                                                        control={
+                                                            <Radio
+                                                                sx={{
+                                                                    color: theme.palette.primary.main,
+                                                                    '&.Mui-checked': { color: theme.palette.primary.main }
+                                                                }}
+                                                            />
+                                                        }
+                                                        label="Si"
+                                                    />
+                                                    <FormControlLabel
+                                                        value="false"
+                                                        control={
+                                                            <Radio
+                                                                sx={{
+                                                                    color: theme.palette.error.main,
+                                                                    '&.Mui-checked': { color: theme.palette.error.main }
+                                                                }}
+                                                            />
+                                                        }
+                                                        label="No"
+                                                    />
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </Grid>
 
-                            {/* FECHA DE FACTURACION */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Fecha de Facturacion</InputLabel>
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <DatePicker
-                                            inputFormat="dd/MM/yyyy"
-                                            renderInput={(props) => <TextField fullWidth {...props} />}
-                                            value={valueBasic}
-                                            disabled
-                                            onChange={(newValue) => {
-                                                setValueBasic(newValue);
-                                            }}
-                                        />
-                                    </LocalizationProvider>
-                                </Stack>
-                            </Grid>
+                                        {/* TIPO DE CAMBIO */}
+                                        <Grid item xs={12} md={2} align='right'>
+                                            <Stack>
+                                                <InputLabel required>Dolar</InputLabel>
+                                                <TextField
+                                                    id="dolar"
+                                                    name="dolar"
+                                                    type='number'
+                                                    value={formik.values.dolar}
+                                                    onBlur={formik.handleBlur}
+                                                    error={formik.touched.dolar && Boolean(formik.errors.dolar)}
+                                                    helperText={formik.touched.dolar && formik.errors.dolar}
+                                                    onChange={formik.handleChange}
+                                                    fullWidth
+                                                    placeholder="$$$"
+                                                    inputProps={{ style: { textAlign: 'right' } }} // Aquí se alinea el texto a la derecha
+                                                />
+                                            </Stack>
+                                        </Grid>
 
-                            {/* SELECT BANCO */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Banco</InputLabel>
-                                    <Select
-                                        id="p_gloc_banco"
-                                        name="p_gloc_banco"
-                                        displayEmpty
-                                        defaultvalue=""
-                                        value={formik.values.p_gloc_banco || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.p_gloc_banco && Boolean(formik.errors.p_gloc_banco)}
-                                        helperText={formik.touched.p_gloc_banco && formik.errors.p_gloc_banco}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                // El codigo pasa por aca en primera instancia, cuando el menu aun no ha sido cargado.
-                                                // En este punto selected es undefined, solo cuando se cargan los items como key/value
-                                                // adopta la forma de objeto. La unica asignacion posible es un objeto como los creados
-                                                // cuando se agregan items.
-                                                // Formik no recibe el valor del select, recibe el objeto. Esto parece quedar definido
-                                                // durante el postData (no hay definicion clara del objeto)
-                                                // Al asignarse un valor a Formik, el cambio del mismo fuerza su validacion.                                            
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_p_gloc_banco,
-                                                    description: dataHelp.presupuesto.p_gloc_banco
-                                                }
-                                                formik.values.p_gloc_banco = selected;
-                                                return <em>Seleccione un Banco</em>;
-                                            }
-                                            // El codigo pasa x aca cuando se ha selecionado un item. Es decir, los items han sido cargados ya. Selected ya tiene forma de objeto.
-                                            // console.log(selected);
-                                            return selected.description;
+                                        {/* FECHA DE FACTURACION */}
+                                        <Grid item xs={12} md={2} align='right'>
+                                            <Stack>
+                                                <InputLabel required>Fecha de Facturacion</InputLabel>
+                                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <DatePicker
+                                                        inputFormat="dd/MM/yyyy"
+                                                        renderInput={(props) => <TextField fullWidth {...props} />}
+                                                        value={valueBasic}
+                                                        disabled
+                                                        onChange={(newValue) => {
+                                                            setValueBasic(newValue);
+                                                        }}
+                                                    />
+                                                </LocalizationProvider>
+                                            </Stack>
+                                        </Grid>
 
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Banco</em>
-                                        </MenuItem>
+                                        <Grid item xs={12}>
+                                            <Divider />
+                                        </Grid>
+
+                                        {/* Componente CustomSelectUpdate */}
                                         {
-                                            dataHelp.banco && dataHelp.banco.length > 0
-                                                ? dataHelp.banco[0].map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-
+                                            dataHelp.presupuesto && cellInput.map(input => (
+                                                <CustomSelectUpdate
+                                                    key={input.id}
+                                                    id={input.id}
+                                                    name={input.name}
+                                                    em={input.em}
+                                                    inputLabel={input.inputLabel}
+                                                    data={input.data}
+                                                    dataType={input.dataType}
+                                                    selected_id={input.selected_id}
+                                                    selected_description={input.selected_description}
+                                                    formik={formik}
+                                                />
+                                            ))
                                         }
-                                    </Select>
-                                    {formik.errors.p_gloc_banco && <FormHelperText error>{formik.errors.p_gloc_banco}</FormHelperText>}
-                                </Stack>
-                            </Grid>
 
-                            {/* SELECT PAIS ORIGEN freigthFwd */}
-                            <Grid item xs={12} md={3}>
+                                        {/* DETALLE DE PRESPUESTADOR */}
+
+                                        {/* SELECT PAIS ORIGEN freigthFwd */}
+                                        {/* <Grid item xs={12} md={3}>
                                 <Stack>
                                     <InputLabel required>Pais de Origen</InputLabel>
                                     <Select
@@ -651,52 +732,10 @@ function CreateInvoice() {
                                     </Select>
                                     {formik.errors.freightFwd && <FormHelperText error>{formik.errors.freightFwd}</FormHelperText>}
                                 </Stack>
-                            </Grid>
+                            </Grid> */}
 
-                            {/* SELECT CARGA */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Carga</InputLabel>
-                                    <Select
-                                        id="freightType"
-                                        name="freightType"
-                                        displayEmpty
-                                        value={formik.values.freightType || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.freightType && Boolean(formik.errors.freightType)}
-                                        helperText={formik.touched.freightType && formik.errors.freightType}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: 23,
-                                                    description: dataHelp.presupuesto.freightType
-                                                }
-                                                formik.values.freightType = selected;
-                                                return <em>Seleccione una Carga</em>;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Carga</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.carga && dataHelp.carga.length > 0
-                                                ? dataHelp.carga.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.freightType && <FormHelperText error>{formik.errors.freightType}</FormHelperText>}
-                                </Stack>
-                            </Grid>
-
-                            {/* SELECT Distribuidor Local fwdtte */}
-                            {/* <Grid item xs={12} md={6}>
+                                        {/* SELECT Distribuidor Local fwdtte */}
+                                        {/* <Grid item xs={12} md={3}>
                             <Stack>
                                 <InputLabel required>Destribuidor Local</InputLabel>
                                 <Select
@@ -720,291 +759,35 @@ function CreateInvoice() {
                             </Stack>
                         </Grid> */}
 
-                            {/* SELECT Poliza */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Poliza</InputLabel>
-                                    <Select
-                                        id="polizaProv"
-                                        name="polizaProv"
-                                        displayEmpty
-                                        value={formik.values.polizaProv || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.polizaProv && Boolean(formik.errors.polizaProv)}
-                                        helperText={formik.touched.polizaProv && formik.errors.polizaProv}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_PolizaProv,
-                                                    description: dataHelp.presupuesto.polizaProv
-                                                }
-                                                formik.values.polizaProv = selected;
-                                                return <em>Seleccione una Poliza</em>;
 
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Poliza</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.poliza && dataHelp.poliza.length > 0
-                                                ? dataHelp.poliza[0].map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.polizaProv && <FormHelperText error>{formik.errors.polizaProv}</FormHelperText>}
-                                </Stack>
-                            </Grid>
+                                        {/* Detalle de los productos segun presupuestador a actualizar */}
+                                        {/* CARGA DE PRODUCTOS */}
+                                        <Grid item xs={12}>
+                                            <Divider />
+                                        </Grid>
 
-                            {/* Select FLETE */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Flete</InputLabel>
-                                    <Select
-                                        id="p_gloc_tte"
-                                        name="p_gloc_tte"
-                                        displayEmpty
-                                        value={formik.values.p_gloc_tte || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.p_gloc_tte && Boolean(formik.errors.p_gloc_tte)}
-                                        helperText={formik.touched.p_gloc_tte && formik.errors.p_gloc_tte}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_p_gloc_tte,
-                                                    description: dataHelp.presupuesto.p_gloc_tte
-                                                }
-                                                formik.values.p_gloc_tte = selected;
-                                                return <em>Seleccione un Flete</em>;
-                                                //return dataHelp.presupuesto.p_gloc_tte;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Flete</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.flete && dataHelp.flete.length > 0
-                                                ? dataHelp.flete.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.p_gloc_tte && <FormHelperText error>{formik.errors.p_gloc_tte}</FormHelperText>}
-                                </Stack>
-                            </Grid>
+                                        <ProductsPage productsData={productsData} deleteProductHandler={deleteProductHandler} />
 
-                            {/* SELECT CUSTODIA */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Custodia</InputLabel>
-                                    <Select
-                                        id="p_gloc_cust"
-                                        name="p_gloc_cust"
-                                        displayEmpty
-                                        value={formik.values.p_gloc_cust || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.p_gloc_cust && Boolean(formik.errors.p_gloc_cust)}
-                                        helperText={formik.touched.p_gloc_cust && formik.errors.p_gloc_cust}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_p_gloc_cust,
-                                                    description: dataHelp.presupuesto.p_gloc_cust
-                                                }
-                                                formik.values.p_gloc_cust = selected;
-                                                return <em>Seleccione un Custodia</em>;
-                                                //return dataHelp.presupuesto.p_gloc_cust;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Custodia</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.custodia && dataHelp.custodia.length > 0
-                                                ? dataHelp.custodia.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.p_gloc_cust && <FormHelperText error>{formik.errors.p_gloc_cust}</FormHelperText>}
-                                </Stack>
-                            </Grid>
+                                        {addItemClicked ? (
+                                            <Grid item xs={12}>
+                                                <AddItemPage handleAddItem={handleAddItem} setAddItemClicked={setAddItemClicked} dataHelp={dataHelp} />
+                                            </Grid>
+                                        ) : (
+                                            <Grid item>
+                                                <Button variant="text" onClick={() => setAddItemClicked(true)}>
+                                                    + Add Item
+                                                </Button>
+                                            </Grid>
+                                        )}
 
-                            {/* Select Gestion digital */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Gestion DIgital</InputLabel>
-                                    <Select
-                                        id="p_gloc_gestdigdoc"
-                                        name="p_gloc_gestdigdoc"
-                                        displayEmpty
-                                        value={formik.values.p_gloc_gestdigdoc || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.p_gloc_gestdigdoc && Boolean(formik.errors.p_gloc_gestdigdoc)}
-                                        helperText={formik.touched.p_gloc_gestdigdoc && formik.errors.p_gloc_gestdigdoc}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_p_gloc_gestdigdoc,
-                                                    description: dataHelp.presupuesto.p_gloc_gestdigdoc
-                                                }
-                                                formik.values.p_gloc_gestdigdoc = selected;
-                                                return <em>Seleccione una Gest. Digital</em>;
-                                                //return dataHelp.presupuesto.p_gloc_gestdigdoc;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione una Gest. Digital</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.gesDigDoc && dataHelp.gesDigDoc.length > 0
-                                                ? dataHelp.gesDigDoc.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.p_gloc_gestdigdoc && <FormHelperText error>{formik.errors.p_gloc_gestdigdoc}</FormHelperText>}
-                                </Stack>
-                            </Grid>
+                                        <Grid item xs={12}>
+                                            <Divider />
+                                        </Grid>
 
-                            {/* SELECT ProveedoresOEM */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Proveedores Oem</InputLabel>
-                                    <Select
-                                        id="oemprove1"
-                                        name="oemprove1"
-                                        displayEmpty
-                                        value={formik.values.oemprove1 || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.oemprove1 && Boolean(formik.errors.oemprove1)}
-                                        helperText={formik.touched.oemprove1 && formik.errors.oemprove1}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_oemprove1,
-                                                    description: dataHelp.presupuesto.oemprove1
-                                                }
-                                                formik.values.oemprove1 = selected;
-                                                return <em>Seleccione un Proveedor</em>;
-                                                //return dataHelp.presupuesto.oemprove1;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione un Proveedor</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.proveedoresOem && dataHelp.proveedoresOem.length > 0
-                                                ? dataHelp.proveedoresOem.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.oemprove1 && <FormHelperText error>{formik.errors.oemprove1}</FormHelperText>}
-                                </Stack>
-                            </Grid>
+                                        {/* TARJETA TOTALES */}
+                                        {/* <TotalCard productsData={productsData} allAmounts={allAmounts} /> */}
 
-                            {/* Select Despachante */}
-                            <Grid item xs={12} md={3}>
-                                <Stack>
-                                    <InputLabel required>Despachante</InputLabel>
-
-                                    <Select
-                                        id="p_gloc_despa"
-                                        name="p_gloc_despa"
-                                        displayEmpty
-                                        value={formik.values.p_gloc_despa || ''}
-                                        // ESTO SE NECESITA PARA RENDERIZAR LA VALIDACION
-                                        onBlur={formik.handleBlur}
-                                        error={formik.touched.p_gloc_despa && Boolean(formik.errors.p_gloc_despa)}
-                                        helperText={formik.touched.p_gloc_despa && formik.errors.p_gloc_despa}
-                                        // HASTA AQUI
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => {
-                                            if (!selected || Object.keys(selected).length === 0) {
-                                                selected = {
-                                                    id: dataHelp.presupuesto.id_p_gloc_despa,
-                                                    description: dataHelp.presupuesto.p_gloc_despa
-                                                }
-                                                formik.values.p_gloc_despa = selected;
-                                                return <em>Seleccione un Despachante</em>;
-                                                //return dataHelp.presupuesto.p_gloc_despa;
-                                            }
-                                            return selected.description;
-                                        }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Seleccione un Despachante</em>
-                                        </MenuItem>
-                                        {
-                                            dataHelp.despachante && dataHelp.despachante.length > 0
-                                                ? dataHelp.despachante.map((item) =>
-                                                    <MenuItem key={item.id} value={item}>{item.description}</MenuItem>
-                                                )
-                                                : <MenuItem value="">Sin datos</MenuItem>
-                                        }
-                                    </Select>
-                                    {formik.errors.p_gloc_despa && <FormHelperText error>{formik.errors.p_gloc_despa}</FormHelperText>}
-                                </Stack>
-                            </Grid>
-
-                            {/* CARGA DE PRODUCTOS */}
-                            <Grid item xs={12}>
-                                <Divider />
-                            </Grid>
-
-                            <ProductsPage productsData={productsData} deleteProductHandler={deleteProductHandler} />
-
-                            {addItemClicked ? (
-                                <Grid item xs={12}>
-                                    <AddItemPage handleAddItem={handleAddItem} setAddItemClicked={setAddItemClicked} dataHelp={dataHelp} />
-                                </Grid>
-                            ) : (
-                                <Grid item>
-                                    <Button variant="text" onClick={() => setAddItemClicked(true)}>
-                                        + Add Item
-                                    </Button>
-                                </Grid>
-                            )}
-                            <Grid item xs={12}>
-                                <Divider />
-                            </Grid>
-
-                            {/* TARJETA TOTALES */}
-                            {/* <TotalCard productsData={productsData} allAmounts={allAmounts} /> */}
-
-                            {/* <Grid item xs={12}>
+                                        {/* <Grid item xs={12}>
                             <Stack>
                                 <InputLabel required>Terms and Condition:</InputLabel>
                                 <TextField
@@ -1018,44 +801,58 @@ function CreateInvoice() {
                             </Stack>
                         </Grid> */}
 
-                            {/* PESAJE CONTENEDORES */}
-                            {
-                                ocultar ? (
-                                    ''
-                                ) : (
-                                    <PesajeContenedor productsData={productsData} tipoContenedor={formik.values.freightType} />
-                                )
+                                        {/* PESAJE CONTENEDORES */}
+                                        {
+                                            ocultar ? (
+                                                ''
+                                            ) : (
+                                                <PesajeContenedor productsData={productsData} tipoContenedor={formik.values.freightType} />
+                                            )
+                                        }
+
+                                        <Grid item xs={12}>
+                                            <Divider />
+                                        </Grid>
+
+                                        <Grid item sx={{ display: 'flex', justifyContent: 'center' }} xs={12}>
+                                            {
+                                                !editPresu ? (
+                                                    <>
+                                                        <Button variant="contained" type="submit" title='Debe de tener permisos para editar presupuesto' disabled>
+                                                            Presupuestar
+                                                        </Button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Button variant="contained" type="submit" title='Debe de tener permisos para editar presupuesto'>
+                                                            Presupuestar
+                                                        </Button>
+                                                    </>
+                                                )
+                                            }
+                                        </Grid>
+                                        <Grid item>
+                                            <Dialog open={open}>
+                                                <DialogContent>
+                                                    <DialogContentText sx={{ fontWeight: 500, color: `secondary.dark` }}>
+                                                        {mensaje}
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions sx={{ pr: '20px' }}>
+                                                    <Button autoFocus variant="contained" onClick={handleDialogOk}>
+                                                        Ok
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </Grid>
+                                    </Grid>
+                                </form>)
                             }
+                        </MainCard>
+                    )
 
-                            <Grid item xs={12}>
-                                <Divider />
-                            </Grid>
-
-                            <Grid item sx={{ display: 'flex', justifyContent: 'center' }} xs={12}>
-                                <Button variant="contained" type="submit">
-                                    Presupuestar
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Dialog open={open}>
-                                    <DialogContent>
-                                        <DialogContentText sx={{ fontWeight: 500, color: `secondary.dark` }}>
-                                            {mensaje}
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions sx={{ pr: '20px' }}>
-                                        <Button autoFocus variant="contained" onClick={handleDialogOk}>
-                                            Ok
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
-                            </Grid>
-                        </Grid>
-                    </form>)
-                }
-            </MainCard>
+            }
         </>
     );
 }
-
 export default CreateInvoice;
