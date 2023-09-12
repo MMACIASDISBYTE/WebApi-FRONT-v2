@@ -11,7 +11,9 @@ export const CustomSelectUpdate = ({
     dataType,
     selected_id,
     selected_description,
-    formik
+    formik,
+    XS,
+    MD,
 }) => {
 
     const defaultValue = {
@@ -22,7 +24,7 @@ export const CustomSelectUpdate = ({
 
     return (
         <>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={XS} md={MD}>
                 <Stack>
                     <InputLabel required>{inputLabel}</InputLabel>
                     <Select

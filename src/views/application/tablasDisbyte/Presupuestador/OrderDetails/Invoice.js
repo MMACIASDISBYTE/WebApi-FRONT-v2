@@ -162,7 +162,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                             <TableRow key={index}>
                                                 <TableCell sx={{ pl: 3 }}>
                                                     <Typography align="left" variant="subtitle1">
-                                                        {row.description}
+                                                        {row.description ? row.description : 'SIn data'}
                                                     </Typography>
                                                     {/* SE PUEDE AGREGAR UNA DESCRIPTION */}
                                                     {/* <Typography align="left" variant="body2">

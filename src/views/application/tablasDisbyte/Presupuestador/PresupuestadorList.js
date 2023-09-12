@@ -351,12 +351,13 @@ const CustomerList = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const verDetalle = (id, estvers) => {
-    navigate(`/estimate/details/${id}/${estvers}`);
+  const verDetalle = (estnumber, estvers) => {
+    console.log(estnumber, estvers);
+    navigate(`/estimate/details/${estnumber}/${estvers}`);
   };
 
-  const nuevoPresupuesto = (id, estvers) => {
-    navigate(`/estimate/update-estimate/${id}/${estvers}`);
+  const nuevoPresupuesto = (estnumber, estvers) => {
+    navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
   // console.log(rows);

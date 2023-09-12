@@ -41,9 +41,9 @@ export const PresupuestoHelper = {
             return null;
         }
     },
-    EstimateDisponibleVers: async function (estNumber, accessToken){
+    EstimateDisponibleVers: async function (estnumber, accessToken){
         try {
-            const response = await fetch(`${this.baseUrl}/EstimateHeader/detalles/${estNumber}`, {
+            const response = await fetch(`${this.baseUrl}/EstimateHeader/detalles/${estnumber}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, // Incluye el token en la cabecera de la solicitud.
                 },
@@ -59,20 +59,24 @@ export const PresupuestoHelper = {
         }
     },
     //Consulta a la API doble entrada
-    readDataEstVers: async function (estNumber, vers, accessToken) {
+    readDataEstVers: async function (estnumber, vers, accessToken) {
         try {
-            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estNumber}/${vers}`, {
+            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`
+            , {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-            });
+            }
+            );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+            console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
             const jsonData = await response.json();
             return jsonData;
         } catch (error) {
             console.error('Error', error);
+            console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
             return null;
         }
     },
@@ -96,9 +100,9 @@ export const PresupuestoHelper = {
         }
     },
     // Crear un registro en la tabla
-    createNewPresupuesto: async function (newData, estNumber) {
+    createNewPresupuesto: async function (newData, estnumber) {
         try {
-            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estNumber}`, {
+            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estnumber}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,9 +129,9 @@ export const PresupuestoHelper = {
         }
     },
     // Leer un registro de la tabla por ID y version
-    readDataByIdVers: async function (estNumber, vers) {
+    readDataByIdVers: async function (estnumber, vers) {
         try {
-            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estNumber}/${vers}`);
+            const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
             const jsonData = await response.json();
             return jsonData;
         } catch (error) {
@@ -171,19 +175,19 @@ export const PresupuestoHelper = {
         try {
             const data = await this.fetchData();
 
-            // Creamos un Map para almacenar las versiones por estNumber
+            // Creamos un Map para almacenar las versiones por estnumber
             const versionsByEstNumber = new Map();
 
             data.forEach(item => {
-                // Si el estNumber no está en el map, lo agregamos con un nuevo Set
-                if (!versionsByEstNumber.has(item.estNumber)) {
-                    versionsByEstNumber.set(item.estNumber, new Set());
+                // Si el estnumber no está en el map, lo agregamos con un nuevo Set
+                if (!versionsByEstNumber.has(item.estnumber)) {
+                    versionsByEstNumber.set(item.estnumber, new Set());
                 }
-                // Agregamos estVers al Set correspondiente al estNumber
-                versionsByEstNumber.get(item.estNumber).add(item.estVers);
+                // Agregamos estVers al Set correspondiente al estnumber
+                versionsByEstNumber.get(item.estnumber).add(item.estVers);
             });
 
-            // Contar estNumber distintos
+            // Contar estnumber distintos
             const distinctEstNumberCount = versionsByEstNumber.size;
 
             // Contar total de estVers
