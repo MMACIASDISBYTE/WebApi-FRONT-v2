@@ -3,12 +3,13 @@ import PropTypes, { number } from 'prop-types';
 // material-ui
 import { Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
-function ProductsPage({ productsData, deleteProductHandler }) {
+function ProductsPage({ productsData, deleteProductHandler, editProductHandler }) {
     
-    // console.log(productsData);
+    console.log(productsData);
     return (
         <>
             {productsData.length ? (
@@ -17,13 +18,16 @@ function ProductsPage({ productsData, deleteProductHandler }) {
                         <Table>
                             <TableHead>
                                 <TableRow>
+                                    <TableCell sx={{ pl: 3 }}>SKU</TableCell>
                                     <TableCell sx={{ pl: 3 }}>Description</TableCell>
-                                    <TableCell align="right">Piezas de Importacion</TableCell>
                                     <TableCell align="right">Amount FOB</TableCell>
-                                    <TableCell align="right">Peso U.</TableCell>
-                                    <TableCell align="right">Volumen U.</TableCell>
+                                    <TableCell align="right">EXW U. USD</TableCell>
+                                    <TableCell align="right">Piezas de Importacion</TableCell>
                                     <TableCell align="right">Piezas x Caja</TableCell>
+                                    <TableCell align="right">Volumen U.</TableCell>
+                                    <TableCell align="right">Peso U.</TableCell>
                                     <TableCell align="right">NCM</TableCell>
+                                    <TableCell align="right">Proveedor</TableCell>
                                     <TableCell align="right">Total</TableCell>
                                     <TableCell align="right" sx={{ pr: 3 }} />
                                 </TableRow>
@@ -33,22 +37,34 @@ function ProductsPage({ productsData, deleteProductHandler }) {
                                     <TableRow key={index}>
                                         <TableCell sx={{ pl: 3 }}>
                                             <Typography align="left" variant="subtitle1">
-                                                {row.modelo}
+                                                {row.sku}
                                             </Typography>
                                             {/*<Typography align="left" variant="body2"> X SI AGREGAMOS ALGUNA DESCRIPTCION
                                             {row.description}
                                             {row.description ? row.description : "sin descripción"} 
                                             {row.description || "sin descripción"} 
                                             </Typography> */}
-                                        </TableCell>     {/*Aqui hay un consicional extraño, ya que el atributo que llega de la api tiene un nombre y en el armado tiene otro */}
-                                        <TableCell align="right">{row.cantpcs ? row.cantpcs : row.cantPcs}</TableCell>
-                                        <TableCell align="right">${row.fobUnit ? row.fobUnit: row.fobunit.toFixed(2)}</TableCell>
-                                        <TableCell align="right">{row.pesoUnitxCaja ? row.pesoUnitxCaja: row.pesounitxcaja}</TableCell>
-                                        <TableCell align="right">{row.cbmxCaja? row.cbmxCaja: row.cbmxcaja}</TableCell> 
-                                        <TableCell align="right">{row.pcsxCaja? row.pcsxCaja: row.pcsxcaja}</TableCell> 
-                                        <TableCell align="right">{row.ncm}</TableCell> 
-                                        <TableCell align="right">${row.total ? row.total : ((Number(row.fobunit) * Number(row.cantpcs)).toFixed(2))}</TableCell>
+                                        </TableCell>
+                                        <TableCell align="right">{row.description ? row.description : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.fob_u ? `USD ${row.fob_u}` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.exw_u ? `USD ${row.exw_u}` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.qty ? `${row.qty} u.` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.pcsctn ? row.pcsctn : 'Sin data'}</TableCell> 
+                                        <TableCell align="right">{row.cbmctn ? row.cbmctn : 'Sin data'}</TableCell> 
+                                        <TableCell align="right">{row.gwctn ? row.gwctn : 'Sin data'}</TableCell>
+                                        {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
+                                        <TableCell align="right">{row.ncm_code ? row.description : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.proovedores_name ? row.proovedores_name : 'Sin data'}</TableCell>  
+                                        <TableCell align="right">${row.total ? row.total : 'Sin data'}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
+                                            <IconButton
+                                                color="secondary"
+                                                size="small"
+                                                onClick={() => editProductHandler(row)}
+                                                aria-label="Product Delete"
+                                            >
+                                                <EditTwoToneIcon fontSize="small" />
+                                            </IconButton>
                                             <IconButton
                                                 color="error"
                                                 size="small"

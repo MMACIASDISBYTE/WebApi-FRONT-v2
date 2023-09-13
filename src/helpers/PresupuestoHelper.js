@@ -71,7 +71,7 @@ export const PresupuestoHelper = {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
+            // console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
             const jsonData = await response.json();
             return jsonData;
         } catch (error) {

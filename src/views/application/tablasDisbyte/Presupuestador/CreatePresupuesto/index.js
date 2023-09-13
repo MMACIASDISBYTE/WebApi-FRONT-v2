@@ -176,13 +176,13 @@ const validationSchema = yup.object({
     .nullable()
     .required("Tarifas Gest Dig is Banco"),
 
-  proveedores_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Proveedor Oem is required"),
+  // proveedores_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Proveedor Oem is required"),
 });
 
 // ==============================|| CREATE INVOICE ||============================== //
@@ -335,13 +335,13 @@ function CreateInvoice() {
       inputLabel: "Tarifa Gestion Digital",
       data: dataHelp.TarifasGestDig,
     },
-    {
-      id: "proveedores_id",
-      name: "proveedores_id",
-      em: "Seleccione un Proveedor",
-      inputLabel: "Proveedores Oem",
-      data: dataHelp.proveedoresOem,
-    },
+    // {
+    //   id: "proveedores_id",
+    //   name: "proveedores_id",
+    //   em: "Seleccione un Proveedor",
+    //   inputLabel: "Proveedores Oem",
+    //   data: dataHelp.proveedoresOem,
+    // },
   ];
   //   console.log(cellInput);
 
@@ -393,7 +393,7 @@ function CreateInvoice() {
       //   polizaProv: null,
       dolar: "",
       tarifupdate: 1023, //harcodeado (formula de calculo)
-      tarifrecent: 1023,
+      tarifrecent: 1023, //harcodeado (formula de calculo)
       tarifasfwd_id: null,
       tarifasflete_id: null,
       tarifasterminales_id: null,
@@ -436,7 +436,7 @@ function CreateInvoice() {
       freight_insurance_cost: 0,
       iibb_total: 0,
 
-      proveedores_id: null, //va en el details
+      // proveedores_id: null, //va en el details
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -484,9 +484,9 @@ function CreateInvoice() {
               ? values.tarifasgestdigdoc_id.id
               : "",
 
-            proveedores_id: values.proveedores_id
-              ? values.proveedores_id.description
-              : "",
+            // proveedores_id: values.proveedores_id
+            //   ? values.proveedores_id.description
+            //   : "",
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };

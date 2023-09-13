@@ -59,6 +59,7 @@ import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
 import { PesajeContenedor } from "../CreatePresupuesto/PesajeContenedor";
 import { CustomSelect } from "../CreatePresupuesto/CustomSelect";
 import { CustomSelectUpdate } from "./CustomSelectUpdate";
+import { ExtraCostos } from "./ExtraCostos";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -234,10 +235,15 @@ function CreateInvoice() {
       TarifasBanco,
       TarifasGestDig,
     };
-    setDataHelp(objData);
+    // setDataHelp(objData);
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
+
+  useEffect(() => {
+    dataHelpers();
+  }, []);
+  console.log(dataHelp);
 
   const cellInput = [
     {
@@ -246,6 +252,9 @@ function CreateInvoice() {
       em: "Seleccione una Carga",
       inputLabel: "Carga",
       data: dataHelp.carga,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
     },
     {
       id: "fwdpaisregion_id",
@@ -253,6 +262,10 @@ function CreateInvoice() {
       em: "Seleccione una pais de Origen",
       inputLabel: "Pais Origen",
       data: dataHelp.Paises,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
     },
     {
       id: "tarifasfwd_id",
@@ -260,6 +273,10 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Fwd",
       inputLabel: "Tarifas Fwd",
       data: dataHelp.TarifasFwd,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasfwd_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasfwd_id,
     },
     {
       id: "tarifasflete_id",
@@ -267,6 +284,10 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Flete",
       inputLabel: "Tarifa Fletes",
       data: dataHelp.TarifasFlete,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasflete_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasflete_id,
     },
     {
       id: "tarifasterminales_id",
@@ -274,6 +295,11 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Terminal",
       inputLabel: "Tarifa Terminal",
       data: dataHelp.TarifasTerminal,
+      dataType: "objectArray",
+      selected_id:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasterminales_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasterminales_id,
     },
     {
       id: "tarifaspolizas_id",
@@ -281,6 +307,10 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Poliza",
       inputLabel: "Tarifa Poliza",
       data: dataHelp.TarifasPoliza,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifaspolizas_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifaspolizas_id,
     },
     {
       id: "tarifasdepositos_id",
@@ -288,6 +318,11 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Deposito",
       inputLabel: "Tarifa Deposito",
       data: dataHelp.TarifasDepositos,
+      dataType: "objectArray",
+      selected_id:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasdepositos_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasdepositos_id,
     },
     {
       id: "tarifasdespachantes_id",
@@ -295,6 +330,11 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Despachantes",
       inputLabel: "Tarifa Despachantes",
       data: dataHelp.TarifasDespachantes,
+      dataType: "objectArray",
+      selected_id:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasdespachantes_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasdespachantes_id,
     },
     {
       id: "tarifasbancos_id",
@@ -302,6 +342,10 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa banco",
       inputLabel: "Tarifa Banco",
       data: dataHelp.TarifasBanco,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasbancos_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasbancos_id,
     },
     {
       id: "tarifasgestdigdoc_id",
@@ -309,16 +353,127 @@ function CreateInvoice() {
       em: "Seleccione una Tarifa Gestion Digital",
       inputLabel: "Tarifa Gestion Digital",
       data: dataHelp.TarifasGestDig,
-    },
-    {
-      id: "proveedores_id",
-      name: "proveedores_id",
-      em: "Seleccione un Proveedor",
-      inputLabel: "Proveedores Oem",
-      data: dataHelp.proveedoresOem,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasbancos_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
     },
   ];
   //   console.log(cellInput);
+
+  const ExtraCostosComex = [
+    {
+      id: "extrag_comex1",
+      name: "extrag_comex1",
+      em: "Ingrese Extra Gasto Comex 1",
+      inputLabel: "Ex Costo 1",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_comex2",
+      name: "extrag_comex2",
+      em: "Ingrese Extra Gasto Comex 2",
+      inputLabel: "Ex Costo 2",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_comex3",
+      name: "extrag_comex3",
+      em: "Ingrese Extra Gasto Comex 3",
+      inputLabel: "Ex Costo 3",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_comex4",
+      name: "extrag_comex4",
+      em: "Ingrese Extra Gasto Comex 4",
+      inputLabel: "Ex Costo 4",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex4,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_comex5",
+      name: "extrag_comex5",
+      em: "Ingrese Extra Gasto Comex 5",
+      inputLabel: "Ex Costo 5",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex5,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_comex_notas",
+      name: "extrag_comex_notas",
+      em: "Ingrese Nota De gastos Comex",
+      inputLabel: "Notas de gasto Comex",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
+      dataType: "string",
+      Xs_Xd: [12, 9]
+    },
+  ];
+
+  const ExtraCostosFinan = [
+    {
+      id: "extrag_finan1",
+      name: "extrag_finan1",
+      em: "Ingrese Extra Gasto Financiero 1",
+      inputLabel: "Ex Costo 1",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_finan2",
+      name: "extrag_finan2",
+      em: "Ingrese Extra Gasto Financiero 2",
+      inputLabel: "Ex Costo 2",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_finan3",
+      name: "extrag_finan3",
+      em: "Ingrese Extra Gasto Financiero 3",
+      inputLabel: "Ex Costo 3",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_finan4",
+      name: "extrag_finan4",
+      em: "Ingrese Extra Gasto Financiero 4",
+      inputLabel: "Ex Costo 4",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_finan5",
+      name: "extrag_finan5",
+      em: "Ingrese Extra Gasto Financiero 5",
+      inputLabel: "Ex Costo 5",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
+      dataType: "number",
+      Xs_Xd: [12, 3]
+    },
+    {
+      id: "extrag_finan_notas",
+      name: "extrag_finan_notas",
+      em: "Ingrese Nota De gastos Financiero",
+      inputLabel: "Notas de gasto Financiero",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
+      dataType: "string",
+      Xs_Xd: [12, 9]
+    },
+  ];
 
   const cabeceraPais = [
     {
@@ -329,8 +484,20 @@ function CreateInvoice() {
       data: dataHelp.Paises,
       dataType: "objectArray",
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.paisregion_id,
-      selected_description: dataHelp?.presupuestoEditable?.estHeader?.paisregion_id,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.paisregion_id,
     },
+    // {
+    //   id: "carga_id",
+    //   name: "carga_id",
+    //   em: "Seleccione una Carga",
+    //   inputLabel: "Carga",
+    //   data: dataHelp.carga,
+    //   dataType: "objectArray",
+    //   selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+    //   selected_description:
+    //     dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+    // },
   ];
 
   const cabeceraNota = [
@@ -339,14 +506,13 @@ function CreateInvoice() {
       name: "description",
       em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
       inputLabel: "Descripcion",
-      data: "String",
+      data: dataHelp?.presupuestoEditable?.description,
+      dataType: "string",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.description,
+      selected_description:
+        dataHelp?.presupuestoEditable?.estHeader?.description,
     },
   ];
-
-  useEffect(() => {
-    dataHelpers();
-  }, []);
-  console.log(dataHelp);
 
   const formik = useFormik({
     initialValues: {
@@ -354,18 +520,20 @@ function CreateInvoice() {
       estnumber: "",
       estvers: 1,
       status: 1,
-      paisregion_id: "",
+      paisregion_id:
+        dataHelp?.presupuestoEditable?.estHeader?.paisregion_id || "",
       SeleccionPais: "Seleccione un pais",
       own: user.name,
       ivaExcento: "true",
-      htimestamp: dataHelp?.presupuestoEditable?.estHeader?.htimestamp || '',
+      htimestamp: null,
 
       usarmoneda_local: "false",
       carga_id: null,
       fwdpaisregion_id: null,
       //   polizaProv: null,
-      dolar: "",
-      tarifsource: 511, //harcodeado (formula de calculo)
+      dolar: null,
+      tarifupdate: 1023, //harcodeado (formula de calculo)
+      tarifrecent: 1023, //harcodeado (formula de calculo)
       tarifasfwd_id: null,
       tarifasflete_id: null,
       tarifasterminales_id: null,
@@ -500,6 +668,18 @@ function CreateInvoice() {
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue(
+        "description",
+        dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+    // if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    //   formik.setFieldValue(
+    //     "carga_id",
+    //     dataHelp.presupuestoEditable?.estHeader?.carga_id
+    //   );
+    // }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
         "htimestamp",
         dataHelp.presupuestoEditable?.estHeader?.htimestamp
       );
@@ -625,6 +805,13 @@ function CreateInvoice() {
 
     setAddItemClicked(false);
   };
+
+  useEffect(() => {
+    if (dataHelp.presupuestoEditable) {
+      setProductsData(dataHelp.presupuestoEditable.estDetails);
+      console.log(dataHelp.presupuestoEditable.estDetails);
+    }
+  }, [dataHelp]);
 
   return (
     <>
@@ -857,15 +1044,23 @@ function CreateInvoice() {
                 </Stack>
               </Grid>
 
-              {cabeceraNota.map((field) => (
-                <CustomSelect
-                  key={field.id}
-                  {...field}
-                  formik={formik}
-                  XS={12}
-                  MD={4}
-                />
-              ))}
+              {dataHelp.presupuestoEditable &&
+                cabeceraNota.map((input) => (
+                  <CustomSelectUpdate
+                    key={input.id}
+                    id={input.id}
+                    name={input.name}
+                    em={input.em}
+                    inputLabel={input.inputLabel}
+                    data={input.data}
+                    dataType={input.dataType}
+                    selected_id={input.selected_id}
+                    selected_description={input.selected_description}
+                    formik={formik}
+                    XS={12}
+                    MD={4}
+                  />
+                ))}
 
               {/* ESPACIO DE RELLENO */}
               {/* <Grid item md={0}></Grid> */}
@@ -923,7 +1118,10 @@ function CreateInvoice() {
                       renderInput={(props) => (
                         <TextField fullWidth {...props} />
                       )}
-                      value={valueBasic}
+                      value={
+                        dataHelp?.presupuestoEditable?.estHeader?.htimestamp ||
+                        valueBasic
+                      }
                       disabled
                       onChange={(newValue) => {
                         setValueBasic(newValue);
@@ -938,67 +1136,105 @@ function CreateInvoice() {
                 <Divider />
               </Grid>
 
-              {formik.values.paisregion_id != "" ? (
-                <>
-                  {
-                    //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                    cellInput.map((field) => (
-                      <CustomSelect
-                        key={field.id}
-                        {...field}
-                        formik={formik}
-                        XS={12}
-                        MD={2}
-                        PaisRegion={formik.values.paisregion_id.id}
-                      />
-                    ))
-                  }
-                  {/* CARGA DE PRODUCTOS */}
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                  <ProductsPage
-                    productsData={productsData}
-                    deleteProductHandler={deleteProductHandler}
-                    editProductHandler={editProductHandler}
-                  />
-                  {addItemClicked ? (
-                    <Grid item xs={12}>
-                      <AddItemPage
-                        handleAddItem={handleAddItem}
-                        setAddItemClicked={setAddItemClicked}
-                        dataHelp={dataHelp}
-                      />
-                    </Grid>
-                  ) : (
-                    <Grid item>
-                      <Button
-                        variant="text"
-                        onClick={() => setAddItemClicked(true)}
-                      >
-                        + Agregar Producto
-                      </Button>
-                    </Grid>
-                  )}
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-
-                  {/* PESAJE CONTENEDORES */}
-                  {ocultar ? (
-                    ""
-                  ) : (
-                    <PesajeContenedor
-                      productsData={productsData}
-                      tipoContenedor={formik.values.carga_id}
+              {
+                //COMPONENTE DE INPUTS que maneja la data de cellInput *
+                dataHelp.presupuestoEditable &&
+                  cellInput.map((field) => (
+                    <CustomSelectUpdate
+                      key={field.id}
+                      {...field}
+                      formik={formik}
+                      XS={12}
+                      MD={2}
+                      PaisRegion={formik.values.paisregion_id.id}
                     />
-                  )}
+                  ))
+              }
 
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                </>
-              ) : null}
+              {/* DETALLE DE COSTOS COMEX */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              {dataHelp.presupuestoEditable &&
+                ExtraCostosComex.map((input) => (
+                  <ExtraCostos
+                    key={input.id}
+                    id={input.id}
+                    name={input.name}
+                    em={input.em}
+                    inputLabel={input.inputLabel}
+                    data={input.data}
+                    dataType={input.dataType}
+                    formik={formik}
+                    Xs_Xd={input.Xs_Xd}
+                  />
+                ))}
+
+                {/* DETALLE DE COSTOS COMEX */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              {dataHelp.presupuestoEditable &&
+                ExtraCostosFinan.map((input) => (
+                  <ExtraCostos
+                    key={input.id}
+                    id={input.id}
+                    name={input.name}
+                    em={input.em}
+                    inputLabel={input.inputLabel}
+                    data={input.data}
+                    dataType={input.dataType}
+                    formik={formik}
+                    Xs_Xd={input.Xs_Xd}
+                  />
+                ))}
+
+              {/* CARGA DE PRODUCTOS */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <ProductsPage
+                productsData={productsData}
+                deleteProductHandler={deleteProductHandler}
+                editProductHandler={editProductHandler}
+              />
+              {addItemClicked ? (
+                <Grid item xs={12}>
+                  <AddItemPage
+                    handleAddItem={handleAddItem}
+                    setAddItemClicked={setAddItemClicked}
+                    dataHelp={dataHelp}
+                  />
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Button
+                    variant="text"
+                    onClick={() => setAddItemClicked(true)}
+                  >
+                    + Agregar Producto
+                  </Button>
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              {/* PESAJE CONTENEDORES */}
+              {ocultar ? (
+                ""
+              ) : (
+                <PesajeContenedor
+                  productsData={productsData}
+                  tipoContenedor={formik.values.carga_id}
+                />
+              )}
+
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
 
               <Grid
                 item
