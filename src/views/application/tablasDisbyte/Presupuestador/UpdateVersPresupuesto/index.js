@@ -369,7 +369,9 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 1 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
     },
     {
       id: "extrag_comex2",
@@ -378,7 +380,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 2 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_comex3",
@@ -387,7 +390,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 3 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_comex4",
@@ -396,7 +400,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 4 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex4,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_comex5",
@@ -405,7 +410,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 5 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex5,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_comex_notas",
@@ -414,10 +420,12 @@ function CreateInvoice() {
       inputLabel: "Notas de gasto Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
       dataType: "string",
-      Xs_Xd: [12, 9]
+      Xs_Xd: [12, 9],
+      blockDeGastos: false,
     },
   ];
 
+  console.log(ExtraCostosComex[0].ValorSwitch);
   const ExtraCostosFinan = [
     {
       id: "extrag_finan1",
@@ -426,7 +434,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 1 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_finan2",
@@ -435,7 +444,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 2 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_finan3",
@@ -444,7 +454,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 3 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: false,
     },
     {
       id: "extrag_finan4",
@@ -453,7 +464,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 4 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
     },
     {
       id: "extrag_finan5",
@@ -462,7 +474,8 @@ function CreateInvoice() {
       inputLabel: "Ex Costo 5 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
       dataType: "number",
-      Xs_Xd: [12, 3]
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
     },
     {
       id: "extrag_finan_notas",
@@ -471,7 +484,8 @@ function CreateInvoice() {
       inputLabel: "Notas de gasto Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
       dataType: "string",
-      Xs_Xd: [12, 9]
+      Xs_Xd: [12, 9],
+      blockDeGastos: false,
     },
   ];
 
@@ -1244,6 +1258,8 @@ function CreateInvoice() {
                     dataType={input.dataType}
                     formik={formik}
                     Xs_Xd={input.Xs_Xd}
+                    blockDeGastos={input.blockDeGastos}
+                    ValorSwitch={input.ValorSwitch}
                   />
                 ))}
 
