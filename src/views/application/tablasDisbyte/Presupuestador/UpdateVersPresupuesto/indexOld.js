@@ -770,7 +770,7 @@ function CreateInvoice() {
 
                                         {addItemClicked ? (
                                             <Grid item xs={12}>
-                                                <AddItemPage handleAddItem={handleAddItem} setAddItemClicked={setAddItemClicked} dataHelp={dataHelp} />
+                                                {/* <AddItemPage handleAddItem={handleAddItem} setAddItemClicked={setAddItemClicked} dataHelp={dataHelp} /> */}
                                             </Grid>
                                         ) : (
                                             <Grid item>

@@ -569,7 +569,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       errors.skuError = "Sku Name is required";
     }
     // Validacion FOb unitario
-    if (!selectedItem?.fob_u || selectedItem?.fob_u <= 0) {
+    if (!selectedItem?.fob_u || selectedItem?.fob_u < 0) {
       errors.fob_uError = "Valor Fob is required";
     }
     // Validacion qty cantidad
@@ -577,7 +577,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       errors.qtyError = "Cantidad is required";
     }
     // Validacion Vol x caja
-    if (!selectedItem?.cbmctn || selectedItem?.cbmctn <= 0) {
+    if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "Vol. x caja is required";
     }
     // Validacion Piezas x caja
@@ -586,7 +586,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     }
 
     // Validacion Peso x caja
-    if (!selectedItem?.gwctn || selectedItem?.gwctn <= 0) {
+    if (!selectedItem?.gwctn || selectedItem?.gwctn < 0) {
       errors.gwctnError = "Peso x caja is required";
     }
 
@@ -622,7 +622,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                       <TextField
                         fullWidth
                         name={item.name}
-                        type={item.data === "Number" ? "number" : "text"}
+                        type={item.data === "Number" ? "text" : "text"}
                         error={Boolean(errors[`${item.name}Error`])}
                         value={selectedItem[item.id] || ""}
                         onChange={(e) => handleChange(e, item.data)}
