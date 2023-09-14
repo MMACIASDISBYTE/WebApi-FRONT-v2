@@ -218,7 +218,7 @@ function CreateInvoice() {
     const presupuesto = await PresupuestoHelper.fetchData();
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
-    const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
+    // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
     const Paises = await PaisRegionHelper.fetchData();
     const TarifasFwd = await TarifasFwdHelper.fetchData();
     const TarifasFlete = await TarifasFleteHelper.fetchData();
@@ -246,7 +246,7 @@ function CreateInvoice() {
       NCM,
       presupuesto,
       proximoEstDisponible,
-      tipoCambio,
+      // tipoCambio,
       Paises,
       TarifasFwd,
       TarifasFlete,
@@ -524,8 +524,12 @@ function CreateInvoice() {
       formik.setFieldValue("estnumber", dataHelp.proximoEstDisponible); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
+    // ESTADO INICIAL QUE FUNCIONA CON LA COTIZACION (por ahora suspendida xq relentiza la app)
+    // if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    //   formik.setFieldValue("dolar", dataHelp.tipoCambio.quotes.USDARS);
+    // }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
-      formik.setFieldValue("dolar", dataHelp.tipoCambio.quotes.USDARS);
+      formik.setFieldValue("dolar", 350);
     }
   }, [dataHelp]);
 

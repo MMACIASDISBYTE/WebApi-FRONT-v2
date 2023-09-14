@@ -206,7 +206,7 @@ function CreateInvoice() {
     );
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
-    const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
+    // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
     const Paises = await PaisRegionHelper.fetchData();
     const TarifasFwd = await TarifasFwdHelper.fetchData();
     const TarifasFlete = await TarifasFleteHelper.fetchData();
@@ -224,7 +224,7 @@ function CreateInvoice() {
       presupuesto,
       presupuestoEditable,
       proximoEstDisponible,
-      tipoCambio,
+      // tipoCambio,
       Paises,
       TarifasFwd,
       TarifasFlete,
@@ -366,7 +366,7 @@ function CreateInvoice() {
       id: "extrag_comex1",
       name: "extrag_comex1",
       em: "Ingrese Extra Gasto Comex 1",
-      inputLabel: "Ex Costo 1",
+      inputLabel: "Ex Costo 1 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -375,7 +375,7 @@ function CreateInvoice() {
       id: "extrag_comex2",
       name: "extrag_comex2",
       em: "Ingrese Extra Gasto Comex 2",
-      inputLabel: "Ex Costo 2",
+      inputLabel: "Ex Costo 2 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -384,7 +384,7 @@ function CreateInvoice() {
       id: "extrag_comex3",
       name: "extrag_comex3",
       em: "Ingrese Extra Gasto Comex 3",
-      inputLabel: "Ex Costo 3",
+      inputLabel: "Ex Costo 3 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -393,7 +393,7 @@ function CreateInvoice() {
       id: "extrag_comex4",
       name: "extrag_comex4",
       em: "Ingrese Extra Gasto Comex 4",
-      inputLabel: "Ex Costo 4",
+      inputLabel: "Ex Costo 4 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex4,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -402,7 +402,7 @@ function CreateInvoice() {
       id: "extrag_comex5",
       name: "extrag_comex5",
       em: "Ingrese Extra Gasto Comex 5",
-      inputLabel: "Ex Costo 5",
+      inputLabel: "Ex Costo 5 Comex",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex5,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -423,7 +423,7 @@ function CreateInvoice() {
       id: "extrag_finan1",
       name: "extrag_finan1",
       em: "Ingrese Extra Gasto Financiero 1",
-      inputLabel: "Ex Costo 1",
+      inputLabel: "Ex Costo 1 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -432,7 +432,7 @@ function CreateInvoice() {
       id: "extrag_finan2",
       name: "extrag_finan2",
       em: "Ingrese Extra Gasto Financiero 2",
-      inputLabel: "Ex Costo 2",
+      inputLabel: "Ex Costo 2 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -441,7 +441,7 @@ function CreateInvoice() {
       id: "extrag_finan3",
       name: "extrag_finan3",
       em: "Ingrese Extra Gasto Financiero 3",
-      inputLabel: "Ex Costo 3",
+      inputLabel: "Ex Costo 3 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -450,7 +450,7 @@ function CreateInvoice() {
       id: "extrag_finan4",
       name: "extrag_finan4",
       em: "Ingrese Extra Gasto Financiero 4",
-      inputLabel: "Ex Costo 4",
+      inputLabel: "Ex Costo 4 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -459,7 +459,7 @@ function CreateInvoice() {
       id: "extrag_finan5",
       name: "extrag_finan5",
       em: "Ingrese Extra Gasto Financiero 5",
-      inputLabel: "Ex Costo 5",
+      inputLabel: "Ex Costo 5 Financiero",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
       dataType: "number",
       Xs_Xd: [12, 3]
@@ -562,7 +562,7 @@ function CreateInvoice() {
       extrag_finan3: 0,
       extrag_finan4: 0,
       extrag_finan5: 0,
-      extrag_finan_notas: "Sin notas",
+      extrag_finan_notas: 'Sin Notas',
       constantes_id: 1, //harcodeado
       fob_grand_total: 0,
       cbm_grand_total: 0,
@@ -670,6 +670,82 @@ function CreateInvoice() {
       formik.setFieldValue(
         "description",
         dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+
+    //EXTRA GASTOS COMEX
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex1",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex1
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex2",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex2
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex3",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex3
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex4",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex4
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex5",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex5
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex_notas",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex_notas
+      );
+    }
+
+    //EXTRA GASTOS FINANCIERO
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan1",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan1
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan2",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan2
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan3",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan3
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan4",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan4
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan5",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan5
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan_notas",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan_notas
       );
     }
     // if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
