@@ -76,16 +76,32 @@ export const UtilidadesHelper = {
 
     return `${dia}/${mes}/${ano}`;
   },
-  formatFechaYhora: function(fechaJSON){
+  formatFechaYhora: function (fechaJSON) {
     const fecha = new Date(fechaJSON);
 
     const dia = fecha.getDate();
     const mes = fecha.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
     const ano = fecha.getFullYear();
     // Extraer las partes de la hora
-    const horas = String(fecha.getHours()).padStart(2, '0');
-    const minutos = String(fecha.getMinutes()).padStart(2, '0');
+    const horas = String(fecha.getHours()).padStart(2, "0");
+    const minutos = String(fecha.getMinutes()).padStart(2, "0");
 
     return `${dia}/${mes}/${ano} ${horas}:${minutos}hs`;
-  }
+  },
+  valueToBoolArr: function (valInt) {
+    const arrBool = Array(30).fill(false);
+    let nuevoArr = arrBool.map((valor, index) =>
+      valInt & (1 << index) ? (valor = true) : (valor = false)
+    );
+    // console.log(nuevoArr);
+    // setTarifUpdate(nuevoArr); //ESTO SETEABA UN VALOR A UN USESTATE
+    return nuevoArr;
+  },
+  boolArrToValue: function (boolArr) {
+    const valor = boolArr.reduce((accumulator, currentValue, index) => {
+      return accumulator + (currentValue ? 1 << index : 0);
+    }, 0);
+
+    return valor;
+  },
 };

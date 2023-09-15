@@ -23,14 +23,16 @@ export const ExtraCostos = ({
   formik,
   Xs_Xd,
   blockDeGastos = false,
-  ValorSwitch,
+  ValorSwitch = false,
 }) => {
   const theme = useTheme();
   const [value, setValue] = useState("");
+  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(true); // Estado inicial
 
   const onSwitchChange = (newSwitchState) => {
-    console.log("El nuevo estado del interruptor es:", newSwitchState);
+    // console.log("El nuevo estado del interruptor es:", newSwitchState);
     // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor
+    setValorSwitchAplicable(newSwitchState); // Aquí actualizas el estado
   };
 
   const handleChangeCustom = (event) => {
@@ -46,9 +48,12 @@ export const ExtraCostos = ({
       formik.setFieldValue(name, inputValue);
     }
   };
+useEffect(() => {
+
+}, [ValorSwitch])
 
   // console.log(formik.values);
-  console.log(ValorSwitch);
+  // console.log(ValorSwitch);
   
   return (
     <>
@@ -81,6 +86,7 @@ export const ExtraCostos = ({
                 onChange={handleChangeCustom}
                 fullWidth
                 placeholder={em}
+                disabled={!ValorSwitchaplicable}
                 inputProps={{
                   style: { textAlign: "right" },
                 }}

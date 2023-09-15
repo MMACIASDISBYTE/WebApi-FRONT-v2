@@ -56,10 +56,10 @@ import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
 import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
-import { PesajeContenedor } from "../CreatePresupuesto/PesajeContenedor";
 import { CustomSelect } from "../CreatePresupuesto/CustomSelect";
 import { CustomSelectUpdate } from "./CustomSelectUpdate";
 import { ExtraCostos } from "./ExtraCostos";
+import { PesajeContenedorUpdate } from "./PesajeContenedorUpdate";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -243,7 +243,7 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  console.log(dataHelp);
+  // console.log(dataHelp);
 
   const cellInput = [
     {
@@ -903,6 +903,11 @@ function CreateInvoice() {
     }
   }, [dataHelp]);
 
+  useEffect(() => {
+    console.log(UtilidadesHelper.valueToBoolArr(255));
+    console.log(UtilidadesHelper.boolArrToValue(UtilidadesHelper.valueToBoolArr(255)));
+  },[])
+
   return (
     <>
       <MainCard title="Crear Presupuesto">
@@ -1318,7 +1323,7 @@ function CreateInvoice() {
               {ocultar ? (
                 ""
               ) : (
-                <PesajeContenedor
+                <PesajeContenedorUpdate
                   productsData={productsData}
                   tipoContenedor={formik.values.carga_id}
                 />

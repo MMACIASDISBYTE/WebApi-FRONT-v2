@@ -9,7 +9,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 //
 function ProductsPage({ productsData, deleteProductHandler, editProductHandler }) {
     
-    console.log(productsData);
+    // console.log(productsData);
     return (
         <>
             {productsData.length ? (
