@@ -10,7 +10,7 @@ export const SwitchGastos = ({onSwitchChange}) => {
     let newState = event.target.checked;
     setIsChecked(newState); // Actualiza el estado con el nuevo valor
     onSwitchChange(newState);
-    console.log("Switch is now:", newState); // Puedes usar este valor como quieras
+    // console.log("Switch is now:", newState); // Puedes usar este valor como quieras
   };
 
   return (
