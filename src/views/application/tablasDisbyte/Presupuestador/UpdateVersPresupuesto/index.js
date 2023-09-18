@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1, // El valor por defecto es 0.54
     },
   },
-}));
+}));   
 
 // yup validation-schema
 const validationSchema = yup.object({
@@ -1435,6 +1435,7 @@ function CreateInvoice() {
                 <PesajeContenedorUpdate
                   productsData={productsData}
                   tipoContenedor={formik.values.carga_id}
+                  
                 />
               )}
 

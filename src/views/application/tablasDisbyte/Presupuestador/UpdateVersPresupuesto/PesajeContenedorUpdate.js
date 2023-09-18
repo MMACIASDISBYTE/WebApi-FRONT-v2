@@ -28,23 +28,29 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
             // console.log(contenedor.weight);
             // console.log(ContenedorConcatenado);
         }
+        
     }, [tipoContenedor]);
 
 
     useEffect(() => {
+        
         if (contenedor) {
             // 1. Suma de todos los pesoUnitxCaja
             const pesoTotal = productsData.reduce((acc, product) => {
-                const peso = parseFloat(product.gwctn || product.gwctn || 0);
-                const cantPcs = parseFloat(product.cantPcs || product.cantpcs || 1); 
-                return acc + (peso * cantPcs);
+                const pesoPorCaja = parseFloat(product.gwctn || 0);
+                const piezasPorCaja = parseFloat(product.pcsctn || 1);
+                const pesoPorPieza=pesoPorCaja/piezasPorCaja; 
+                const cantidadDePiezas = parseFloat(product.qty || 1);
+                return acc + (cantidadDePiezas*pesoPorPieza);
             }, 0);
 
             // 2. Suma de todos los cbmxCaja
             const CMB_grandTotal = productsData.reduce((acc, product) => {
-                const cbm = parseFloat(product.cbmctn || product.cbmctn || 0);
-                const cantPcs = parseFloat(product.cantPcs || product.cantpcs || 1); 
-                return acc + (cbm * cantPcs);
+                const cantidadPiezas = parseFloat(product.qty || 0);
+                const piezasPorCaja = parseFloat(product.pcsctn || 1);
+                const cantidadDeCajas = Math.ceil(cantidadPiezas/piezasPorCaja);
+                const volumenPorCaja  = parseFloat(product.cbmctn || 0);
+                return acc + (volumenPorCaja * cantidadDeCajas);
             }, 0);
 
             setPeso(pesoTotal);
@@ -56,7 +62,7 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
                 // console.log(CMB_grandTotal / contenedor.volume);
                 setContenedores(parseFloat(CMB_grandTotal / contenedor.volume));
             };
-
+            console.log(pesoTotal);    
             // console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
         // console.log(productsData);

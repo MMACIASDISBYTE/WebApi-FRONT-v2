@@ -29,8 +29,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "sku",
       name: "sku",
-      inputName: "Sku",
-      em: "Ingrese un sku",
+      inputName: "SKU",
+      em: "Ingrese un SKU",
       data: "String",
       xs_md: [12, 3],
       isDisabled: false,
@@ -89,7 +89,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "exw_u",
       name: "exw_u",
-      inputName: "Costo seguro y flete (exw_u)",
+      inputName: "EXW Unit .[USD]",
       em: "Ingrese exw_u",
       data: "Number",
       xs_md: [12, 3],
@@ -100,7 +100,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       id: "fob_u",
       name: "fob_u",
       inputName: "FOB u.",
-      em: "Ingrese un fob U.",
+      em: "Ingrese Valor FOB u.",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -109,8 +109,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "qty",
       name: "qty",
-      inputName: "Cantidad",
-      em: "Ingrese una Cantidad",
+      inputName: "Cant. PCS",
+      em: "Ingrese Cant. PCS",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -119,8 +119,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "pcsctn",
       name: "pcsctn",
-      inputName: "Piezas x Caja",
-      em: "Ingrese Piezas x Caja",
+      inputName: "PCS x Caja",
+      em: "Ingrese PCS x Caja",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -129,8 +129,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     {
       id: "cbmctn",
       name: "cbmctn",
-      inputName: "Mt3 x Caja",
-      em: "Ingrese Mt3 x Caja",
+      inputName: "CBM x Caja",
+      em: "Ingrese CBM x Caja",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -574,15 +574,15 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     }
     // Validacion qty cantidad
     if (!selectedItem?.qty || selectedItem?.qty <= 0) {
-      errors.qtyError = "Cantidad is required";
+      errors.qtyError = "Cant. PCS is required";
     }
     // Validacion Vol x caja
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
-      errors.cbmctnError = "Vol. x caja is required";
+      errors.cbmctnError = "CBM x caja is required";
     }
     // Validacion Piezas x caja
     if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
-      errors.pcsctnError = "Pieza x caja is required";
+      errors.pcsctnError = "PSC x caja is required";
     }
 
     // Validacion Peso x caja
@@ -626,7 +626,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         error={Boolean(errors[`${item.name}Error`])}
                         value={selectedItem[item.id] || ""}
                         onChange={(e) => handleChange(e, item.data)}
-                        placeholder={`Ingrese ${item.name}`}
+                        placeholder={`Ingrese ${item.em}`}
                         disabled={item.isDisabled}
                         // Si es tipo Date, añade el atributo inputType
                         inputProps={
@@ -648,7 +648,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         {/* Select PROVEEDORES */}
         <Grid item xs={12} md={3}>
           <Stack spacing={1}>
-            <Typography variant="subtitle1">Proveedores</Typography>
+            <Typography variant="subtitle1">Proveedores OEM</Typography>
             <FormControl fullWidth error={Boolean(errors.ProveedoresError)}>
               <Select
                 name="proveedores_id"
@@ -664,7 +664,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         color="textSecondary"
                         sx={{ lineHeight: "1.4375em" }}
                       >
-                        Select Proveedor
+                        Seleccione Proveedor OEM
                       </Typography>
                     );
                   }
@@ -738,7 +738,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         color="textSecondary"
                         sx={{ lineHeight: "1.4375em" }}
                       >
-                        Select NCM
+                        Seleccione NCM
                       </Typography>
                     );
                   }

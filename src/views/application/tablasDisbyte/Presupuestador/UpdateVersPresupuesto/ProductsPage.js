@@ -8,6 +8,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
 function ProductsPage({ productsData, deleteProductHandler, editProductHandler }) {
+
     
     console.log(productsData);
     return (
@@ -20,15 +21,15 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                 <TableRow>
                                     <TableCell sx={{ pl: 3 }}>SKU</TableCell>
                                     <TableCell sx={{ pl: 3 }}>Description</TableCell>
-                                    <TableCell align="right">Amount FOB</TableCell>
+                                    <TableCell align="right">FOB Unit</TableCell>
                                     <TableCell align="right">EXW U. USD</TableCell>
-                                    <TableCell align="right">Piezas de Importacion</TableCell>
-                                    <TableCell align="right">Piezas x Caja</TableCell>
-                                    <TableCell align="right">Volumen U.</TableCell>
-                                    <TableCell align="right">Peso U.</TableCell>
+                                    <TableCell align="right">Cant. PCS</TableCell>
+                                    <TableCell align="right">Pcs x Caja</TableCell>
+                                    <TableCell align="right">CBM x Caja</TableCell>
+                                    <TableCell align="right">GW x Caja</TableCell>
                                     <TableCell align="right">NCM</TableCell>
                                     <TableCell align="right">Proveedor</TableCell>
-                                    <TableCell align="right">Total</TableCell>
+                                    <TableCell align="right">FOB Tot</TableCell>
                                     <TableCell align="right" sx={{ pr: 3 }} />
                                 </TableRow>
                             </TableHead>
@@ -55,7 +56,7 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                         {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
                                         <TableCell align="right">{row.ncm_code ? row.description : 'Sin data'}</TableCell>
                                         <TableCell align="right">{row.proovedores_name ? row.proovedores_name : 'Sin data'}</TableCell>  
-                                        <TableCell align="right">${row.total ? row.total : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{`USD ${row.fob_u*row.qty}` }</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
                                             <IconButton
                                                 color="secondary"
