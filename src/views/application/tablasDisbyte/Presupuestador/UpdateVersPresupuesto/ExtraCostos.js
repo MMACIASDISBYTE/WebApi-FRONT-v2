@@ -24,10 +24,13 @@ export const ExtraCostos = ({
   Xs_Xd,
   blockDeGastos = false,
   ValorSwitch = false,
+  arrPosition = null,
+  handleSwitchChangeInIndex,
 }) => {
   const theme = useTheme();
+
   const [value, setValue] = useState("");
-  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(true); // Estado inicial
+  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(false); // Estado inicial
 
   const onSwitchChange = (newSwitchState) => {
     // console.log("El nuevo estado del interruptor es:", newSwitchState);
@@ -48,13 +51,13 @@ export const ExtraCostos = ({
       formik.setFieldValue(name, inputValue);
     }
   };
-useEffect(() => {
+  useEffect(() => {
 
-}, [ValorSwitch])
+  }, [ValorSwitch]);
 
   // console.log(formik.values);
   // console.log(ValorSwitch);
-  
+
   return (
     <>
       <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]}>
@@ -91,13 +94,14 @@ useEffect(() => {
                   style: { textAlign: "right" },
                 }}
               />
-              {
-                blockDeGastos && (
-                  <SwitchGastos
-                    onSwitchChange={onSwitchChange}
-                  />
-                )
-              }
+              {blockDeGastos && (
+                <SwitchGastos
+                  // onSwitchChange={onSwitchChange}
+                  onSwitchChange={(newState) => {
+                    handleSwitchChangeInIndex(newState, arrPosition); // Pasa el estado al componente padre (Index)
+                  }}
+                />
+              )}
             </Grid>
           )}
           {formik.errors[name] && (

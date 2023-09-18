@@ -361,6 +361,97 @@ function CreateInvoice() {
   ];
   //   console.log(cellInput);
 
+  const ExtraCostosLocal = [
+    {
+      id: "gloc_fwd",
+      name: "gloc_fwd",
+      em: "Ingrese Extra Gasto Local Fwd",
+      inputLabel: "Ex Costo Local Fwd",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_flete",
+      name: "gloc_flete",
+      em: "Ingrese Extra Gasto Local Flete",
+      inputLabel: "Ex Costo Local Flete",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_terminales",
+      name: "gloc_terminales",
+      em: "Ingrese Extra Gasto Local Terminal",
+      inputLabel: "Ex Costo Local Terminal",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_polizas",
+      name: "gloc_polizas",
+      em: "Ingrese Extra Gasto Local Poliza",
+      inputLabel: "Ex Costo Local Poliza",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_polizas,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_depositos",
+      name: "gloc_depositos",
+      em: "Ingrese Extra Gasto Local Deposito",
+      inputLabel: "Ex Costo Local Deposito",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_depositos,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_despachantes",
+      name: "gloc_despachantes",
+      em: "Ingrese Extra Gasto Local Despachantes",
+      inputLabel: "Ex Costo Local Despachantes",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_bancos",
+      name: "gloc_bancos",
+      em: "Ingrese Extra Gasto Local Bancos",
+      inputLabel: "Ex Costo Local Bancos",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_bancos,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+    {
+      id: "gloc_gestdigdoc",
+      name: "gloc_gestdigdoc",
+      em: "Ingrese Extra Gasto Local Gest. Dig.",
+      inputLabel: "Ex Costo Local Gest. Dig.",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_gestdigdoc,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+    },
+  ];
+
   const ExtraCostosComex = [
     {
       id: "extrag_comex1",
@@ -425,7 +516,6 @@ function CreateInvoice() {
     },
   ];
 
-  console.log(ExtraCostosComex[0].ValorSwitch);
   const ExtraCostosFinan = [
     {
       id: "extrag_finan1",
@@ -576,7 +666,7 @@ function CreateInvoice() {
       extrag_finan3: 0,
       extrag_finan4: 0,
       extrag_finan5: 0,
-      extrag_finan_notas: 'Sin Notas',
+      extrag_finan_notas: "Sin Notas",
       constantes_id: 1, //harcodeado
       fob_grand_total: 0,
       cbm_grand_total: 0,
@@ -905,8 +995,27 @@ function CreateInvoice() {
 
   useEffect(() => {
     console.log(UtilidadesHelper.valueToBoolArr(255));
-    console.log(UtilidadesHelper.boolArrToValue(UtilidadesHelper.valueToBoolArr(255)));
-  },[])
+    console.log(
+      UtilidadesHelper.boolArrToValue(UtilidadesHelper.valueToBoolArr(255))
+    );
+  }, []);
+
+  const [ArrBool, setArrBool] = useState(Array(30).fill(false));
+  const [ArrBoolANumber, setArrBoolANumber] = useState(0);
+  const handleSwitchChangeInIndex = (newState, position) => {
+    console.log("Nuevo estado del interruptor en Index:", newState);
+    console.log("Posición en el array:", position); // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor // Crear una copia del array para evitar modificar el estado directamente
+    const updatedArrBool = [...ArrBool]; //crea copia del array // Actualizar el valor en el índice específico
+    updatedArrBool[position] = newState; // Actualizar el estado con el nuevo array
+    setArrBool(updatedArrBool);
+  };
+  useEffect(() => {
+    console.log(ArrBool);
+    setArrBoolANumber(UtilidadesHelper.boolArrToValue(ArrBool));
+  }, [ArrBool]);
+  useEffect(() => {
+    console.log(ArrBoolANumber);
+  }, [ArrBoolANumber]);
 
   return (
     <>
@@ -1268,7 +1377,7 @@ function CreateInvoice() {
                   />
                 ))}
 
-                {/* DETALLE DE COSTOS COMEX */}
+              {/* DETALLE DE COSTOS COMEX */}
               <Grid item xs={12}>
                 <Divider />
               </Grid>
