@@ -12,6 +12,7 @@ import {
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 export const ExtraCostos = ({
   id,
@@ -30,7 +31,7 @@ export const ExtraCostos = ({
   const theme = useTheme();
 
   const [value, setValue] = useState("");
-  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(false); // Estado inicial
+  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(true); // Estado inicial
 
   const onSwitchChange = (newSwitchState) => {
     // console.log("El nuevo estado del interruptor es:", newSwitchState);
@@ -40,7 +41,6 @@ export const ExtraCostos = ({
 
   const handleChangeCustom = (event) => {
     let inputValue = event.target.value;
-
     // Reemplaza dos puntos o comas consecutivos por un solo punto
     inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
     // Reemplaza la coma por un punto
@@ -51,6 +51,7 @@ export const ExtraCostos = ({
       formik.setFieldValue(name, inputValue);
     }
   };
+
   useEffect(() => {
 
   }, [ValorSwitch]);
@@ -86,7 +87,7 @@ export const ExtraCostos = ({
                 onBlur={formik.handleBlur}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
-                onChange={handleChangeCustom}
+                onChange={(event) => UtilidadesHelper.handleChangeCustom(event, formik, name)}
                 fullWidth
                 placeholder={em}
                 disabled={!ValorSwitchaplicable}
