@@ -1,3 +1,5 @@
+import { Formik } from "formik";
+
 export const UtilidadesHelper = {
   baseUrl: "https://api.apilayer.com/exchangerates_data/convert?to=",
   baseUrlLive:
@@ -103,5 +105,40 @@ export const UtilidadesHelper = {
     }, 0);
 
     return valor;
+  },
+  handleChangeCustom: function (event, formik, name){
+    let inputValue = event.target.value;
+    // Reemplaza dos puntos o comas consecutivos por un solo punto
+    inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
+    // Reemplaza la coma por un punto
+    inputValue = inputValue.replace(",", ".");
+    // Valida si el inputValue es un número
+    if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
+      // Aquí puedes asignar el valor numérico a Formik o mantenerlo como una cadena según tus necesidades.
+      formik.setFieldValue(name, inputValue);
+    }
+  },
+  handleChangeCustomSinFormik: function (event, formik, name, tipoData, setStateFunction) {
+    let inputValue = event.target.value;
+    // Reemplaza dos puntos o comas consecutivos por un solo punto
+    inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
+    // Reemplaza la coma por un punto
+    inputValue = inputValue.replace(",", "0.");
+    inputValue = inputValue.replace(".", "0.");
+
+    if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
+      if (formik) {
+        formik.setFieldValue(name, inputValue);
+      }
+
+      if (setStateFunction) {
+        // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
+        if (tipoData === 'Number') {
+          setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
+        } else {
+          setStateFunction(prevState => ({ ...prevState, [name]: parseFloat(inputValue) }));
+        }
+      }
+    }
   },
 };

@@ -112,6 +112,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       inputName: "Cantidad",
       em: "Ingrese una Cantidad",
       data: "Number",
+      alerta: 'Debe de ingresar un numero entero',
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
@@ -121,6 +122,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       name: "pcsctn",
       inputName: "Piezas x Caja",
       em: "Ingrese Piezas x Caja",
+      alerta: 'Debe de ingresar un numero entero',
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
@@ -458,40 +460,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     }
   }, [selectedQuantity, selectedItem]);
 
-  //   const handleChange = (event) => {
-  //     const value = event.target.value;
-  //     if (event.target.name === "quantity") {
-  //       if (Number(value) < 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "negative values not allowed",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else if (Number(value) === 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "quantity can not be zero",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else {
-  //         setSelectedQuantity(value);
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "",
-  //         });
-  //       }
-  //     } else {
-  //       const selectedOption = NCMList.find((item) => item.id === value);
-  //       setSelectedItem({
-  //         ...selectedItem,
-  //         id: selectedOption.id++,
-  //         ncm_id: selectedOption.ncm_id,
-  //         ncm_code: selectedOption.ncm_code,
-  //       });
-  //       console.log(selectedItem);
-  //     }
-  //   };
-
   const handleChange = (event, type) => {
     const { name, value } = event.target;
     // console.log("EVENT ", event);
@@ -522,11 +490,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
           // otros campos relevantes aquí
         };
       }
-      //   const selectedOption = selectedList.find((item) => item.id === value);
-      //   let updatedSelectedItem = { ...selectedItem };
-      //   Object.keys(selectedData).forEach((key) => {
-      //     updatedSelectedItem[key] = selectedOption[selectedData[key]];
-      //   });
       const selectedOption = selectedList?.find((item) => item.id === value);
       let updatedSelectedItem = { ...selectedItem };
 
@@ -537,7 +500,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         });
       } else {
         // Actualización general de selectedItem
-        updatedSelectedItem[name] = type === "Number" ? Number(value) : value;
+        updatedSelectedItem[name] = type === "Number" ? parseFloat(value) : value;
       }
       setSelectedQuantity(event.target.value);
       setSelectedItem(updatedSelectedItem);
@@ -618,21 +581,31 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                 <Stack spacing={1}>
                   <Typography variant="subtitle1">{item.inputName}</Typography>
                   <FormControl>
-                    <Tooltip title={item.name}>
-                      <TextField
-                        fullWidth
-                        name={item.name}
-                        type={item.data === "Number" ? "text" : "text"}
-                        error={Boolean(errors[`${item.name}Error`])}
-                        value={selectedItem[item.id] || ""}
-                        onChange={(e) => handleChange(e, item.data)}
-                        placeholder={`Ingrese ${item.name}`}
-                        disabled={item.isDisabled}
-                        // Si es tipo Date, añade el atributo inputType
-                        inputProps={
-                          item.data === "Date" ? { type: "date" } : {}
-                        }
-                      />
+                    <Tooltip title={item.alerta ? item.alerta : item.name}>
+                      
+                        <TextField
+                          fullWidth
+                          name={item.name}
+                          type={item.data === "Number" ? "number" : "string"}
+                          error={Boolean(errors[`${item.name}Error`])}
+                          value={selectedItem[item.id] || ""}
+                          onChange={(e) => {
+                            handleChange(e, item.data);
+                            UtilidadesHelper.handleChangeCustomSinFormik(
+                              e,
+                              null,
+                              item.name,
+                              setSelectedItem
+                            );
+                          }}
+                          placeholder={`${item.em}`}
+                          disabled={item.isDisabled}
+                          // Si es tipo Date, añade el atributo inputType
+                          inputProps={
+                            item.data === "Date" ? { type: "date" } : {}
+                          }
+                        />
+
                     </Tooltip>
                     {errors[`${item.name}Error`] && (
                       <FormHelperText>
