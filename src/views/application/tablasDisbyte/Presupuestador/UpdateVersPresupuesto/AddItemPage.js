@@ -524,11 +524,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
           // otros campos relevantes aquí
         };
       }
-      //   const selectedOption = selectedList.find((item) => item.id === value);
-      //   let updatedSelectedItem = { ...selectedItem };
-      //   Object.keys(selectedData).forEach((key) => {
-      //     updatedSelectedItem[key] = selectedOption[selectedData[key]];
-      //   });
       const selectedOption = selectedList?.find((item) => item.id === value);
       let updatedSelectedItem = { ...selectedItem };
 
