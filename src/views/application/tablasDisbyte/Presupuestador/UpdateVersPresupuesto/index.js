@@ -60,6 +60,7 @@ import { CustomSelect } from "../CreatePresupuesto/CustomSelect";
 import { CustomSelectUpdate } from "./CustomSelectUpdate";
 import { ExtraCostos } from "./ExtraCostos";
 import { PesajeContenedorUpdate } from "./PesajeContenedorUpdate";
+import { ExtraCostosArrBool } from "./ExtraCostoArrBool";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1, // El valor por defecto es 0.54
     },
   },
-}));   
+}));
 
 // yup validation-schema
 const validationSchema = yup.object({
@@ -183,7 +184,7 @@ function CreateInvoice() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { estnumber, vers, presupuesto } = useParams();
-  //   console.log(estnumber, vers);
+    console.log(estnumber, vers);
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
   // console.log(user);
   const [open, setOpen] = useState(false);
@@ -243,7 +244,7 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  // console.log(dataHelp);
+  console.log(dataHelp);
 
   const cellInput = [
     {
@@ -372,6 +373,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 4,
     },
     {
       id: "gloc_flete",
@@ -383,6 +385,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 3,
     },
     {
       id: "gloc_terminales",
@@ -394,6 +397,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 7,
     },
     {
       id: "gloc_polizas",
@@ -405,6 +409,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 6,
     },
     {
       id: "gloc_depositos",
@@ -416,6 +421,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 1,
     },
     {
       id: "gloc_despachantes",
@@ -427,6 +433,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 2,
     },
     {
       id: "gloc_bancos",
@@ -438,6 +445,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 0,
     },
     {
       id: "gloc_gestdigdoc",
@@ -449,6 +457,31 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      arrPosition: 5,
+    },
+    {
+      id: "freight_cost",
+      name: "freight_cost",
+      em: "Ingrese Extra Gasto Local Freight.",
+      inputLabel: "Ex Costo Local Gest. Dig.",
+      data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      arrPosition: 9,
+    },
+    {
+      id: "freight_insurance_cost",
+      name: "freight_insurance_cost",
+      em: "Ingrese Extra Gasto Local  Freight Insurance.",
+      inputLabel: "Ex Costo Local  Freight Insurance.",
+      data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      arrPosition: 8,
     },
   ];
 
@@ -461,7 +494,7 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
       Xs_Xd: [12, 3],
-      blockDeGastos: true,
+      blockDeGastos: false,
       ValorSwitch: null,
     },
     {
@@ -620,9 +653,10 @@ function CreateInvoice() {
 
   const formik = useFormik({
     initialValues: {
+      id: dataHelp?.presupuestoEditable?.estHeader?.id,
       description: null,
       estnumber: "",
-      estvers: 1,
+      estvers: dataHelp?.presupuestoEditable?.estHeader?.estvers,
       status: 1,
       paisregion_id:
         dataHelp?.presupuestoEditable?.estHeader?.paisregion_id || "",
@@ -741,7 +775,7 @@ function CreateInvoice() {
 
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
-          PresupuestoHelper.createData(postData);
+          PresupuestoHelper.createNewPresupuesto(postData, estnumber);
           console.log("Creacion exitosa de: ", postData);
         } else {
           console.log("Error: estDetailsDB no contiene ningún elemento.");
@@ -761,7 +795,15 @@ function CreateInvoice() {
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
-      formik.setFieldValue("estnumber", dataHelp.proximoEstDisponible); //traemos el numEstimate disponible
+      formik.setFieldValue("id", dataHelp.presupuestoEditable?.estHeader?.id); //traemos el numEstimate disponible
+      // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue("estnumber", dataHelp.presupuestoEditable?.estHeader?.estnumber); //traemos el numEstimate disponible
+      // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue("estvers", dataHelp.presupuestoEditable?.estHeader?.estvers + 1); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
@@ -774,6 +816,68 @@ function CreateInvoice() {
       formik.setFieldValue(
         "description",
         dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+
+    //EXTRA GASTOS LOCAL
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwd",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_flete",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminales",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_polizas",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_polizas
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_depositos",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_depositos
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantes",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_bancos",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_bancos
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_gestdigdoc",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_gestdigdoc
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
       );
     }
 
@@ -993,13 +1097,6 @@ function CreateInvoice() {
     }
   }, [dataHelp]);
 
-  useEffect(() => {
-    console.log(UtilidadesHelper.valueToBoolArr(255));
-    console.log(
-      UtilidadesHelper.boolArrToValue(UtilidadesHelper.valueToBoolArr(255))
-    );
-  }, []);
-
   const [ArrBool, setArrBool] = useState(Array(30).fill(false));
   const [ArrBoolANumber, setArrBoolANumber] = useState(0);
   const handleSwitchChangeInIndex = (newState, position) => {
@@ -1015,6 +1112,8 @@ function CreateInvoice() {
   }, [ArrBool]);
   useEffect(() => {
     console.log(ArrBoolANumber);
+    formik.setFieldValue("tarifupdate", ArrBoolANumber); //asigno los valores
+    formik.setFieldValue("tarifrecent", ArrBoolANumber); //asigno los valores
   }, [ArrBoolANumber]);
 
   return (
@@ -1361,6 +1460,33 @@ function CreateInvoice() {
               </Grid>
 
               {dataHelp.presupuestoEditable &&
+                ExtraCostosLocal.map((input) => (
+                  <ExtraCostosArrBool
+                    key={input.id}
+                    id={input.id}
+                    name={input.name}
+                    em={input.em}
+                    inputLabel={input.inputLabel}
+                    data={input.data}
+                    dataType={input.dataType}
+                    formik={formik}
+                    Xs_Xd={input.Xs_Xd}
+                    blockDeGastos={input.blockDeGastos}
+                    onSwitchChange={(newState) =>
+                      handleSwitchChangeInIndex(newState, input.arrPosition)
+                    }
+                    handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                    ValorSwitch={input.ValorSwitch}
+                    arrPosition={input.arrPosition}
+                  />
+                ))}
+
+              {/* DETALLE DE COSTOS COMEX */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              {dataHelp.presupuestoEditable &&
                 ExtraCostosComex.map((input) => (
                   <ExtraCostos
                     key={input.id}
@@ -1435,7 +1561,6 @@ function CreateInvoice() {
                 <PesajeContenedorUpdate
                   productsData={productsData}
                   tipoContenedor={formik.values.carga_id}
-                  
                 />
               )}
 
