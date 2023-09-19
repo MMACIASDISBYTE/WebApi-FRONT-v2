@@ -29,6 +29,7 @@ import { CircularProgress } from "@material-ui/core";
 
 // project imports
 import AddItemPage from "./AddItemPage";
+import AddItemPageUpdate from "./AddItemPageUpdate";
 import { gridSpacing } from "store/constant";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import MainCard from "ui-component/cards/MainCard";
@@ -367,7 +368,7 @@ function CreateInvoice() {
       id: "gloc_fwd",
       name: "gloc_fwd",
       em: "Ingrese Extra Gasto Local Fwd",
-      inputLabel: "Ex Costo Local Fwd",
+      inputLabel: "Gasto Local Fwd",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -379,7 +380,7 @@ function CreateInvoice() {
       id: "gloc_flete",
       name: "gloc_flete",
       em: "Ingrese Extra Gasto Local Flete",
-      inputLabel: "Ex Costo Local Flete",
+      inputLabel: "Gasto Local Flete",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -391,7 +392,7 @@ function CreateInvoice() {
       id: "gloc_terminales",
       name: "gloc_terminales",
       em: "Ingrese Extra Gasto Local Terminal",
-      inputLabel: "Ex Costo Local Terminal",
+      inputLabel: "Gasto Local Terminal",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -403,7 +404,7 @@ function CreateInvoice() {
       id: "gloc_polizas",
       name: "gloc_polizas",
       em: "Ingrese Extra Gasto Local Poliza",
-      inputLabel: "Ex Costo Local Poliza",
+      inputLabel: "Gasto Local Poliza",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_polizas,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -415,7 +416,7 @@ function CreateInvoice() {
       id: "gloc_depositos",
       name: "gloc_depositos",
       em: "Ingrese Extra Gasto Local Deposito",
-      inputLabel: "Ex Costo Local Deposito",
+      inputLabel: "Gasto Local Deposito",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_depositos,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -427,7 +428,7 @@ function CreateInvoice() {
       id: "gloc_despachantes",
       name: "gloc_despachantes",
       em: "Ingrese Extra Gasto Local Despachantes",
-      inputLabel: "Ex Costo Local Despachantes",
+      inputLabel: "Gasto Local Despachantes",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -439,7 +440,7 @@ function CreateInvoice() {
       id: "gloc_bancos",
       name: "gloc_bancos",
       em: "Ingrese Extra Gasto Local Bancos",
-      inputLabel: "Ex Costo Local Bancos",
+      inputLabel: "Gasto Local Bancos",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_bancos,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -451,7 +452,7 @@ function CreateInvoice() {
       id: "gloc_gestdigdoc",
       name: "gloc_gestdigdoc",
       em: "Ingrese Extra Gasto Local Gest. Dig.",
-      inputLabel: "Ex Costo Local Gest. Dig.",
+      inputLabel: "Gasto Local Gest. Dig.",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_gestdigdoc,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -463,7 +464,7 @@ function CreateInvoice() {
       id: "freight_cost",
       name: "freight_cost",
       em: "Ingrese Extra Gasto Local Freight.",
-      inputLabel: "Ex Costo Local Gest. Dig.",
+      inputLabel: "Gasto Local Gest. Dig.",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -475,7 +476,7 @@ function CreateInvoice() {
       id: "freight_insurance_cost",
       name: "freight_insurance_cost",
       em: "Ingrese Extra Gasto Local  Freight Insurance.",
-      inputLabel: "Ex Costo Local  Freight Insurance.",
+      inputLabel: "Gasto Local  Freight Insurance.",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -656,7 +657,7 @@ function CreateInvoice() {
       id: dataHelp?.presupuestoEditable?.estHeader?.id,
       description: null,
       estnumber: "",
-      estvers: dataHelp?.presupuestoEditable?.estHeader?.estvers,
+      estvers: "",
       status: 1,
       paisregion_id:
         dataHelp?.presupuestoEditable?.estHeader?.paisregion_id || "",
@@ -670,8 +671,8 @@ function CreateInvoice() {
       fwdpaisregion_id: null,
       //   polizaProv: null,
       dolar: null,
-      tarifupdate: 1023, //harcodeado (formula de calculo)
-      tarifrecent: 1023, //harcodeado (formula de calculo)
+      tarifupdate: null, 
+      tarifrecent: null, // BoolArry aqui
       tarifasfwd_id: null,
       tarifasflete_id: null,
       tarifasterminales_id: null,
@@ -823,6 +824,12 @@ function CreateInvoice() {
       formik.setFieldValue(
         "description",
         dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "tarifupdate",
+        dataHelp.presupuestoEditable?.estHeader?.tarifupdate
       );
     }
 
@@ -989,6 +996,7 @@ function CreateInvoice() {
   const [productsData, setProductsData] = useState([]);
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
+  const [addItemClickedUpdate, setAddItemClickedUpdate] = useState(false);
 
   // for calculating cost of all orders
   const getTotalAmounts = () => {
@@ -1018,8 +1026,10 @@ function CreateInvoice() {
   }, [productsData]);
 
   // to delete row in order details
-  const editProductHandler = (id) => {
-    console.log(`El producto seleccionado es el: `, id);
+  const editProductHandler = (row) => {
+    console.log(`El ID producto del es: ${row.id}, su Data es  ${row.description}`);
+    console.log(row);
+    setAddItemClickedUpdate(true)
     // setProductsData(productsData.filter((item) => item.id !== id));
   };
 
@@ -1125,7 +1135,7 @@ function CreateInvoice() {
 
   return (
     <>
-      <MainCard title="Crear Presupuesto">
+      <MainCard title="Actualizar Presupuesto">
         <div
           style={{
             display: "flex",
@@ -1534,11 +1544,17 @@ function CreateInvoice() {
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-              <ProductsPage
-                productsData={productsData}
-                deleteProductHandler={deleteProductHandler}
-                editProductHandler={editProductHandler}
-              />
+
+              { // Si no se llama al componente de editar producto se mostrara
+                !addItemClickedUpdate && (
+                  <ProductsPage
+                    productsData={productsData}
+                    deleteProductHandler={deleteProductHandler}
+                    editProductHandler={editProductHandler}
+                  />
+                )
+              }
+              
               {addItemClicked ? (
                 <Grid item xs={12}>
                   <AddItemPage
@@ -1547,7 +1563,15 @@ function CreateInvoice() {
                     dataHelp={dataHelp}
                   />
                 </Grid>
-              ) : (
+              ) : addItemClickedUpdate ? (
+                <Grid item xs={12}>
+                  <AddItemPageUpdate
+                    handleAddItem={handleAddItem}
+                    setAddItemClickedUpdate={setAddItemClickedUpdate}
+                    dataHelp={dataHelp}
+                  />
+                </Grid>
+              ): (
                 <Grid item>
                   <Button
                     variant="text"

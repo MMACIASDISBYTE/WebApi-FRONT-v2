@@ -20,14 +20,15 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                 <TableRow>
                                     <TableCell sx={{ pl: 3 }}>SKU</TableCell>
                                     <TableCell sx={{ pl: 3 }}>Description</TableCell>
-                                    <TableCell align="right">Piezas de Importacion</TableCell>
-                                    <TableCell align="right">Amount FOB</TableCell>
-                                    <TableCell align="right">Peso U.</TableCell>
-                                    <TableCell align="right">Volumen U.</TableCell>
-                                    <TableCell align="right">Piezas x Caja</TableCell>
+                                    <TableCell align="right">FOB Unit</TableCell>
+                                    <TableCell align="right">EXW U. USD</TableCell>
+                                    <TableCell align="right">Cant. PCS</TableCell>
+                                    <TableCell align="right">Pcs x Caja</TableCell>
+                                    <TableCell align="right">CBM x Caja</TableCell>
+                                    <TableCell align="right">GW x Caja</TableCell>
                                     <TableCell align="right">NCM</TableCell>
                                     <TableCell align="right">Proveedor</TableCell>
-                                    <TableCell align="right">Total</TableCell>
+                                    <TableCell align="right">FOB Tot</TableCell>
                                     <TableCell align="right" sx={{ pr: 3 }} />
                                 </TableRow>
                             </TableHead>
@@ -44,16 +45,17 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                             {row.description || "sin descripción"} 
                                             </Typography> */}
                                         </TableCell>
-                                        <TableCell align="right">{row.description}</TableCell>
-                                        <TableCell align="right">{row.qty}</TableCell>
-                                        <TableCell align="right">${row.fob_u}</TableCell>
-                                        <TableCell align="right">{row.gwctn}</TableCell>
-                                        <TableCell align="right">{row.cbmctn}</TableCell> 
-                                        <TableCell align="right">{row.pcsctn}</TableCell> 
+                                        <TableCell align="right">{row.description ? row.description : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.fob_u ? `USD ${row.fob_u}` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.exw_u ? `USD ${row.exw_u}` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.qty ? `${row.qty} u.` : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.pcsctn ? row.pcsctn : 'Sin data'}</TableCell> 
+                                        <TableCell align="right">{row.cbmctn ? row.cbmctn : 'Sin data'}</TableCell> 
+                                        <TableCell align="right">{row.gwctn ? row.gwctn : 'Sin data'}</TableCell>
                                         {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
-                                        <TableCell align="right">{row.ncm_code}</TableCell>
-                                        <TableCell align="right">{row.proovedores_name}</TableCell>  
-                                        <TableCell align="right">${row.total}</TableCell>
+                                        <TableCell align="right">{row.ncm_code ? row.ncm_code : 'Sin data'}</TableCell>
+                                        <TableCell align="right">{row.proovedores_name ? row.proovedores_name : 'Sin data'}</TableCell>  
+                                        <TableCell align="right">{`USD ${(row.fob_u*row.qty).toFixed(2)}`}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
                                             <IconButton
                                                 color="secondary"
