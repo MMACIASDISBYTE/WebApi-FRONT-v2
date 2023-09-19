@@ -95,8 +95,8 @@ export const PresupuestoHelper = {
             console.log('Helper', newData)
             return jsonData;
         } catch (error) {
-            console.error('Error', error);
-            return null;
+            console.error('Helper Error', error);
+            throw error;
         }
     },
     // Crear un registro en la tabla

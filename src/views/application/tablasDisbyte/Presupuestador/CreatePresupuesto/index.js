@@ -382,7 +382,7 @@ function CreateInvoice() {
       estvers: 1,
       status: 1,
       paisregion_id: "",
-      SeleccionPais: "Seleccione un pais",
+      SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
       ivaExcento: "true",
       htimestamp: UtilidadesHelper.fechaParaDB(),
@@ -503,16 +503,18 @@ function CreateInvoice() {
         if (postData.estDetailsDB.length > 0) {
           PresupuestoHelper.createData(postData);
           console.log("Creacion exitosa de: ", postData);
+          setProductsData([]);
+          setMensaje("Presupuesto creado Exitosamante");
         } else {
-          console.log("Error: estDetailsDB no contiene ningún elemento.");
+          throw new Error("estDetailsDB no contiene ningún elemento.");
         }
-        setProductsData([]);
-        setMensaje("Presupuesto creado Exitosamante");
+        // setProductsData([]);
+        // setMensaje("Presupuesto creado Exitosamante");
         formik.resetForm();
       } catch (error) {
         setOpen(true);
-        setMensaje("Debe de ingresar un Producto");
-        console.log("Error", error);
+        setMensaje(error.message || "Un error desconocido ocurrió.");
+        console.error("Error", error);
       }
     },
   });

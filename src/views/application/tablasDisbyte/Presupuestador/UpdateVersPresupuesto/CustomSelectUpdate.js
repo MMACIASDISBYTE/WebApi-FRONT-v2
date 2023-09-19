@@ -24,7 +24,7 @@ export const CustomSelectUpdate = ({
   MD = null,
 }) => {
 
-  console.log(data, name, formik.values[id]?.id);
+  // console.log(data, name, formik.values[id]?.id);
 
   let objetoEncontrado = null;
   if(formik.values[id]?.id){
