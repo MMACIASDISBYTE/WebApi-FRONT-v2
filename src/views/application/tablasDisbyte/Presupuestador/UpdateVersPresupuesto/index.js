@@ -775,17 +775,24 @@ function CreateInvoice() {
 
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
-          PresupuestoHelper.createNewPresupuesto(postData, estnumber);
-          console.log("Creacion exitosa de: ", postData);
+          try {
+            console.log('Previo envio', postData, estnumber);
+            PresupuestoHelper.createNewPresupuesto(postData, estnumber);
+            console.log("Creacion exitosa de: ", postData);
+            setProductsData([]);
+            setMensaje("Presupuesto creado Exitosamante");
+          } catch (error) {
+            console.log(error)
+          }
         } else {
-          console.log("Error: estDetailsDB no contiene ningún elemento.");
+          throw new Error("estDetailsDB no contiene ningún elemento.");
         }
         setProductsData([]);
         setMensaje("Presupuesto creado Exitosamante");
         formik.resetForm();
       } catch (error) {
         setOpen(true);
-        setMensaje("Debe de ingresar un Producto");
+        setMensaje(error.message || "Un error desconocido ocurrió.");
         console.log("Error", error);
       }
     },

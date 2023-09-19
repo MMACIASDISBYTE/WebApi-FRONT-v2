@@ -501,10 +501,15 @@ function CreateInvoice() {
 
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
-          PresupuestoHelper.createData(postData);
-          console.log("Creacion exitosa de: ", postData);
-          setProductsData([]);
-          setMensaje("Presupuesto creado Exitosamante");
+          try {
+            
+            PresupuestoHelper.createData(postData);
+            console.log("Creacion exitosa de: ", postData);
+            setProductsData([]);
+            setMensaje("Presupuesto creado Exitosamante");
+          } catch (error) {
+            console.error(error);
+          }
         } else {
           throw new Error("estDetailsDB no contiene ningún elemento.");
         }
@@ -514,7 +519,7 @@ function CreateInvoice() {
       } catch (error) {
         setOpen(true);
         setMensaje(error.message || "Un error desconocido ocurrió.");
-        console.error("Error", error);
+        console.error("Error", error.errors);
       }
     },
   });

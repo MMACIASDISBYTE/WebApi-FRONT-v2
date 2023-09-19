@@ -96,6 +96,8 @@ export const PresupuestoHelper = {
             return jsonData;
         } catch (error) {
             console.error('Helper Error', error);
+            console.error('Helper Error', error.errors);
+            console.error('Helper Error', error.message);
             throw error;
         }
     },
@@ -113,8 +115,8 @@ export const PresupuestoHelper = {
             console.log('Helper', newData);
             return jsonData;
         } catch (error) {
-            console.error('Error', error);
-            return null;
+            console.error('Helper Error', error);
+            throw error;
         }
     },
     // Leer un registro de la tabla por ID

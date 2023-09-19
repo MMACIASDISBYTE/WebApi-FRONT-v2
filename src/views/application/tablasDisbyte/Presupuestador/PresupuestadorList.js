@@ -484,7 +484,7 @@ const CustomerList = () => {
                     <TableCell align="left">
                       N° -{" "}
                       {row.id !== null && row.id !== undefined
-                        ? row.id
+                        ? row.estnumber
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
