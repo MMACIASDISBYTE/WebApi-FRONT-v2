@@ -62,7 +62,7 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
                 // console.log(CMB_grandTotal / contenedor.volume);
                 setContenedores(parseFloat(CMB_grandTotal / contenedor.volume));
             };
-            console.log(pesoTotal);    
+            // console.log(pesoTotal);    
             // console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
         // console.log(productsData);

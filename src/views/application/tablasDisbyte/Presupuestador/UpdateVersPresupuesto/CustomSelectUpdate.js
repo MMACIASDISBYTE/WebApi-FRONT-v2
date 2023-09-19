@@ -11,17 +11,17 @@ import {
 import InputLabel from "ui-component/extended/Form/InputLabel";
 
 export const CustomSelectUpdate = ({
-  id,
-  name,
-  em,
-  inputLabel,
-  data,
-  dataType,
-  selected_id,
-  selected_description,
-  formik,
-  XS,
-  MD,
+  id = null,
+  name = null,
+  em = null,
+  inputLabel = null,
+  data = null,
+  dataType = null,
+  selected_id = null,
+  selected_description = null,
+  formik = null,
+  XS = null,
+  MD = null,
 }) => {
 
   // console.log(data, name, formik.values[id]?.id);
@@ -40,7 +40,7 @@ export const CustomSelectUpdate = ({
     description: selected_description || "Sin Data",
     descriptioniNICIAL: objetoEncontrado,
   };
-  
+  // console.log(defaultValue);
 
   return (
     <>

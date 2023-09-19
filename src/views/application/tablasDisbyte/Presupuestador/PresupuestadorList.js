@@ -356,7 +356,7 @@ const CustomerList = () => {
     navigate(`/estimate/details/${estnumber}/${estvers}`);
   };
 
-  const nuevoPresupuesto = (estnumber, estvers) => {
+  const ActualizarPresupuesto = (estnumber, estvers) => {
     navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
@@ -484,7 +484,7 @@ const CustomerList = () => {
                     <TableCell align="left">
                       N° -{" "}
                       {row.id !== null && row.id !== undefined
-                        ? row.id
+                        ? row.estnumber
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
@@ -553,7 +553,7 @@ const CustomerList = () => {
                             <EditTwoToneIcon
                               sx={{ fontSize: "1.3rem" }}
                               onClick={() =>
-                                nuevoPresupuesto(row.estnumber, row.estvers)
+                                ActualizarPresupuesto(row.estnumber, row.estvers)
                               }
                             />
                           </IconButton>

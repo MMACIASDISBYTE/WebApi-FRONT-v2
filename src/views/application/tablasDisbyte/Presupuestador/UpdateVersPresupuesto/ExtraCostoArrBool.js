@@ -14,7 +14,7 @@ import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
-export const ExtraCostos = ({
+export const ExtraCostosArrBool = ({
   id,
   name,
   em,
@@ -31,7 +31,7 @@ export const ExtraCostos = ({
   const theme = useTheme();
 
   const [value, setValue] = useState("");
-  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(true); // Estado inicial
+  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(false); // Estado inicial
 
   const onSwitchChangeDesabled = (newSwitchState) => {
     // console.log("El nuevo estado del interruptor es:", newSwitchState);
