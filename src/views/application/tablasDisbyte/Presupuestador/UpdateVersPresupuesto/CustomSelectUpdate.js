@@ -31,9 +31,11 @@ export const CustomSelectUpdate = ({
     const idABuscar = formik.values[id]?.id; // reemplaza con el ID que estás buscando
 
     const objeto = data.find((objeto) => objeto.id === idABuscar);
-    objetoEncontrado = objeto.description;
+    objetoEncontrado = objeto.description ? objeto.description : '';
   };
-  // console.log(objetoEncontrado);
+  console.log('el id es el : ', id);
+  console.log('Esta es la data :', data);
+  console.log(objetoEncontrado);
 
   let defaultValue = {
     id: selected_id || "",

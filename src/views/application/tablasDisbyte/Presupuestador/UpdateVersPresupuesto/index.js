@@ -356,7 +356,7 @@ function CreateInvoice() {
       inputLabel: "Tarifa Gestion Digital",
       data: dataHelp.TarifasGestDig,
       dataType: "objectArray",
-      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasbancos_id,
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
       selected_description:
         dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
     },
@@ -658,7 +658,7 @@ function CreateInvoice() {
       description: null,
       estnumber: "",
       estvers: "",
-      status: 1,
+      status: 3,
       paisregion_id:
         dataHelp?.presupuestoEditable?.estHeader?.paisregion_id || "",
       SeleccionPais: "Seleccione un pais",
@@ -1554,7 +1554,7 @@ function CreateInvoice() {
                   />
                 )
               }
-              
+
               {addItemClicked ? (
                 <Grid item xs={12}>
                   <AddItemPage

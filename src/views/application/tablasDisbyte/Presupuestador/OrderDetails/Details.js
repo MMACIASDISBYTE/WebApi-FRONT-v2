@@ -63,7 +63,9 @@ const Details = ({ presupuestador, usuario }) => {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [verMas, setVerMas] = useState(true);
+  const [pais, setPais] = useState(0);
   console.log(rows);
+  console.log(pais);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +73,7 @@ const Details = ({ presupuestador, usuario }) => {
         setRow(presupuestador.estDetails);
         //espera la respuesta de presupuestador y quita el loading
         setLoading(false);
+        setPais(presupuestador.estHeader.paisregion_id)
       }
     };
 
@@ -618,6 +621,11 @@ const Details = ({ presupuestador, usuario }) => {
                       <TableCell align="right">Costo USD(u)</TableCell>
                       <TableCell align="right">Costo Est. USD(u)</TableCell>
                       <TableCell align="right">Costo Prov(u)</TableCell>
+                      { //PETER EJEMPLO
+                        pais == 4 ? (
+                        <TableCell align="right">Pais</TableCell>)
+                        : ('')  
+                      }
                       {verMas ? (
                         ""
                       ) : (
