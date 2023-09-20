@@ -15,7 +15,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-
 // project imports
 import { gridSpacing } from "store/constant";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
@@ -37,6 +36,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "description",
@@ -47,6 +47,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     // {
     //   id: "proveedores_id",
@@ -77,6 +78,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: true,
       oculto: true,
+      color: null,
     },
     {
       id: "imageurl",
@@ -87,6 +89,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "exw_u",
@@ -97,6 +100,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "fob_u",
@@ -107,6 +111,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "qty",
@@ -118,6 +123,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "pcsctn",
@@ -129,6 +135,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "cbmctn",
@@ -139,6 +146,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "gwctn",
@@ -149,6 +157,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
+      color: null,
     },
     {
       id: "cambios_notas",
@@ -159,6 +168,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_arancel",
@@ -169,6 +179,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_te_dta_otro",
@@ -179,6 +190,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_iva",
@@ -189,6 +201,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_ivaad",
@@ -199,6 +212,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "gcias",
@@ -209,6 +223,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_sp1",
@@ -219,6 +234,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "ncm_sp2",
@@ -229,6 +245,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "precio_u",
@@ -239,6 +256,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "extrag_comex1",
@@ -249,6 +267,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'green',
     },
     {
       id: "extrag_comex2",
@@ -259,6 +278,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'green',
     },
     {
       id: "extrag_comex3",
@@ -269,6 +289,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'green',
     },
     {
       id: "extrag_comex_notas",
@@ -279,6 +300,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 6],
       isDisabled: false,
       oculto: false,
+      color: 'green',
     },
     {
       id: "extrag_finan1",
@@ -289,6 +311,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'red',
     },
     {
       id: "extrag_finan2",
@@ -299,6 +322,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'red',
     },
     {
       id: "extrag_finan3",
@@ -309,6 +333,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'red',
     },
     {
       id: "extrag_finan_notas",
@@ -319,6 +344,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 6],
       isDisabled: false,
       oculto: false,
+      color: 'red',
     },
     {
       id: "costo_u_est",
@@ -329,6 +355,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "costo_u",
@@ -339,6 +366,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "updated",
@@ -349,6 +377,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: false,
       oculto: true,
+      color: null,
     },
     {
       id: "htimestamp",
@@ -359,6 +388,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 3],
       isDisabled: true,
       oculto: true,
+      color: null,
     },
     {
       id: "extrag_local1",
@@ -369,6 +399,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'yellow',
     },
     {
       id: "extrag_local2",
@@ -379,6 +410,7 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
+      color: 'yellow',
     },
   ];
 
@@ -608,6 +640,8 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
     handleAddItem(data);
   };
 
+
+
   return (
     <>
       <Grid container spacing={gridSpacing}>
@@ -617,10 +651,10 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
             !item.oculto && (
               <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index}>
                 <Stack spacing={1}>
-                  <Typography variant="subtitle1">{item.inputName}</Typography>
+                  <Typography color={item.color} variant="subtitle1">{item.inputName}</Typography>
                   <FormControl>
                     <Tooltip title={item.alerta ? item.alerta : item.name}>
-                      
+
                         <TextField
                           fullWidth
                           name={item.name}

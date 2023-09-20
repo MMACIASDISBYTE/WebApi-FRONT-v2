@@ -87,7 +87,7 @@ export const ExtraCostos = ({
                 onBlur={formik.handleBlur}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
-                onChange={(event) => UtilidadesHelper.handleChangeCustom(event, formik, name)}
+                onChange={(event) => UtilidadesHelper.handleChangeCustom(event, formik, name, dataType)}
                 fullWidth
                 placeholder={em}
                 disabled={!ValorSwitchaplicable}

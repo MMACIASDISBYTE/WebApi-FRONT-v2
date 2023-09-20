@@ -118,7 +118,7 @@ export const UtilidadesHelper = {
       formik.setFieldValue(name, inputValue);
     }
   },
-  handleChangeCustomSinFormik: function (event, formik, name, tipoData, setStateFunction) {
+  handleChangeCustomSinFormik: function (event, formik, name, dataType, setStateFunction) {
     let inputValue = event.target.value;
     // Reemplaza dos puntos o comas consecutivos por un solo punto
     inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
@@ -133,10 +133,10 @@ export const UtilidadesHelper = {
 
       if (setStateFunction) {
         // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
-        if (tipoData === 'Number') {
-          setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
-        } else {
+        if (dataType === 'number') {
           setStateFunction(prevState => ({ ...prevState, [name]: parseFloat(inputValue) }));
+        } else {
+          setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
         }
       }
     }
