@@ -48,6 +48,7 @@ const Inicio = () => {
         const dataPerDate = await PresupuestoHelper.AmountDate();
         setData(data);
         setDistinctEstNumberCount(distinctEstNumberCount);
+        console.log(distinctEstNumberCount);
         setCountPerDate(dataPerDate);
     };
 
