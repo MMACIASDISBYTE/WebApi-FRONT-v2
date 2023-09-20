@@ -23,9 +23,10 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 //
 let counter = 0; // Esto debería estar fuera de la función del componente para que no se reinicie en cada render
 
-function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp }) {
+function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp, rowUpdate = null }) {
 
-
+console.log(dataHelp);
+console.log(rowUpdate);
   const itemDetails = [
     {
       id: "sku",
@@ -415,47 +416,47 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
   ];
 
   const [selectedItem, setSelectedItem] = useState({
-    id: "",
-    description: "",
-    ncm_id: 0,
-    gwctn: "",
-    proveedores_id: null,
-    sku: "",
-    imageurl: "",
-    exw_u: "",
-    fob_u: "",
-    qty: 0,
-    pcsctn: 0,
-    cbmctn: 0,
-    gwctn: 0,
+    id: rowUpdate?.id,
+    description: rowUpdate?.description,
+    ncm_id: rowUpdate?.ncm_id ? rowUpdate.ncm_id : 0,
+    gwctn: rowUpdate?.gwctn ? rowUpdate.gwctn : '',
+    proveedores_id: rowUpdate?.proveedores_id ? rowUpdate.proveedores_id : null,
+    sku: rowUpdate?.sku ? rowUpdate?.sku : '',
+    imageurl: rowUpdate?.imageurl ? rowUpdate?.imageurl : '',
+    exw_u: rowUpdate?.exw_u,
+    fob_u: rowUpdate?.fob_u,
+    qty: rowUpdate?.qty,
+    pcsctn: rowUpdate?.pcsctn,
+    cbmctn: rowUpdate?.cbmctn,
+    gwctn: rowUpdate?.gwctn,
 
-    cambios_notas: "",
-    ncm_arancel: 0,
-    ncm_te_dta_otro: 0,
-    ncm_iva: 0,
-    ncm_ivaad: 0,
-    gcias: 0,
+    cambios_notas: rowUpdate?.cambios_notas ? rowUpdate?.cambios_notas : 'Sin notas',
+    ncm_arancel: rowUpdate?.ncm_arancel ? rowUpdate?.ncm_arancel :  0,
+    ncm_te_dta_otro: rowUpdate?.ncm_te_dta_otro ? rowUpdate?.ncm_te_dta_otro :  0,
+    ncm_iva: rowUpdate?.ncm_iva ? rowUpdate?.ncm_iva :  0,
+    ncm_ivaad: rowUpdate?.ncm_ivaad ? rowUpdate?.ncm_ivaad :  0,
+    gcias: rowUpdate?.gcias ? rowUpdate?.gcias :  0,
 
-    ncm_sp1: "",
-    ncm_sp2: "",
-    precio_u: 0,
+    ncm_sp1: rowUpdate?.ncm_sp1 ? rowUpdate?.ncm_sp1 : '',
+    ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : '',
+    precio_u: rowUpdate?.precio_u ? rowUpdate?.precio_u : 0,
 
-    extrag_comex1: 0,
-    extrag_comex2: 0,
-    extrag_comex3: 0,
-    extrag_comex_notas: "",
+    extrag_comex1: rowUpdate?.extrag_comex1,
+    extrag_comex2: rowUpdate?.extrag_comex2,
+    extrag_comex3: rowUpdate?.extrag_comex3,
+    extrag_comex_notas: rowUpdate?.extrag_comex_notas ? rowUpdate?.extrag_comex_notas : 'Sin notas',
 
-    extrag_local1: 0,
-    extrag_local2: 0,
+    extrag_local1: rowUpdate?.extrag_local1 ? rowUpdate?.extrag_local1 : 0,
+    extrag_local2: rowUpdate?.extrag_local2 ? rowUpdate?.extrag_local2 : 0,
 
-    extrag_finan1: 0,
-    extrag_finan2: 0,
-    extrag_finan3: 0,
-    extrag_finan_notas: "",
+    extrag_finan1: (rowUpdate?.extrag_finan1 !== undefined) ? rowUpdate?.extrag_finan1 : 0,
+    extrag_finan2: (rowUpdate?.extrag_finan2 !== undefined) ? rowUpdate?.extrag_finan2 : 0,
+    extrag_finan3: (rowUpdate?.extrag_finan3 !== undefined) ? rowUpdate?.extrag_finan3 : 0,
+    extrag_finan_notas: rowUpdate?.extrag_finan_notas ? rowUpdate?.extrag_finan_notas : 'Sin notas',
 
-    costo_u_est: 0,
-    costo_u_prov: 0,
-    costo_u: 0,
+    costo_u_est: rowUpdate?.costo_u_est ? rowUpdate?.costo_u_est : 0,
+    costo_u_prov: rowUpdate?.costo_u_prov ? rowUpdate?.costo_u_prov : 0,
+    costo_u: rowUpdate?.costo_u ? rowUpdate?.costo_u : 0,
     updated: false,
     htimestamp: UtilidadesHelper.fechaParaDB(),
   });
@@ -580,12 +581,12 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
     let errors = {}; // creo objeto de errores
     // validación de campos
     // Validacion NCM
-    if (!selectedItem?.ncm_id) {
-      errors.NCMError = "NCM is required";
-    }
-    if (!selectedItem?.proveedores_id) {
-      errors.ProveedoresError = "Proveedor is required";
-    }
+    // if (!selectedItem?.ncm_id) {
+    //   errors.NCMError = "NCM is required";
+    // }
+    // if (!selectedItem?.proveedores_id) {
+    //   errors.ProveedoresError = "Proveedor is required";
+    // }
     // Validacion Descripcion
     if (!selectedItem?.description || !selectedItem?.description.trim()) {
       errors.descriptionError = "Description Name is required";
@@ -631,19 +632,23 @@ function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp })
     counter++;
     const data = {
       ...selectedItem,
-      id: counter, // Aquí es donde generas el nuevo id
+      // id: counter, // Aquí es donde generas el nuevo id
       totalAmount: qty,
       selectedQuantity,
     };
 
     console.log(data);
-    handleAddItem(data);
+    handleAddItem(data, true);
   };
 
 
 
   return (
     <>
+      <Typography variant="subtitle1">Edicion Details:</Typography>
+      <Typography color='red' variant="subtitle2">SKU - {rowUpdate.sku}</Typography>
+      <Typography color='red' variant="subtitle2">Descripcion - {rowUpdate.description}</Typography>
+
       <Grid container spacing={gridSpacing}>
         {/* Mapeo objetos itemDetails */}
         {itemDetails.map(

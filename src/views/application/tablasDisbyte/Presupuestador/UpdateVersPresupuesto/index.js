@@ -185,7 +185,7 @@ function CreateInvoice() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { estnumber, vers, presupuesto } = useParams();
-    console.log(estnumber, vers);
+  // console.log(estnumber, vers);
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
   // console.log(user);
   const [open, setOpen] = useState(false);
@@ -356,7 +356,8 @@ function CreateInvoice() {
       inputLabel: "Tarifa Gestion Digital",
       data: dataHelp.TarifasGestDig,
       dataType: "objectArray",
-      selected_id: dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
+      selected_id:
+        dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
       selected_description:
         dataHelp?.presupuestoEditable?.estHeader?.tarifasgestdigdoc_id,
     },
@@ -671,7 +672,7 @@ function CreateInvoice() {
       fwdpaisregion_id: null,
       //   polizaProv: null,
       dolar: null,
-      tarifupdate: null, 
+      tarifupdate: null,
       tarifrecent: null, // BoolArry aqui
       tarifasfwd_id: null,
       tarifasflete_id: null,
@@ -777,13 +778,13 @@ function CreateInvoice() {
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
-            console.log('Previo envio', postData, estnumber);
+            console.log("Previo envio", postData, estnumber);
             PresupuestoHelper.createNewPresupuesto(postData, estnumber);
             console.log("Creacion exitosa de: ", postData);
             setProductsData([]);
             setMensaje("Presupuesto creado Exitosamante");
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
         } else {
           throw new Error("estDetailsDB no contiene ningún elemento.");
@@ -807,11 +808,17 @@ function CreateInvoice() {
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
-      formik.setFieldValue("estnumber", dataHelp.presupuestoEditable?.estHeader?.estnumber); //traemos el numEstimate disponible
+      formik.setFieldValue(
+        "estnumber",
+        dataHelp.presupuestoEditable?.estHeader?.estnumber
+      ); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
-      formik.setFieldValue("estvers", dataHelp.presupuestoEditable?.estHeader?.estvers + 1); //traemos el numEstimate disponible
+      formik.setFieldValue(
+        "estvers",
+        dataHelp.presupuestoEditable?.estHeader?.estvers + 1
+      ); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
@@ -997,6 +1004,7 @@ function CreateInvoice() {
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
   const [addItemClickedUpdate, setAddItemClickedUpdate] = useState(false);
+  const [rowUpdate, SetRowUpdate] = useState([]);
 
   // for calculating cost of all orders
   const getTotalAmounts = () => {
@@ -1026,12 +1034,19 @@ function CreateInvoice() {
   }, [productsData]);
 
   // to delete row in order details
-  const editProductHandler = (row) => {
-    console.log(`El ID producto del es: ${row.id}, su Data es  ${row.description}`);
-    console.log(row);
-    setAddItemClickedUpdate(true)
+  const editProductHandler = (rowUpdate) => {
+    console.log(
+      `El ID producto del es: ${rowUpdate.id}, su Data es  ${rowUpdate.description}`
+    );
+    console.log(rowUpdate);
+    setAddItemClickedUpdate(true);
+    SetRowUpdate(rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));
   };
+
+  useEffect(() => {
+    // console.log(rowUpdate);
+  }, [rowUpdate]);
 
   // to delete row in order details
   const deleteProductHandler = (id) => {
@@ -1047,10 +1062,21 @@ function CreateInvoice() {
   };
 
   // add item handler
-  const handleAddItem = (addingData) => {
-    setProductsData([
-      ...productsData,
-      {
+  const handleAddItem = (addingData, edicion = false) => {
+    if (edicion) {
+      // Encuentra el índice del producto en el arreglo productsData por su id
+      const index = productsData.findIndex(
+        (product) => product.id === addingData.id
+      );
+
+      if (index !== -1) {
+        // Elimina el producto existente de la lista
+        productsData.splice(index, 1);
+      }
+
+      // Añade el producto actualizado a la lista
+      productsData.push({
+        // ... (mismos campos que tienes en el caso else)
         // VALORES DEL DETAILS
         id: addingData.id,
         description: addingData.description,
@@ -1100,17 +1126,76 @@ function CreateInvoice() {
         costo_u: addingData.costo_u,
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
-      },
-    ]);
+      });
+
+      // Actualiza el estado
+      setProductsData([...productsData]);
+    } else {
+      setProductsData([
+        ...productsData,
+        {
+          // VALORES DEL DETAILS
+          id: addingData.id,
+          description: addingData.description,
+          // description: addingData.desc,
+          ncm_id: addingData.ncm_id,
+          ncm_code: addingData.ncm_code,
+          total: addingData.totalAmount,
+          pcsctn: addingData.pcsctn,
+          gwctn: addingData.gwctn,
+          ncm_ack: true, //aplicar el RadioGroup,
+          proovedores_name: addingData.proovedores_name,
+          proveedores_id: addingData.proveedores_id,
+          sku: addingData.sku,
+          imageurl: addingData.imageurl,
+          exw_u: addingData.exw_u,
+          fob_u: addingData.fob_u,
+          qty: addingData.qty,
+          pcsctn: addingData.pcsctn,
+          cbmctn: addingData.cbmctn,
+          gwctn: addingData.gwctn,
+
+          cambios_notas: addingData.cambios_notas,
+          ncm_arancel: addingData.ncm_arancel,
+          ncm_te_dta_otro: addingData.ncm_te_dta_otro,
+          ncm_iva: addingData.ncm_iva,
+          ncm_ivaad: addingData.ncm_ivaad,
+          gcias: addingData.gcias,
+          ncm_sp1: addingData.ncm_sp1,
+          ncm_sp2: addingData.ncm_sp2,
+          precio_u: addingData.precio_u,
+
+          extrag_comex1: addingData.extrag_comex1,
+          extrag_comex2: addingData.extrag_comex2,
+          extrag_comex3: addingData.extrag_comex3,
+          extrag_comex_notas: addingData.extrag_comex_notas,
+
+          extrag_local1: addingData.extrag_local1,
+          extrag_local2: addingData.extrag_local2,
+
+          extrag_finan1: addingData.extrag_finan1,
+          extrag_finan2: addingData.extrag_finan2,
+          extrag_finan3: addingData.extrag_finan3,
+          extrag_finan_notas: addingData.extrag_finan_notas,
+
+          costo_u_est: addingData.costo_u_est,
+          costo_u_prov: addingData.costo_u_prov,
+          costo_u: addingData.costo_u,
+          updated: addingData.updated,
+          htimestamp: addingData.htimestamp,
+        },
+      ]);
+    }
     console.log(addingData);
 
     setAddItemClicked(false);
+    setAddItemClickedUpdate(false);
   };
 
   useEffect(() => {
     if (dataHelp.presupuestoEditable) {
       setProductsData(dataHelp.presupuestoEditable.estDetails);
-      console.log(dataHelp.presupuestoEditable.estDetails);
+      // console.log(dataHelp.presupuestoEditable.estDetails);
     }
   }, [dataHelp]);
 
@@ -1124,11 +1209,11 @@ function CreateInvoice() {
     setArrBool(updatedArrBool);
   };
   useEffect(() => {
-    console.log(ArrBool);
+    // console.log(ArrBool);
     setArrBoolANumber(UtilidadesHelper.boolArrToValue(ArrBool));
   }, [ArrBool]);
   useEffect(() => {
-    console.log(ArrBoolANumber);
+    // console.log(ArrBoolANumber);
     formik.setFieldValue("tarifupdate", ArrBoolANumber); //asigno los valores
     formik.setFieldValue("tarifrecent", ArrBoolANumber); //asigno los valores
   }, [ArrBoolANumber]);
@@ -1545,7 +1630,8 @@ function CreateInvoice() {
                 <Divider />
               </Grid>
 
-              { // Si no se llama al componente de editar producto se mostrara
+              {
+                // Si no se llama al componente de editar producto se mostrara
                 !addItemClickedUpdate && (
                   <ProductsPage
                     productsData={productsData}
@@ -1569,9 +1655,10 @@ function CreateInvoice() {
                     handleAddItem={handleAddItem}
                     setAddItemClickedUpdate={setAddItemClickedUpdate}
                     dataHelp={dataHelp}
+                    rowUpdate={rowUpdate}
                   />
                 </Grid>
-              ): (
+              ) : (
                 <Grid item>
                   <Button
                     variant="text"
