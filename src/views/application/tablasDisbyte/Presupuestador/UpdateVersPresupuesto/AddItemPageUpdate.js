@@ -597,6 +597,11 @@ console.log(rowUpdate);
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }
+    // Validacion exw_u menor a a fob_u
+    if (selectedItem?.exw_u > selectedItem?.fob_u) {
+      // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
+      errors.exw_uError = "Valor exw_u debe ser menor a FOB u.";
+    }
 
     // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
@@ -610,6 +615,10 @@ console.log(rowUpdate);
     if (!selectedItem?.qty || selectedItem?.qty <= 0) {
       errors.qtyError = "Cant. PCS is required";
     }
+    // Validacion qty Entero
+    if (!Number.isInteger(selectedItem?.qty)) {
+      errors.qtyError = "Cant. PCS Debe de ser un numero entero";
+    }
     // Validacion Vol x caja
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "CBM x caja is required";
@@ -617,6 +626,10 @@ console.log(rowUpdate);
     // Validacion Piezas x caja
     if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
       errors.pcsctnError = "PSC x caja is required";
+    }
+    // Validacion Piezas x caja Entero
+    if (!Number.isInteger(selectedItem?.pcsctn)) {
+      errors.pcsctnError = "PSC x caja debe de ser un numero entero";
     }
 
     // Validacion Peso x caja
