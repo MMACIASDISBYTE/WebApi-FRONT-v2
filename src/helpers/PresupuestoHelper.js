@@ -210,9 +210,10 @@ export const PresupuestoHelper = {
             function countPresupuestosPerMonth (data){
                 // Inicializar un array con 12 ceros, uno por cada mes.
                 let monthlyCounts = Array(12).fill(0);
+                // console.log(data);
     
                 data.forEach(item => {
-                    const month = new Date(item.hTimeStamp).getMonth(); // Obtener el mes del timestamp (0-enero, 1-febrero, ..., 11-diciembre)
+                    const month = new Date(item.htimestamp).getMonth(); // Obtener el mes del timestamp (0-enero, 1-febrero, ..., 11-diciembre)
                     monthlyCounts[month]++;
                 });
                 return monthlyCounts;

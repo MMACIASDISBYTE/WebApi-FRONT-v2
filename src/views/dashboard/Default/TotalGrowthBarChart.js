@@ -49,7 +49,7 @@ const TotalGrowthBarChart = ({ isLoading, countPerDate }) => {
     const primaryDark = theme.palette.primary.dark;
     const secondaryMain = theme.palette.secondary.main;
     const secondaryLight = theme.palette.secondary.light;
-    // console.log(countPerDate)
+    console.log(countPerDate)
 
     React.useEffect(() => {
         const newChartData = {
