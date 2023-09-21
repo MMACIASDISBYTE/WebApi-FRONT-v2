@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Stack,
@@ -22,16 +22,21 @@ export const CustomSelectUpdate = ({
   formik = null,
   XS = null,
   MD = null,
+  PaisRegionApply=true,
+  PaisRegion = null,
 }) => {
 
   // console.log(data, name, formik.values[id]?.id);
 
   let objetoEncontrado = null;
+  let objetoEncontradoCompleto = null;
+
   if(formik.values[id]?.id){
     const idABuscar = formik.values[id]?.id; // reemplaza con el ID que estás buscando
 
     const objeto = data.find((objeto) => objeto.id === idABuscar);
     objetoEncontrado = objeto.description ? objeto.description : '';
+    objetoEncontradoCompleto = objeto;
   };
   // console.log('el id es el : ', id);
   // console.log('Esta es la data :', data);
@@ -43,6 +48,11 @@ export const CustomSelectUpdate = ({
     descriptioniNICIAL: objetoEncontrado,
   };
   // console.log(defaultValue);
+  // console.log(objetoEncontrado);
+  console.log(objetoEncontradoCompleto);
+  useEffect(()=>{
+    objetoEncontrado = 'Seleccione pais'
+  },[PaisRegion])
 
   return (
     <>
@@ -104,7 +114,11 @@ export const CustomSelectUpdate = ({
               </MenuItem>
               {data && data.length > 0 ? (
                 dataType === "objectArray" ? (
-                  data.map((item) => (
+                  (PaisRegion && PaisRegionApply ? 
+                    data.filter(item => item.paisregion_id === PaisRegion) 
+                    : data
+                  )
+                  .map((item) => (
                     <MenuItem key={item.id} value={item}>
                       {item.description}
                     </MenuItem>
