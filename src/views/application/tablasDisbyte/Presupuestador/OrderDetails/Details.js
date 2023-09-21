@@ -1,4 +1,4 @@
-// LISTED 21_09_2023 17_05
+// LISTED 21_09_2023 18_41
 // Se normiliza la vista del detalle, tal y como apacere en el XLS con una vista abreviada y una FULL.
 
 import { useNavigate } from "react-router-dom";
@@ -290,8 +290,8 @@ const Details = ({ presupuestador, usuario }) => {
                           <Typography variant="subtitle1">Tipo :</Typography>
                           <Typography variant="body2">
                             {presupuestador.estHeader.carga_id
-                              ? presupuestador.estHeader.carga_id
-                              : "Sin data"}
+                              ? presupuestador.estHeader.carga_id==3?"40HQ":presupuestador.estHeader.carga_id==2?"40ST":"20ST"
+                              : 0}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
@@ -300,26 +300,30 @@ const Details = ({ presupuestador, usuario }) => {
                           </Typography>
                           <Typography variant="body2">
                             {presupuestador.estHeader.cantidad_contenedores
-                              ? presupuestador.estHeader.cantidad_contenedores.toFixed(2)
-                              : "Sin data"}
+                              ? presupuestador.estHeader.cantidad_contenedores.toFixed(3)
+                              : 0.0}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">CBM m3 :</Typography>
                           <Typography variant="body2">
                             {(presupuestador.estHeader.cbm_grand_total || 0)
-                              ? presupuestador.estHeader.cbm_grand_total.toFixed(3)
-                              : "Sin dataa"}
+                              ? presupuestador.estHeader.cbm_grand_total.toFixed(2)
+                              : 0.0}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">
-                            Pais de Origen :
+                            Pais ORIG - DEST :
                           </Typography>
                           <Typography variant="body2">
-                            {presupuestador.estHeader.paisregion_id
-                              ? presupuestador.estHeader.paisregion_id
-                              : "Sin data"}
+                            
+                              {presupuestador.estHeader.fwdpaisregion_id
+                              ? presupuestador.estHeader.fwdpaisregion_id==9?"CHINA":presupuestador.estHeader.fwdpaisregion_id==6?"BRAS":presupuestador.estHeader.fwdpaisregion_id==5?"MEX":"ARG"
+                              : ""}
+                              {presupuestador.estHeader.paisregion_id
+                              ? presupuestador.estHeader.paisregion_id==7?" - ARG":presupuestador.estHeader.paisregion_id==6?" - BRAS":presupuestador.estHeader.paisregion_id==5?" - MEX":" - NA"
+                              : ""}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
@@ -401,9 +405,15 @@ const Details = ({ presupuestador, usuario }) => {
                               : "#"}
                           </Typography>
                           <Typography variant="subtitle1">
-                            /00
+                            / V0
                             {presupuestador.estHeader.estvers
                               ? presupuestador.estHeader.estvers
+                              : "#"}
+                          </Typography>    
+                          <Typography variant="subtitle1" paddingLeft={3}>    
+                            id:
+                            {presupuestador.estHeader.id
+                              ? presupuestador.estHeader.id
                               : "#"}
                           </Typography>
                         </Stack>
@@ -461,15 +471,15 @@ const Details = ({ presupuestador, usuario }) => {
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">IVA Exc :</Typography>
                           <Typography variant="body2">
-                            {presupuestador.iibb_total ? "Si" : "No"}
+                            {presupuestador.ivaexcento ? "Si" : "No"}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">IIBB :</Typography>
                           <Typography variant="body2">
-                            {presupuestador.iibbTot
-                              ? presupuestador.iibbTot.toFixed(2)
-                              : "Sin data"}{" "}
+                            {pais==7?(presupuestador.estHeader.iibb_total
+                              ? presupuestador.estHeader.iibb_total.toFixed(2)
+                              : 0.0):("NA")}{" "}
                             %
                           </Typography>
                         </Stack>
