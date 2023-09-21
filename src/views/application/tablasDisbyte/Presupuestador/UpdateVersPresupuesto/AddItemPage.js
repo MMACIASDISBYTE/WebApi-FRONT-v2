@@ -112,7 +112,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       inputName: "Cant. PCS",
       em: "Ingrese N° Entero de Cant. PCS",
       data: "Number",
-      alerta: 'Debe de ingresar un numero entero',
+      alerta: "Debe de ingresar un numero entero",
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
@@ -123,7 +123,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       inputName: "PCS x Caja",
       em: "Ingrese N° Entero de PCS x Caja",
       data: "Number",
-      alerta: 'Debe de ingresar un numero entero',
+      alerta: "Debe de ingresar un numero entero",
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
@@ -534,8 +534,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         });
       } else {
         // Actualización general de selectedItem
-        updatedSelectedItem[name] =
-          type === "Number" ? parseFloat(value) : value;
+        if (type === "Number") {
+          updatedSelectedItem[name] = parseFloat(value) || value;
+        } else {
+          updatedSelectedItem[name] = value;
+        }
       }
       setSelectedQuantity(event.target.value);
       setSelectedItem(updatedSelectedItem);
@@ -567,6 +570,10 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u debe ser menor a FOB u.";
     }
+    // // Validacion exw_u numerico
+    if (typeof selectedItem.exw_u !== "number") {
+      errors.exw_uError = "Valor exw_u debe ser numerico";
+    }
 
     // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
@@ -576,6 +583,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     if (!selectedItem?.fob_u || selectedItem?.fob_u < 0) {
       errors.fob_uError = "Valor Fob is required";
     }
+    // // Validacion fob_u numerico
+    if (typeof selectedItem.fob_u !== "number") {
+      errors.fob_uError = "Valor fob_u debe ser numerico";
+    }
+
     // Validacion qty cantidad
     if (!selectedItem?.qty || selectedItem?.qty <= 0) {
       errors.qtyError = "Cant. PCS is required";
@@ -584,10 +596,16 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     if (!Number.isInteger(selectedItem?.qty)) {
       errors.qtyError = "Cant. PCS Debe de ser un numero entero";
     }
+    
     // Validacion Vol x caja
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "CBM x caja is required";
     }
+    // Validacion Vol x caja numerico
+    if (!selectedItem?.cbmctn || typeof selectedItem.cbmctn !== "number") {
+      errors.cbmctnError = "CBM x caja debe ser numerico";
+    }
+
     // Validacion Piezas x caja
     if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
       errors.pcsctnError = "PSC x caja is required";
@@ -600,6 +618,10 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     // Validacion Peso x caja
     if (!selectedItem?.gwctn || selectedItem?.gwctn < 0) {
       errors.gwctnError = "Peso x caja is required";
+    }
+    // // Validacion gwctn numerico
+    if (typeof selectedItem.gwctn !== "number") {
+      errors.gwctnError = "Valor gwctn debe ser numerico";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -631,30 +653,22 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                   <Typography variant="subtitle1">{item.inputName}</Typography>
                   <FormControl>
                     <Tooltip title={item.alerta ? item.alerta : item.name}>
-                      
-                        <TextField
-                          fullWidth
-                          name={item.name}
-                          type={item.data === "Number" ? "number" : "string"}
-                          error={Boolean(errors[`${item.name}Error`])}
-                          value={selectedItem[item.id] || ""}
-                          onChange={(e) => {
-                            handleChange(e, item.data);
-                            UtilidadesHelper.handleChangeCustomSinFormik(
-                              e,
-                              null,
-                              item.name,
-                              setSelectedItem
-                            );
-                          }}
-                          placeholder={`${item.em}`}
-                          disabled={item.isDisabled}
-                          // Si es tipo Date, añade el atributo inputType
-                          inputProps={
-                            item.data === "Date" ? { type: "date" } : {}
-                          }
-                        />
-
+                      <TextField
+                        fullWidth
+                        name={item.name}
+                        type={item.data === "Number" ? "number" : "string"}
+                        error={Boolean(errors[`${item.name}Error`])}
+                        value={selectedItem[item.id] || ""}
+                        onChange={(e) => {
+                          handleChange(e, item.data);
+                        }}
+                        placeholder={`${item.em}`}
+                        disabled={item.isDisabled}
+                        // Si es tipo Date, añade el atributo inputType
+                        inputProps={
+                          item.data === "Date" ? { type: "date" } : {}
+                        }
+                      />
                     </Tooltip>
                     {errors[`${item.name}Error`] && (
                       <FormHelperText>
