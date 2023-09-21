@@ -1084,6 +1084,9 @@ function CreateInvoice() {
         // Elimina el producto existente de la lista
         productsData.splice(index, 1);
       }
+      function formatValue(value) {
+        return value === '0' ? 0 : value;
+    }
 
       // Añade el producto actualizado a la lista
       productsData.push({
@@ -1119,17 +1122,17 @@ function CreateInvoice() {
         ncm_sp2: addingData.ncm_sp2,
         precio_u: addingData.precio_u,
 
-        extrag_comex1: addingData.extrag_comex1,
-        extrag_comex2: addingData.extrag_comex2,
-        extrag_comex3: addingData.extrag_comex3,
+        extrag_comex1: formatValue(addingData.extrag_comex1),
+        extrag_comex2: formatValue(addingData.extrag_comex2),
+        extrag_comex3: formatValue(addingData.extrag_comex3),
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_local1: addingData.extrag_local1,
-        extrag_local2: addingData.extrag_local2,
+        extrag_local1: formatValue(addingData.extrag_local1),
+        extrag_local2: formatValue(addingData.extrag_local2),
 
-        extrag_finan1: addingData.extrag_finan1,
-        extrag_finan2: addingData.extrag_finan2,
-        extrag_finan3: addingData.extrag_finan3,
+        extrag_finan1: formatValue(addingData.extrag_finan1),
+        extrag_finan2: formatValue(addingData.extrag_finan2),
+        extrag_finan3: formatValue(addingData.extrag_finan3),
         extrag_finan_notas: addingData.extrag_finan_notas,
 
         costo_u_est: addingData.costo_u_est,
