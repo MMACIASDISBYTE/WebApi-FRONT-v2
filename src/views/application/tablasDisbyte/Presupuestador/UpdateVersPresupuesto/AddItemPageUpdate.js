@@ -23,10 +23,14 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 //
 let counter = 0; // Esto debería estar fuera de la función del componente para que no se reinicie en cada render
 
-function AddItemPageUpdate({ handleAddItem, setAddItemClickedUpdate, dataHelp, rowUpdate = null }) {
-
-console.log(dataHelp);
-console.log(rowUpdate);
+function AddItemPageUpdate({
+  handleAddItem,
+  setAddItemClickedUpdate,
+  dataHelp,
+  rowUpdate = null,
+}) {
+  console.log(dataHelp);
+  console.log(rowUpdate);
   const itemDetails = [
     {
       id: "sku",
@@ -120,7 +124,7 @@ console.log(rowUpdate);
       inputName: "Cant. PCS",
       em: "Ingrese N° Entero de Cant. PCS",
       data: "Number",
-      alerta: 'Debe de ingresar un numero entero',
+      alerta: "Debe de ingresar un numero entero",
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
@@ -132,7 +136,7 @@ console.log(rowUpdate);
       inputName: "PCS x Caja",
       em: "Ingrese N° Entero de PCS x Caja",
       data: "Number",
-      alerta: 'Debe de ingresar un numero entero',
+      alerta: "Debe de ingresar un numero entero",
       xs_md: [12, 3],
       isDisabled: false,
       oculto: false,
@@ -268,7 +272,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'green',
+      color: "green",
     },
     {
       id: "extrag_comex2",
@@ -279,7 +283,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'green',
+      color: "green",
     },
     {
       id: "extrag_comex3",
@@ -290,7 +294,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'green',
+      color: "green",
     },
     {
       id: "extrag_comex_notas",
@@ -301,7 +305,7 @@ console.log(rowUpdate);
       xs_md: [12, 6],
       isDisabled: false,
       oculto: false,
-      color: 'green',
+      color: "green",
     },
     {
       id: "extrag_finan1",
@@ -312,7 +316,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'red',
+      color: "red",
     },
     {
       id: "extrag_finan2",
@@ -323,7 +327,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'red',
+      color: "red",
     },
     {
       id: "extrag_finan3",
@@ -334,7 +338,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'red',
+      color: "red",
     },
     {
       id: "extrag_finan_notas",
@@ -345,7 +349,7 @@ console.log(rowUpdate);
       xs_md: [12, 6],
       isDisabled: false,
       oculto: false,
-      color: 'red',
+      color: "red",
     },
     {
       id: "costo_u_est",
@@ -400,7 +404,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'yellow',
+      color: "yellow",
     },
     {
       id: "extrag_local2",
@@ -411,7 +415,7 @@ console.log(rowUpdate);
       xs_md: [12, 2],
       isDisabled: false,
       oculto: false,
-      color: 'yellow',
+      color: "yellow",
     },
   ];
 
@@ -419,10 +423,10 @@ console.log(rowUpdate);
     id: rowUpdate?.id,
     description: rowUpdate?.description,
     ncm_id: rowUpdate?.ncm_id ? rowUpdate.ncm_id : 0,
-    gwctn: rowUpdate?.gwctn ? rowUpdate.gwctn : '',
+    gwctn: rowUpdate?.gwctn ? rowUpdate.gwctn : "",
     proveedores_id: rowUpdate?.proveedores_id ? rowUpdate.proveedores_id : null,
-    sku: rowUpdate?.sku ? rowUpdate?.sku : '',
-    imageurl: rowUpdate?.imageurl ? rowUpdate?.imageurl : '',
+    sku: rowUpdate?.sku ? rowUpdate?.sku : "",
+    imageurl: rowUpdate?.imageurl ? rowUpdate?.imageurl : "",
     exw_u: rowUpdate?.exw_u,
     fob_u: rowUpdate?.fob_u,
     qty: rowUpdate?.qty,
@@ -430,29 +434,40 @@ console.log(rowUpdate);
     cbmctn: rowUpdate?.cbmctn,
     gwctn: rowUpdate?.gwctn,
 
-    cambios_notas: rowUpdate?.cambios_notas ? rowUpdate?.cambios_notas : 'Sin notas',
-    ncm_arancel: rowUpdate?.ncm_arancel ? rowUpdate?.ncm_arancel :  0,
-    ncm_te_dta_otro: rowUpdate?.ncm_te_dta_otro ? rowUpdate?.ncm_te_dta_otro :  0,
-    ncm_iva: rowUpdate?.ncm_iva ? rowUpdate?.ncm_iva :  0,
-    ncm_ivaad: rowUpdate?.ncm_ivaad ? rowUpdate?.ncm_ivaad :  0,
-    gcias: rowUpdate?.gcias ? rowUpdate?.gcias :  0,
+    cambios_notas: rowUpdate?.cambios_notas
+      ? rowUpdate?.cambios_notas
+      : "Sin notas",
+    ncm_arancel: rowUpdate?.ncm_arancel ? rowUpdate?.ncm_arancel : 0,
+    ncm_te_dta_otro: rowUpdate?.ncm_te_dta_otro
+      ? rowUpdate?.ncm_te_dta_otro
+      : 0,
+    ncm_iva: rowUpdate?.ncm_iva ? rowUpdate?.ncm_iva : 0,
+    ncm_ivaad: rowUpdate?.ncm_ivaad ? rowUpdate?.ncm_ivaad : 0,
+    gcias: rowUpdate?.gcias ? rowUpdate?.gcias : 0,
 
-    ncm_sp1: rowUpdate?.ncm_sp1 ? rowUpdate?.ncm_sp1 : '',
-    ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : '',
+    ncm_sp1: rowUpdate?.ncm_sp1 ? rowUpdate?.ncm_sp1 : "",
+    ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : "",
     precio_u: rowUpdate?.precio_u ? rowUpdate?.precio_u : 0,
 
     extrag_comex1: rowUpdate?.extrag_comex1,
     extrag_comex2: rowUpdate?.extrag_comex2,
     extrag_comex3: rowUpdate?.extrag_comex3,
-    extrag_comex_notas: rowUpdate?.extrag_comex_notas ? rowUpdate?.extrag_comex_notas : 'Sin notas',
+    extrag_comex_notas: rowUpdate?.extrag_comex_notas
+      ? rowUpdate?.extrag_comex_notas
+      : "Sin notas",
 
     extrag_local1: rowUpdate?.extrag_local1 ? rowUpdate?.extrag_local1 : 0,
     extrag_local2: rowUpdate?.extrag_local2 ? rowUpdate?.extrag_local2 : 0,
 
-    extrag_finan1: (rowUpdate?.extrag_finan1 !== undefined) ? rowUpdate?.extrag_finan1 : 0,
-    extrag_finan2: (rowUpdate?.extrag_finan2 !== undefined) ? rowUpdate?.extrag_finan2 : 0,
-    extrag_finan3: (rowUpdate?.extrag_finan3 !== undefined) ? rowUpdate?.extrag_finan3 : 0,
-    extrag_finan_notas: rowUpdate?.extrag_finan_notas ? rowUpdate?.extrag_finan_notas : 'Sin notas',
+    extrag_finan1:
+      rowUpdate?.extrag_finan1 !== undefined ? rowUpdate?.extrag_finan1 : 0,
+    extrag_finan2:
+      rowUpdate?.extrag_finan2 !== undefined ? rowUpdate?.extrag_finan2 : 0,
+    extrag_finan3:
+      rowUpdate?.extrag_finan3 !== undefined ? rowUpdate?.extrag_finan3 : 0,
+    extrag_finan_notas: rowUpdate?.extrag_finan_notas
+      ? rowUpdate?.extrag_finan_notas
+      : "Sin notas",
 
     costo_u_est: rowUpdate?.costo_u_est ? rowUpdate?.costo_u_est : 0,
     costo_u_prov: rowUpdate?.costo_u_prov ? rowUpdate?.costo_u_prov : 0,
@@ -569,8 +584,11 @@ console.log(rowUpdate);
         });
       } else {
         // Actualización general de selectedItem
-        updatedSelectedItem[name] =
-          type === "Number" ? parseFloat(value) : value;
+        if (type === "Number") {
+          updatedSelectedItem[name] = parseFloat(value) || value;
+        } else {
+          updatedSelectedItem[name] = value;
+        }
       }
       setSelectedQuantity(event.target.value);
       setSelectedItem(updatedSelectedItem);
@@ -580,14 +598,6 @@ console.log(rowUpdate);
   const handleOk = () => {
     let errors = {}; // creo objeto de errores
     // validación de campos
-    // Validacion NCM
-    // if (!selectedItem?.ncm_id) {
-    //   errors.NCMError = "NCM is required";
-    // }
-    // if (!selectedItem?.proveedores_id) {
-    //   errors.ProveedoresError = "Proveedor is required";
-    // }
-    // Validacion Descripcion
     if (!selectedItem?.description || !selectedItem?.description.trim()) {
       errors.descriptionError = "Description Name is required";
     }
@@ -602,6 +612,10 @@ console.log(rowUpdate);
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u debe ser menor a FOB u.";
     }
+    // // Validacion exw_u numerico
+    if (typeof selectedItem.exw_u !== "number") {
+      errors.exw_uError = "Valor exw_u debe ser numerico";
+    }
 
     // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
@@ -611,6 +625,11 @@ console.log(rowUpdate);
     if (!selectedItem?.fob_u || selectedItem?.fob_u < 0) {
       errors.fob_uError = "Valor Fob is required";
     }
+    // // Validacion fob_u numerico
+    if (typeof selectedItem.fob_u !== "number") {
+      errors.fob_uError = "Valor fob_u debe ser numerico";
+    }
+
     // Validacion qty cantidad
     if (!selectedItem?.qty || selectedItem?.qty <= 0) {
       errors.qtyError = "Cant. PCS is required";
@@ -619,9 +638,15 @@ console.log(rowUpdate);
     if (!Number.isInteger(selectedItem?.qty)) {
       errors.qtyError = "Cant. PCS Debe de ser un numero entero";
     }
+
     // Validacion Vol x caja
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "CBM x caja is required";
+    }
+    
+    // Validacion Vol x caja numerico
+    if (!selectedItem?.cbmctn || typeof selectedItem.cbmctn !== "number") {
+      errors.cbmctnError = "CBM x caja debe ser numerico";
     }
     // Validacion Piezas x caja
     if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
@@ -635,6 +660,87 @@ console.log(rowUpdate);
     // Validacion Peso x caja
     if (!selectedItem?.gwctn || selectedItem?.gwctn < 0) {
       errors.gwctnError = "Peso x caja is required";
+    }
+    // // Validacion gwctn numerico
+    if (typeof selectedItem.gwctn !== "number") {
+      errors.gwctnError = "Valor gwctn debe ser numerico";
+    }
+
+    // control numeric extra gastos
+    // EXTRA GASTOC OMEX
+    if (
+      selectedItem.extrag_comex1 !== null &&
+      selectedItem.extrag_comex1 !== "" &&
+      selectedItem.extrag_comex1 !== 0 &&
+      selectedItem.extrag_comex1 !== "0" &&
+      typeof selectedItem.extrag_comex1 !== "number"
+    ) {
+      errors.extrag_comex1Error = "Extra Gasto debe ser numerico";
+    }
+    if (
+      selectedItem.extrag_comex2 !== null &&
+      selectedItem.extrag_comex2 !== "" &&
+      selectedItem.extrag_comex2 !== 0 &&
+      selectedItem.extrag_comex2 !== "0" &&
+      typeof selectedItem.extrag_comex2 !== "number"
+    ) {
+      errors.extrag_comex2Error = "Extra Gasto debe ser numerico";
+    }
+    if (
+      selectedItem.extrag_comex3 !== null &&
+      selectedItem.extrag_comex3 !== "" &&
+      selectedItem.extrag_comex3 !== 0 &&
+      selectedItem.extrag_comex3 !== "0" &&
+      typeof selectedItem.extrag_comex3 !== "number"
+    ) {
+      errors.extrag_comex3Error = "Extra Gasto debe ser numerico";
+    }
+    // EXTRA GASTO FINAN
+    if (
+      selectedItem.extrag_finan1 !== null &&
+      selectedItem.extrag_finan1 !== "" &&
+      selectedItem.extrag_finan1 !== 0 &&
+      selectedItem.extrag_finan1 !== "0" &&
+      typeof selectedItem.extrag_finan1 !== "number"
+    ) {
+      errors.extrag_finan1Error = "Extra Gasto debe ser numerico";
+    }
+    if (
+      selectedItem.extrag_finan2 !== null &&
+      selectedItem.extrag_finan2 !== "" &&
+      selectedItem.extrag_finan2 !== 0 &&
+      selectedItem.extrag_finan2 !== "0" &&
+      typeof selectedItem.extrag_finan2 !== "number"
+    ) {
+      errors.extrag_finan2Error = "Extra Gasto debe ser numerico";
+    }
+    if (
+      selectedItem.extrag_finan3 !== null &&
+      selectedItem.extrag_finan3 !== "" &&
+      selectedItem.extrag_finan3 !== 0 &&
+      selectedItem.extrag_finan3 !== "0" &&
+      typeof selectedItem.extrag_finan3 !== "number"
+    ) {
+      errors.extrag_finan3Error = "Extra Gasto debe ser numerico";
+    }
+    // EXTRA GASTO LOCAL
+    if (
+      selectedItem.extrag_local1 !== null &&
+      selectedItem.extrag_local1 !== "" &&
+      selectedItem.extrag_local1 !== 0 &&
+      selectedItem.extrag_local1 !== "0" &&
+      typeof selectedItem.extrag_local1 !== "number"
+    ) {
+      errors.extrag_local1Error = "Extra Gasto debe ser numerico";
+    }
+    if (
+      selectedItem.extrag_local2 !== null &&
+      selectedItem.extrag_local2 !== "" &&
+      selectedItem.extrag_local2 !== 0 &&
+      selectedItem.extrag_local2 !== "0" &&
+      typeof selectedItem.extrag_local2 !== "number"
+    ) {
+      errors.extrag_local2Error = "Extra Gasto debe ser numerico";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -654,13 +760,15 @@ console.log(rowUpdate);
     handleAddItem(data, true);
   };
 
-
-
   return (
     <>
       <Typography variant="subtitle1">Edicion Details:</Typography>
-      <Typography color='red' variant="subtitle2">SKU - {rowUpdate.sku}</Typography>
-      <Typography color='red' variant="subtitle2">Descripcion - {rowUpdate.description}</Typography>
+      <Typography color="red" variant="subtitle2">
+        SKU - {rowUpdate.sku}
+      </Typography>
+      <Typography color="red" variant="subtitle2">
+        Descripcion - {rowUpdate.description}
+      </Typography>
 
       <Grid container spacing={gridSpacing}>
         {/* Mapeo objetos itemDetails */}
@@ -669,33 +777,33 @@ console.log(rowUpdate);
             !item.oculto && (
               <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index}>
                 <Stack spacing={1}>
-                  <Typography color={item.color} variant="subtitle1">{item.inputName}</Typography>
+                  <Typography color={item.color} variant="subtitle1">
+                    {item.inputName}
+                  </Typography>
                   <FormControl>
                     <Tooltip title={item.alerta ? item.alerta : item.name}>
-
-                        <TextField
-                          fullWidth
-                          name={item.name}
-                          type={item.data === "Number" ? "number" : "string"}
-                          error={Boolean(errors[`${item.name}Error`])}
-                          value={selectedItem[item.id] || ""}
-                          onChange={(e) => {
-                            handleChange(e, item.data);
-                            UtilidadesHelper.handleChangeCustomSinFormik(
-                              e,
-                              null,
-                              item.name,
-                              setSelectedItem
-                            );
-                          }}
-                          placeholder={`${item.em}`}
-                          disabled={item.isDisabled}
-                          // Si es tipo Date, añade el atributo inputType
-                          inputProps={
-                            item.data === "Date" ? { type: "date" } : {}
-                          }
-                        />
-
+                      <TextField
+                        fullWidth
+                        name={item.name}
+                        type={item.data === "Number" ? "number" : "string"}
+                        error={Boolean(errors[`${item.name}Error`])}
+                        value={selectedItem[item.id] || ""}
+                        onChange={(e) => {
+                          handleChange(e, item.data);
+                          // UtilidadesHelper.handleChangeCustomSinFormik(
+                          //   e,
+                          //   null,
+                          //   item.name,
+                          //   setSelectedItem
+                          // );
+                        }}
+                        placeholder={`${item.em}`}
+                        disabled={item.isDisabled}
+                        // Si es tipo Date, añade el atributo inputType
+                        inputProps={
+                          item.data === "Date" ? { type: "date" } : {}
+                        }
+                      />
                     </Tooltip>
                     {errors[`${item.name}Error`] && (
                       <FormHelperText>
@@ -890,7 +998,10 @@ console.log(rowUpdate);
 
         <Grid item container justifyContent="flex-end">
           <Stack direction="row" spacing={1} alignItems="center">
-            <Button color="error" onClick={() => setAddItemClickedUpdate(false)}>
+            <Button
+              color="error"
+              onClick={() => setAddItemClickedUpdate(false)}
+            >
               Cancel
             </Button>
             <Button

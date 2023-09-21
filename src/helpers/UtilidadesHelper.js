@@ -106,7 +106,7 @@ export const UtilidadesHelper = {
 
     return valor;
   },
-  handleChangeCustom: function (event, formik, name){
+  handleChangeCustom: function (event, formik, name) {
     let inputValue = event.target.value;
     // Reemplaza dos puntos o comas consecutivos por un solo punto
     inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
@@ -120,25 +120,44 @@ export const UtilidadesHelper = {
   },
   handleChangeCustomSinFormik: function (event, formik, name, dataType, setStateFunction) {
     let inputValue = event.target.value;
-    // Reemplaza dos puntos o comas consecutivos por un solo punto
-    inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
+
+    // Permitir el ingreso de '0' al inicio
+    if (inputValue === '0') {
+        if (formik) {
+            formik.setFieldValue(name, inputValue);
+        }
+
+        if (setStateFunction) {
+            setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
+        }
+        return;  // terminamos aquí para permitir el '0' inicial
+    }
+    
+    // Si el valor empieza con un punto, agregamos un "0" al inicio.
+    if (inputValue.startsWith('.')) {
+        inputValue = '0' + inputValue;
+    }
+
+    // Reemplaza dos puntos o más consecutivos por un solo punto
+    inputValue = inputValue.replace(/\.{2,}/g, ".");
+
     // Reemplaza la coma por un punto
-    inputValue = inputValue.replace(",", "0.");
-    inputValue = inputValue.replace(".", "0.");
+    inputValue = inputValue.replace(",", ".");
 
     if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
-      if (formik) {
-        formik.setFieldValue(name, inputValue);
-      }
-
-      if (setStateFunction) {
-        // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
-        if (dataType === 'number') {
-          setStateFunction(prevState => ({ ...prevState, [name]: parseFloat(inputValue) }));
-        } else {
-          setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
+        if (formik) {
+            formik.setFieldValue(name, inputValue);
         }
-      }
+
+        if (setStateFunction) {
+            // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
+            if (dataType === 'number') {
+                setStateFunction(prevState => ({ ...prevState, [name]: parseFloat(inputValue) }));
+            } else {
+                setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
+            }
+        }
     }
-  },
+}
+  
 };

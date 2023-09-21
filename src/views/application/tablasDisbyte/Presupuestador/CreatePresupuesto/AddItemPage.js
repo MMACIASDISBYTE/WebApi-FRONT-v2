@@ -500,8 +500,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
         });
       } else {
         // Actualización general de selectedItem
-        updatedSelectedItem[name] =
-          type === "Number" ? parseFloat(value) : value;
+        if (type === "Number") {
+          updatedSelectedItem[name] = parseFloat(value) || value;
+        } else {
+          updatedSelectedItem[name] = value;
+        }
       }
       setSelectedQuantity(event.target.value);
       setSelectedItem(updatedSelectedItem);
@@ -533,6 +536,10 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u debe ser menor a FOB u.";
     }
+    // // Validacion exw_u numerico
+    if (typeof selectedItem.exw_u !== "number") {
+      errors.exw_uError = "Valor exw_u is required";
+    }
 
     // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
@@ -542,6 +549,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     if (!selectedItem?.fob_u || selectedItem?.fob_u < 0) {
       errors.fob_uError = "Valor Fob is required";
     }
+    // // Validacion fob_u numerico
+    if (typeof selectedItem.fob_u !== "number") {
+      errors.fob_uError = "Valor fob_u is required";
+    }
+
     // Validacion qty cantidad
     if (!selectedItem?.qty || selectedItem?.qty <= 0) {
       errors.qtyError = "Cantidad is required";
@@ -555,18 +567,27 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "Vol. x caja is required";
     }
+    // Validacion Vol x caja numerico
+    if (!selectedItem?.cbmctn || typeof selectedItem.cbmctn !== "number") {
+      errors.cbmctnError = "CBM x caja is required";
+    }
+
     // Validacion Piezas x caja
     if (!selectedItem?.pcsctn || selectedItem?.pcsctn <= 0) {
-      errors.pcsctnError = "Pieza x caja is required";
+      errors.pcsctnError = "PSC x caja is required";
     }
     // Validacion Piezas x caja Entero
     if (!Number.isInteger(selectedItem?.pcsctn)) {
-      errors.pcsctnError = "PSC x caja debe de ser un numero entero";
+      errors.pcsctnError = "PSC x caja is required";
     }
 
     // Validacion Peso x caja
     if (!selectedItem?.gwctn || selectedItem?.gwctn < 0) {
       errors.gwctnError = "Peso x caja is required";
+    }
+    // // Validacion gwctn numerico
+    if (typeof selectedItem.gwctn !== "number") {
+      errors.gwctnError = "Valor gwctn debe ser numerico";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -606,12 +627,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
                         value={selectedItem[item.id] || ""}
                         onChange={(e) => {
                           handleChange(e, item.data);
-                          UtilidadesHelper.handleChangeCustomSinFormik(
-                            e,
-                            null,
-                            item.name,
-                            setSelectedItem
-                          );
                         }}
                         placeholder={`${item.em}`}
                         disabled={item.isDisabled}
