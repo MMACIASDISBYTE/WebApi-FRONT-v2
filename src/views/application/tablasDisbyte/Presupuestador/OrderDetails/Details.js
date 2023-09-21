@@ -1,6 +1,9 @@
+// LISTED 21_09_2023 17_05
+// Se normiliza la vista del detalle, tal y como apacere en el XLS con una vista abreviada y una FULL.
+
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-// material-ui
+// material-ui 
 import { useTheme } from "@mui/material/styles";
 import {
   Avatar,
@@ -64,13 +67,14 @@ const Details = ({ presupuestador, usuario }) => {
   const [loading2, setLoading2] = useState(true);
   const [verMas, setVerMas] = useState(true);
   const [pais, setPais] = useState(0);
-  console.log(rows);
-  console.log(pais);
+  //console.log(rows);
+  //console.log(pais);
 
   useEffect(() => {
     const fetchData = async () => {
       if (presupuestador && presupuestador.estDetails) {
         setRow(presupuestador.estDetails);
+        console.log(rows);
         //espera la respuesta de presupuestador y quita el loading
         setLoading(false);
         setPais(presupuestador.estHeader.paisregion_id)
@@ -78,9 +82,10 @@ const Details = ({ presupuestador, usuario }) => {
     };
 
     fetchData();
-    console.log(presupuestador);
+    //console.log(presupuestador);
     console.log(presupuestador.estDetails);
-    console.log(presupuestador.estHeader);
+   
+    //console.log(presupuestador.estHeader);
     // console.log(presupuestador.estHeader.description);
   }, [presupuestador]);
 
@@ -101,6 +106,80 @@ const Details = ({ presupuestador, usuario }) => {
     navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
+
+  // totales de los que no dispone el json o no estan operativos a la fecha
+  // Suma de los extrag
+  function sumExtrag(myRow)
+  {
+    return ((
+      myRow.extrag_local1+
+      myRow.extrag_local2+
+      myRow.extrag_comex1+
+      myRow.extrag_comex2+
+      myRow.extrag_comex3+
+      myRow.extrag_finan1+
+      myRow.extrag_finan2+
+      myRow.extrag_finan3+
+      myRow.extrag_glob_comex1+
+      myRow.extrag_glob_comex2+
+      myRow.extrag_glob_comex3+
+      myRow.extrag_glob_comex4+
+      myRow.extrag_glob_comex5+
+      myRow.extrag_glob_finan1+
+      myRow.extrag_glob_finan2+
+      myRow.extrag_glob_finan3+
+      myRow.extrag_glob_finan4+
+      myRow.extrag_glob_finan5))
+  }
+  // Suma de los gastos locales
+  function sumGlocPais(myRow,pais)
+  {
+    if(pais==7)
+    {
+    return(
+            (myRow.gloc_bancos+
+            myRow.gloc_depositos+
+            myRow.gloc_despachantes+
+            myRow.gloc_flete+
+            myRow.gloc_fwd+
+            myRow.gloc_gestdigdoc+
+            myRow.gloc_despachantes+
+            myRow.gloc_polizas+
+            myRow.gloc_terminales));
+    }
+
+    if(pais==5)
+    {
+      return(
+            (myRow.gloc_despachantes+
+            myRow.gloc_flete+
+            myRow.gloc_fwd+
+            myRow.gloc_terminales));
+    }  
+    return 0.0
+  }
+  // Suma de los aranceles.
+  function sumImpuestosPais(myRow,pais)
+  {
+    if(pais==7)
+    {
+        return   (myRow.arancelgrav_cif+
+                  myRow.te_dta_otro_cif+
+                  myRow.iva_cif+
+                  myRow.ivaad_cif+
+                  myRow.gcias424+
+                  myRow.iibb900)
+    }
+    if(pais==5)
+    {
+      return   (myRow.arancelgrav_cif+
+                myRow.te_dta_otro_cif+
+                myRow.iva_cif)
+    }
+  }
+   
+             
+
   const verMasImp = () => {
     if (!verMas) {
       setVerMas(true);
@@ -116,6 +195,7 @@ const Details = ({ presupuestador, usuario }) => {
           <CircularProgress margin="auto" />
         </div>
       ) : (
+        
         <Grid item xs={12}>
           
           <SubCard
@@ -611,38 +691,126 @@ const Details = ({ presupuestador, usuario }) => {
               <TableContainer>
                 <Table>
                   <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ pl: 3 }}>Description</TableCell>
-                      <TableCell align="right">FOBUnit</TableCell>
-                      <TableCell align="right">CantPcs</TableCell>
-                      <TableCell align="right">Peso Total</TableCell>
-                      <TableCell align="right">CBM Total</TableCell>
-                      <TableCell align="right">CIF Total</TableCell>
-                      <TableCell align="right">Costo USD(u)</TableCell>
-                      <TableCell align="right">Costo Est. USD(u)</TableCell>
-                      <TableCell align="right">Costo Prov(u)</TableCell>
-                      { //PETER EJEMPLO
-                        pais == 4 ? (
-                        <TableCell align="right">Pais</TableCell>)
-                        : ('')  
-                      }
+                    <TableRow> 
+                     
+                      {/*VISTA ABREVIADA*/}
                       {verMas ? (
-                        ""
-                      ) : (
                         <>
-                          <TableCell align="right">IIBB</TableCell>
-                          <TableCell align="right">Derechos</TableCell>
-                          <TableCell align="right">Tasa E. 061</TableCell>
-                          <TableCell align="right">Base Iva Cif</TableCell>
-                          <TableCell align="right">Iva Cif</TableCell>
-                          <TableCell align="right">Iva Ad Cif</TableCell>
-                          <TableCell align="right">IIBB 900</TableCell>
+                          <TableCell sx={{ pl: 5, minWidth:300}}>Description</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>NCM</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>EXW U</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>FOB U</TableCell>                     
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>Cant PCS</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>PCS x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>CBM x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>Peso x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>CBM TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>PESO TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>CIF TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>IMP TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>G. LOC</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>EXTRA G.</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>COSTOu USD</TableCell>
+                         
+                         </>
+                      ) : (
+                        
+                        <>
+                         {/*VISTA FULL*/}
+                          <TableCell sx={{ pl: 5, minWidth:400}}>Description</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>NCM</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>SKU</TableCell>                  
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>EXW u</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:80}}>FOB u</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:80}}>PCS x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:80}}>CBM x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>PESO x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>Cant. Cajas</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>CBM TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>PESO TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>FOB TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>FP</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>FREIGHT CHRG</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>INSUR. CHRG</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>CIF TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:110}}>FOB to CIF</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>ARANC.%</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>ARANC USD</TableCell>
+                          {
+                          pais==7?(
+                                <>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>TE%</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>TE USD</TableCell>
+                                </>
+                                ):(
+                                <>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>DTA%</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>DTA USD</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>BASE IVA</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA%</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA USD</TableCell>
+                                </>
+                                )
+                          }
+                          {pais==7?(
+                                <>
+                                
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA Ad%</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA Ad USD</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IIBB%</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IIBB USD</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GCIAS %</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GCIAS USD</TableCell>
+                                </>
+                          ):
+                          ("")
+                          }
+                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>IMP TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 12, minWidth:100}}>GLOC TERM</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC FLETE</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC FWD</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC DESPA</TableCell>
+                          {pais==7?(
+                                <>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC BANC</TableCell>
+                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC CUST</TableCell>
+                                </>
+                                ):("")
+                          }
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>GLOC TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 12, minWidth:150}}>extrg LOC1</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg LOC2</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg CMX1</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg CMX2</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg CMX3</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:220}}>extrg CMX NOTAS</TableCell>
+                          <TableCell align="right" sx={{ pl: 12, minWidth:100}}>extrg FIN1</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg FIN2</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>extrg FIN3</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:220}}>extrg FIN NOTAS</TableCell>
+                          <TableCell align="right" sx={{ pl: 10, minWidth:100}}>EXTRG gCMX1</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gCMX2</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gCMX3</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gCMX4</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gCMX5</TableCell>
+                          <TableCell align="right" sx={{ pl: 10, minWidth:100}}>EXTRG gFIN1</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gFIN2</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gFIN3</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gFIN4</TableCell>
+                          <TableCell align="right" sx={{ pl: 1, minWidth:100}}>EXTRG gFIN5</TableCell>
+                          <TableCell align="right" sx={{ pl: 10, minWidth:140}}>extrg TOT</TableCell>
+                          <TableCell align="right" sx={{ pl: 10, minWidth:100}}>COSTO u</TableCell>
+                          
+
+                          
+
                         </>
                       )}
                       <TableCell align="right" sx={{ pr: 3 }} />
                     </TableRow>
                   </TableHead>
                   <TableBody>
+
                     {rows.length === 0 ? (
                       <TableRow>
                         <TableCell>Cargando...</TableCell>
@@ -652,112 +820,262 @@ const Details = ({ presupuestador, usuario }) => {
                         <TableRow key={index}>
                           <TableCell sx={{ pl: 3 }}>
                             <Typography align="left" variant="subtitle1">
-                              {row.description ? row.description : "Sin data"}
+                              {row.description ? row.description : ""}
                               {/* {row.description} */}
+                              {console.log(row)}
                             </Typography>
                           </TableCell>
+                          {/* DATOS DE LA VISTA ABREVIADA */ }
+                          {verMas?(
+                          <>
                           <TableCell align="right">
-                            USD {row.fob_u ? row.fob_u.toFixed(3) : 'Sin data'}
+                            {row.ncm_id ? row.ncm_id : "0"}
                           </TableCell>
                           <TableCell align="right">
-                            {row.qty ? row.qty : "Sin data"}u.
+                            USD {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
                           </TableCell>
                           <TableCell align="right">
-                            {row.pesoTot ? row.pesoTot : "Sin data"}Kg
+                            USD {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
                           </TableCell>
                           <TableCell align="right">
-                            {row.cbmctn ? UtilidadesHelper.formatNumber(
-                              row.cbmctn.toFixed(2)
-                            ) : 'Sin data'}
-                            m3
+                            {row.qty ? row.qty : "0"}u.
                           </TableCell>
                           <TableCell align="right">
-                            USD{" "}
-                            {row.totalcif
-                              ? UtilidadesHelper.formatNumber(
-                                  row.totalcif.toFixed(2)
-                                )
-                              : "Sin data"}
+                            {row.pcsctn ? row.pcsctn : "0"}u.
                           </TableCell>
                           <TableCell align="right">
-                            USD{" "}
-                            {row.costo_u
-                              ? UtilidadesHelper.formatNumber(
-                                  row.costo_u.toFixed(2)
-                                )
-                              : "Sin data"}
+                            {row.cbmctn ? row.cbmctn.toFixed(4) : "0"}m3
                           </TableCell>
                           <TableCell align="right">
-                            USD{" "}
-                            {(row.costo_u_est || row.costo_u_est == 0)
-                              ? UtilidadesHelper.formatNumber(
-                                  row.costo_u_est.toFixed(2)
-                                )
-                              : "Sin data"}
+                            {row.gwctn ? row.gwctn.toFixed(2) : "0"}kg
                           </TableCell>
                           <TableCell align="right">
-                            ARS{" "}
-                            {(row.costo_u_prov || row.costo_u_prov == 0)
-                              ? UtilidadesHelper.formatNumber(
-                                  row.costo_u_prov.toFixed(2)
-                                )
-                              : "SIn data"}
+                            {row.totalcbm ? row.totalcbm.toFixed(2) : "0"}m3
+                          </TableCell> 
+                          <TableCell align="right">
+                            {row.totalgw ? row.totalgw.toFixed(2) : "0"}kg
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.totalcif ? row.totalcif.toFixed(2) : "0"}
+                          </TableCell> 
+                          {/*console.log(rows)*/} 
+                          <TableCell align="right">
+                           USD {sumImpuestosPais(row,pais).toFixed(2)}
+                          </TableCell> 
+                          <TableCell>
+                            USD { sumGlocPais(row,pais).toFixed(2)}
+                          </TableCell>  
+                          
+                          <TableCell align="right">
+                          USD { sumExtrag(row).toFixed(2)}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.costo_u ? row.costo_u.toFixed(3) : ""}
+                          </TableCell> 
+                          </>
+                          ):(
+                              <>
+                          { /* DATOS DE LA VISTA FULL */}
+                          <TableCell align="right">
+                            {row.ncm_id ? row.ncm_id : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            {row.sku ? row.sku : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.exw_u? row.exw_u.toFixed(2) : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.fob_u? row.fob_u.toFixed(2) : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            {row.pcsctn? row.pcsctn : 0} u.
                           </TableCell>
-                          {verMas ? (
-                            ""
-                          ) : (
-                            <>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.iibb900
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.iibb900.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.derechos
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.derechos.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.tasaEstad061
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.tasaEstad061.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.baseiva
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.baseiva.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.iva_cif
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.iva_cif.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
-                                {row.ivaad_cif || row.ivaad_cif == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      row.ivaad_cif.toFixed(2)
-                                    )
-                                  : "SIn data"}
-                              </TableCell>
-                              <TableCell align="right">{row.iibb900 ? UtilidadesHelper.formatNumber(row.iibb900.toFixed(2)) : 'Sin data'}</TableCell>
-                            </>
+                          <TableCell align="right">
+                            {row.cbmctn? row.cbmctn.toFixed(4) : 0.00} m3
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.gwctn? row.gwctn.toFixed(2) : 0.0} kg
+                          </TableCell>
+                          <TableCell align="right">
+                            {(row.pcsctn>1)?Math.ceil(row.qty/row.pcsctn).toFixed(2): 0.0}u.
+                          </TableCell> 
+                          <TableCell align="right">
+                            {row.totalcbm? row.totalcbm.toFixed(2) : 0.0} m3
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.totalgw? row.totalgw.toFixed(2) : 0.0} kg
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.totalfob? row.totalfob.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.factorproducto? row.factorproducto.toFixed(2) : 0.0}%
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.freightCharge? row.freightCharge.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.insuranceCharge? row.insuranceCharge.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.totalcif? row.totalcif.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.totalfob>0?(row.totalcif/row.totalfob).toFixed(3):0.0}
+                          </TableCell>  
+                          <TableCell align="right">
+                            {row.ncm_arancel? row.ncm_arancel.toFixed(3) : 0.0} %
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.arancelgrav_cif? row.arancelgrav_cif.toFixed(2) : 0.0} 
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.ncm_te_dta_otro? row.ncm_te_dta_otro.toFixed(3) : 0.0} %
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.te_dta_otro_cif? row.te_dta_otro_cif.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                           USD {row.baseiva? row.baseiva.toFixed(2) : 0.0}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.ncm_iva? row.ncm_iva.toFixed(3) : 0.0} %
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.iva_cif? row.iva_cif.toFixed(2) : 0.0}
+                          </TableCell>
+                          {pais==7?(
+                                <>
+                                <TableCell align="right">
+                                    {row.ncm_ivaad? row.ncm_ivaad.toFixed(3) : 0.0} %
+                                </TableCell>
+                                <TableCell align="right">
+                                    USD {row.ivaad_cif? row.ivaad_cif.toFixed(2) : 0.0}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {row.gcias? row.gcias.toFixed(3) : 0.0} %
+                                </TableCell>
+                                <TableCell align="right">
+                                    USD {row.gcias42? row.gcias42.toFixed(2): 0.0}u.
+                                </TableCell> 
+                                <TableCell align="right">
+                                    {presupuestador.estHeader.iibb_total? presupuestador.estHeader.iibb_total.toFixed(3) : 0.0} %
+                                </TableCell>
+                                <TableCell align="right">
+                                    USD {row.iibb900? row.iibb900.toFixed(2) : 0.0} u.
+                                </TableCell>
+                                </>
+                          ):("")}
+                           <TableCell align="right">
+                            USD {sumImpuestosPais(row,pais).toFixed(2)}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.gloc_terminales? row.gloc_terminales.toFixed(2) : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.gloc_flete? row.gloc_flete.toFixed(2) : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.gloc_fwd? row.gloc_fwd.toFixed(2) : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.gloc_despachantes? row.gloc_despachantes.toFixed(2) : 2}
+                          </TableCell> 
+
+                          {
+                            pais==7?(
+                              <>
+                                <TableCell align="right">
+                                  USD {row.gloc_bancos? row.gloc_bancos.toFixed(2) : 0}
+                                </TableCell>                                
+                                <TableCell align="right">
+                                 USD {row.gloc_polizas? row.gloc_polizas.toFixed(2) : 0.0}
+                                </TableCell>
+
+                              </>
+                            ):("")
+                          }
+                           <TableCell align="right">
+                            USD { sumGlocPais(row,pais).toFixed(2)}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_local1? row.extrag_local1.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_local2? row.extrag_local2.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_comex1? row.extrag_comex1.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_comex2? row.extrag_comex2.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_comex3? row.extrag_comex3.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.extrag_comex_notas? row.extrag_comex_notas : ""}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_finan1? row.extrag_finan1.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_finan2? row.extrag_finan2.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_finan3? row.extrag_finan3.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.extrag_finan_notas? row.extrag_finan_notas : ""}
+                          </TableCell>
+
+                          <TableCell align="right">
+                            USD {row.extrag_glob_comex1? row.extrag_glob_comex1.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_comex2? row.extrag_glob_comex2.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_comex3? row.extrag_glob_comex3.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_comex4? row.extrag_glob_comex4.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_comex5? row.extrag_glob_comex5.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_finan1? row.extrag_glob_finan1.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_finan2? row.extrag_glob_finan2.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_finan3? row.extrag_glob_finan3.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_finan4? row.extrag_glob_finan4.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD {row.extrag_glob_finan5? row.extrag_glob_finan5.toFixed(2) : "0"}
+                          </TableCell>
+                          <TableCell align="right">
+                            USD { sumExtrag(row).toFixed(2) }
+                          </TableCell> 
+                          <TableCell align="right">
+                            USD {row.costo_u ? row.costo_u.toFixed(3) : ""}
+                          </TableCell>
+
+                          </>
                           )}
+
+
+
+                          
+
+                          
+                          
 
                           {/* ICONO DE BORRADO por ahora innecesario */}
                           {/* <TableCell sx={{ pr: 3 }} align="right">
