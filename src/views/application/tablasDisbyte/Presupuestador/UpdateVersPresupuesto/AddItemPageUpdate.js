@@ -419,6 +419,10 @@ function AddItemPageUpdate({
     },
   ];
 
+  function formatValue(value) {
+    return value === '0' ? 0 : value;
+}
+
   const [selectedItem, setSelectedItem] = useState({
     id: rowUpdate?.id,
     description: rowUpdate?.description,
@@ -449,9 +453,9 @@ function AddItemPageUpdate({
     ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : "",
     precio_u: rowUpdate?.precio_u ? rowUpdate?.precio_u : 0,
 
-    extrag_comex1: rowUpdate?.extrag_comex1,
-    extrag_comex2: rowUpdate?.extrag_comex2,
-    extrag_comex3: rowUpdate?.extrag_comex3,
+    extrag_comex1: rowUpdate?.extrag_comex1 ? rowUpdate?.extrag_comex1 : 0,
+    extrag_comex2: rowUpdate?.extrag_comex2 ? rowUpdate?.extrag_comex2 : 0,
+    extrag_comex3: rowUpdate?.extrag_comex3 ? rowUpdate?.extrag_comex3 : 0,
     extrag_comex_notas: rowUpdate?.extrag_comex_notas
       ? rowUpdate?.extrag_comex_notas
       : "Sin notas",
@@ -509,40 +513,6 @@ function AddItemPageUpdate({
       setQty(selectedItem.qty * selectedQuantity);
     }
   }, [selectedQuantity, selectedItem]);
-
-  //   const handleChange = (event) => {
-  //     const value = event.target.value;
-  //     if (event.target.name === "quantity") {
-  //       if (Number(value) < 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "negative values not allowed",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else if (Number(value) === 0) {
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "quantity can not be zero",
-  //         });
-  //         setSelectedQuantity(value);
-  //       } else {
-  //         setSelectedQuantity(value);
-  //         setErrors({
-  //           ...errors,
-  //           quantityError: "",
-  //         });
-  //       }
-  //     } else {
-  //       const selectedOption = NCMList.find((item) => item.id === value);
-  //       setSelectedItem({
-  //         ...selectedItem,
-  //         id: selectedOption.id++,
-  //         ncm_id: selectedOption.ncm_id,
-  //         ncm_code: selectedOption.ncm_code,
-  //       });
-  //       console.log(selectedItem);
-  //     }
-  //   };
 
   const handleChange = (event, type) => {
     const { name, value } = event.target;
