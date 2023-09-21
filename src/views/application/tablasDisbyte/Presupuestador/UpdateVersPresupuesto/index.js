@@ -263,6 +263,7 @@ function CreateInvoice() {
       dataType: "objectArray",
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
       selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      PaisRegionApply:false,
     },
     {
       id: "fwdpaisregion_id",
@@ -274,6 +275,7 @@ function CreateInvoice() {
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
       selected_description:
         dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
+      PaisRegionApply:false,
     },
     {
       id: "tarifasfwd_id",
@@ -1595,6 +1597,7 @@ function CreateInvoice() {
                       formik={formik}
                       XS={12}
                       MD={2}
+                      PaisRegionApply={field.PaisRegionApply}
                       PaisRegion={formik.values.paisregion_id.id}
                     />
                   ))
