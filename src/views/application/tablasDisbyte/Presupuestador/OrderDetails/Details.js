@@ -62,6 +62,8 @@ const Details = ({ presupuestador, usuario }) => {
   // console.log(presupuestador);
   // console.log(usuario);
   const [rows, setRow] = useState([]);
+  // Detalles que complementan cada row del detail, son detalles del tipo VISTA, FK que fueron convertidas a texto.
+  // No se agregan a la definicion del estDetail, mas es una lista complementaria de igual dimencion.
   const [rowsAddData, setRowAddData] = useState([]);
   //responde al loading para la vista
   const [loading, setLoading] = useState(true);
@@ -74,7 +76,9 @@ const Details = ({ presupuestador, usuario }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (presupuestador && presupuestador.estDetails) {
+        // El detail propiamente dicho
         setRow(presupuestador.estDetails);
+        // Los datos adicionales que acompañan a cada detalle, fruto de convertir FKs en descripcion.
         setRowAddData(presupuestador.estDetAddData);
         console.log(rows);
         //espera la respuesta de presupuestador y quita el loading
@@ -317,7 +321,10 @@ const Details = ({ presupuestador, usuario }) => {
                             Pais ORIG {" -> "} DEST :
                           </Typography>
                           <Typography variant="body2">
-                            
+                              {/*ADVERTENCIA !!!!:. En el presupuesto hay datos sueltos que son complementarios al header.
+                                 No se incluyen en el header para no modificar el tipo de datos en todo el back. Se envian como datos sueltos
+                                 (no so ni del detail ni del header) en le JSON. Esto se hizo para eliminar los IDs y tener las descripciones
+                                 en un solo query, evitando varias fetch*/}
                               {presupuestador.paisorig?presupuestador.paisorig:""}
                               {" -> "}
                               {presupuestador.paisdest?presupuestador.paisdest:""}
