@@ -62,6 +62,7 @@ const Details = ({ presupuestador, usuario }) => {
   // console.log(presupuestador);
   // console.log(usuario);
   const [rows, setRow] = useState([]);
+  const [rowsAddData, setRowAddData] = useState([]);
   //responde al loading para la vista
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
@@ -74,6 +75,7 @@ const Details = ({ presupuestador, usuario }) => {
     const fetchData = async () => {
       if (presupuestador && presupuestador.estDetails) {
         setRow(presupuestador.estDetails);
+        setRowAddData(presupuestador.estDetAddData);
         console.log(rows);
         //espera la respuesta de presupuestador y quita el loading
         setLoading(false);
@@ -289,9 +291,7 @@ const Details = ({ presupuestador, usuario }) => {
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">Tipo :</Typography>
                           <Typography variant="body2">
-                            {presupuestador.estHeader.carga_id
-                              ? presupuestador.estHeader.carga_id==3?"40HQ":presupuestador.estHeader.carga_id==2?"40ST":"20ST"
-                              : 0}
+                            {presupuestador.carga_str?presupuestador.carga_str: 0}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
@@ -314,16 +314,13 @@ const Details = ({ presupuestador, usuario }) => {
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">
-                            Pais ORIG - DEST :
+                            Pais ORIG {" -> "} DEST :
                           </Typography>
                           <Typography variant="body2">
                             
-                              {presupuestador.estHeader.fwdpaisregion_id
-                              ? presupuestador.estHeader.fwdpaisregion_id==9?"CHINA":presupuestador.estHeader.fwdpaisregion_id==6?"BRAS":presupuestador.estHeader.fwdpaisregion_id==5?"MEX":"ARG"
-                              : ""}
-                              {presupuestador.estHeader.paisregion_id
-                              ? presupuestador.estHeader.paisregion_id==7?" - ARG":presupuestador.estHeader.paisregion_id==6?" - BRAS":presupuestador.estHeader.paisregion_id==5?" - MEX":" - NA"
-                              : ""}
+                              {presupuestador.paisorig?presupuestador.paisorig:""}
+                              {" -> "}
+                              {presupuestador.paisdest?presupuestador.paisdest:""}
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>
@@ -706,12 +703,12 @@ const Details = ({ presupuestador, usuario }) => {
                       {/*VISTA ABREVIADA*/}
                       {verMas ? (
                         <>
-                          <TableCell sx={{ pl: 5, minWidth:300}}>Description</TableCell>
+                          <TableCell sx={{ pl: 3, minWidth:280}}>Description</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>NCM</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>EXW U</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>FOB U</TableCell>                     
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>Cant PCS</TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth:90}}>PCS x Caja</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:80}}>PCS x Caja</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>CBM x Caja</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>Peso x Caja</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:90}}>CBM TOT</TableCell>
@@ -729,7 +726,8 @@ const Details = ({ presupuestador, usuario }) => {
                          {/*VISTA FULL*/}
                           <TableCell sx={{ pl: 5, minWidth:400}}>Description</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:100}}>NCM</TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>SKU</TableCell>                  
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>SKU</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:220}}>OEM</TableCell>                   
                           <TableCell align="right" sx={{ pl: 3, minWidth:100}}>EXW u</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:80}}>FOB u</TableCell>
                           <TableCell align="right" sx={{ pl: 3, minWidth:80}}>PCS x Caja</TableCell>
@@ -839,7 +837,7 @@ const Details = ({ presupuestador, usuario }) => {
                           {verMas?(
                           <>
                           <TableCell align="right">
-                            {row.ncm_id ? row.ncm_id : "0"}
+                          {rowsAddData[index].ncm_str ? rowsAddData[index].ncm_str : 0}
                           </TableCell>
                           <TableCell align="right">
                             USD {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
@@ -887,10 +885,13 @@ const Details = ({ presupuestador, usuario }) => {
                               <>
                           { /* DATOS DE LA VISTA FULL */}
                           <TableCell align="right">
-                            {row.ncm_id ? row.ncm_id : 0}
+                            {rowsAddData[index].ncm_str ? rowsAddData[index].ncm_str : 0}
                           </TableCell> 
                           <TableCell align="right">
                             {row.sku ? row.sku : 0}
+                          </TableCell> 
+                          <TableCell align="right">
+                            {rowsAddData[index].proveedor ? rowsAddData[index].proveedor : 0}
                           </TableCell> 
                           <TableCell align="right">
                             USD {row.exw_u? row.exw_u.toFixed(2) : 0}
