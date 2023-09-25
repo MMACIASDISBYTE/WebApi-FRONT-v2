@@ -49,7 +49,7 @@ export const CustomSelectUpdate = ({
   };
   // console.log(defaultValue);
   // console.log(objetoEncontrado);
-  console.log(objetoEncontradoCompleto);
+  // console.log(objetoEncontradoCompleto);
   useEffect(()=>{
     objetoEncontrado = 'Seleccione pais'
   },[PaisRegion])

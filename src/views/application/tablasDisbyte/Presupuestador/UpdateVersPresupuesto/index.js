@@ -384,6 +384,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
     },
     {
@@ -396,6 +397,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
     },
     {
@@ -408,6 +410,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
     },
     {
@@ -420,6 +423,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 6,
     },
     {
@@ -432,6 +436,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 1,
     },
     {
@@ -444,6 +449,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 2,
     },
     {
@@ -456,6 +462,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 0,
     },
     {
@@ -468,6 +475,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 5,
     },
     {
@@ -480,6 +488,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 9,
     },
     {
@@ -492,6 +501,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 8,
     },
   ];
@@ -1218,9 +1228,10 @@ function CreateInvoice() {
 
   const [ArrBool, setArrBool] = useState(Array(30).fill(false));
   const [ArrBoolANumber, setArrBoolANumber] = useState(0);
+  const [valueSwitch, setValueSwitch] = useState(false);
   const handleSwitchChangeInIndex = (newState, position) => {
-    console.log("Nuevo estado del interruptor en Index:", newState);
-    console.log("Posición en el array:", position); // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor // Crear una copia del array para evitar modificar el estado directamente
+    // console.log("Nuevo estado del interruptor en Index:", newState);
+    // console.log("Posición en el array:", position); // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor // Crear una copia del array para evitar modificar el estado directamente
     const updatedArrBool = [...ArrBool]; //crea copia del array // Actualizar el valor en el índice específico
     updatedArrBool[position] = newState; // Actualizar el estado con el nuevo array
     setArrBool(updatedArrBool);
@@ -1234,6 +1245,9 @@ function CreateInvoice() {
     formik.setFieldValue("tarifupdate", ArrBoolANumber); //asigno los valores
     formik.setFieldValue("tarifrecent", ArrBoolANumber); //asigno los valores
   }, [ArrBoolANumber]);
+  useEffect(() => {
+    console.log(UtilidadesHelper.valueToBoolArr(formik.values.tarifupdate));
+  }, [formik]);
 
   const [showCostosLocal, setShowCostosLocal] = useState(true);
   const [showCostosComex, setShowCostosComex] = useState(true);
@@ -1244,13 +1258,13 @@ function CreateInvoice() {
     if (formik.values.status < 3) {
       formik.setFieldValue("status", formik.values.status + 1);
     }
-    console.log(formik.values.status);
+    // console.log(formik.values.status);
   };
   const CambioEstadoBack = () => {
     if (formik.values.status > 0) {
       formik.setFieldValue("status", formik.values.status - 1);
     }
-    console.log(formik.values.status);
+    // console.log(formik.values.status);
   };
   return (
     <>
@@ -1694,6 +1708,7 @@ function CreateInvoice() {
                     }
                     handleSwitchChangeInIndex={handleSwitchChangeInIndex}
                     ValorSwitch={input.ValorSwitch}
+                    ValorSwitchBase={input.ValorSwitchBase}
                     arrPosition={input.arrPosition}
                   />
                 ))}

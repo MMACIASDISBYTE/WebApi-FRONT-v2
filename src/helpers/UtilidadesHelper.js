@@ -99,6 +99,20 @@ export const UtilidadesHelper = {
     // setTarifUpdate(nuevoArr); //ESTO SETEABA UN VALOR A UN USESTATE
     return nuevoArr;
   },
+  valueToBoolArrPosition: function (valInt, position) {
+    const arrBool = Array(30).fill(false);
+    const nuevoArr = arrBool.map((valor, index) =>
+      valInt & (1 << index) ? true : false
+    );
+
+    if (position != null && position >= 0 && position < nuevoArr.length) {
+      // Si la posición es válida, retornamos el valor en esa posición.
+      return nuevoArr[position];
+    } else {
+      // Si la posición no es válida, retornamos todo el array.
+      return nuevoArr;
+    }
+  },
   boolArrToValue: function (boolArr) {
     const valor = boolArr.reduce((accumulator, currentValue, index) => {
       return accumulator + (currentValue ? 1 << index : 0);
@@ -118,24 +132,30 @@ export const UtilidadesHelper = {
       formik.setFieldValue(name, inputValue);
     }
   },
-  handleChangeCustomSinFormik: function (event, formik, name, dataType, setStateFunction) {
+  handleChangeCustomSinFormik: function (
+    event,
+    formik,
+    name,
+    dataType,
+    setStateFunction
+  ) {
     let inputValue = event.target.value;
 
     // Permitir el ingreso de '0' al inicio
-    if (inputValue === '0') {
-        if (formik) {
-            formik.setFieldValue(name, inputValue);
-        }
+    if (inputValue === "0") {
+      if (formik) {
+        formik.setFieldValue(name, inputValue);
+      }
 
-        if (setStateFunction) {
-            setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
-        }
-        return;  // terminamos aquí para permitir el '0' inicial
+      if (setStateFunction) {
+        setStateFunction((prevState) => ({ ...prevState, [name]: inputValue }));
+      }
+      return; // terminamos aquí para permitir el '0' inicial
     }
-    
+
     // Si el valor empieza con un punto, agregamos un "0" al inicio.
-    if (inputValue.startsWith('.')) {
-        inputValue = '0' + inputValue;
+    if (inputValue.startsWith(".")) {
+      inputValue = "0" + inputValue;
     }
 
     // Reemplaza dos puntos o más consecutivos por un solo punto
@@ -145,19 +165,24 @@ export const UtilidadesHelper = {
     inputValue = inputValue.replace(",", ".");
 
     if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
-        if (formik) {
-            formik.setFieldValue(name, inputValue);
-        }
+      if (formik) {
+        formik.setFieldValue(name, inputValue);
+      }
 
-        if (setStateFunction) {
-            // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
-            if (dataType === 'number') {
-                setStateFunction(prevState => ({ ...prevState, [name]: parseFloat(inputValue) }));
-            } else {
-                setStateFunction(prevState => ({ ...prevState, [name]: inputValue }));
-            }
+      if (setStateFunction) {
+        // Si el tipo de dato es 'Number', mantengo el valor como una cadena hasta que sea necesario convertirlo
+        if (dataType === "number") {
+          setStateFunction((prevState) => ({
+            ...prevState,
+            [name]: parseFloat(inputValue),
+          }));
+        } else {
+          setStateFunction((prevState) => ({
+            ...prevState,
+            [name]: inputValue,
+          }));
         }
+      }
     }
-}
-  
+  },
 };
