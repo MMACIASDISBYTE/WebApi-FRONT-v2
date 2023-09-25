@@ -79,6 +79,8 @@ const AppProveedorSeguro = Loadable(lazy(() => import('views/application/tablasD
 
 // application --> NCM routing
 const AppNCM = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/NCM/NCM')));
+// application --> NCM routing
+const AppNCM_MEX = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/NCM_MEX/NCM_MEX')));
 
 // application --> IIBB routing
 const AppIIBB = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/IIBB')));
@@ -456,6 +458,10 @@ const MainRoutes = {
         {
             path: '/NCM/NCM',
             element: <AppNCM />
+        },
+        {
+            path: '/NCM_MEX/NCM_MEX',
+            element: <AppNCM_MEX />
         },
 
         // RUTA IIBB
