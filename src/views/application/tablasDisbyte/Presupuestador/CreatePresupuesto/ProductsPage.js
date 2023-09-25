@@ -57,14 +57,17 @@ function ProductsPage({ productsData, deleteProductHandler, editProductHandler }
                                         <TableCell align="right">{row.proovedores_name ? row.proovedores_name : 'Sin data'}</TableCell>  
                                         <TableCell align="right">{`USD ${(row.fob_u*row.qty).toFixed(2)}`}</TableCell>
                                         <TableCell sx={{ pr: 1 }} align="right">
-                                            <IconButton
+
+                                            {/* MOMENTANEAMENTE OCULTO boton de edicion */}
+                                            {/* <IconButton
                                                 color="secondary"
                                                 size="small"
                                                 onClick={() => editProductHandler(row)}
                                                 aria-label="Product Delete"
                                             >
                                                 <EditTwoToneIcon fontSize="small" />
-                                            </IconButton>
+                                            </IconButton> */}
+
                                             <IconButton
                                                 color="error"
                                                 size="small"

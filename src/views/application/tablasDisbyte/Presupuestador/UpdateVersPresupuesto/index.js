@@ -28,6 +28,7 @@ import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
 import { CircularProgress } from "@material-ui/core";
 import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
+import ReplyAllRoundedIcon from "@mui/icons-material/ReplyAllRounded";
 
 // project imports
 import AddItemPage from "./AddItemPage";
@@ -263,7 +264,7 @@ function CreateInvoice() {
       dataType: "objectArray",
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
       selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
-      PaisRegionApply:false,
+      PaisRegionApply: false,
     },
     {
       id: "fwdpaisregion_id",
@@ -275,7 +276,7 @@ function CreateInvoice() {
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
       selected_description:
         dataHelp?.presupuestoEditable?.estHeader?.fwdpaisregion_id,
-      PaisRegionApply:false,
+      PaisRegionApply: false,
     },
     {
       id: "tarifasfwd_id",
@@ -1087,8 +1088,8 @@ function CreateInvoice() {
         productsData.splice(index, 1);
       }
       function formatValue(value) {
-        return value === '0' ? 0 : value;
-    }
+        return value === "0" ? 0 : value;
+      }
 
       // Añade el producto actualizado a la lista
       productsData.push({
@@ -1245,6 +1246,12 @@ function CreateInvoice() {
     }
     console.log(formik.values.status);
   };
+  const CambioEstadoBack = () => {
+    if (formik.values.status > 0) {
+      formik.setFieldValue("status", formik.values.status - 1);
+    }
+    console.log(formik.values.status);
+  };
   return (
     <>
       <MainCard title="Actualizar Presupuesto">
@@ -1354,19 +1361,39 @@ function CreateInvoice() {
                   size="string"
                   chipcolor="orange"
                 />
-                {formik.values.status < 3 && (
-                  <Tooltip title="Cambiar Estado">
-                    <DoubleArrowRoundedIcon
-                      sx={{
-                        marginTop: 1,
-                        "&:hover": {
-                          color: "red", // Cambia esto por el color que quieras
-                        },
-                      }}
-                      disabled={formik.values.status == 3 ? true : false}
-                      onClick={CambioEstado}
-                    />
-                  </Tooltip>
+                {formik.values.status <= 3 && (
+                  <>
+                    {formik.values.status != 3 && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status > 0 && (
+                      <>
+                        <Tooltip title="Volver">
+                          <ReplyAllRoundedIcon
+                            sx={{
+                              marginTop: 1,
+                              "&:hover": {
+                                color: "red", // Cambia esto por el color que quieras
+                              },
+                            }}
+                            disabled={formik.values.status == 3 ? true : false}
+                            onClick={CambioEstadoBack}
+                          />
+                        </Tooltip>
+                      </>
+                    )}
+                  </>
                 )}
               </Grid>
 
