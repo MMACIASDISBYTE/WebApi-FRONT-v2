@@ -40,7 +40,7 @@
     "Cargas de application": "INICIAN AQUI",
     "bancos": " Banks",
     "banco": " Bank",
-    "pais-region" : " Origin Country",
+    "pais-region" : " Country/State",
     "carga": " Freight",
     "canal": " Channel",
     "PROVEEDORES": " Suppliers",
@@ -83,7 +83,7 @@
     "APLICACIONES": " Applications",
     "BANCOS": " Banks",
     "GestDig": " GestDig",
-    "Despachantes": " Shipping",
+    "Despachantes": " Broker",
 
     "Carga de principales": "Otros libros principales",
     "NCM": " NCM",

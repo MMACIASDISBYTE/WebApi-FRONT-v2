@@ -756,17 +756,18 @@ const Details = ({ presupuestador, usuario }) => {
                                 <>
                                 <TableCell align="right" sx={{ pl: 3, minWidth:100}}>TE%</TableCell>
                                 <TableCell align="right" sx={{ pl: 3, minWidth:100}}>TE USD</TableCell>
+                                
                                 </>
                                 ):(
                                 <>
                                 <TableCell align="right" sx={{ pl: 3, minWidth:100}}>DTA%</TableCell>
                                 <TableCell align="right" sx={{ pl: 3, minWidth:100}}>DTA USD</TableCell>
-                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>BASE IVA</TableCell>
-                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA%</TableCell>
-                                <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA USD</TableCell>
                                 </>
                                 )
                           }
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>BASE IVA</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA%</TableCell>
+                          <TableCell align="right" sx={{ pl: 3, minWidth:100}}>IVA USD</TableCell>
                           {pais==7?(
                                 <>
                                 
@@ -961,7 +962,7 @@ const Details = ({ presupuestador, usuario }) => {
                             {row.ncm_iva? row.ncm_iva.toFixed(3) : 0.0} %
                           </TableCell>
                           <TableCell align="right">
-                            USD {row.iva_cif? row.iva_cif.toFixed(2) : 0.0}
+                            USD {row.iva_cif? row.iva_cif.toFixed(2) : 0.0} 
                           </TableCell>
                           {pais==7?(
                                 <>
@@ -972,17 +973,18 @@ const Details = ({ presupuestador, usuario }) => {
                                     USD {row.ivaad_cif? row.ivaad_cif.toFixed(2) : 0.0}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {row.gcias? row.gcias.toFixed(3) : 0.0} %
-                                </TableCell>
-                                <TableCell align="right">
-                                    USD {row.gcias42? row.gcias42.toFixed(2): 0.0}u.
-                                </TableCell> 
-                                <TableCell align="right">
                                     {presupuestador.estHeader.iibb_total? presupuestador.estHeader.iibb_total.toFixed(3) : 0.0} %
                                 </TableCell>
                                 <TableCell align="right">
-                                    USD {row.iibb900? row.iibb900.toFixed(2) : 0.0} u.
+                                    USD {row.iibb900? row.iibb900.toFixed(2) : 0.0}
                                 </TableCell>
+                                <TableCell align="right">
+                                    {row.gcias? row.gcias.toFixed(3) : 0.0} %
+                                </TableCell>
+                                <TableCell align="right">
+                                    USD {row.gcias424? row.gcias424.toFixed(2): 0.0}
+                                </TableCell> 
+                               
                                 </>
                           ):("")}
                            <TableCell align="right">

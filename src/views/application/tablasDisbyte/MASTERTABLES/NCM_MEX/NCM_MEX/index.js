@@ -80,13 +80,6 @@ const headCells = [
     align: "left",
   },
   {
-    id: "code",
-    numeric: false,
-    isRequired: false,
-    label: "Codigo",
-    align: "left",
-  },
-  {
     id: "description",
     numeric: false,
     isRequired: true,
@@ -94,24 +87,17 @@ const headCells = [
     align: "left",
   },
   {
-    id: "anexo",
+    id: "code",
     numeric: false,
     isRequired: true,
-    label: "Anexo",
-    align: "center",
-  },
+    label: "Posicion",
+    align: "left",
+  }, 
   {
-    id: "die",
+    id: "igi",
     numeric: true,
     isRequired: true,
-    label: "die",
-    align: "center",
-  },
-  {
-    id: "te",
-    numeric: true,
-    isRequired: true,
-    label: "Te",
+    label: "IGI",
     align: "center",
   },
   {
@@ -122,47 +108,83 @@ const headCells = [
     align: "center",
   },
   {
-    id: "iva_ad",
+    id: "dta",
     numeric: true,
     isRequired: true,
-    label: "IVA Ad.",
+    label: "DTA",
     align: "center",
   },
   {
-    id: "imp_int",
-    numeric: true,
-    isRequired: true,
-    label: "Impuestos int",
-    align: "center",
-  },
-  {
-    id: "licensia",
-    numeric: false,
-    isRequired: true,
-    label: "Tipo Lic.",
-    align: "center",
-  },
-  {
-    id: "bit_bk",
-    numeric: false,
-    isRequired: false,
-    label: "bit_bk",
-    align: "center",
-  },
-  {
-    id: "vc",
-    numeric: false,
-    isRequired: true,
-    label: "vc",
-    align: "center",
-  },
-  {
-    id: "peso_valor",
+    id: "sp1",
     numeric: true,
     isRequired: false,
-    label: "Peso/Valor",
+    label: "spare1",
     align: "center",
   },
+  {
+    id: "sp2",
+    numeric: true,
+    isRequired: false,
+    label: "spare2",
+    align: "center",
+  },
+  {
+    id: "gravamen_acuerdo",
+    numeric: 'bool',
+    isRequired: false,
+    label: "Grav. Acuerdo",
+    align: "center",
+  },
+  {
+    id: "bk",
+    numeric: 'bool',
+    isRequired: false,
+    label: "bk",
+    align: "center",
+  },
+  {
+    id: "bsp1",
+    numeric: 'bool',
+    isRequired: false,
+    label: "BoolSpare",
+    align: "center",
+  },
+  {
+    id: "docum_aduanera",
+    numeric: false,
+    isRequired: false,
+    label: "Doc. Aduana",
+    align: "center",
+  },
+  {
+    id: "lealtad_com",
+    numeric: false,
+    isRequired: false,
+    label: "Lealtad Com",
+    align: "center",
+  },
+  {
+    id: "docum_depo",
+    numeric: false,
+    isRequired: false,
+    label: "Doc. Depo",
+    align: "center",
+  },
+  {
+    id: "otras_notas",
+    numeric: false,
+    isRequired: false,
+    label: "Otra Doc.",
+    align: "center",
+  },
+  {
+    id: "htimestamp",
+    numeric: false,
+    isRequired: false,
+    label: "Fecha",
+    align: "center",
+  }
+  
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -182,7 +204,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id","sp1","sp2","bsp1"];
 
   return (
     <TableHead>
@@ -368,7 +390,7 @@ const ProductList = () => {
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id","sp1","sp2","bsp2"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
@@ -418,18 +440,18 @@ const ProductList = () => {
         // las propiedades que debe listar/buscar, deben de ser igual al modelo
         const properties = [
           "id",
-          "code",
           "description",
+          "code",
           "anexo",
-          "die",
-          "te",
+          "igi",
           "iva",
-          "iva_ad",
-          "imp_int",
-          "licensia",
-          "bit_bk",
-          "vc",
-          "peso_valor",
+          "dte",
+          "gravamen_acuerdo",
+          "bk",
+          "docum_aduanera",
+          "lealtad_com",
+          "docum_depo",
+          "otras_notas",
         ];
 
         let containsQuery = false;
@@ -601,11 +623,16 @@ const ProductList = () => {
                                   theme.palette.mode === "dark"
                                     ? "grey.600"
                                     : "grey.900",
+
+                                minWidth:attribute=="docum_aduanera"|attribute=="lealtad_com"|attribute=="docum_depo"|attribute=="otras_notas"?250:50
                               }}
                             >
+                              
                               {attribute === "htimestamp"
                                 ? new Date(row[attribute]).toLocaleDateString()
                                 : row[attribute]}
+                              {
+                                /*console.log(row)*/}
                             </Typography>
                           </TableCell>
                         ))}

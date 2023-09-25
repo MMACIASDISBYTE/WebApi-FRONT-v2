@@ -142,7 +142,7 @@ const headCells = [
     {
         id: 'peso_valor',
         numeric: true,
-        label: 'Pedro/Valor',
+        label: 'Peso/Valor',
         align: 'center'
     }
 
