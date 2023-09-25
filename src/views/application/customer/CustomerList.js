@@ -39,6 +39,8 @@ import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
+import { Navigate } from 'react-router';
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -299,6 +301,33 @@ const CustomerList = () => {
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+    // PERMISOS
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = ["CEO", "Gerencia", "Lider", "Comex", "Finanzas", "Sourcing"];
+  const permiCreate = ["CEO", "Sourcing"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso)=> permisos.includes(permiso));
+
+  if (!ingresoAutorizado) { //rebote si no tiene autorizacion
+    Navigate("/NoAutorizado");
+  }
 
     return (
         <MainCard title="Customer List" content={false}>
