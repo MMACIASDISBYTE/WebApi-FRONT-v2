@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 export const SwitchGastos = ({onSwitchChange, ValorSwitchaplicable}) => {
   const theme = useTheme();
   const [isChecked, setIsChecked] = useState(false); // Estado inicial como "false"
-  console.log(ValorSwitchaplicable);
+
   const handleSwitchChange = (event) => {
     let newState = event.target.checked;
     setIsChecked(newState); // Actualiza el estado con el nuevo valor

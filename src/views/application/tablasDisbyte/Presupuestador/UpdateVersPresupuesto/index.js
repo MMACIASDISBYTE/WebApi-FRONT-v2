@@ -69,6 +69,7 @@ import { PesajeContenedorUpdate } from "./PesajeContenedorUpdate";
 import { ExtraCostosArrBool } from "./ExtraCostoArrBool";
 import { Box } from "@mui/system";
 import { log } from "util";
+import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -481,28 +482,28 @@ function CreateInvoice() {
     {
       id: "freight_cost",
       name: "freight_cost",
-      em: "Ingrese Extra Gasto Local Freight.",
-      inputLabel: "Gasto Local Gest. Dig.",
+      em: "Costo flete internacional.",
+      inputLabel: "Costo flete internacional.",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 9,
+      arrPosition: 8,
     },
     {
       id: "freight_insurance_cost",
       name: "freight_insurance_cost",
-      em: "Ingrese Extra Gasto Local  Freight Insurance.",
-      inputLabel: "Gasto Local  Freight Insurance.",
+      em: "Ingrese Gasto Seguro Carga USD.",
+      inputLabel: "Seguro Carga USD.",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
       Xs_Xd: [12, 3],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 8,
+      arrPosition: 9,
     },
   ];
 
@@ -861,6 +862,12 @@ function CreateInvoice() {
       formik.setFieldValue(
         "tarifupdate",
         dataHelp.presupuestoEditable?.estHeader?.tarifupdate
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "tarifrecent",
+        dataHelp.presupuestoEditable?.estHeader?.tarifrecent
       );
     }
 
@@ -1226,8 +1233,11 @@ function CreateInvoice() {
     }
   }, [dataHelp]);
 
+  // ARRAY DE BOLEANOS
   const [ArrBool, setArrBool] = useState(Array(30).fill(false));
-  const [ArrBoolANumber, setArrBoolANumber] = useState(0);
+  const [ArrBoolANumber, setArrBoolANumber] = useState(
+    formik.values.tarifupdate
+  );
   const [valueSwitch, setValueSwitch] = useState(false);
   const handleSwitchChangeInIndex = (newState, position) => {
     // console.log("Nuevo estado del interruptor en Index:", newState);
@@ -1239,15 +1249,16 @@ function CreateInvoice() {
   useEffect(() => {
     // console.log(ArrBool);
     setArrBoolANumber(UtilidadesHelper.boolArrToValue(ArrBool));
-  }, [ArrBool]);
+  }, [ArrBool, formik]);
   useEffect(() => {
     // console.log(ArrBoolANumber);
     formik.setFieldValue("tarifupdate", ArrBoolANumber); //asigno los valores
     formik.setFieldValue("tarifrecent", ArrBoolANumber); //asigno los valores
+    console.log(ArrBoolANumber);
   }, [ArrBoolANumber]);
-  useEffect(() => {
-    console.log(UtilidadesHelper.valueToBoolArr(formik.values.tarifupdate));
-  }, [formik]);
+  // useEffect(() => {
+  //   console.log(UtilidadesHelper.valueToBoolArr(formik.values.tarifupdate));
+  // }, [formik]);
 
   const [showCostosLocal, setShowCostosLocal] = useState(true);
   const [showCostosComex, setShowCostosComex] = useState(true);
@@ -1266,6 +1277,52 @@ function CreateInvoice() {
     }
     // console.log(formik.values.status);
   };
+
+  // PERMISOS
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = [
+    "CEO",
+    "Gerencia",
+    "Lider",
+    "Comex",
+    "Finanzas",
+    "Sourcing",
+  ];
+  const permiCreate = ["CEO", "Sourcing"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+  const permiComex = ["Comex"];
+  const permiSourcing = ["Sourcing"];
+  const permiFinanzas = ["Finanzas"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const ComexOK = permiComex.every((permiso) => permisos.includes(permiso));
+  const SourcingOk = permiSourcing.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const FinanzasOk = permiFinanzas.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    navigate("/NoAutorizado");
+  }
   return (
     <>
       <MainCard title="Actualizar Presupuesto">
@@ -1367,7 +1424,7 @@ function CreateInvoice() {
                 <Chip
                   label={`Status ${
                     formik.values.status == 0 || formik.values.status == 1
-                      ? `${formik.values.status}: Estado Inicial`
+                      ? `${formik.values.status}: Estado Inicial Comex`
                       : formik.values.status == 2
                       ? `${formik.values.status}: Segundo Estadio`
                       : `${formik.values.status}: Tercer Estadio`
@@ -1377,7 +1434,8 @@ function CreateInvoice() {
                 />
                 {formik.values.status <= 3 && (
                   <>
-                    {formik.values.status != 3 && (
+                    {/* Mostrar Flechas de estado */}
+                    {formik.values.status == 0 && RetroEstadoOK && (
                       <Tooltip title="Cambiar Estado">
                         <DoubleArrowRoundedIcon
                           sx={{
@@ -1391,7 +1449,36 @@ function CreateInvoice() {
                         />
                       </Tooltip>
                     )}
-                    {formik.values.status > 0 && (
+                    {formik.values.status == 1 && SourcingOk && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 2 && ComexOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {/* Flecha de return de estado */}
+                    {formik.values.status > 0 && RetroEstadoOK && (
                       <>
                         <Tooltip title="Volver">
                           <ReplyAllRoundedIcon
@@ -1714,50 +1801,56 @@ function CreateInvoice() {
                 ))}
 
               {/* DETALLE DE COSTOS COMEX */}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
+              {!(formik.values.status == 1 || formik.values.status == 3) && (
+                <>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
 
-              <Grid item xs={12}>
-                {showCostosComex ? (
-                  <>
-                    <Box display="flex" alignItems="center">
-                      <Tooltip title="Ocultar Gastos">
-                        <VisibilityOffOutlinedIcon
-                          variant="text"
-                          onClick={() => setShowCostosComex(!showCostosComex)}
-                        />
-                      </Tooltip>
-                      <Typography
-                        color={"green"}
-                        variant="h4"
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Extra Gastos Comex
-                      </Typography>
-                    </Box>
-                  </>
-                ) : (
-                  <>
-                    <Box display="flex" alignItems="center">
-                      <Tooltip title="Mostrar Gastos">
-                        <VisibilityOutlinedIcon
-                          variant="text"
-                          onClick={() => setShowCostosComex(!showCostosComex)}
-                        />
-                      </Tooltip>
-                      <Typography
-                        color={"green"}
-                        variant="h4"
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Extra Gastos Comex
-                      </Typography>
-                    </Box>
-                  </>
-                )}
-              </Grid>
-
+                  <Grid item xs={12}>
+                    {showCostosComex ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosComex(!showCostosComex)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Comex
+                          </Typography>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosComex(!showCostosComex)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Comex
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Grid>
+                
               {dataHelp.presupuestoEditable &&
                 showCostosComex &&
                 ExtraCostosComex.map((input) => (
@@ -1775,68 +1868,78 @@ function CreateInvoice() {
                     ValorSwitch={input.ValorSwitch}
                   />
                 ))}
+                </>
+              )}
 
               {/* DETALLE DE COSTOS FINAN */}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
+              {!( formik.values.status == 1 || formik.values.status == 2) && (
+                <>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
 
-              <Grid item xs={12}>
-                {showCostosFinan ? (
-                  <>
-                    <Box display="flex" alignItems="center">
-                      <Tooltip title="Ocultar Gastos">
-                        <VisibilityOffOutlinedIcon
-                          variant="text"
-                          onClick={() => setShowCostosFinan(!showCostosFinan)}
-                        />
-                      </Tooltip>
-                      <Typography
-                        color={"green"}
-                        variant="h4"
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Extra Gastos Financieros
-                      </Typography>
-                    </Box>
-                  </>
-                ) : (
-                  <>
-                    <Box display="flex" alignItems="center">
-                      <Tooltip title="Mostrar Gastos">
-                        <VisibilityOutlinedIcon
-                          variant="text"
-                          onClick={() => setShowCostosFinan(!showCostosFinan)}
-                        />
-                      </Tooltip>
-                      <Typography
-                        color={"green"}
-                        variant="h4"
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Extra Gastos Financieros
-                      </Typography>
-                    </Box>
-                  </>
-                )}
-              </Grid>
+                  <Grid item xs={12}>
+                    {showCostosFinan ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosFinan(!showCostosFinan)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Financieros
+                          </Typography>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosFinan(!showCostosFinan)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Financieros
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Grid>
 
-              {dataHelp.presupuestoEditable &&
-                showCostosFinan &&
-                showCostosFinan &&
-                ExtraCostosFinan.map((input) => (
-                  <ExtraCostos
-                    key={input.id}
-                    id={input.id}
-                    name={input.name}
-                    em={input.em}
-                    inputLabel={input.inputLabel}
-                    data={input.data}
-                    dataType={input.dataType}
-                    formik={formik}
-                    Xs_Xd={input.Xs_Xd}
-                  />
-                ))}
+                  {dataHelp.presupuestoEditable &&
+                    showCostosFinan &&
+                    showCostosFinan &&
+                    ExtraCostosFinan.map((input) => (
+                      <ExtraCostos
+                        key={input.id}
+                        id={input.id}
+                        name={input.name}
+                        em={input.em}
+                        inputLabel={input.inputLabel}
+                        data={input.data}
+                        dataType={input.dataType}
+                        formik={formik}
+                        Xs_Xd={input.Xs_Xd}
+                      />
+                    ))}
+                </>
+              )}
 
               {/* CARGA DE PRODUCTOS */}
               <Grid item xs={12}>

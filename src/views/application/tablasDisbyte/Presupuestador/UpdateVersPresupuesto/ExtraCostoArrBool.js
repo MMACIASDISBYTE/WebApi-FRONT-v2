@@ -58,9 +58,10 @@ export const ExtraCostosArrBool = ({
   }, [ValorSwitch]);
   // console.log(data);
   useEffect(() => {
+    // console.log('valor antes :', ValorSwitchaplicable);
     const valorInicialSwitch = UtilidadesHelper.valueToBoolArrPosition(ValorSwitchBase, arrPosition);
     setValorSwitchAplicable(valorInicialSwitch);
-    console.log(valorInicialSwitch);
+    // console.log('valor despues :',valorInicialSwitch);
   },[ValorSwitchBase])
 
   // console.log(formik.values);

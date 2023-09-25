@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -236,10 +236,42 @@ const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // PERMISOS
+  //Gestion de permisos
   const permisos = useAccessTokenJWT();
-  // console.log(permisos);
-  //LOGICA PERSMISOS
-  const editarPresu = permisos.includes("presupuesto:edit");
+  console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = [
+    "CEO",
+    "Gerencia",
+    "Lider",
+    "Comex",
+    "Finanzas",
+    "Sourcing",
+  ];
+  const permiCreate = ["CEO", "Sourcing", "Comex"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
+
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    Navigate("/NoAutorizado");
+  }
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
@@ -360,8 +392,6 @@ const CustomerList = () => {
     navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
-  // console.log(rows);
-
   return (
     <MainCard title="Customer List" content={false}>
       <CardContent>
@@ -388,14 +418,16 @@ const CustomerList = () => {
           </Grid>
 
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <AnimateButton>
-              <Button
-                variant="contained"
-                onClick={() => navigate("/estimate/create-estimate")}
-              >
-                Create Estimate
-              </Button>
-            </AnimateButton>
+            {AddOK && (
+              <AnimateButton>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/estimate/create-estimate")}
+                >
+                  Create Estimate
+                </Button>
+              </AnimateButton>
+            )}
           </div>
 
           {/* SE OCULTA ICONO DE IMPRESION, FILTRO Y COPIA */}
@@ -499,18 +531,21 @@ const CustomerList = () => {
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
-                      {row.cantidad_contenedores !== null && row.cantidad_contenedores !== undefined
-                        ? (row.cantidad_contenedores).toFixed(3)
+                      {row.cantidad_contenedores !== null &&
+                      row.cantidad_contenedores !== undefined
+                        ? row.cantidad_contenedores.toFixed(3)
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
-                      {row.gastos_loc_total !== null && row.gastos_loc_total !== undefined
-                        ? (row.gastos_loc_total).toFixed(2)
+                      {row.gastos_loc_total !== null &&
+                      row.gastos_loc_total !== undefined
+                        ? row.gastos_loc_total.toFixed(2)
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
-                      {row.fob_grand_total !== null && row.fob_grand_total !== undefined
-                        ? (row.fob_grand_total).toFixed(2)
+                      {row.fob_grand_total !== null &&
+                      row.fob_grand_total !== undefined
+                        ? row.fob_grand_total.toFixed(2)
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
@@ -539,11 +574,13 @@ const CustomerList = () => {
                         >
                           <VisibilityTwoToneIcon
                             sx={{ fontSize: "1.3rem" }}
-                            onClick={() => verDetalle(row.estnumber, row.estvers)}
+                            onClick={() =>
+                              verDetalle(row.estnumber, row.estvers)
+                            }
                           />
                         </IconButton>
                       </Tooltip>
-                      {editarPresu && (
+                      {EditOK && (
                         <Tooltip title="Editar">
                           <IconButton
                             color="secondary"
@@ -553,7 +590,10 @@ const CustomerList = () => {
                             <EditTwoToneIcon
                               sx={{ fontSize: "1.3rem" }}
                               onClick={() =>
-                                ActualizarPresupuesto(row.estnumber, row.estvers)
+                                ActualizarPresupuesto(
+                                  row.estnumber,
+                                  row.estvers
+                                )
                               }
                             />
                           </IconButton>
