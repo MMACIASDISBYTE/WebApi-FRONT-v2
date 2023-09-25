@@ -460,7 +460,15 @@ const masterTables = {
             url: '/NCM/NCM', 
             icon: MenuBookOutlinedIcon,
             breadcrumbs: false
-        },   
+        },
+        {
+            id: 'NCM_MEX',
+            title: <FormattedMessage id="NCM_MEX" />,
+            type: 'item',
+            url: '/NCM_MEX/NCM_MEX', 
+            icon: MenuBookOutlinedIcon,
+            breadcrumbs: false
+        }, 
         {
             id: 'IIBB',
             title: <FormattedMessage id="IIBB" />,

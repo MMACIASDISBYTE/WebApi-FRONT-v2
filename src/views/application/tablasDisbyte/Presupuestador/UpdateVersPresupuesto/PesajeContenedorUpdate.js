@@ -29,7 +29,7 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
             // console.log(ContenedorConcatenado);
         }
         
-    }, [tipoContenedor]);
+    }, [tipoContenedor, productsData]);
 
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
         if (contenedor) {
             // 1. Suma de todos los pesoUnitxCaja
             const pesoTotal = productsData.reduce((acc, product) => {
-                const pesoPorCaja = parseFloat(product.gwctn || 0);
+                const pesoPorCaja = parseFloat(product.gwctn || 0 );
                 const piezasPorCaja = parseFloat(product.pcsctn || 1);
                 const pesoPorPieza=pesoPorCaja/piezasPorCaja; 
                 const cantidadDePiezas = parseFloat(product.qty || 1);
@@ -66,7 +66,7 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
             // console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
         // console.log(productsData);
-    }, [productsData]);
+    }, [tipoContenedor, productsData]);
 
     return (
         <>
