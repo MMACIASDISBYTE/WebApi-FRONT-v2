@@ -25,6 +25,7 @@ export const ExtraCostosArrBool = ({
   Xs_Xd,
   blockDeGastos = false,
   ValorSwitch = false,
+  ValorSwitchBase,
   arrPosition = null,
   handleSwitchChangeInIndex,
 }) => {
@@ -55,6 +56,12 @@ export const ExtraCostosArrBool = ({
   useEffect(() => {
 
   }, [ValorSwitch]);
+  // console.log(data);
+  useEffect(() => {
+    const valorInicialSwitch = UtilidadesHelper.valueToBoolArrPosition(ValorSwitchBase, arrPosition);
+    setValorSwitchAplicable(valorInicialSwitch);
+    console.log(valorInicialSwitch);
+  },[ValorSwitchBase])
 
   // console.log(formik.values);
   // console.log(ValorSwitch);
@@ -102,6 +109,7 @@ export const ExtraCostosArrBool = ({
                     handleSwitchChangeInIndex(newState, arrPosition); // Pasa el estado al componente padre (Index)
                     onSwitchChangeDesabled(newState)
                   }}
+                  ValorSwitchaplicable={ValorSwitchaplicable}
                 />
               )}
             </Grid>
