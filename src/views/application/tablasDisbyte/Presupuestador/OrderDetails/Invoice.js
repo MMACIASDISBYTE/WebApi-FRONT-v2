@@ -112,7 +112,7 @@ const Invoice = ({ presupuestador, usuario }) => {
                                                     <Typography variant="body2">Status :</Typography>
                                                 </Grid>
                                                 <Grid item xs={8} sx={{ my: 0.5 }}>
-                                                    <Chip label="Pending" variant="outlined" size="small" chipcolor="warning" />
+                                                    <Chip label={presupuestador.estHeader.status || presupuestador.estHeader.status == 0 ? `Estadio n° ${presupuestador.estHeader.status}` : 'Sin data'} variant="outlined" size="small" chipcolor="warning" />
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Typography variant="body2">Order Id :</Typography>
