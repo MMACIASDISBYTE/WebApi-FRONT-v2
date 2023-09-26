@@ -833,7 +833,15 @@ const Details = ({ presupuestador, usuario }) => {
                       </TableRow>
                     ) : (
                       rows.map((row, index) => (
-                        <TableRow key={index}>
+                        <TableRow key={index} 
+                        hover
+                        role="checkbox"
+                        sx={{
+                          fontSize: 20,
+                          "&:hover": {
+                            fontStyle: "italic",
+                          },
+                        }}>
                           <TableCell sx={{ pl: 3 }}>
                             <Typography align="left" variant="subtitle1">
                               {row.description ? row.description : ""}
