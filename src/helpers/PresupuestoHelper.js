@@ -95,12 +95,16 @@ export const PresupuestoHelper = {
         },
         body: JSON.stringify(newData),
       });
+      if (!response.ok) {
+        // Lanzar un error si el servidor responde con un estado de error
+        const errorMessage = await response.text(); // O response.json() si el error es un objeto JSON
+        throw new Error(errorMessage);
+      }
+
       const jsonData = await response.json();
       console.log("Helper", newData);
       return jsonData;
     } catch (error) {
-      console.error("Helper Error", error);
-      console.error("Helper Error", error.errors);
       console.error("Helper Error", error.message);
       throw error;
     }
