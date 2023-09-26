@@ -1260,6 +1260,12 @@ function CreateInvoice() {
     setArrBool(updatedArrBool);
   };
   useEffect(() => {
+    setTimeout(() => {
+      setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp.presupuestoEditable.estHeader.tarifupdate))
+      console.log(ArrBool);
+    }, 2000);
+  },[dataHelp])
+  useEffect(() => {
     // console.log(ArrBool);
     setArrBoolANumber(UtilidadesHelper.boolArrToValue(ArrBool));
   }, [ArrBool, formik]);
