@@ -1263,11 +1263,20 @@ function CreateInvoice() {
     setArrBool(updatedArrBool);
   };
   useEffect(() => {
-    setTimeout(() => {
+    setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp?.presupuestoEditable?.estHeader?.tarifupdate))
+    /*setTimeout(() => {
       setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp.presupuestoEditable.estHeader.tarifupdate))
       console.log(ArrBool);
-    }, 2000);
+    }, 2000);*/
   },[dataHelp])
+
+  /*useEffect(() => {
+     if(dataHelp!=undefined && dataHelp.presupuestoEditable!=undefined && dataHelp.presupuestoEditable.estHeader!=undefined)
+     {
+        setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp.presupuestoEditable.estHeader.tarifupdate))
+     }
+  },[dataHelp])*/
+
   useEffect(() => {
     // console.log(ArrBool);
     setArrBoolANumber(UtilidadesHelper.boolArrToValue(ArrBool));
