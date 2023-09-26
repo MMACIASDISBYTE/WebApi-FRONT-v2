@@ -1032,6 +1032,7 @@ function CreateInvoice() {
   });
 
   const [productsData, setProductsData] = useState([]);
+  const [productsDataAdd, setProductsDataAdd] = useState([]);
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
   const [addItemClickedUpdate, setAddItemClickedUpdate] = useState(false);
@@ -1229,7 +1230,7 @@ function CreateInvoice() {
   useEffect(() => {
     if (dataHelp.presupuestoEditable) {
       setProductsData(dataHelp.presupuestoEditable.estDetails);
-      // console.log(dataHelp.presupuestoEditable.estDetails);
+      setProductsDataAdd(dataHelp.presupuestoEditable.estDetAddData);
     }
   }, [dataHelp]);
 
@@ -1991,12 +1992,13 @@ function CreateInvoice() {
                 !addItemClickedUpdate && showDetails && (
                   <ProductsPage
                     productsData={productsData}
+                    productsDataAdd={productsDataAdd}
                     deleteProductHandler={deleteProductHandler}
                     editProductHandler={editProductHandler}
                   />
                 )
               }
-
+              {console.log(productsDataAdd)}
               {addItemClicked ? (
                 <Grid item xs={12}>
                   <AddItemPage

@@ -402,13 +402,19 @@ const ProductList = () => {
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await NcmHelper.deleteDataByCodeMex(id);
+    await NcmHelper.deleteDataByIdMex(id);
     console.log(`La Posicion ${id} ha sido eliminado`);
     // para actualizar el componente
     SetActualizacion(true);
   };
 
   const handleCreateAPI = async (newData) => {
+    newData.id==undefined?newData.id=0:newData.id=newData.id;
+    newData.docum_depo==undefined?newData.docum_depo="":newData.docum_depo=newData.docum_depo;
+    newData.docum_aduanera==undefined?newData.docum_aduanera="":newData.docum_aduanera=newData.docum_aduanera;
+    newData.lealtad_com==undefined?newData.lealtad_com="":newData.lealtad_com=newData.lealtad_com;
+    newData.otras_notas==undefined?newData.otras_notas="":newData.otras_notas=newData.otras_notas;
+    console.log(newData);
     await NcmHelper.createDataMex(newData);
   };
 
@@ -645,7 +651,7 @@ const ProductList = () => {
                                   <IconButton size="large">
                                     <DeleteIcon
                                       fontSize="small"
-                                      onClick={() => handleDelete(row.code)}
+                                      onClick={() => handleDelete(row.id)}
                                     />
                                   </IconButton>
                                 </Tooltip>

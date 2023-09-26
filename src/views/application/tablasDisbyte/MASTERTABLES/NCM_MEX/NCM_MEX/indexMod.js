@@ -298,16 +298,16 @@ const ProductList = () => {
       );
 
     // AQUI ELEMINO ELEMENTOS
-    const handleDelete = async (id, description) => {
+    const handleDelete = async (id) => {
         // Aquí debes implementar la lógica para eliminar los productos seleccionados
-        await NcmHelper.deleteDataById(id);
+        await NcmHelper.deleteDataByIdMex(id);
         SetActualizacion(true);
         console.log("Productos eliminados: ", description);
     };
 
     // Función para actualizar la API utilizando CanalHelper.updateDataById
     const handleUpdateAPI = async (id, data) => {
-        await NcmHelper.updateDataById(id, data);
+        await NcmHelper.updateDataByIdMex(id, data);
     };
     // uso metodo Update (que trabaja en el componente hijo)
     const handleEdit = async (row) => {
@@ -475,7 +475,7 @@ const ProductList = () => {
                                                 <IconButton size="large">
                                                     <DeleteIcon
                                                         fontSize="small"
-                                                        onClick={() => handleDelete(row.id, row.description)}
+                                                        onClick={() => handleDelete(row.id)}
                                                     />
                                                 </IconButton>
                                             </Tooltip>

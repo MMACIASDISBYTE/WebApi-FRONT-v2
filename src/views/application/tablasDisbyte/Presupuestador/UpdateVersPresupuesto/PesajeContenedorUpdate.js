@@ -20,13 +20,14 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
             // const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
             const contenedorDetalle = async (ContenedorConcatenado) => {
                 const ContenedorData = await CargaHelper.DetalleContenedor(ContenedorConcatenado);
-                // console.log(ContenedorData);
+                //console.log(ContenedorData);
                 setContenedor(ContenedorData);
             };
             contenedorDetalle(ContenedorConcatenado);
             // console.log('detalle del contenedor', contenedor);
             // console.log(contenedor.weight);
             // console.log(ContenedorConcatenado);
+            
         }
         
     }, [tipoContenedor, productsData]);
@@ -65,8 +66,8 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
             // console.log(pesoTotal);    
             // console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
-        // console.log(productsData);
-    }, [tipoContenedor, productsData]);
+    console.log(contenedor);
+    }, [tipoContenedor, productsData]);  
 
     return (
         <>
@@ -85,12 +86,12 @@ export const PesajeContenedorUpdate = ({ productsData = null, tipoContenedor = n
                         {
                             theme.palette.mode === 'light' ?
                                 <>
-                                    <Chip label={`Contenedor ${tipoContenedor.description}`} size="medium" chipcolor="orange" />
+                                    <Chip label={`Contenedor ${contenedor.description}`} size="medium" chipcolor="orange" />
                                     <Chip label={`Peso Soportado: ${UtilidadesHelper.formatNumber(contenedor.weight.toFixed(2))}Kg`} size="medium" chipcolor="orange" />
                                     <Chip label={`Volumen Soportado ${UtilidadesHelper.formatNumber(contenedor.volume.toFixed(2))}m3`} size="medium" chipcolor="orange" />
                                 </> :
                                 <>
-                                    <Chip label={`Contenedor ${tipoContenedor.description}`} variant="outlined" size="medium" chipcolor="warning" />
+                                    <Chip label={`Contenedor ${contenedor.description}`} variant="outlined" size="medium" chipcolor="warning" />
                                     <Chip label={`Peso Soportado: ${UtilidadesHelper.formatNumber(contenedor.weight.toFixed(2))}Kg`} variant="outlined" size="medium" chipcolor="warning" />
                                     <Chip label={`Volumen Soportado ${UtilidadesHelper.formatNumber(contenedor.volume.toFixed(2))}m3`} variant="outlined" size="medium" chipcolor="warning" />
                                 </>
