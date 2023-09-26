@@ -70,6 +70,7 @@ import { ExtraCostosArrBool } from "./ExtraCostoArrBool";
 import { Box } from "@mui/system";
 import { log } from "util";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { async } from "q";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -201,6 +202,7 @@ function CreateInvoice() {
   const [valueIva, setValueIva] = React.useState("false");
   const [dataHelp, setDataHelp] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
 
@@ -741,7 +743,7 @@ function CreateInvoice() {
     validateOnMount: false,
     validateOnChange: false,
     validateOnBlur: true,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setOcultar(true);
       try {
         const postData = {
@@ -799,19 +801,30 @@ function CreateInvoice() {
         if (postData.estDetailsDB.length > 0) {
           try {
             console.log("Previo envio", postData, estnumber);
-            PresupuestoHelper.createNewPresupuesto(postData, estnumber);
+
+            await PresupuestoHelper.createNewPresupuesto(postData, estnumber);
+
             console.log("Creacion exitosa de: ", postData);
+
             setProductsData([]);
+            setLoadingEnvio(false);
             setMensaje("Presupuesto creado Exitosamante");
+            formik.resetForm();
           } catch (error) {
             console.log(error);
+            setLoadingEnvio(false);
+            setMensaje(
+              error.message || "Un error ocurrió al crear el presupuesto."
+            );
+            formik.resetForm();
+            throw error;
           }
         } else {
           throw new Error("estDetailsDB no contiene ningún elemento.");
         }
-        setProductsData([]);
-        setMensaje("Presupuesto creado Exitosamante");
-        formik.resetForm();
+        // setProductsData([]);
+        // setMensaje("Presupuesto creado Exitosamante");
+        // formik.resetForm();
       } catch (error) {
         setOpen(true);
         setMensaje(error.message || "Un error desconocido ocurrió.");
@@ -1850,29 +1863,29 @@ function CreateInvoice() {
                       </>
                     )}
                   </Grid>
-                
-              {dataHelp.presupuestoEditable &&
-                showCostosComex &&
-                ExtraCostosComex.map((input) => (
-                  <ExtraCostos
-                    key={input.id}
-                    id={input.id}
-                    name={input.name}
-                    em={input.em}
-                    inputLabel={input.inputLabel}
-                    data={input.data}
-                    dataType={input.dataType}
-                    formik={formik}
-                    Xs_Xd={input.Xs_Xd}
-                    blockDeGastos={input.blockDeGastos}
-                    ValorSwitch={input.ValorSwitch}
-                  />
-                ))}
+
+                  {dataHelp.presupuestoEditable &&
+                    showCostosComex &&
+                    ExtraCostosComex.map((input) => (
+                      <ExtraCostos
+                        key={input.id}
+                        id={input.id}
+                        name={input.name}
+                        em={input.em}
+                        inputLabel={input.inputLabel}
+                        data={input.data}
+                        dataType={input.dataType}
+                        formik={formik}
+                        Xs_Xd={input.Xs_Xd}
+                        blockDeGastos={input.blockDeGastos}
+                        ValorSwitch={input.ValorSwitch}
+                      />
+                    ))}
                 </>
               )}
 
               {/* DETALLE DE COSTOS FINAN */}
-              {!( formik.values.status == 1 || formik.values.status == 2) && (
+              {!(formik.values.status == 1 || formik.values.status == 2) && (
                 <>
                   <Grid item xs={12}>
                     <Divider />
@@ -2060,21 +2073,39 @@ function CreateInvoice() {
 
               <Grid item>
                 <Dialog open={open}>
+                  {loadingEnvio && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "10vh",
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  )}
                   <DialogContent>
                     <DialogContentText
-                      sx={{ fontWeight: 500, color: `secondary.dark` }}
+                      sx={{
+                        fontWeight: 500,
+                        color: `secondary.dark`,
+                        minWidth: 200,
+                      }}
                     >
                       {mensaje}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions sx={{ pr: "20px" }}>
-                    <Button
-                      autoFocus
-                      variant="contained"
-                      onClick={handleDialogOk}
-                    >
-                      Ok
-                    </Button>
+                    {!loadingEnvio && (
+                      <Button
+                        autoFocus
+                        variant="contained"
+                        onClick={handleDialogOk}
+                      >
+                        Ok
+                      </Button>
+                    )}
                   </DialogActions>
                 </Dialog>
               </Grid>
