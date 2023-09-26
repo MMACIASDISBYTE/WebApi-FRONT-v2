@@ -618,7 +618,7 @@ const ProductList = () => {
                                   <IconButton size="large">
                                     <DeleteIcon
                                       fontSize="small"
-                                      onClick={() => handleDelete(row.code)}
+                                      onClick={() => handleDelete(row.id)}
                                     />
                                   </IconButton>
                                 </Tooltip>

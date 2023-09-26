@@ -166,7 +166,7 @@ export const NcmHelper = {
         }
     },
     // Eliminar un registro de la tabla por ID
-    deleteDataByCodeMex: async function (id) {
+    deleteDataByIdMex: async function (id) {
         try {
             const response = await fetch(`${this.baseUrl}/${this.rutaTablaMex}/${id}`, {
                 method: 'DELETE',

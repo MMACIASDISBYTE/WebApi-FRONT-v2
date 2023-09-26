@@ -128,6 +128,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             id: 0,
             description: dataName,
           };
+          console.log("basura",newData);
           NcmHelper.createData(newData) // Pasar el nombre del banco al manejador handleAddBanco en Banco.js
             .then((response) => {
                 // Actualizar el estado con la nueva lista de elementos
