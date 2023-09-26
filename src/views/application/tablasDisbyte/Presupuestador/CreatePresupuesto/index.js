@@ -39,21 +39,11 @@ import ProductsPage from "./ProductsPage";
 import { useFormik } from "formik";
 import useAuth from "hooks/useAuth";
 // Se importan helpers necesarios:
-import { BancoHelper } from "helpers/BancoHelper";
-import { CanalHelper } from "helpers/CanalHelper";
 import { CargaHelper } from "helpers/CargaHelper";
-import { CustodiaHelper } from "helpers/CustodiaHelper";
-import { DepositoHelper } from "helpers/DepositoHelper";
-import { DespachanteHelper } from "helpers/DespachanteHelper";
-import { EstimateDetailHelper } from "helpers/EstimateDetailHelper";
-import { FleteHelper } from "helpers/FleteHelper";
-import { FwdtteHelper } from "helpers/FwdtteHelper";
 import { ProveedoresOemHelper } from "helpers/ProveedoresOemHelper";
-import { GestDigitalDocHelper } from "helpers/GestDigitalDocHelper";
 import { NcmHelper } from "helpers/NcmHelper";
 import { PresupuestoHelper } from "helpers/PresupuestoHelper";
 import { TarifasPolizaHelper } from "helpers/TarifasPolizaHelper";
-import { TarifasFwdContHelper } from "helpers/TarifasFwdContHelper";
 
 //importacion para poder opacar el placeholder del dolar
 import { makeStyles } from "@material-ui/core/styles";
@@ -85,16 +75,6 @@ const validationSchema = yup.object({
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
   description: yup.string().nullable().required("La descripcion is required"),
-
-  // freightFwd: yup.object().nullable().required('Pais de origen is required'),
-
-  //   p_gloc_banco: yup
-  //     .object()
-  //     .shape({
-  //       description: yup.string(),
-  //     })
-  //     .nullable()
-  //     .required("Banco is required"),
 
   carga_id: yup
     .object()
@@ -175,14 +155,6 @@ const validationSchema = yup.object({
     })
     .nullable()
     .required("Tarifas Gest Dig is Banco"),
-
-  // proveedores_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Proveedor Oem is required"),
 });
 
 // ==============================|| CREATE INVOICE ||============================== //
@@ -197,21 +169,11 @@ function CreateInvoice() {
   const [valueIva, setValueIva] = React.useState("false");
   const [dataHelp, setDataHelp] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
 
   const dataHelpers = async () => {
-    // const banco = await BancoHelper.fetchData();
-    // const poliza = await TarifasPolizaHelper.fetchData();
-    // const flete = await FleteHelper.fetchData();
-    // const custodia = await CustodiaHelper.fetchData();
-    // const gesDigDoc = await GestDigitalDocHelper.fetchData();
-    // const despachante = await DespachanteHelper.fetchData();
-    // const canal = await CanalHelper.fetchData();
-    // const deposito = await DepositoHelper.fetchData();
-    // const estimate = await EstimateDetailHelper.fetchData();
-    // const fwdtte = await FwdtteHelper.fetchData();
-    // const origen = await TarifasFwdContHelper.fetchDataCountryOrigen();
     const carga = await CargaHelper.fetchData();
     const proveedoresOem = await ProveedoresOemHelper.fetchData();
     const NCM = await NcmHelper.fetchData();
@@ -230,17 +192,6 @@ function CreateInvoice() {
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
 
     const objData = {
-      //   banco,
-      //   poliza,
-      //   custodia,
-      //   flete,
-      //   gesDigDoc,
-      //   despachante,
-      //   canal,
-      //   deposito,
-      //   estimate,
-      //   fwdtte,
-      // origen,
       carga,
       proveedoresOem,
       NCM,
@@ -260,8 +211,6 @@ function CreateInvoice() {
     setDataHelp(objData);
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
-    // console.log('Origen : ', origen)
-    // console.log('Banco : ', banco)
   };
 
   const cellInput = [
@@ -335,13 +284,6 @@ function CreateInvoice() {
       inputLabel: "Tarifa Gestion Digital",
       data: dataHelp.TarifasGestDig,
     },
-    // {
-    //   id: "proveedores_id",
-    //   name: "proveedores_id",
-    //   em: "Seleccione un Proveedor",
-    //   inputLabel: "Proveedores Oem",
-    //   data: dataHelp.proveedoresOem,
-    // },
   ];
   //   console.log(cellInput);
 
@@ -373,7 +315,7 @@ function CreateInvoice() {
   // const today = new Date();
   // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
   // const isoString = today.toISOString();
-  // // console.log(isoString);
+  // console.log(isoString);
 
   const formik = useFormik({
     initialValues: {
@@ -443,7 +385,7 @@ function CreateInvoice() {
     validateOnMount: false,
     validateOnChange: false,
     validateOnBlur: true,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setOcultar(true);
       try {
         const postData = {
@@ -483,10 +425,6 @@ function CreateInvoice() {
             tarifasgestdigdoc_id: values.tarifasgestdigdoc_id
               ? values.tarifasgestdigdoc_id.id
               : "",
-
-            // proveedores_id: values.proveedores_id
-            //   ? values.proveedores_id.description
-            //   : "",
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -502,20 +440,27 @@ function CreateInvoice() {
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
-            
-            PresupuestoHelper.createData(postData);
+            await PresupuestoHelper.createData(postData);
             console.log("Creacion exitosa de: ", postData);
             setProductsData([]);
+            setLoadingEnvio(false);
             setMensaje("Presupuesto creado Exitosamante");
+            formik.resetForm();
           } catch (error) {
-            console.error(error);
+            console.log(error);
+            setLoadingEnvio(false);
+            setMensaje(
+              error.message || "Un error ocurrió al crear el presupuesto."
+            );
+            // formik.resetForm();
+            throw error;
           }
         } else {
           throw new Error("estDetailsDB no contiene ningún elemento.");
         }
         // setProductsData([]);
         // setMensaje("Presupuesto creado Exitosamante");
-        formik.resetForm();
+        // formik.resetForm();
       } catch (error) {
         setOpen(true);
         setMensaje(error.message || "Un error desconocido ocurrió.");
@@ -597,6 +542,8 @@ function CreateInvoice() {
     if (mensaje == "Presupuesto creado Exitosamante") {
       navigate("/estimate/estimate-list");
     }
+    setMensaje('');
+    setLoadingEnvio(true);
   };
 
   // add item handler
@@ -1044,21 +991,39 @@ function CreateInvoice() {
 
               <Grid item>
                 <Dialog open={open}>
+                  {loadingEnvio && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "10vh",
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  )}
                   <DialogContent>
                     <DialogContentText
-                      sx={{ fontWeight: 500, color: `secondary.dark` }}
+                      sx={{
+                        fontWeight: 500,
+                        color: `secondary.dark`,
+                        minWidth: 200,
+                      }}
                     >
                       {mensaje}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions sx={{ pr: "20px" }}>
-                    <Button
-                      autoFocus
-                      variant="contained"
-                      onClick={handleDialogOk}
-                    >
-                      Ok
-                    </Button>
+                    {!loadingEnvio && (
+                      <Button
+                        autoFocus
+                        variant="contained"
+                        onClick={handleDialogOk}
+                      >
+                        Ok
+                      </Button>
+                    )}
                   </DialogActions>
                 </Dialog>
               </Grid>

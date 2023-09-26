@@ -1103,6 +1103,8 @@ function CreateInvoice() {
     if (mensaje == "Presupuesto creado Exitosamante") {
       navigate("/estimate/estimate-list");
     }
+    setMensaje('');
+    setLoadingEnvio(true);
   };
 
   // add item handler
