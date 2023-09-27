@@ -461,10 +461,10 @@ const Details = ({ presupuestador, usuario }) => {
                         </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">
-                            Gastos loc. Proy :
+                            Gastos loc. :
                           </Typography>
                           <Typography variant="body2">
-                            ARS${" "}
+                            USD{" "}
                             {presupuestador.estHeader.gastos_loc_total || presupuestador.estHeader.gastos_loc_total == 0
                               ? UtilidadesHelper.formatNumber(
                                   presupuestador.estHeader.gastos_loc_total.toFixed(2)
@@ -481,10 +481,11 @@ const Details = ({ presupuestador, usuario }) => {
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1">IIBB :</Typography>
                           <Typography variant="body2">
-                            {pais==7?(presupuestador.estHeader.iibb_total
-                              ? presupuestador.estHeader.iibb_total.toFixed(2)
-                              : 0.0):("NA")}{" "}
-                            %
+                            { pais==7 ? (
+                              presupuestador.estHeader.iibb_total
+                              ? `${presupuestador.estHeader.iibb_total.toFixed(2)} %`
+                              : 0.0 ) : ("NA")
+                              }                            
                           </Typography>
                         </Stack>
                         <Stack direction="row" spacing={1}>

@@ -117,7 +117,8 @@ const Inicio = () => {
                                             ) : (
                                                 <Grid item xs={12} sm={6} md={4}>
                                                     <Grid item style={{ textAlign: 'center', padding: '20px 0' }}>
-                                                        <CircularProgress color="secondary" aria-label="progress with secondary color" />
+                                                        {/* <CircularProgress color="secondary" aria-label="progress with secondary color" /> */}
+                                                        Esperando cotizacion de monedas...
                                                     </Grid>
                                                 </Grid>
                                             )}
