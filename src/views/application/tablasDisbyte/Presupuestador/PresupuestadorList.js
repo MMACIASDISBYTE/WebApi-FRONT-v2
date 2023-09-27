@@ -554,13 +554,13 @@ const CustomerList = () => {
                     <TableCell align="left">
                       {row.gastos_loc_total !== null &&
                       row.gastos_loc_total !== undefined
-                        ? row.gastos_loc_total.toFixed(2)
+                        ? `USD ${row.gastos_loc_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
                       {row.fob_grand_total !== null &&
                       row.fob_grand_total !== undefined
-                        ? row.fob_grand_total.toFixed(2)
+                        ? `USD ${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
