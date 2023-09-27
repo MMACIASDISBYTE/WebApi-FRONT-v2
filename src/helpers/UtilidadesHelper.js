@@ -102,7 +102,7 @@ export const UtilidadesHelper = {
   valueToBoolArrPosition: function (valInt, position) {
     const arrBool = Array(30).fill(false);
     const nuevoArr = arrBool.map((valor, index) =>
-      valInt & (1 << index) ? true : false
+      valInt & (1 << index) ? false : true
     );
 
     if (position != null && position >= 0 && position < nuevoArr.length) {
@@ -115,7 +115,7 @@ export const UtilidadesHelper = {
   },
   boolArrToValue: function (boolArr) {
     const valor = boolArr.reduce((accumulator, currentValue, index) => {
-      return accumulator + (currentValue ? 1 << index : 0);
+      return accumulator + (currentValue&(1 << index) ? 0 : (1 << index));
     }, 0);
 
     return valor;
