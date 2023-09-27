@@ -28,9 +28,8 @@ function AddItemPageUpdate({
   setAddItemClickedUpdate,
   dataHelp,
   rowUpdate = null,
+  formik,
 }) {
-  console.log(dataHelp);
-  console.log(rowUpdate);
   const itemDetails = [
     {
       id: "sku",
@@ -485,7 +484,7 @@ function AddItemPageUpdate({
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  console.log(dataHelp.proveedoresOem);
+  // console.log(dataHelp.proveedoresOem);
   //   console.log(dataHelp.NCM);
 
   // const NCMList = dataHelp.NCM.map((item) => ({
@@ -498,11 +497,12 @@ function AddItemPageUpdate({
   //   pcsctn: item.pcsctn,
   // }));
 
-  console.log(dataHelp);
+  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
 
   useEffect(() => {
-    let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
+    // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
+    let paisregion_id = formik?.values?.paisregion_id?.id;
     let updatedList = [];
 
     if (paisregion_id === 7 && dataHelp.NCM) {
