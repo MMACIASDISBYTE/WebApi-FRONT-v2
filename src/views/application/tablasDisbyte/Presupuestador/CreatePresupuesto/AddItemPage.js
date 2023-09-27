@@ -109,8 +109,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     {
       id: "qty",
       name: "qty",
-      inputName: "Cantidad",
-      em: "Ingrese una Cantidad",
+      inputName: "Cant. PCS",
+      em: "Ingrese N° Entero de Cant. PCS",
       data: "Number",
       alerta: "Debe de ingresar un numero entero",
       xs_md: [12, 3],
@@ -120,8 +120,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     {
       id: "pcsctn",
       name: "pcsctn",
-      inputName: "Piezas x Caja",
-      em: "Ingrese Piezas x Caja",
+      inputName: "PCS x Caja",
+      em: "Ingrese N° Entero de PCS x Caja",
       alerta: "Debe de ingresar un numero entero",
       data: "Number",
       xs_md: [12, 3],
@@ -131,8 +131,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     {
       id: "cbmctn",
       name: "cbmctn",
-      inputName: "Mt3 x Caja",
-      em: "Ingrese Mt3 x Caja",
+      inputName: "CBM x Caja",
+      em: "Ingrese CBM x Caja",
       data: "Number",
       xs_md: [12, 3],
       isDisabled: false,
