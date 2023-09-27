@@ -451,7 +451,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
     let paisregion_id = formik?.values?.paisregion_id?.id;
-    console.log(paisregion_id);
+    // console.log(paisregion_id);
     // console.log(formik.values.paisregion_id.id);
 
     let updatedList = [];

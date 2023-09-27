@@ -38,6 +38,7 @@ import VisibilityTwoToneIcon from "@mui/icons-material/VisibilityTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { StatusComp } from "./StatusComp";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -89,6 +90,12 @@ const headCells = [
     id: "description",
     numeric: false,
     label: "Descripcion",
+    align: "left",
+  },
+  {
+    id: "status",
+    numeric: false,
+    label: "Estado",
     align: "left",
   },
   {
@@ -239,7 +246,7 @@ const CustomerList = () => {
   // PERMISOS
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
-  console.log(permisos);
+  // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
     "presupuesto:create",
@@ -300,6 +307,7 @@ const CustomerList = () => {
           "id",
           "estvers",
           "description",
+          "status",
           "cantidad_contenedores",
           "gastos_loc_total",
           "fob_grand_total",
@@ -528,6 +536,13 @@ const CustomerList = () => {
                     <TableCell align="left">
                       {row.estvers !== null && row.description !== undefined
                         ? row.description
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.estvers !== null && row.status !== undefined
+                        ? <StatusComp 
+                            estadio={row.status}
+                          />
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">

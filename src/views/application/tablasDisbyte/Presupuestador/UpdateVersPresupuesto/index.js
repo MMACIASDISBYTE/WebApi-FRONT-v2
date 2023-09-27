@@ -1264,20 +1264,10 @@ function CreateInvoice() {
     updatedArrBool[position] = newState; // Actualizar el estado con el nuevo array
     setArrBool(updatedArrBool);
   };
+
   useEffect(() => {
     setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp?.presupuestoEditable?.estHeader?.tarifupdate))
-    /*setTimeout(() => {
-      setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp.presupuestoEditable.estHeader.tarifupdate))
-      console.log(ArrBool);
-    }, 2000);*/
   },[dataHelp])
-
-  /*useEffect(() => {
-     if(dataHelp!=undefined && dataHelp.presupuestoEditable!=undefined && dataHelp.presupuestoEditable.estHeader!=undefined)
-     {
-        setArrBool(UtilidadesHelper.valueToBoolArr(dataHelp.presupuestoEditable.estHeader.tarifupdate))
-     }
-  },[dataHelp])*/
 
   useEffect(() => {
     // console.log(ArrBool);
@@ -1287,11 +1277,8 @@ function CreateInvoice() {
     // console.log(ArrBoolANumber);
     formik.setFieldValue("tarifupdate", ArrBoolANumber); //asigno los valores
     formik.setFieldValue("tarifrecent", ArrBoolANumber); //asigno los valores
-    console.log(ArrBoolANumber);
+    // console.log(ArrBoolANumber);
   }, [ArrBoolANumber]);
-  // useEffect(() => {
-  //   console.log(UtilidadesHelper.valueToBoolArr(formik.values.tarifupdate));
-  // }, [formik]);
 
   const [showCostosLocal, setShowCostosLocal] = useState(true);
   const [showCostosComex, setShowCostosComex] = useState(true);
@@ -2030,13 +2017,14 @@ function CreateInvoice() {
                   />
                 )
               }
-              {console.log(productsDataAdd)}
+
               {addItemClicked ? (
                 <Grid item xs={12}>
                   <AddItemPage
                     handleAddItem={handleAddItem}
                     setAddItemClicked={setAddItemClicked}
                     dataHelp={dataHelp}
+                    formik={formik}
                   />
                 </Grid>
               ) : addItemClickedUpdate ? (
@@ -2046,6 +2034,7 @@ function CreateInvoice() {
                     setAddItemClickedUpdate={setAddItemClickedUpdate}
                     dataHelp={dataHelp}
                     rowUpdate={rowUpdate}
+                    formik={formik}
                   />
                 </Grid>
               ) : (
