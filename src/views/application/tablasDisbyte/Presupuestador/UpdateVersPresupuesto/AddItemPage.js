@@ -434,6 +434,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik }) {
   console.log(dataHelp.proveedoresOem);
   //   console.log(dataHelp.NCM);
 
+
   // const NCMList = dataHelp.NCM.map((item) => ({
   //   id: item.id,
   //   description: item.description,
@@ -474,6 +475,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik }) {
 
     setNCMList(updatedList); 
   }, [dataHelp, formik]);
+
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
     id: item.id,

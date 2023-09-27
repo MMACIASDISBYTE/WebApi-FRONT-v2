@@ -31,6 +31,17 @@ export const TarifasTerminalHelper = {
             return null;
         }
     },   
+    fetchDataPais: async function () {
+        try {
+            const response = await FetchService.Get(`${this.rutaTabla}/vista`);
+            // console.log('TarifasTerminarHelper.fetchData::response', response);
+    
+            return response;
+        } catch (error) {
+            console.error('Error', error);
+            return null;
+        }
+    },   
 
     //CRUD CANAL 
     // Crear un registro en la tabla
