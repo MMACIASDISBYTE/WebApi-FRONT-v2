@@ -498,7 +498,7 @@ function AddItemPageUpdate({
   //   pcsctn: item.pcsctn,
   // }));
 
-  console.log(dataHelp);
+  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
 
   useEffect(() => {
