@@ -10,6 +10,11 @@ export const SelectPaises = ({
   datosSelect,
 }) => {
 
+  
+
+  const[done,setDone]=useState(true);
+  useEffect(()=>{},[done]);
+  console.log(done);
   return (
     <>
       <Grid item xs={12}>
@@ -79,9 +84,10 @@ export const SelectPaises = ({
           >
             {datosSelect.map((option, index) => (
               <MenuItem key={index} value={option.id}>
-                {option.description} - {option.region}
+                {option.description} - {option.region}                
               </MenuItem>
             ))}
+            
           </Select>
         </FormControl>
       </Grid>

@@ -439,9 +439,9 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp }) {
     description: item.description,
     ncm_id: item.id,
     ncm_code: item.code,
-    gwctn: item.gwctn,
+    /*gwctn: item.gwctn,
     cbmctn: item.cbmctn,
-    pcsctn: item.pcsctn,
+    pcsctn: item.pcsctn,*/
   }));
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({

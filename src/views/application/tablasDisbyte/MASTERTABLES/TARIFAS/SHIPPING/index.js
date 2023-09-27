@@ -102,18 +102,18 @@ const headCells = [
   {
     id: "fwdtte_id",
     numeric: false,
-    isRequired: true,
-    select: "Fwd",
+    isRequired: false,
+    select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Fwd",
+    label: "FWD/TTE",
     align: "Left",
   },
   {
     id: "carga_id",
     numeric: false,
-    isRequired: true,
-    select: "Carga",
+    isRequired: false,
+    select: null,
     isDisabled: false,
     ocultar: false,
     label: "Carga",
@@ -122,8 +122,8 @@ const headCells = [
   {
     id: "paisregion_id",
     numeric: false,
-    select: "paisRegion",
-    isRequired: true,
+    select: null,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Pais/Region",
@@ -132,11 +132,11 @@ const headCells = [
   {
     id: "paisfwd_id",
     numeric: true,
-    isRequired: true,
-    select: "paisRegion",
+    isRequired: false,
+    select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Pais Fwd",
+    label: "Pais Orig.",
     align: "Left",
   },
   {
@@ -199,6 +199,66 @@ const headCells = [
     label: "Fecha/hora",
     align: "Left",
   },
+  {
+    id: "fwdtte",
+    numeric: false,
+    select: "Empresa Tte int",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "FWD/TTE",
+    align: "Left",
+  },
+  {
+    id: "carga",
+    numeric: false,
+    select: "Carga",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Carga",
+    align: "Left",
+  },
+  {
+    id: "pais_dest",
+    numeric: false,
+    select: "Pais Dest",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais Dest.",
+    align: "Left",
+  },
+  {
+    id: "region_dest",
+    numeric: false,
+    select: "Region Dest",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region Dest.",
+    align: "Left",
+  },
+  {
+    id: "pais_orig",
+    numeric: false,
+    select: "Pais Orig",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais Orig.",
+    align: "Left",
+  },
+  {
+    id: "region_orig",
+    numeric: false,
+    select: "Region Orig",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region Orig.",
+    align: "Left",
+  }
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -218,7 +278,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id","fwdtte_id","carga_id","paisregion_id","paisfwd_id"];
 
   return (
     <TableHead>
@@ -388,7 +448,7 @@ const ProductList = () => {
 
   const fetchData = async (accessToken) => {
     try {
-      const jsonData = await TarifasFwdHelper.fetchData();
+      const jsonData = await TarifasFwdHelper.fetchDataPais();
       // const {data, status} = await TarifasFwdHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
       setRows(jsonData);
     } catch (error) {
@@ -397,7 +457,7 @@ const ProductList = () => {
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id","fwdtte_id","carga_id","paisregion_id","paisfwd_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>

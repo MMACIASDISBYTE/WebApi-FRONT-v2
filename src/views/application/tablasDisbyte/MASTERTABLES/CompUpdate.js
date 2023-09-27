@@ -149,6 +149,7 @@ const CompUpdate = ({
     }, 2000);
   }, [showAlert]);
 
+  console.log(selectFwd)
   return (
     <Dialog
       open={open}

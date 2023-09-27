@@ -103,7 +103,7 @@ const headCells = [
     id: "terminal_id",
     numeric: false,
     select: "Terminal",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Terminal",
@@ -113,7 +113,7 @@ const headCells = [
     id: "carga_id",
     numeric: false,
     select: "Carga",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Carga",
@@ -123,7 +123,7 @@ const headCells = [
     id: "paisregion_id",
     numeric: false,
     select: "paisRegion",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Pais/Region",
@@ -189,6 +189,46 @@ const headCells = [
     label: "Fecha/hora",
     align: "Left",
   },
+  {
+    id: "terminal",
+    numeric: false,
+    select: "Terminal",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Terminal",
+    align: "Left",
+  },
+  {
+    id: "carga",
+    numeric: false,
+    select: "Carga",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Carga",
+    align: "Left",
+  },
+  {
+    id: "pais",
+    numeric: false,
+    select: "Pais Dest.",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais Dest.",
+    align: "Left",
+  },
+  {
+    id: "region",
+    numeric: false,
+    select: "Region",
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region",
+    align: "Left",
+  },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -208,7 +248,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id","terminal_id","carga_id","paisregion_id"];;
 
   return (
     <TableHead>
@@ -371,7 +411,7 @@ const ProductList = () => {
   const fetchData = async (accessToken) => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const jsonData = await TarifasTerminalHelper.fetchData();
+      const jsonData = await TarifasTerminalHelper.fetchDataPais();
       // const jsonData = await BancoHelper.fetchData(accessToken);
 
       //console.log(jsonData);
@@ -389,7 +429,7 @@ const ProductList = () => {
   };
 
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id","terminal_id","carga_id","paisregion_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
@@ -715,7 +755,7 @@ const ProductList = () => {
                           TableName={TableName}
                           dataSelectPais={paisRegion}
                           dataSelectTerminal={Terminales}
-                          dataSelectCarga={paisRegion}
+                          dataSelectCarga={Carga}
                           dataSelectPoliza={Poliza}
                           selectPais={true}
                           selectCarga={true}
