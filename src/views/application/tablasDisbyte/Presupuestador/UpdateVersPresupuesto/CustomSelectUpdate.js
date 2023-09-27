@@ -25,7 +25,7 @@ export const CustomSelectUpdate = ({
   PaisRegionApply=true,
   PaisRegion = null,
 }) => {
-  console.log(PaisRegion);
+  // console.log(PaisRegion);
   // console.log(data, name, formik.values[id]?.id);
 
   let objetoEncontrado = null;

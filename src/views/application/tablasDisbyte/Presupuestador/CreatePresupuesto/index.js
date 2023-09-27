@@ -177,6 +177,7 @@ function CreateInvoice() {
     const carga = await CargaHelper.fetchData();
     const proveedoresOem = await ProveedoresOemHelper.fetchData();
     const NCM = await NcmHelper.fetchData();
+    const NCM_Mex = await NcmHelper.fetchDataMex();
     const presupuesto = await PresupuestoHelper.fetchData();
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
@@ -195,6 +196,7 @@ function CreateInvoice() {
       carga,
       proveedoresOem,
       NCM,
+      NCM_Mex,
       presupuesto,
       proximoEstDisponible,
       // tipoCambio,
@@ -941,6 +943,7 @@ function CreateInvoice() {
                         handleAddItem={handleAddItem}
                         setAddItemClicked={setAddItemClicked}
                         dataHelp={dataHelp}
+                        formik={formik}
                       />
                     </Grid>
                   ) : (
