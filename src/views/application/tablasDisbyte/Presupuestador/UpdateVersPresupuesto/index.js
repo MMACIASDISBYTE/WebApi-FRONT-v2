@@ -219,6 +219,8 @@ function CreateInvoice() {
     );
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
+    const proximaVerDisponible =
+      await PresupuestoHelper.EstimateDisponibleVers(estnumber);
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
     const Paises = await PaisRegionHelper.fetchData();
     const TarifasFwd = await TarifasFwdHelper.fetchData();
@@ -238,6 +240,7 @@ function CreateInvoice() {
       presupuesto,
       presupuestoEditable,
       proximoEstDisponible,
+      proximaVerDisponible,
       // tipoCambio,
       Paises,
       TarifasFwd,
@@ -852,7 +855,7 @@ function CreateInvoice() {
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue(
         "estvers",
-        dataHelp.presupuestoEditable?.estHeader?.estvers + 1
+        dataHelp?.proximaVerDisponible
       );
     }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {

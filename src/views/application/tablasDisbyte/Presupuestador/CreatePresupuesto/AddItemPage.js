@@ -89,7 +89,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     {
       id: "exw_u",
       name: "exw_u",
-      inputName: "Costo seguro y flete (exw_u)",
+      inputName: "EXW Unit .[USD]",
       em: "Ingrese exw_u",
       data: "Number",
       xs_md: [12, 3],
