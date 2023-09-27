@@ -210,6 +210,7 @@ function CreateInvoice() {
     const carga = await CargaHelper.fetchData();
     const proveedoresOem = await ProveedoresOemHelper.fetchData();
     const NCM = await NcmHelper.fetchData();
+    const NCM_Mex = await NcmHelper.fetchDataMex();
     const presupuesto = await PresupuestoHelper.fetchData();
     const presupuestoEditable = await PresupuestoHelper.readDataEstVers(
       estnumber,
@@ -233,6 +234,7 @@ function CreateInvoice() {
       carga,
       proveedoresOem,
       NCM,
+      NCM_Mex,
       presupuesto,
       presupuestoEditable,
       proximoEstDisponible,
@@ -1312,7 +1314,7 @@ function CreateInvoice() {
   // PERMISOS
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
-  console.log(permisos);
+  // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
     "presupuesto:create",

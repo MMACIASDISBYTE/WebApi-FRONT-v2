@@ -420,8 +420,8 @@ function AddItemPageUpdate({
   ];
 
   function formatValue(value) {
-    return value === '0' ? 0 : value;
-}
+    return value === "0" ? 0 : value;
+  }
 
   const [selectedItem, setSelectedItem] = useState({
     id: rowUpdate?.id,
@@ -488,15 +488,41 @@ function AddItemPageUpdate({
   console.log(dataHelp.proveedoresOem);
   //   console.log(dataHelp.NCM);
 
-  const NCMList = dataHelp.NCM.map((item) => ({
-    id: item.id,
-    description: item.description,
-    ncm_id: item.id,
-    ncm_code: item.code,
-    gwctn: item.gwctn,
-    cbmctn: item.cbmctn,
-    pcsctn: item.pcsctn,
-  }));
+  // const NCMList = dataHelp.NCM.map((item) => ({
+  //   id: item.id,
+  //   description: item.description,
+  //   ncm_id: item.id,
+  //   ncm_code: item.code,
+  //   gwctn: item.gwctn,
+  //   cbmctn: item.cbmctn,
+  //   pcsctn: item.pcsctn,
+  // }));
+
+  console.log(dataHelp);
+  const [NCMList, setNCMList] = useState([]);
+
+  useEffect(() => {
+    let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
+    let updatedList = [];
+
+    if (paisregion_id === 7 && dataHelp.NCM) {
+      updatedList = dataHelp.NCM.map((item) => ({
+        id: item.id,
+        description: item.description,
+        ncm_id: item.id,
+        ncm_code: item.code,
+      }));
+    } else if (dataHelp.NCM_Mex) {
+      updatedList = dataHelp.NCM_Mex.map((item) => ({
+        id: item.id,
+        description: item.description,
+        ncm_id: item.id,
+        ncm_code: item.code,
+      }));
+    }
+
+    setNCMList(updatedList); 
+  }, [dataHelp]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
     id: item.id,
@@ -613,7 +639,7 @@ function AddItemPageUpdate({
     if (!selectedItem?.cbmctn || selectedItem?.cbmctn < 0) {
       errors.cbmctnError = "CBM x caja is required";
     }
-    
+
     // Validacion Vol x caja numerico
     if (!selectedItem?.cbmctn || typeof selectedItem.cbmctn !== "number") {
       errors.cbmctnError = "CBM x caja debe ser numerico";
@@ -823,9 +849,9 @@ function AddItemPageUpdate({
                         variant="subtitle1"
                         sx={{ lineHeight: "1.4375em" }}
                       >
-                        {selectedData.description}
+                        {selectedData?.description}
                       </Typography>
-                      <Typography>Id : {selectedData.id}</Typography>
+                      <Typography>Id : {selectedData?.id}</Typography>
                     </Stack>
                   );
                 }}
@@ -897,9 +923,9 @@ function AddItemPageUpdate({
                         variant="subtitle1"
                         sx={{ lineHeight: "1.4375em" }}
                       >
-                        {selectedData.description}
+                        {selectedData?.description}
                       </Typography>
-                      <Typography>Code : {selectedData.ncm_code}</Typography>
+                      <Typography>Code : {selectedData?.ncm_code}</Typography>
                     </Stack>
                   );
                 }}
