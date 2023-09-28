@@ -1,4 +1,4 @@
-// LISTED 28/9/2023 12:13PM
+// LISTED 28/9/2023 12:13PM 
 import PropTypes from "prop-types";
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -401,7 +401,6 @@ const ProductList = () => {
   const [search, setSearch] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
   const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
-  const [paises, setPaises] = React.useState([]); 
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
   const [actualizacion, SetActualizacion] = React.useState(false);
@@ -421,10 +420,6 @@ const ProductList = () => {
       //console.log(jsonData);
       //console.log(jsonDataStatus.status);
       setRows(jsonData);
-
-      const jsonData2 = await PaisRegionHelper.fetchData();
-      setPaises(jsonData2);
-
       // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
       setRows(jsonData);
@@ -693,8 +688,8 @@ const ProductList = () => {
                                 <em>Seleccione un Pais / Region</em>
                           </MenuItem>
                                 {
-                                    paises && paises.length > 0
-                                    ? paises.map((item) =>
+                                    paisRegion && paisRegion.length > 0
+                                    ? paisRegion.map((item) =>
                                     <MenuItem key={item.id} value={item}>{item.description + " - "+item.region}</MenuItem>)
                                     : <MenuItem value="">Sin datos</MenuItem>
                                 }

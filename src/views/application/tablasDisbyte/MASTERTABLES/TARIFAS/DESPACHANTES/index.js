@@ -4,6 +4,7 @@ import * as React from "react";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
+
 import {
   Box,
   CardContent,
@@ -23,6 +24,10 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
@@ -461,6 +466,7 @@ const ProductList = () => {
   const [Banco, setBanco] = React.useState([]);
   const [GestDig, setGestDig] = React.useState([]);
   const [Despachante, setDespachante] = React.useState([]);
+
   React.useEffect(() => {
     //consulta tabla pais para enviar al componente
     const fetchDataPais = async () => {
@@ -653,6 +659,17 @@ const ProductList = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const [paisSelect,setPaisSelect]=React.useState(); 
+    const handlePaisRegionChange = (event)=>{
+            setPaisSelect(event.target.value);
+    }  
+  
+    React.useEffect(()=>{
+        console.log(paisSelect);
+        console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
+        setPage(0);
+    },[paisSelect])
+
   return (
     <>
       {
@@ -722,6 +739,32 @@ const ProductList = () => {
                 )}
               </Grid>
             </Grid>
+
+            <Typography>
+                <br/>
+            </Typography>
+            <Box sx={{ minWidth: 120} }>
+                    <FormControl style={{minWidth: 202, maxWidth:202}}>
+                        <InputLabel id="demo-simple-select-label">Pais - Region</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                value={paisSelect}
+                                label="PAIS - Region"
+                              onChange={handlePaisRegionChange}>
+
+                          <MenuItem disabled value="">
+                                <em>Seleccione un Pais / Region</em>
+                          </MenuItem>
+                                {
+                                    paisRegion && paisRegion.length > 0
+                                    ? paisRegion.map((item) =>
+                                    <MenuItem key={item.id} value={item}>{item.description + " - "+item.region}</MenuItem>)
+                                    : <MenuItem value="">Sin datos</MenuItem>
+                                }
+                          </Select>
+                    </FormControl>
+                  </Box>
           </CardContent>
 
           {/* table */}
@@ -738,7 +781,7 @@ const ProductList = () => {
                 selected={selected}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+                  {stableSort(paisSelect?rows.filter(myRow=>myRow.pais==paisSelect?.description):rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     if (typeof row === "number") return null;
