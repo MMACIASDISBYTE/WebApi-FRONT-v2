@@ -8,6 +8,8 @@ import {
   Box,
   Button,
   CardContent,
+  Checkbox,
+  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -29,7 +31,7 @@ import { visuallyHidden } from "@mui/utils";
 // project imports
 import MainCard from "ui-component/cards/MainCard";
 import { useDispatch, useSelector } from "store";
-import { getCustomers } from "store/slices/customer";
+import customer, { getCustomers } from "store/slices/customer";
 
 // assets
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -39,6 +41,7 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { StatusComp } from "./StatusComp";
+import SubCard from "ui-component/cards/SubCard";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -288,13 +291,43 @@ const CustomerList = () => {
   const [search, setSearch] = React.useState("");
   const [rows, setRows] = React.useState([]);
   const { customers } = useSelector((state) => state.customer);
+  const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
+
+
   React.useEffect(() => {
     dispatch(getCustomers());
   }, [dispatch]);
+
   React.useEffect(() => {
     setRows(customers);
     console.log(customers);
+    console.log(ListaDePresupuestos(customers));
   }, [customers]);
+
+  React.useEffect(() => {
+    if(ultVerMostrar){
+      setRows(ListaDePresupuestos(customers))
+    }else{
+      setRows(customers);
+    }
+  }, [ultVerMostrar]);
+
+  const mostrarUltimaVersion = () =>{
+    setUltVerMostrar(!ultVerMostrar);
+  };
+
+  const ListaDePresupuestos = (customers) =>{
+    // Utilizar .reduce() para obtener la última versión de cada estnumber
+    console.log(customers);
+    return customers.reduce((acc, presupuesto) => {
+      const { estnumber, estvers } = presupuesto;
+      if (!acc[estnumber] || acc[estnumber].estvers < estvers) {
+        acc[estnumber] = presupuesto;
+      }
+      return Object.values(acc);
+    }, {});
+  };
+
   const handleSearch = (event) => {
     const newString = event?.target.value;
     setSearch(newString || "");
@@ -334,7 +367,13 @@ const CustomerList = () => {
       });
       setRows(newRows);
     } else {
-      setRows(customers);
+        // setRows(customers);
+
+      if(ultVerMostrar){
+        setRows(ListaDePresupuestos(customers))
+      }else{
+        setRows(customers);
+      }
     }
   };
 
@@ -409,7 +448,7 @@ const CustomerList = () => {
           alignItems="center"
           spacing={2}
         >
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -423,6 +462,16 @@ const CustomerList = () => {
               value={search}
               size="small"
             />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+                  <Grid container spacing={1}>
+                      <Grid item>
+                          {/* <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox defaultChecked />} label="Mostrar Ultima Version" /> */}
+                          <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox />} label="Mostrar Ultima Version" />
+
+                      </Grid>
+                  </Grid>
           </Grid>
 
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
