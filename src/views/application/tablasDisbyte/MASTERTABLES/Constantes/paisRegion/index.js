@@ -299,6 +299,7 @@ const ProductList = () => {
         const jsonData = await PaisRegionHelper.fetchData();
         // const {data, status} = await TarifasFwdContHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
         setRows(jsonData);
+        console.log(jsonData);
       } catch (error) {
         console.log("fleteIndex.fetchDataPais::erro: ".error);
         navigate("/pages/error");

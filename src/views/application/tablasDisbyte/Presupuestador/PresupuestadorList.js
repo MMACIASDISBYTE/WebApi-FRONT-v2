@@ -42,6 +42,7 @@ import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { StatusComp } from "./StatusComp";
 import SubCard from "ui-component/cards/SubCard";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -93,6 +94,12 @@ const headCells = [
     id: "description",
     numeric: false,
     label: "Descripcion",
+    align: "left",
+  }, 
+  {
+    id: "paisregion_id",
+    numeric: false,
+    label: "Pais / Region",
     align: "left",
   },
   {
@@ -340,6 +347,7 @@ const CustomerList = () => {
           "id",
           "estvers",
           "description",
+          "paisregion_id",
           "status",
           "cantidad_contenedores",
           "gastos_loc_total",
@@ -438,7 +446,7 @@ const CustomerList = () => {
   const ActualizarPresupuesto = (estnumber, estvers) => {
     navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
-
+  
   return (
     <MainCard title="Customer List" content={false}>
       <CardContent>
@@ -585,6 +593,11 @@ const CustomerList = () => {
                     <TableCell align="left">
                       {row.estvers !== null && row.description !== undefined
                         ? row.description
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.paisregion_id !== null && row.paisregion_id !== undefined
+                        ? UtilidadesHelper.paisRegionSwitch(row.paisregion_id)
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
