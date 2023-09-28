@@ -1,6 +1,9 @@
-// LISTED 12/7/2023 15:44PM
-//
+// LISTED 28/9/2023 12:13PM
 import PropTypes from "prop-types";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import {MenuItem} from "@mui/material";
 import * as React from "react";
 
 // material-ui
@@ -398,6 +401,7 @@ const ProductList = () => {
   const [search, setSearch] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
   const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
+  const [paises, setPaises] = React.useState([]); 
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
   const [actualizacion, SetActualizacion] = React.useState(false);
@@ -417,6 +421,9 @@ const ProductList = () => {
       //console.log(jsonData);
       //console.log(jsonDataStatus.status);
       setRows(jsonData);
+
+      const jsonData2 = await PaisRegionHelper.fetchData();
+      setPaises(jsonData2);
 
       // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
@@ -595,6 +602,17 @@ const ProductList = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const [paisSelect,setPaisSelect]=React.useState(); 
+  const handlePaisRegionChange = (event)=>{
+          setPaisSelect(event.target.value);
+  }  
+
+  React.useEffect(()=>{
+      console.log(paisSelect);
+      console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
+      setPage(0);
+  },[paisSelect])
+
   return (
     <>
       {
@@ -658,6 +676,31 @@ const ProductList = () => {
                 )}
               </Grid>
             </Grid>
+            <Typography>
+                <br/>
+            </Typography>
+            <Box sx={{ minWidth: 120} }>
+                    <FormControl style={{minWidth: 202, maxWidth:202}}>
+                        <InputLabel id="demo-simple-select-label">Pais - Region</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                value={paisSelect}
+                                label="PAIS - Region"
+                              onChange={handlePaisRegionChange}>
+
+                          <MenuItem disabled value="">
+                                <em>Seleccione un Pais / Region</em>
+                          </MenuItem>
+                                {
+                                    paises && paises.length > 0
+                                    ? paises.map((item) =>
+                                    <MenuItem key={item.id} value={item}>{item.description + " - "+item.region}</MenuItem>)
+                                    : <MenuItem value="">Sin datos</MenuItem>
+                                }
+                          </Select>
+                    </FormControl>
+                  </Box>
           </CardContent>
 
           {/* table */}
@@ -674,7 +717,7 @@ const ProductList = () => {
                 selected={selected}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(paisSelect?rows.filter(myRow=>myRow.pais==paisSelect?.description):rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     if (typeof row === "number") return null;
