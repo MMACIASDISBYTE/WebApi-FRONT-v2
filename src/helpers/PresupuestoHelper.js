@@ -242,4 +242,18 @@ export const PresupuestoHelper = {
       console.log(error);
     }
   },
+  fetchDataHistorico: async function (estimado) {
+    try {
+      const response = await fetch(`${this.baseUrl}/EstimateHeader/Trace/${estimado}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const jsonData = await response.json();
+      // console.log('Res Presupuesto: ', jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error("Error", error);
+      return null;
+    }
+  },
 };

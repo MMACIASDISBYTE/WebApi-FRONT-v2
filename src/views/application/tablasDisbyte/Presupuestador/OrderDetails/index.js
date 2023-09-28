@@ -59,6 +59,7 @@ const OrderDetails = () => {
   const theme = useTheme();
   const [rows, setRows] = useState([]); //estoy almacenando la data
   const [rowsDoble, setRowsDoble] = useState([]);
+  const [historico, setHistorico] = useState([]);
 
   const { estnumber, vers } = useParams();
 
@@ -72,7 +73,7 @@ const OrderDetails = () => {
 
   // llamados a la api
   // traigo data Y LO ALMACENO EN EL STATE DE setRows
-  const fetchData = async () => {
+  const fetchData = async (estnumber) => {
     try {
       const jsonData = await PresupuestoHelper.fetchData();
       setRows(jsonData);
@@ -93,17 +94,30 @@ const OrderDetails = () => {
       console.log(error);
     }
   };
+  const traerHistorico = async (estnumber) => {
+    console.log(estnumber, vers);
+    try {
+      const jsonData = await PresupuestoHelper.fetchDataHistorico(estnumber);
+        
+        setHistorico(jsonData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
     readDataEstVers(estnumber, vers, accessToken);
+    traerHistorico(estnumber);
   }, []); // este useEffect se ejecutará solo una vez, al montar el componente
 
   useEffect(() => {
     // console.log(rows);
     // console.log('Mostraremos el doble entrada')
     // console.log(rowsDoble)
-  }, [rows, rowsDoble]); // este useEffect se ejecutará cada vez que 'rows' cambie
+    // console.log(historico);
+
+  }, [rows, rowsDoble, historico]); // este useEffect se ejecutará cada vez que 'rows' cambie
 
   return (
     <MainCard>
@@ -156,7 +170,7 @@ const OrderDetails = () => {
 
       {/* tab - details */}
       <TabPanel value={value} index={0}>
-        <Details presupuestador={rowsDoble} usuario={user} />
+        <Details presupuestador={rowsDoble} usuario={user} historico={historico} />
       </TabPanel>
 
       {/* tab - invoice */}
