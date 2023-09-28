@@ -478,7 +478,7 @@ React.useEffect(() => {
   };
   
   return (
-    <MainCard title="Customer List" content={false}>
+    <MainCard title="Presupuestos" content={false}>
       <CardContent>
         <Grid
           container
