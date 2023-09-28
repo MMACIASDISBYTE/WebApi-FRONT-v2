@@ -1,4 +1,7 @@
 // LISTED 13/7/2023 16:18
+// LISTED 28/9/2023 15:54 Se agrega seleccion por pais. 
+// Se quita fetch innecesarios, fwd, polizas y terminales. Se envian las variable VACIAS. 
+// OJO, PARA PROBAR !!
 import PropTypes from "prop-types";
 import * as React from "react";
 
@@ -23,6 +26,10 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
@@ -340,6 +347,8 @@ function EnhancedTableHead({
   //manejo excepciones de cabecera del listado
   const excludedColumns = ["id", "depositos_id", "carga_id", "paisregion_id", "trucksemi_id", "flete_id"];
 
+
+  
   return (
     <TableHead>
       <TableRow>
@@ -567,7 +576,7 @@ const ProductList = () => {
     };
     fetchDataPais();
 
-    const FetchDataTerminales = async () => {
+    /*const FetchDataTerminales = async () => {
       try {
         const dataTerminal = await TerminalHelper.fetchData();
         setTerminales(dataTerminal);
@@ -575,7 +584,7 @@ const ProductList = () => {
         console.log("Error en traer data terminal: ", error);
       }
     };
-    FetchDataTerminales();
+    FetchDataTerminales();*/
 
     const FetchDataCarga = async () => {
       try {
@@ -587,7 +596,7 @@ const ProductList = () => {
     };
     FetchDataCarga();
 
-    const FetchDataPoliza = async () => {
+    /*const FetchDataPoliza = async () => {
       try {
         const dataPoliza = await PolizaHelper.fetchData();
         setPoliza(dataPoliza);
@@ -595,9 +604,9 @@ const ProductList = () => {
         console.log("Error en traer data Poliza: ", error);
       }
     };
-    FetchDataPoliza();
+    FetchDataPoliza();*/
 
-    const FetchDataFwd = async () => {
+    /*const FetchDataFwd = async () => {
       try {
         const dataFwdtte = await FwdtteHelper.fetchData();
         setFwd(dataFwdtte);
@@ -605,7 +614,7 @@ const ProductList = () => {
         console.log("Error en traer data Fwdtte: ", error);
       }
     };
-    FetchDataFwd();
+    FetchDataFwd();*/
 
     const FetchDataFlete = async () => {
         try {
@@ -722,6 +731,18 @@ const ProductList = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const [paisSelect,setPaisSelect]=React.useState(); 
+    const handlePaisRegionChange = (event)=>{
+            setPaisSelect(event.target.value);
+    }  
+  
+    React.useEffect(()=>{
+        console.log(paisSelect);
+        console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
+        setPage(0);
+    },[paisSelect])
+
+
   return (
     <>
       {
@@ -788,6 +809,31 @@ const ProductList = () => {
                 )}
               </Grid>
             </Grid>
+            <Typography>
+                <br/>
+            </Typography>
+            <Box sx={{ minWidth: 120} }>
+                    <FormControl style={{minWidth: 202, maxWidth:202}}>
+                        <InputLabel id="demo-simple-select-label">Pais - Region</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                value={paisSelect}
+                                label="PAIS - Region"
+                              onChange={handlePaisRegionChange}>
+
+                          <MenuItem disabled value="">
+                                <em>Seleccione un Pais / Region</em>
+                          </MenuItem>
+                                {
+                                    paisRegion && paisRegion.length > 0
+                                    ? paisRegion.map((item) =>
+                                    <MenuItem key={item.id} value={item}>{item.description + " - "+item.region}</MenuItem>)
+                                    : <MenuItem value="">Sin datos</MenuItem>
+                                }
+                          </Select>
+                    </FormControl>
+                  </Box> 
           </CardContent>
 
           {/* table */}
@@ -804,7 +850,7 @@ const ProductList = () => {
                 selected={selected}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(paisSelect?rows.filter(myRow=>myRow.pais==paisSelect?.description):rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     if (typeof row === "number") return null;

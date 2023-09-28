@@ -441,7 +441,6 @@ const ProductList = () => {
   const [search, setSearch] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
   const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
-  const [paises, setPaises] = React.useState([]); 
 
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
@@ -458,8 +457,6 @@ const ProductList = () => {
       const jsonData = await TarifasFwdHelper.fetchDataPais();
       // const {data, status} = await TarifasFwdHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
       setRows(jsonData);
-      const jsonData2 = await PaisRegionHelper.fetchData();
-      setPaises(jsonData2);
     } catch (error) {
       console.log("ShippingIndex.fetchData::erro: ".error);
       navigate("/pages/error");
@@ -754,8 +751,8 @@ const ProductList = () => {
                                 <em>Seleccione un Pais / Region</em>
                           </MenuItem>
                                 {
-                                    paises && paises.length > 0
-                                    ? paises.map((item) =>
+                                    paisRegion && paisRegion.length > 0
+                                    ? paisRegion.map((item) =>
                                     <MenuItem key={item.id} value={item}>{item.description + " - "+item.region}</MenuItem>)
                                     : <MenuItem value="">Sin datos</MenuItem>
                                 }
