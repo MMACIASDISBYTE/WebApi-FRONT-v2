@@ -43,6 +43,8 @@ import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { StatusComp } from "./StatusComp";
 import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
+import { SelectPaises } from "../MASTERTABLES/SelectPaises";
+import { SelectPais } from "./SelectPais";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -299,6 +301,7 @@ const CustomerList = () => {
   const [rows, setRows] = React.useState([]);
   const { customers } = useSelector((state) => state.customer);
   const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
+  const [seleccionPais, setSeleccionPais] = React.useState(null);
 
 
   React.useEffect(() => {
@@ -308,36 +311,63 @@ const CustomerList = () => {
   React.useEffect(() => {
     setRows(customers);
     console.log(customers);
-    console.log(ListaDePresupuestos(customers));
+    // console.log(ListaDePresupuestos(customers));
   }, [customers]);
 
-  React.useEffect(() => {
-    if(ultVerMostrar){
-      setRows(ListaDePresupuestos(customers))
-    }else{
-      setRows(customers);
-    }
-  }, [ultVerMostrar]);
+  // React.useEffect(() => {
+  //   if(seleccionPais !== null && !ultVerMostrar){
+  //     setRows(ListaDePresupuestosPorPais(customers, seleccionPais))
+  //   }else if(seleccionPais !== null && ultVerMostrar){
+  //     setRows(ListaDePresupuestosFiltrado(customers, seleccionPais))
+  //   }
+  //   else if((ultVerMostrar)){
+  //     setRows(ListaDePresupuestos(customers, seleccionPais))
+  //   }else{
+  //     setRows(customers)
+  //   }
+  // }, [ultVerMostrar, seleccionPais]);
 
   const mostrarUltimaVersion = () =>{
     setUltVerMostrar(!ultVerMostrar);
   };
 
-  const ListaDePresupuestos = (customers) =>{
-    // Utilizar .reduce() para obtener la última versión de cada estnumber
-    console.log(customers);
-    return customers.reduce((acc, presupuesto) => {
+  // Función para filtrar presupuestos
+const filtrarPresupuestos = () => {
+  let presupuestosFiltrados = [...customers];
+
+  // Si hay un país seleccionado, filtrar por país
+  if (seleccionPais !== null && seleccionPais !== 15) {
+    presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.paisregion_id === seleccionPais);
+  }
+
+  // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
+  if (ultVerMostrar) {
+    presupuestosFiltrados = presupuestosFiltrados.reduce((acc, presupuesto) => {
       const { estnumber, estvers } = presupuesto;
       if (!acc[estnumber] || acc[estnumber].estvers < estvers) {
         acc[estnumber] = presupuesto;
       }
-      return Object.values(acc);
+      return acc;
     }, {});
-  };
+    presupuestosFiltrados = Object.values(presupuestosFiltrados);
+  }
+
+  setRows(presupuestosFiltrados);
+};
+
+// Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
+React.useEffect(() => {
+  filtrarPresupuestos();
+}, [customers, seleccionPais, ultVerMostrar]);
+
+  const handleChangePais = (pais) =>{
+    console.log(pais.id);
+    setSeleccionPais(pais.id)
+  }
 
   const handleSearch = (event) => {
     const newString = event?.target.value;
-    setSearch(newString || "");
+      setSearch(newString || "");
 
     if (newString) {
       const newRows = rows.filter((row) => {
@@ -378,7 +408,7 @@ const CustomerList = () => {
         // setRows(customers);
 
       if(ultVerMostrar){
-        setRows(ListaDePresupuestos(customers))
+        setRows(filtrarPresupuestos())
       }else{
         setRows(customers);
       }
@@ -456,7 +486,7 @@ const CustomerList = () => {
           alignItems="center"
           spacing={2}
         >
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={2}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -471,6 +501,11 @@ const CustomerList = () => {
               size="small"
             />
           </Grid>
+          <SelectPais
+            nameSelect = {'Pais'}
+            datosSelect = {[]}
+            handleChangePais={handleChangePais}
+          />
 
           <Grid item xs={12} md={3}>
                   <Grid container spacing={1}>
