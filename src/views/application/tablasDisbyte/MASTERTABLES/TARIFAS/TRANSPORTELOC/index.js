@@ -1,7 +1,7 @@
 // LISTED 13/7/2023 16:18
 // LISTED 28/9/2023 15:54 Se agrega seleccion por pais. 
 // Se quita fetch innecesarios, fwd, polizas y terminales. Se envian las variable VACIAS. 
-// OJO, PARA PROBAR !!
+// OJO, PARA PROBAR !! - TESTEADO OK
 import PropTypes from "prop-types";
 import * as React from "react";
 
@@ -169,7 +169,7 @@ const headCells = [
   {
     id: "demora",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -179,7 +179,7 @@ const headCells = [
   {
     id: "guarderia",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -199,7 +199,7 @@ const headCells = [
   {
     id: "descarga_depo",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -239,7 +239,7 @@ const headCells = [
   {
     id: "peso_minimo",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -249,7 +249,7 @@ const headCells = [
   {
     id: "peso_maximo",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -543,6 +543,52 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
+    if(newData.id==undefined)
+    {
+      newData.id=0;
+    }
+    if(newData.devolucion_vacio==undefined)
+    {
+      newData.devolucion_vacio=0;
+    }
+    if(newData.demora==undefined)
+    {
+      newData.demora=0;
+    }
+    if(newData.guarderia==undefined)
+    {
+      newData.guarderia=0;
+    }
+    if(newData.descarga_depo==undefined)
+    {
+      newData.descarga_depo=0;
+    }
+    if(newData.gasto_otro1==undefined)
+    {
+      newData.gasto_otro1=0;
+    }
+    if(newData.gasto_otro2==undefined)
+    {
+      newData.gasto_otro2=0;
+    } 
+    if(newData.description_depo==undefined)
+    {
+       newData.description_depo="";
+    }
+    if(newData.peso_minimo==undefined)
+    {
+      newData.peso_minimo=0;
+    }
+    if(newData.peso_maximo==undefined)
+    {
+      newData.peso_maximo=0;
+    }
+    if(newData.notas==undefined)
+    {
+      newData.notas="";
+    }
+
+    console.log(newData);
     await TarifasFleteHelper.createData(newData);
   };
   // Función para actualizar la API utilizando
@@ -746,7 +792,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`${TableName} List`} content={false}>
+        <MainCard title={`${TableName}`} content={false}>
           <CardContent>
             <Grid
               container
