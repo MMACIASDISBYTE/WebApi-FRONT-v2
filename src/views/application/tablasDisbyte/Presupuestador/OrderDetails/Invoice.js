@@ -20,6 +20,7 @@ import { gridSpacing } from 'store/constant';
 import LogoDisbyteAzul from '../../../../../assets/images/disbyte/LogoDisbyte.png';
 import LogoDisbyteBlanco from '../../../../../assets/images/disbyte/LogoDisbyte_blanco.png';
 import { UtilidadesHelper } from 'helpers/UtilidadesHelper';
+import { StatusComp } from '../StatusComp';
 // import user from 'store/slices/user';
 
 // table data
@@ -33,7 +34,7 @@ const rows = [
     // createData('Admin Template', 'lorem ipsum dolor sit amat, connecter adieu siccing eliot', '5', '$150.00', '$750.00')
 ];
 
-const Invoice = ({ presupuestador, usuario }) => {
+const Invoice = ({ presupuestador, usuario, historico }) => {
     const theme = useTheme();
     const componentRef = useRef(null);
     console.log(presupuestador);
@@ -74,14 +75,15 @@ const Invoice = ({ presupuestador, usuario }) => {
                                         <Grid item xs={12}>
                                             <Grid container spacing={0}>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="subtitle1">{presupuestador.estHeader.gloc_despachantes ? presupuestador.estHeader.gloc_despachantes : 'Sin data'}</Typography>
+                                                    <Typography variant="subtitle1">Descripcion:{presupuestador.estHeader.description ? presupuestador.estHeader.description : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="body2">Origen: {presupuestador.estHeader.fwdpaisregion_id ? presupuestador.estHeader.fwdpaisregion_id : 'Sin data'}</Typography>
-                                                    <Typography variant="body2">Tipo Cont: {presupuestador.estHeader.freightType ? presupuestador.estHeader.freightType : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Origen: {presupuestador.estHeader.fwdpaisregion_id ? UtilidadesHelper.paisRegionSwitch(presupuestador.estHeader.fwdpaisregion_id) : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Destino: {presupuestador.estHeader.paisregion_id ?  UtilidadesHelper.paisRegionSwitch(presupuestador.estHeader.paisregion_id) : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="body2">Cant. Cont: {presupuestador.cantidadContenedores ?(presupuestador.cantidadContenedores).toFixed(4) : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Tipo Cont: {presupuestador.carga_str ? presupuestador.carga_str : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Cant. Cont: {presupuestador.estHeader.cantidad_contenedores ? (presupuestador.estHeader.cantidad_contenedores).toFixed(3) : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
                                                     <Typography variant="body2">Dolar Billete: ARS$ {presupuestador.estHeader.dolar ? presupuestador.estHeader.dolar : 'Sin data'}</Typography>
@@ -148,36 +150,59 @@ const Invoice = ({ presupuestador, usuario }) => {
                                 >
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ pl: 3 }}>DESCRIPTION</TableCell>
-                                            <TableCell align="right">QUANTITY</TableCell>
-                                            <TableCell align="right">FOB U.</TableCell>
-                                            <TableCell align="right">FOB TOTAL</TableCell>
+                                            <TableCell sx={{ pl: 3 }}>Own</TableCell>
+                                            <TableCell align="right">Version</TableCell>
+                                            <TableCell align="right">Estado</TableCell>
+                                            <TableCell align="right">Fecha</TableCell>
                                             
-                                            <TableCell align="right" sx={{ pr: 3 }}>CIF</TableCell>
+                                            <TableCell align="right" sx={{ pr: 3 }}>Fob Total</TableCell>
                                             {/* <TableCell align="center">CeU. u$s</TableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {presupuestador.estDetails.map((row, index) => (
+                                        {historico.map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell sx={{ pl: 3 }}>
                                                     <Typography align="left" variant="subtitle1">
-                                                        {row.description ? row.description : 'SIn data'}
+                                                        {row.own ? row.own : 'SIn data'}
                                                     </Typography>
                                                     {/* SE PUEDE AGREGAR UNA DESCRIPTION */}
                                                     {/* <Typography align="left" variant="body2">
                                                         {row.description}
                                                     </Typography> */}
                                                 </TableCell>
-                                                <TableCell align="right">{row.qty ? row.qty : 'Sin data'}u.</TableCell>
-                                                <TableCell align="right">USD { row.fob_u ? UtilidadesHelper.formatNumber((row.fob_u).toFixed(2)) : 'Sin data'}</TableCell>
-                                                <TableCell align="right" sx={{ pr: 3 }}>USD { (row.totalfob || row.totalfob == 0) ? UtilidadesHelper.formatNumber((row.totalfob).toFixed(2)) : 'Sin data'}</TableCell>
+                                                <TableCell align="right">{row.estvers ? row.estvers : 'Sin data'}</TableCell>
+                                                <TableCell align="right">{ row.status ? <StatusComp estadio={row.status}/> : 'Sin data'}</TableCell>
+                                                <TableCell align="right" sx={{ pr: 3 }}>{ row.htimestamp ? UtilidadesHelper.fechaParaVista(row.htimestamp)  : 'Sin data'}</TableCell>
                                                 
-                                                <TableCell align="right">USD {(row.cifunit || row.cifunit == 0) ? UtilidadesHelper.formatNumber((row.cifunit).toFixed(2)) : 'Sin data'}</TableCell>
+                                                <TableCell align="right">USD {(row.fob_grand_total || row.fob_grand_total == 0) ? UtilidadesHelper.formatNumber((row.fob_grand_total).toFixed(2)) : 'Sin data'}</TableCell>
                                                 {/* <TableCell align="center">u$s{(row.costoUnitEstimadoUSS).toFixed(2)}</TableCell> */}
                                             </TableRow>
                                         ))}
                                     </TableBody>
+
+                                    {/* <TableBody> */}
+                                        {/* {presupuestador.estDetails.map((row, index) => ( 
+                                            // <TableRow key={index}>
+                                            //     <TableCell sx={{ pl: 3 }}>
+                                            //         <Typography align="left" variant="subtitle1">
+                                            //             {row.description ? row.description : 'SIn data'}
+                                            //         </Typography>
+                                                    {/* SE PUEDE AGREGAR UNA DESCRIPTION */}
+                                                    {/* <Typography align="left" variant="body2">
+                                                        {row.description}
+                                                    </Typography> 
+                                                // </TableCell>
+                                                // <TableCell align="right">{row.qty ? row.qty : 'Sin data'}u.</TableCell>
+                                                // <TableCell align="right">USD { row.fob_u ? UtilidadesHelper.formatNumber((row.fob_u).toFixed(2)) : 'Sin data'}</TableCell>
+                                                // <TableCell align="right" sx={{ pr: 3 }}>USD { (row.totalfob || row.totalfob == 0) ? UtilidadesHelper.formatNumber((row.totalfob).toFixed(2)) : 'Sin data'}</TableCell>
+                                                
+                                                // <TableCell align="right">USD {(row.cifunit || row.cifunit == 0) ? UtilidadesHelper.formatNumber((row.cifunit).toFixed(2)) : 'Sin data'}</TableCell>
+                                                {/* <TableCell align="center">u$s{(row.costoUnitEstimadoUSS).toFixed(2)}</TableCell> */}
+                                            {/* </TableRow> */}
+                                         {/* ))} */}
+                                    {/* </TableBody> */}
+
                                 </Table>
                             </TableContainer>
                         </Grid>

@@ -590,13 +590,13 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                             </Typography> */}
                           <Stack direction="row" spacing={1}>
                             <Typography variant="subtitle1" color={"green"}>
-                              Version :
+                              Version:
                             </Typography>
                             <Typography variant="body2">
                               {historial.estvers ? historial.estvers : "#"}
                             </Typography>
                             <Typography variant="subtitle1" color={"green"}>
-                              Emisor :
+                              Emisor:
                             </Typography>
                             <Typography variant="body2">
                               {historial.own ? historial.own : "Sin data"}
@@ -604,7 +604,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           </Stack>
                           <Stack direction="row" spacing={1}>
                             <Typography variant="subtitle1" color={"green"}>
-                              Fecha :
+                              Fecha:
                             </Typography>
                             <Typography variant="body2">
                               {" "}
