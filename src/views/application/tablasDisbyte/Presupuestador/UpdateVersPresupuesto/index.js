@@ -821,7 +821,7 @@ function CreateInvoice() {
             setMensaje(
               error.message || "Un error ocurrió al crear el presupuesto."
             );
-            formik.resetForm();
+            // formik.resetForm();
             throw error;
           }
         } else {

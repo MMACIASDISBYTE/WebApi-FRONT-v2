@@ -55,6 +55,7 @@ import { TerminalHelper } from "helpers/TerminalHelper";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { FleteHelper } from "helpers/FleteHelper";
 import { FormatAlignLeft } from "@mui/icons-material";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -108,7 +109,7 @@ const headCells = [
     id: "fwdtte_id",
     numeric: false,
     isRequired: false,
-    select: null,
+    select: "Fwd",
     isDisabled: false,
     ocultar: false,
     label: "FWD/TTE",
@@ -118,7 +119,7 @@ const headCells = [
     id: "carga_id",
     numeric: false,
     isRequired: false,
-    select: null,
+    select: "Carga",
     isDisabled: false,
     ocultar: false,
     label: "Carga",
@@ -127,18 +128,18 @@ const headCells = [
   {
     id: "paisregion_id",
     numeric: false,
-    select: null,
+    select: "paisRegion",
     isRequired: false,
     isDisabled: false,
     ocultar: false,
-    label: "Pais/Region",
+    label: "Pais Destino",
     align: "Left",
   },
   {
     id: "paisfwd_id",
     numeric: true,
     isRequired: false,
-    select: null,
+    select: "paisRegion",
     isDisabled: false,
     ocultar: false,
     label: "Pais Orig.",
@@ -157,7 +158,7 @@ const headCells = [
   {
     id: "costo_local",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -167,7 +168,7 @@ const headCells = [
   {
     id: "gasto_otro1",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -175,13 +176,13 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gasto_otro2",
+    id: "seguro_porct",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Gasto Ext 2",
+    label: "Seguro %",
     align: "Left",
   },
   {
@@ -208,19 +209,19 @@ const headCells = [
     id: "fwdtte",
     numeric: false,
     select: "Empresa Tte int",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "FWD/TTE",
     align: "Left",
   },
   {
     id: "carga",
     numeric: false,
-    select: "Carga",
-    isRequired: true,
+    select: null,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "Carga",
     align: "Left",
   },
@@ -228,9 +229,9 @@ const headCells = [
     id: "pais_dest",
     numeric: false,
     select: "Pais Dest",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "Pais Dest.",
     align: "Left",
   },
@@ -238,9 +239,9 @@ const headCells = [
     id: "region_dest",
     numeric: false,
     select: "Region Dest",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "Region Dest.",
     align: "Left",
   },
@@ -248,9 +249,9 @@ const headCells = [
     id: "pais_orig",
     numeric: false,
     select: "Pais Orig",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "Pais Orig.",
     align: "Left",
   },
@@ -258,9 +259,9 @@ const headCells = [
     id: "region_orig",
     numeric: false,
     select: "Region Orig",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
-    ocultar: false,
+    ocultar: true,
     label: "Region Orig.",
     align: "Left",
   }
@@ -485,7 +486,32 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
-    await TarifasFwdHelper.createData(newData);
+    if(newData.id==undefined)
+    {
+      newData.id=0;
+    }
+    if(newData.costo_local==undefined)
+    {
+      newData.costo_local=0;
+    }
+    if(newData.gasto_otro1==undefined)
+    {
+      newData.gasto_otro1=0;
+    }
+    if(newData.seguro_porct==undefined)
+    {
+      newData.seguro_porct=0;
+    }
+    if(newData.notas==undefined)
+    {
+      newData.notas="Sin notas";
+    }
+    if(newData.htimestamp==undefined)
+    {
+      newData.htimestamp= UtilidadesHelper.fechaParaDB();
+    }
+    await TarifasFwdHelper.createData(newData);    
+
   };
   // Función para actualizar la API utilizando
   const handleUpdateAPI = async (id, data) => {

@@ -24,7 +24,7 @@ function ProductsPage({
   editProductHandler,
 }) {
   //console.log(productsData);
-  //console.log(productsDataAdd);
+  // console.log(productsDataAdd);
   return (
     <>
       {productsData.length ? (
@@ -96,9 +96,9 @@ function ProductsPage({
                                             </Typography> */}
                     </TableCell>
                     <TableCell align="right">
-                      {productsDataAdd[index].ncm_str
+                      {productsDataAdd[index]?.ncm_str
                         ? productsDataAdd[index].ncm_str
-                        : ""}
+                        : row.ncm_code}
                     </TableCell>
                     <TableCell align="right">
                       USD {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
