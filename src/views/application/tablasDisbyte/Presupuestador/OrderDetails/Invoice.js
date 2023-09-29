@@ -111,10 +111,10 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     <Typography variant="body2">{presupuestador.estHeader.htimestamp ? UtilidadesHelper.formatFecha(presupuestador.estHeader.htimestamp) : 'Sin data'}hs</Typography>
                                                 </Grid>
                                                 <Grid item xs={4} sx={{ my: 0.5 }}>
-                                                    <Typography variant="body2">Status :</Typography>
+                                                    <Typography variant="body2">Estado :</Typography>
                                                 </Grid>
                                                 <Grid item xs={8} sx={{ my: 0.5 }}>
-                                                    <Chip label={presupuestador.estHeader.status || presupuestador.estHeader.status == 0 ? `Estadio n° ${presupuestador.estHeader.status}` : 'Sin data'} variant="outlined" size="small" chipcolor="warning" />
+                                                    <Chip label={presupuestador.estHeader.status || presupuestador.estHeader.status == 0 ? `Estado n° ${presupuestador.estHeader.status}` : 'Sin data'} variant="outlined" size="small" chipcolor="warning" />
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Typography variant="body2">Order Id :</Typography>
