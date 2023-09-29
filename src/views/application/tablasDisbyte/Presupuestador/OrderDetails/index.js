@@ -175,7 +175,7 @@ const OrderDetails = () => {
 
       {/* tab - invoice */}
       <TabPanel value={value} index={1}>
-        <Invoice presupuestador={rowsDoble} usuario={user} />
+        <Invoice presupuestador={rowsDoble} usuario={user} historico={historico} />
       </TabPanel>
 
       {/* tab - status */}
