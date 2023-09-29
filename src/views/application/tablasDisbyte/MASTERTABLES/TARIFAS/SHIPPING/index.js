@@ -208,7 +208,7 @@ const headCells = [
   {
     id: "fwdtte",
     numeric: false,
-    select: "Empresa Tte int",
+    select: null,
     isRequired: false,
     isDisabled: false,
     ocultar: true,
@@ -216,7 +216,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "carga",
+    id: "carga1",
     numeric: false,
     select: null,
     isRequired: false,
@@ -228,7 +228,7 @@ const headCells = [
   {
     id: "pais_dest",
     numeric: false,
-    select: "Pais Dest",
+    select: null,
     isRequired: false,
     isDisabled: false,
     ocultar: true,
@@ -238,7 +238,7 @@ const headCells = [
   {
     id: "region_dest",
     numeric: false,
-    select: "Region Dest",
+    select: null,
     isRequired: false,
     isDisabled: false,
     ocultar: true,
@@ -248,7 +248,7 @@ const headCells = [
   {
     id: "pais_orig",
     numeric: false,
-    select: "Pais Orig",
+    select: null,
     isRequired: false,
     isDisabled: false,
     ocultar: true,
@@ -258,7 +258,7 @@ const headCells = [
   {
     id: "region_orig",
     numeric: false,
-    select: "Region Orig",
+    select: null,
     isRequired: false,
     isDisabled: false,
     ocultar: true,

@@ -52,6 +52,7 @@ import { TruckSemiHelper } from "helpers/TruckHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
 import { BancoHelper } from "helpers/BancoHelper";
 import { GestDigitalDocHelper } from "helpers/GestDigitalDocHelper";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -710,7 +711,9 @@ const ProductList = () => {
                             >
                               {attribute === "htimestamp"
                                 ? new Date(row[attribute]).toLocaleDateString()
-                                : row[attribute]}
+                                : attribute === "paisregion_id" ?
+                                UtilidadesHelper.paisRegionSwitch(row[attribute])
+                                : attribute ==="gestdigdoc_id" ? UtilidadesHelper.gestionDigitalSwitch(row[attribute]) :row[attribute]}
                             </Typography>
                           </TableCell>
                         ))}
