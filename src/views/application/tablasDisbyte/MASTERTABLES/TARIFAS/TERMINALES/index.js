@@ -146,7 +146,7 @@ const headCells = [
     id: "gasto_variable",
     numeric: true,
     select: null,
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
     ocultar: false,
     label: "Gasto Variable",
@@ -193,30 +193,10 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal",
-    numeric: false,
-    select: "Terminal",
-    isRequired: true,
-    isDisabled: false,
-    ocultar: false,
-    label: "Terminal",
-    align: "Left",
-  },
-  {
-    id: "carga",
-    numeric: false,
-    select: "Carga",
-    isRequired: true,
-    isDisabled: false,
-    ocultar: false,
-    label: "Carga",
-    align: "Left",
-  },
-  {
     id: "pais",
     numeric: false,
     select: "Pais Dest.",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Pais Dest.",
@@ -226,7 +206,7 @@ const headCells = [
     id: "region",
     numeric: false,
     select: "Region",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Region",
@@ -450,6 +430,23 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
+    
+    if(newData.id==undefined)
+    {
+      newData.id=0;
+    }
+    if(newData.gasto_otro1==undefined)
+    {
+      newData.gasto_otro1=0;
+    }
+    if(newData.gasto_otro2==undefined)
+    {
+      newData.gasto_otro2=0;
+    }
+    if(newData.notas==undefined)
+    {
+      newData.notas="Sin notas";
+    }
     await TarifasTerminalHelper.createData(newData);
   };
 
