@@ -32,6 +32,17 @@ export const TarifasBancosHelper = {
             return null;
         }
     },
+    fetchDataFecha: async function () {
+        try {
+            const response = await FetchService.Get(`${this.rutaTabla}/vistafecha`);
+            // console.log('TarifasBancosHelper.fetchData::response', response);
+
+            return response;
+        } catch (error) {
+            console.error('Error', error);
+            return null;
+        }
+    },
     
     fetchDataPais: async function () {
         try {

@@ -189,7 +189,7 @@ function CreateInvoice() {
     const TarifasPoliza = await TarifasPolizaHelper.fetchData();
     const TarifasDepositos = await TarifasDepositoHelper.fetchData();
     const TarifasDespachantes = await TarifasDespachanteHelper.fetchData();
-    const TarifasBanco = await TarifasBancosHelper.fetchData();
+    const TarifasBanco = await TarifasBancosHelper.fetchDataFecha();
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
 
     const objData = {
@@ -608,10 +608,11 @@ function CreateInvoice() {
 
     setAddItemClicked(false);
   };
+  
 
   return (
     <>
-      <MainCard title="Crear Presupuesto">
+      <MainCard title={`Crear Presupuesto de Argentina - Bs. As. : #00${formik?.values?.estnumber}/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVista(valueBasic)}`}>
         <div
           style={{
             display: "flex",
@@ -649,12 +650,12 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={2}
+                  MD={1.2}
                 />
               ))}
 
               {/* Seleccion pais*/}
-              <Grid item xs={12} md={2} align="left">
+              <Grid item xs={12} md={1.2} align="left">
                 <Stack>
                   <InputLabel>Region</InputLabel>
                   <TextField
@@ -687,7 +688,7 @@ function CreateInvoice() {
               <Grid
                 item
                 xs={12}
-                md={3}
+                md={4.2}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -708,10 +709,10 @@ function CreateInvoice() {
               </Grid>
 
               {/* ESPACIO DE RELLENO */}
-              <Grid item md={1}></Grid>
+              <Grid item md={2}></Grid>
 
               {/* RADIO DE MONEDA LOCAL */}
-              <Grid item xs={12} md={2} align="right">
+              <Grid item xs={12} md={2.2} align="right">
                 <InputLabel required>Moneda Local</InputLabel>
                 <Tooltip title="USD por defecto">
                   <FormControl>
@@ -756,7 +757,7 @@ function CreateInvoice() {
               </Grid>
 
               {/* TIPO DE CAMBIO */}
-              <Grid item xs={12} md={2} align="right">
+              <Grid item xs={12} md={1.2} align="right">
                 <Stack>
                   <InputLabel required>Dolar</InputLabel>
                   <TextField

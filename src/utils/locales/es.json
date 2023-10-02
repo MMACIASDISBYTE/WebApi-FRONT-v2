@@ -184,6 +184,11 @@
     "Cargas de presupuestador" : "INICIAN AQUI CARGAS PRESPUESTADOR",
     "Presupuesto": "Presupuesto",
     "ESTIMADOR": "Presupuestador",
+    "ESTIMADOR-ARG": "Argentina",
+    "ESTIMADOR-MEX": "Mexico",
+    "estimate-list-BSAS": "Buenos Aires", 
+    "estimate-list-CDMX": "Ciudad de Mexico CDMX",
+    "estimate-list-GUADALUPE": "Ciudad de Guadalupe",
 
     "Cargas de Tarifas" : "DESDE ACA TARIFAS",
 
@@ -194,6 +199,7 @@
     "TERMINALES" : " Tarifas Terminales",
     "TRANSPORTE LOCAL" : " Tarifas Flete",
     "APLICACIONES": " Aplicaciones",
+    "PRESUPUESTADOR": " Presupuestador",
     "BANCOS": " Tarifas Bancos",
     "GestDig": " Tarifas GestDig",
     "Despachantes": " Tarifas Despachantes",

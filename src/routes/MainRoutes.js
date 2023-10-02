@@ -46,6 +46,7 @@ const AppBancoProductReview = Loadable(lazy(() => import('views/application/tabl
 
 // application - presupuestador routing
 const AppPresupuestadorList = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList')));
+const AppPresupuestadorListARG_BSAS = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList/ListAgBsAs')));
 const AppPresupuestadorOrderList = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/OrderList')));
 const AppPresupuestadorCreateInvoice = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/CreatePresupuesto')));
 const AppPresupuestadorOrderDetails = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/OrderDetails')));
@@ -474,9 +475,13 @@ const MainRoutes = {
         {
             path: '/estimate/estimate-list',
             element: <AppPresupuestadorList />
+        }, 
+        {
+            path: '/estimateArg_BsAs/estimate-list',
+            element: <AppPresupuestadorListARG_BSAS />
         },
         {
-            path: '/estimate/estimate-list',
+            path: '/estimate/estimate-order',
             element: <AppPresupuestadorOrderList />
         },
         {
