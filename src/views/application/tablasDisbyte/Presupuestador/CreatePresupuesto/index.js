@@ -216,13 +216,13 @@ function CreateInvoice() {
   };
 
   const cellInput = [
-    {
-      id: "carga_id",
-      name: "carga_id",
-      em: "Seleccione una Carga",
-      inputLabel: "Carga",
-      data: dataHelp.carga,
-    },
+    // {
+    //   id: "carga_id",
+    //   name: "carga_id",
+    //   em: "Seleccione una Carga",
+    //   inputLabel: "Carga",
+    //   data: dataHelp.carga,
+    // },
     {
       id: "fwdpaisregion_id",
       name: "fwdpaisregion_id",
@@ -299,6 +299,16 @@ function CreateInvoice() {
     },
   ];
 
+  const cabeceraCarga = [
+    {
+      id: "carga_id",
+      name: "carga_id",
+      em: "Seleccione una Carga",
+      inputLabel: "Carga",
+      data: dataHelp.carga,
+    },
+  ];
+
   const cabeceraNota = [
     {
       id: "description",
@@ -325,7 +335,7 @@ function CreateInvoice() {
       estnumber: "",
       estvers: 1,
       status: 1,
-      paisregion_id: "",
+      paisregion_id: 7,
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
       ivaExcento: "true",
@@ -644,7 +654,7 @@ function CreateInvoice() {
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={gridSpacing}>
               {/* COMPONENTE DE INPUTS que maneja la data de cabeceraPais SELECCIONA PAIS */}
-              {cabeceraPais.map((field) => (
+              {/* {cabeceraPais.map((field) => (
                 <CustomSelect
                   key={field.id}
                   {...field}
@@ -652,10 +662,10 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.2}
                 />
-              ))}
+              ))} */}
 
               {/* Seleccion pais*/}
-              <Grid item xs={12} md={1.2} align="left">
+              {/* <Grid item xs={12} md={1.2} align="left">
                 <Stack>
                   <InputLabel>Region</InputLabel>
                   <TextField
@@ -682,13 +692,35 @@ function CreateInvoice() {
                     }} // Aquí se alinea el texto a la derecha y opacamos el dolar
                   />
                 </Stack>
-              </Grid>
+              </Grid> */}
+
+              {/* SELECT CARGA CABECERA */}
+              {cabeceraCarga.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={1.2}
+                />
+              ))}
+
+              {/* NOTA CABECERA */}
+              {cabeceraNota.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={4}
+                />
+              ))}
 
               {/* STATUS */}
               <Grid
                 item
                 xs={12}
-                md={4.2}
+                md={2}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -709,10 +741,10 @@ function CreateInvoice() {
               </Grid>
 
               {/* ESPACIO DE RELLENO */}
-              <Grid item md={2}></Grid>
+              <Grid item md={0}></Grid>
 
               {/* RADIO DE MONEDA LOCAL */}
-              <Grid item xs={12} md={2.2} align="right">
+              <Grid item xs={12} md={1.7} align="right">
                 <InputLabel required>Moneda Local</InputLabel>
                 <Tooltip title="USD por defecto">
                   <FormControl>
@@ -756,98 +788,8 @@ function CreateInvoice() {
                 </Tooltip>
               </Grid>
 
-              {/* TIPO DE CAMBIO */}
-              <Grid item xs={12} md={1.2} align="right">
-                <Stack>
-                  <InputLabel required>Dolar</InputLabel>
-                  <TextField
-                    id="dolar"
-                    name="dolar"
-                    type="number"
-                    value={formik.values.dolar}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.dolar && Boolean(formik.errors.dolar)}
-                    helperText={formik.touched.dolar && formik.errors.dolar}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="$$$"
-                    inputProps={{
-                      style: { textAlign: "right" },
-                      className: classes.inputPlaceholder,
-                    }} // Aquí se alinea el texto a la derecha y opacamos el dolar
-                  />
-                </Stack>
-              </Grid>
-
-              {/* DETALLE DE PRESUPUESTADOR */}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-
-              {/* ESPACIO DE RELLENO */}
-              {/* <Grid item md={6}></Grid> */}
-
-              {/* CABECERA DE PRESUPUESTADOR */}
-              {/* NUM DE ESTIMADO */}
-              <Grid item xs={12} md={2}>
-                <Stack>
-                  <InputLabel required>#</InputLabel>
-                  <TextField
-                    id="estnumber"
-                    name="estnumber"
-                    disabled
-                    value={formik.values.estnumber}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.estnumber &&
-                      Boolean(formik.errors.estnumber)
-                    }
-                    helperText={
-                      formik.touched.estnumber && formik.errors.estnumber
-                    }
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="Invoice #"
-                  />
-                </Stack>
-              </Grid>
-
-              {/* NUM DE VERSION */}
-              <Grid item xs={12} md={2}>
-                <Stack>
-                  <InputLabel required>Version</InputLabel>
-                  <TextField
-                    id="estvers"
-                    name="estvers"
-                    disabled
-                    value={formik.values.estvers}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.estvers && Boolean(formik.errors.estvers)
-                    }
-                    helperText={formik.touched.estvers && formik.errors.estvers}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="Version #"
-                  />
-                </Stack>
-              </Grid>
-
-              {cabeceraNota.map((field) => (
-                <CustomSelect
-                  key={field.id}
-                  {...field}
-                  formik={formik}
-                  XS={12}
-                  MD={4}
-                />
-              ))}
-
-              {/* ESPACIO DE RELLENO */}
-              {/* <Grid item md={0}></Grid> */}
-
               {/* RADIO DEL IVA */}
-              <Grid item xs={12} md={2} align="right">
+              <Grid item xs={12} md={1.7} align="right">
                 <InputLabel required>Iva Exento</InputLabel>
                 <FormControl>
                   <RadioGroup
@@ -889,8 +831,92 @@ function CreateInvoice() {
                 </FormControl>
               </Grid>
 
+              {/* TIPO DE CAMBIO */}
+              <Grid item xs={12} md={1} align="right">
+                <Stack>
+                  <InputLabel required>Dolar</InputLabel>
+                  <TextField
+                    id="dolar"
+                    name="dolar"
+                    type="number"
+                    value={formik.values.dolar}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.dolar && Boolean(formik.errors.dolar)}
+                    helperText={formik.touched.dolar && formik.errors.dolar}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    placeholder="$$$"
+                    inputProps={{
+                      style: { textAlign: "right" },
+                      className: classes.inputPlaceholder,
+                    }} // Aquí se alinea el texto a la derecha y opacamos el dolar
+                  />
+                </Stack>
+              </Grid>
+
+              {/* DETALLE DE PRESUPUESTADOR */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              {/* ESPACIO DE RELLENO */}
+              {/* <Grid item md={6}></Grid> */}
+
+              {/* CABECERA DE PRESUPUESTADOR */}
+              {/* NUM DE ESTIMADO */}
+              {/* <Grid item xs={12} md={2}>
+                <Stack>
+                  <InputLabel required>#</InputLabel>
+                  <TextField
+                    id="estnumber"
+                    name="estnumber"
+                    disabled
+                    value={formik.values.estnumber}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.estnumber &&
+                      Boolean(formik.errors.estnumber)
+                    }
+                    helperText={
+                      formik.touched.estnumber && formik.errors.estnumber
+                    }
+                    onChange={formik.handleChange}
+                    fullWidth
+                    placeholder="Invoice #"
+                  />
+                </Stack>
+              </Grid> */}
+
+              {/* NUM DE VERSION */}
+              {/* <Grid item xs={12} md={2}>
+                <Stack>
+                  <InputLabel required>Version</InputLabel>
+                  <TextField
+                    id="estvers"
+                    name="estvers"
+                    disabled
+                    value={formik.values.estvers}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.estvers && Boolean(formik.errors.estvers)
+                    }
+                    helperText={formik.touched.estvers && formik.errors.estvers}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    placeholder="Version #"
+                  />
+                </Stack>
+              </Grid> */}
+
+              
+
+              {/* ESPACIO DE RELLENO */}
+              {/* <Grid item md={0}></Grid> */}
+
+              
+
               {/* FECHA DE FACTURACION */}
-              <Grid item xs={12} md={2} align="right">
+              {/* <Grid item xs={12} md={2} align="right">
                 <Stack>
                   <InputLabel required>Fecha de Emisión</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -907,15 +933,13 @@ function CreateInvoice() {
                     />
                   </LocalizationProvider>
                 </Stack>
-              </Grid>
+              </Grid> */}
 
               {/* DETALLE DE PRESUPUESTADOR */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Divider />
-              </Grid>
+              </Grid> */}
 
-              {formik.values.paisregion_id != "" ? (
-                <>
                   {
                     //COMPONENTE DE INPUTS que maneja la data de cellInput *
                     cellInput.map((field) => (
@@ -925,7 +949,7 @@ function CreateInvoice() {
                         formik={formik}
                         XS={12}
                         MD={2}
-                        PaisRegion={formik.values.paisregion_id.id}
+                        PaisRegion={formik.values.paisregion_id}
                       />
                     ))
                   }
@@ -974,8 +998,6 @@ function CreateInvoice() {
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
-                </>
-              ) : null}
 
               <Grid
                 item
