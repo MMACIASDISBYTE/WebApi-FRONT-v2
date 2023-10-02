@@ -1447,10 +1447,10 @@ function CreateInvoice() {
                 <Chip
                   label={`Status ${
                     formik.values.status == 0 || formik.values.status == 1
-                      ? `${formik.values.status}: Estado Inicial Comex`
+                      ? `${formik.values.status}: Sourcing Estadio`
                       : formik.values.status == 2
-                      ? `${formik.values.status}: Segundo Estadio`
-                      : `${formik.values.status}: Tercer Estadio`
+                      ? `${formik.values.status}: Comex Estadio`
+                      : `${formik.values.status}: Finan Estadio`
                   }`}
                   size="string"
                   chipcolor="orange"

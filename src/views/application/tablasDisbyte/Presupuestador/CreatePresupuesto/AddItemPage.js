@@ -641,45 +641,9 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
   return (
     <>
       <Grid container spacing={gridSpacing}>
-        {/* Mapeo objetos itemDetails */}
-        {itemDetails.map(
-          (item, index) =>
-            !item.oculto && (
-              <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index}>
-                <Stack spacing={1}>
-                  <Typography variant="subtitle1">{item.inputName}</Typography>
-                  <FormControl>
-                    <Tooltip title={item.alerta ? item.alerta : item.name}>
-                      <TextField
-                        fullWidth
-                        name={item.name}
-                        type={item.data === "Number" ? "number" : "string"}
-                        error={Boolean(errors[`${item.name}Error`])}
-                        value={selectedItem[item.id] || ""}
-                        onChange={(e) => {
-                          handleChange(e, item.data);
-                        }}
-                        placeholder={`${item.em}`}
-                        disabled={item.isDisabled}
-                        // Si es tipo Date, añade el atributo inputType
-                        inputProps={
-                          item.data === "Date" ? { type: "date" } : {}
-                        }
-                      />
-                    </Tooltip>
-                    {errors[`${item.name}Error`] && (
-                      <FormHelperText>
-                        {errors[`${item.name}Error`]}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Stack>
-              </Grid>
-            )
-        )}
 
         {/* Select PROVEEDORES */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={1.2}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">Proveedores</Typography>
             <FormControl fullWidth error={Boolean(errors.ProveedoresError)}>
@@ -717,7 +681,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
                       >
                         {selectedData.description}
                       </Typography>
-                      <Typography>Id : {selectedData.id}</Typography>
+                      {/* <Typography>Id : {selectedData.id}</Typography> */}
                     </Stack>
                   );
                 }}
@@ -739,7 +703,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
                       <Typography variant="subtitle1">
                         {item.description}
                       </Typography>
-                      <Typography>id : {item.id}</Typography>
+                      {/* <Typography>id : {item.id}</Typography> */}
                     </Stack>
                   </MenuItem>
                 ))}
@@ -751,9 +715,46 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
             </FormControl>
           </Stack>
         </Grid>
+        
+        {/* Mapeo objetos itemDetails */}
+        {itemDetails.map(
+          (item, index) =>
+            !item.oculto && (
+              <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index} xs={12} md={1.2}>
+                <Stack spacing={1}>
+                  <Typography variant="subtitle1">{item.inputName}</Typography>
+                  <FormControl>
+                    <Tooltip title={item.alerta ? item.alerta : item.name}>
+                      <TextField
+                        fullWidth
+                        name={item.name}
+                        type={item.data === "Number" ? "number" : "string"}
+                        error={Boolean(errors[`${item.name}Error`])}
+                        value={selectedItem[item.id] || ""}
+                        onChange={(e) => {
+                          handleChange(e, item.data);
+                        }}
+                        placeholder={`${item.em}`}
+                        disabled={item.isDisabled}
+                        // Si es tipo Date, añade el atributo inputType
+                        inputProps={
+                          item.data === "Date" ? { type: "date" } : {}
+                        }
+                      />
+                    </Tooltip>
+                    {errors[`${item.name}Error`] && (
+                      <FormHelperText>
+                        {errors[`${item.name}Error`]}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                </Stack>
+              </Grid>
+            )
+        )}
 
         {/* POSICION ARANCELARIA // NCM */}
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={1.2}>
           <Stack spacing={1}>
             <Typography variant="subtitle1">NCM</Typography>
             <FormControl fullWidth error={Boolean(errors.NCMError)}>

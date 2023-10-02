@@ -29,7 +29,7 @@ const icons = {
 
 const application = {
     id: 'application',
-    title: <FormattedMessage id="APLICACIONES" />,
+    title: <FormattedMessage id="PRESUPUESTADOR" />,
     icon: icons.IconApps,
     type: 'group',
     children: [
@@ -280,21 +280,22 @@ const application = {
         //     icon: icons.IconMail,
         //     url: '/app/mail'
         // },
+        //ARGENTINA
         {
-            id: 'ESTIMADOR',
-            title: <FormattedMessage id="ESTIMADOR" />,
+            id: 'ESTIMADOR-ARG',
+            title: <FormattedMessage id="ESTIMADOR-ARG" />,
             type: 'item',
             url: '/estimate/estimate-list',
-            // type: 'collapse',
+            type: 'collapse',
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,
             breadcrumbs: false,
             children:[
                 {
-                    id: 'estimate-list',
-                    title: <FormattedMessage id="estimate-list" />,
+                    id: 'estimate-list-BSAS',
+                    title: <FormattedMessage id="estimate-list-BSAS" />,
                     type: 'item',
-                    url: '/estimate/estimate-list',
+                    url: '/estimateArg_BsAs/estimate-list',
                     breadcrumbs: false
                 },
                 // {
@@ -324,6 +325,33 @@ const application = {
                 //     url: '/estimate/estimate-review',
                 //     breadcrumbs: false
                 // }
+            ]
+        },
+        //MEXICO
+        {
+            id: 'ESTIMADOR-MEX',
+            title: <FormattedMessage id="ESTIMADOR-MEX" />,
+            type: 'item',
+            url: '/estimate/estimate-list',
+            type: 'collapse',
+            // url: '/app/calendar',
+            icon: SummarizeOutlinedIcon,
+            breadcrumbs: false,
+            children:[
+                {
+                    id: 'estimate-list-CDMX',
+                    title: <FormattedMessage id="estimate-list-CDMX" />,
+                    type: 'item',
+                    url: '/estimateMex/estimate-list',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'estimate-list-GUADALUPE',
+                    title: <FormattedMessage id="estimate-list-GUADALUPE" />,
+                    type: 'item',
+                    url: '/estimate/estimate-list',
+                    breadcrumbs: false
+                },
             ]
         },
 
