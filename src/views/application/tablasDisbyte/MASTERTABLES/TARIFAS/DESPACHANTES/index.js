@@ -58,6 +58,7 @@ import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { BancoHelper } from "helpers/BancoHelper";
 import { GestDigitalDocHelper } from "helpers/GestDigitalDocHelper";
 import { DespachanteHelper } from "helpers/DespachanteHelper";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -442,6 +443,32 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
+
+    if(newData.id==undefined)
+    {
+      newData.id=0;
+    }
+    if(newData.consultoria==undefined)
+    {
+      newData.consultoria=0;
+    }
+    if(newData.gasto_otro1==undefined)
+    {
+      newData.gasto_otro1=0;
+    }
+    if(newData.gasto_otro2==undefined)
+    {
+      newData.gasto_otro2=0;
+    }
+    if(newData.notas==undefined)
+    {
+      newData.notas="Sin notas";
+    }
+    if(newData.htimestamp==undefined)
+    {
+      newData.htimestamp= UtilidadesHelper.fechaParaDB();
+    }
+
     await TarifasDespachanteHelper.createData(newData);
   };
   // Función para actualizar la API utilizando

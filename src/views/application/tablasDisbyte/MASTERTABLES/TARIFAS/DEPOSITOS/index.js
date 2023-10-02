@@ -54,6 +54,7 @@ import { FwdtteHelper } from "helpers/FwdtteHelper";
 import { FleteHelper } from "helpers/FleteHelper";
 import { TruckSemiHelper } from "helpers/TruckHelper";
 import { DepositoHelper } from "helpers/DepositoHelper";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -166,7 +167,7 @@ const headCells = [
   {
     id: "total_ingreso",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -186,7 +187,7 @@ const headCells = [
   {
     id: "armado",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -206,7 +207,7 @@ const headCells = [
   {
     id: "total_egreso",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -216,7 +217,7 @@ const headCells = [
   {
     id: "gasto_otro1",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -226,7 +227,7 @@ const headCells = [
   {
     id: "gasto_otro2",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -518,6 +519,40 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
+
+    if(newData.id==undefined)
+    {
+      newData.id=0;
+    }
+    if(newData.armado==undefined)
+    {
+      newData.armado=0;
+    }
+    if(newData.total_ingreso==undefined)
+    {
+      newData.total_ingreso=0;
+    }
+    if(newData.total_egreso==undefined)
+    {
+      newData.total_egreso=0;
+    }
+    if(newData.gasto_otro1==undefined)
+    {
+      newData.gasto_otro1=0;
+    }
+    if(newData.gasto_otro2==undefined)
+    {
+      newData.gasto_otro2=0;
+    }
+    if(newData.notas==undefined)
+    {
+      newData.notas="Sin notas";
+    }
+    if(newData.htimestamp==undefined)
+    {
+      newData.htimestamp= UtilidadesHelper.fechaParaDB();
+    }
+
     await TarifasDepositoHelper.createData(newData);
   };
   // Función para actualizar la API utilizando

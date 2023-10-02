@@ -53,6 +53,7 @@ import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { TerminalHelper } from "helpers/TerminalHelper";
 import { CargaHelper } from "helpers/CargaHelper";
 import { PolizaHelper } from "helpers/PolizaHelper";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -446,6 +447,10 @@ const ProductList = () => {
     if(newData.notas==undefined)
     {
       newData.notas="Sin notas";
+    }
+    if(newData.htimestamp==undefined)
+    {
+      newData.htimestamp= UtilidadesHelper.fechaParaDB();
     }
     await TarifasTerminalHelper.createData(newData);
   };

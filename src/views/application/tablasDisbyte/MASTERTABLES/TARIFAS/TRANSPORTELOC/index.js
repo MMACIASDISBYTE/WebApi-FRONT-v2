@@ -57,6 +57,7 @@ import { TerminalHelper } from "helpers/TerminalHelper";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { FleteHelper } from "helpers/FleteHelper";
 import { TruckSemiHelper } from "helpers/TruckHelper";
+import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -585,7 +586,11 @@ const ProductList = () => {
     }
     if(newData.notas==undefined)
     {
-      newData.notas="";
+      newData.notas="Sin notas";
+    }
+    if(newData.htimestamp==undefined)
+    {
+      newData.htimestamp= UtilidadesHelper.fechaParaDB();
     }
 
     console.log(newData);

@@ -199,7 +199,9 @@ const CompUpdate = ({
                   key !== "freight" &&
                   key !== "semi" &&
                   key !== "flete" &&
-                  key !== "carga" && (
+                  key !== "carga" &&
+                  key !== "region_orig" &&
+                  key !== "pais_orig" && (
                     <Grid item xs={12} key={key}>
                       <Typography variant="subtitle1">{key}</Typography>
                       {typeof value === "boolean" ? (

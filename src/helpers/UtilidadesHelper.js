@@ -216,4 +216,33 @@ export const UtilidadesHelper = {
       default: return 'Sin data';
     }
   },
+  gestionDigitalSwitch: function(gestiondigital){
+    switch (gestiondigital) {
+      case 0: return 'Sin data'
+      break;
+      case 1: return "LAKAUT S.A."
+      break;
+      case 2: return 'Brasil / Rio'
+      break;
+      case 3: return 'Brasil / Porto Alegre'
+      break;
+      case 4: return 'Colombia / Medellin'
+      break;
+      case 5: return 'Mexico / CDMX'
+      break;
+      case 6: return 'Mexico / Guadalupe'
+      break;
+      case 7: return "DIGI MEX";
+      break;
+      case 8: return 'Canada / London';
+      break;
+      case 9: return 'China / Shezhen';
+      break;
+      case 10: return 'Panama / Santos';
+      break;
+      case 15: return 'Any / Any';
+      break;
+      default: return 'Sin data';
+    }
+  },
 };
