@@ -46,9 +46,11 @@ const AppBancoProductReview = Loadable(lazy(() => import('views/application/tabl
 
 // application - presupuestador routing
 const AppPresupuestadorList = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList')));
-const AppPresupuestadorListARG_BSAS = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList/ListAgBsAs')));
+const AppPresupuestadorListARG = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList/ListArgBsAs')));
+const AppPresupuestadorListMex = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorList/ListMex')));
 const AppPresupuestadorOrderList = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/OrderList')));
-const AppPresupuestadorCreateInvoice = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/CreatePresupuesto')));
+const AppPresupuestadorCreateInvoiceArg = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/CreatePresupuesto/IndexArg')));
+const AppPresupuestadorCreateInvoiceMex = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/CreatePresupuesto/IndexMex')));
 const AppPresupuestadorOrderDetails = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/OrderDetails')));
 const AppPresupuestadorProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/Presupuestador')));
 const AppPresupuestadorProductReview = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorReview')));
@@ -478,15 +480,23 @@ const MainRoutes = {
         }, 
         {
             path: '/estimateArg_BsAs/estimate-list',
-            element: <AppPresupuestadorListARG_BSAS />
+            element: <AppPresupuestadorListARG />
+        },
+        {
+            path: '/estimateMex/estimate-list',
+            element: <AppPresupuestadorListMex />
         },
         {
             path: '/estimate/estimate-order',
             element: <AppPresupuestadorOrderList />
         },
         {
-            path: '/estimate/create-estimate',
-            element: <AppPresupuestadorCreateInvoice />
+            path: '/estimate/create-estimateArg',
+            element: <AppPresupuestadorCreateInvoiceArg />
+        },
+        {
+            path: '/estimate/create-estimateMex',
+            element: <AppPresupuestadorCreateInvoiceMex />
         },
         {
             path: '/estimate/details',

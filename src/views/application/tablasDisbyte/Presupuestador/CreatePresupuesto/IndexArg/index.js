@@ -28,14 +28,14 @@ import AnimateButton from "ui-component/extended/AnimateButton";
 import { CircularProgress } from "@material-ui/core";
 
 // project imports
-import AddItemPage from "./AddItemPage";
+import AddItemPage from "../AddItemPage";
 import { gridSpacing } from "store/constant";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import MainCard from "ui-component/cards/MainCard";
 
 // third-party
 import * as yup from "yup";
-import ProductsPage from "./ProductsPage";
+import ProductsPage from "../ProductsPage";
 import { useFormik } from "formik";
 import useAuth from "hooks/useAuth";
 // Se importan helpers necesarios:
@@ -48,8 +48,8 @@ import { TarifasPolizaHelper } from "helpers/TarifasPolizaHelper";
 //importacion para poder opacar el placeholder del dolar
 import { makeStyles } from "@material-ui/core/styles";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { PesajeContenedor } from "./PesajeContenedor";
-import { CustomSelect } from "./CustomSelect";
+import { PesajeContenedor } from "../PesajeContenedor";
+import { CustomSelect } from "../CustomSelect";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { TarifasFwdHelper } from "helpers/TarifasFwdHelper";
 import { TarifasFleteHelper } from "helpers/TarifasFleteHelper";

@@ -339,14 +339,14 @@ const application = {
             breadcrumbs: false,
             children:[
                 {
-                    id: 'estimate-list',
+                    id: 'estimate-list-CDMX',
                     title: <FormattedMessage id="estimate-list-CDMX" />,
                     type: 'item',
-                    url: '/estimate/estimate-list',
+                    url: '/estimateMex/estimate-list',
                     breadcrumbs: false
                 },
                 {
-                    id: 'estimate-list',
+                    id: 'estimate-list-GUADALUPE',
                     title: <FormattedMessage id="estimate-list-GUADALUPE" />,
                     type: 'item',
                     url: '/estimate/estimate-list',
