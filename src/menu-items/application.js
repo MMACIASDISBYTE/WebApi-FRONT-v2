@@ -280,60 +280,14 @@ const application = {
         //     icon: icons.IconMail,
         //     url: '/app/mail'
         // },
-        //ARGENTINA
-        {
-            id: 'ESTIMADOR-ARG',
-            title: <FormattedMessage id="ESTIMADOR-ARG" />,
-            type: 'item',
-            url: '/estimate/estimate-list',
-            type: 'collapse',
-            // url: '/app/calendar',
-            icon: SummarizeOutlinedIcon,
-            breadcrumbs: false,
-            children:[
-                {
-                    id: 'estimate-list-BSAS',
-                    title: <FormattedMessage id="estimate-list-BSAS" />,
-                    type: 'item',
-                    url: '/estimateArg_BsAs/estimate-list',
-                    breadcrumbs: false
-                },
-                // {
-                //     id: 'estimate-invoice',
-                //     title: <FormattedMessage id="create-estimate" />,
-                //     type: 'item',
-                //     url: '/estimate/create-estimate',
-                //     breadcrumbs: false
-                // },
-                // {
-                //     id: 'estimate-details',
-                //     title: <FormattedMessage id="estimate-details" />,
-                //     type: 'item',
-                //     url: '/estimate/details'
-                // },
-                // {
-                //     id: 'product',
-                //     title: <FormattedMessage id="estimate" />,
-                //     type: 'item',
-                //     url: '/estimate/estimate',
-                //     breadcrumbs: false
-                // },
-                // {
-                //     id: 'estimate-review',
-                //     title: <FormattedMessage id="estimate-review" />,
-                //     type: 'item',
-                //     url: '/estimate/estimate-review',
-                //     breadcrumbs: false
-                // }
-            ]
-        },
+
         //MEXICO
         {
             id: 'ESTIMADOR-MEX',
             title: <FormattedMessage id="ESTIMADOR-MEX" />,
             type: 'item',
-            url: '/estimate/estimate-list',
-            type: 'collapse',
+            url: '/estimateMex/estimate-list',
+            // type: 'collapse',
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,
             breadcrumbs: false,
@@ -345,15 +299,40 @@ const application = {
                     url: '/estimateMex/estimate-list',
                     breadcrumbs: false
                 },
+                // {
+                //     id: 'estimate-list-GUADALUPE',
+                //     title: <FormattedMessage id="estimate-list-GUADALUPE" />,
+                //     type: 'item',
+                //     url: '/estimate/estimate-list',
+                //     breadcrumbs: false
+                // },
+            ]
+        },
+
+        // ARGENTINA 
+        {
+            id: 'ESTIMADOR-ARG',
+            title: <FormattedMessage id="ESTIMADOR-ARG" />,
+            type: 'item',
+            // url: '/estimate/estimate-list',
+            // url: '/estimateArg_BsAs/estimate-list',  
+            url: '/UnderConstruction',
+            // type: 'collapse',
+            // url: '/app/calendar',
+            icon: SummarizeOutlinedIcon,
+            breadcrumbs: false,
+            children:[
                 {
-                    id: 'estimate-list-GUADALUPE',
-                    title: <FormattedMessage id="estimate-list-GUADALUPE" />,
+                    id: 'estimate-list-BSAS',
+                    title: <FormattedMessage id="estimate-list-BSAS" />,
                     type: 'item',
-                    url: '/estimate/estimate-list',
+                    url: '/estimateArg_BsAs/estimate-list',
                     breadcrumbs: false
                 },
             ]
         },
+
+        
 
         
 

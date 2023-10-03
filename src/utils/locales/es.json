@@ -193,20 +193,21 @@
     "Cargas de Tarifas" : "DESDE ACA TARIFAS",
 
     "TARIFAS" : " Tarifas",
-    "DEPOSITOS" : " Tarifas Depositos",
-    "POLIZAS" : " Tarifas Polizas",
-    "SHIPPING" : " Tarifas Fwd",   
-    "TERMINALES" : " Tarifas Terminales",
-    "TRANSPORTE LOCAL" : " Tarifas Flete",
+    "DEPOSITOS" : " Depositos",
+    "POLIZAS" : " Polizas",
+    "SHIPPING" : " Fwd",   
+    "TERMINALES" : " Terminales",
+    "TRANSPORTE LOCAL" : " Flete",
     "APLICACIONES": " Aplicaciones",
     "PRESUPUESTADOR": " Presupuestador",
-    "BANCOS": " Tarifas Bancos",
-    "GestDig": " Tarifas GestDig",
-    "Despachantes": " Tarifas Despachantes",
+    "BANCOS": " Bancos",
+    "GestDig": " GestDig",
+    "Despachantes": " Despachantes",
 
 
     "Carga de principales": "Otros libros principales",
-    "NCM": " NCM",
-    "NCM_MEX": " NCM Mex",
+    "NCM": " Posicion Arancelaria",
+    "NCM_MEX": " Mexico",
+    "NCM_ARG": " Argentina",
     "IIBB": " IIBB"
 }

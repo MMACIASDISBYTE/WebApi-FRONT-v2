@@ -62,7 +62,9 @@ const masterTables = {
                 {
                     id: 'TARIFAS',
                     title: <FormattedMessage id="TARIFAS" />,
-                    type: 'collapse',
+                    // type: 'collapse',
+                    type: 'item',
+                    url:  '/TARIFAS/Tarifario',
                     icon: PriceCheckOutlinedIcon,
                     children: [
                         // tabla COMEXFWD
@@ -456,19 +458,27 @@ const masterTables = {
         {
             id: 'NCM',
             title: <FormattedMessage id="NCM" />,
-            type: 'item',
+            type: 'collapse',
             url: '/NCM/NCM', 
             icon: MenuBookOutlinedIcon,
-            breadcrumbs: false
+            breadcrumbs: false,
+            children:[
+                {
+                    id: 'NCM_MEX',
+                    title: <FormattedMessage id="NCM_MEX" />,
+                    type: 'item',
+                    url: '/NCM_MEX/NCM_MEX',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'NCM_ARG',
+                    title: <FormattedMessage id="NCM_ARG" />,
+                    type: 'item',
+                    url: '/NCM/NCM',
+                    breadcrumbs: false
+                },
+            ]
         },
-        {
-            id: 'NCM_MEX',
-            title: <FormattedMessage id="NCM_MEX" />,
-            type: 'item',
-            url: '/NCM_MEX/NCM_MEX', 
-            icon: MenuBookOutlinedIcon,
-            breadcrumbs: false
-        }, 
         {
             id: 'IIBB',
             title: <FormattedMessage id="IIBB" />,

@@ -12,7 +12,9 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
+  MenuItem,
   Radio,
   RadioGroup,
   Stack,
@@ -25,7 +27,7 @@ import "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Select } from "@material-ui/core";
 
 // project imports
 import AddItemPage from "../AddItemPage";
@@ -214,6 +216,7 @@ function CreateInvoice() {
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
+  console.log(dataHelp);
 
   const cellInput = [
     // {
@@ -223,67 +226,67 @@ function CreateInvoice() {
     //   inputLabel: "Carga",
     //   data: dataHelp.carga,
     // },
-    {
-      id: "fwdpaisregion_id",
-      name: "fwdpaisregion_id",
-      em: "Seleccione una pais de Origen",
-      inputLabel: "Pais Origen",
-      data: dataHelp.Paises,
-    },
+    // {
+    //   id: "fwdpaisregion_id",
+    //   name: "fwdpaisregion_id",
+    //   em: "Seleccione una pais de Origen",
+    //   inputLabel: "Pais Origen",
+    //   data: dataHelp.Paises,
+    // },
     {
       id: "tarifasfwd_id",
       name: "tarifasfwd_id",
       em: "Seleccione una Tarifa Fwd",
-      inputLabel: "Tarifas Fwd",
+      inputLabel: "Fwd",
       data: dataHelp.TarifasFwd,
     },
     {
       id: "tarifasflete_id",
       name: "tarifasflete_id",
       em: "Seleccione una Tarifa Flete",
-      inputLabel: "Tarifa Fletes",
+      inputLabel: "Fletes",
       data: dataHelp.TarifasFlete,
     },
     {
       id: "tarifasterminales_id",
       name: "tarifasterminales_id",
       em: "Seleccione una Tarifa Terminal",
-      inputLabel: "Tarifa Terminal",
+      inputLabel: "Terminal",
       data: dataHelp.TarifasTerminal,
     },
     {
       id: "tarifaspolizas_id",
       name: "tarifaspolizas_id",
       em: "Seleccione una Tarifa Poliza",
-      inputLabel: "Tarifa Poliza",
+      inputLabel: "Poliza",
       data: dataHelp.TarifasPoliza,
     },
     {
       id: "tarifasdepositos_id",
       name: "tarifasdepositos_id",
       em: "Seleccione una Tarifa Deposito",
-      inputLabel: "Tarifa Deposito",
+      inputLabel: "Deposito",
       data: dataHelp.TarifasDepositos,
     },
     {
       id: "tarifasdespachantes_id",
       name: "tarifasdespachantes_id",
       em: "Seleccione una Tarifa Despachantes",
-      inputLabel: "Tarifa Despachantes",
+      inputLabel: "Despachantes",
       data: dataHelp.TarifasDespachantes,
     },
     {
       id: "tarifasbancos_id",
       name: "tarifasbancos_id",
       em: "Seleccione una Tarifa banco",
-      inputLabel: "Tarifa Banco",
+      inputLabel: "Banco",
       data: dataHelp.TarifasBanco,
     },
     {
       id: "tarifasgestdigdoc_id",
       name: "tarifasgestdigdoc_id",
       em: "Seleccione una Tarifa Gestion Digital",
-      inputLabel: "Tarifa Gestion Digital",
+      inputLabel: "Gestion Digital",
       data: dataHelp.TarifasGestDig,
     },
   ];
@@ -309,12 +312,32 @@ function CreateInvoice() {
     },
   ];
 
+  const cabeceraPaisOrigen = [
+    {
+      id: "fwdpaisregion_id",
+      name: "fwdpaisregion_id",
+      em: "Seleccione una pais de Origen",
+      inputLabel: "Pais Origen",
+      data: dataHelp.Paises,
+    },
+  ];
+
   const cabeceraNota = [
     {
       id: "description",
       name: "description",
       em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
       inputLabel: "Descripcion",
+      data: "String",
+    },
+  ];
+
+  const cabeceraPRJ = [
+    {
+      id: "prj",
+      name: "prj",
+      em: "Ingrese un PRJ", //placeholder en caso de String
+      inputLabel: "PRJ",
       data: "String",
     },
   ];
@@ -554,7 +577,7 @@ function CreateInvoice() {
     if (mensaje == "Presupuesto creado Exitosamante") {
       navigate("/estimate/estimate-list");
     }
-    setMensaje('');
+    setMensaje("");
     setLoadingEnvio(true);
   };
 
@@ -618,11 +641,16 @@ function CreateInvoice() {
 
     setAddItemClicked(false);
   };
-  
 
   return (
     <>
-      <MainCard title={`Crear Presupuesto de Mexico - Bs. As. : #00${formik?.values?.estnumber}/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVista(valueBasic)}`}>
+      <MainCard
+        title={`Crear Presupuesto de Mexico - Bs. As. : #00${
+          formik?.values?.estnumber
+        }/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVista(
+          valueBasic
+        )}`}
+      >
         <div
           style={{
             display: "flex",
@@ -654,18 +682,33 @@ function CreateInvoice() {
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={gridSpacing}>
               {/* COMPONENTE DE INPUTS que maneja la data de cabeceraPais SELECCIONA PAIS */}
-              {/* {cabeceraPais.map((field) => (
+
+              {/* SELECT PAIS ORIGEN CABECERA */}
+              {cabeceraPaisOrigen.map((field) => (
                 <CustomSelect
                   key={field.id}
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.2}
+                  MD={1.5}
+                  desactivado={true}
                 />
-              ))} */}
+              ))}
+
+              {/* CABECERA PAIS */}
+              {cabeceraPais.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={1.5}
+                  desactivado={true}
+                />
+              ))}
 
               {/* Seleccion pais*/}
-              {/* <Grid item xs={12} md={1.2} align="left">
+              <Grid item xs={12} md={1.5} align="left">
                 <Stack>
                   <InputLabel>Region</InputLabel>
                   <TextField
@@ -692,7 +735,7 @@ function CreateInvoice() {
                     }} // Aquí se alinea el texto a la derecha y opacamos el dolar
                   />
                 </Stack>
-              </Grid> */}
+              </Grid>
 
               {/* SELECT CARGA CABECERA */}
               {cabeceraCarga.map((field) => (
@@ -701,23 +744,12 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.2}
-                />
-              ))}
-
-              {/* NOTA CABECERA */}
-              {cabeceraNota.map((field) => (
-                <CustomSelect
-                  key={field.id}
-                  {...field}
-                  formik={formik}
-                  XS={12}
-                  MD={4}
+                  MD={1.5}
                 />
               ))}
 
               {/* STATUS */}
-              <Grid
+              {/* <Grid
                 item
                 xs={12}
                 md={2}
@@ -738,13 +770,35 @@ function CreateInvoice() {
                   size="string"
                   chipcolor="orange"
                 />
-              </Grid>
+              </Grid> */}
+
+              {/* PRJ CABECERA */}
+              {cabeceraPRJ.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={3}
+                />
+              ))}
+
+              {/* NOTA CABECERA Descipcion */}
+              {cabeceraNota.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={3}
+                />
+              ))}
 
               {/* ESPACIO DE RELLENO */}
               <Grid item md={0}></Grid>
 
               {/* RADIO DE MONEDA LOCAL */}
-              <Grid item xs={12} md={1.7} align="right">
+              {/* <Grid item xs={12} md={1.7} align="right">
                 <InputLabel required>Moneda Local</InputLabel>
                 <Tooltip title="USD por defecto">
                   <FormControl>
@@ -786,10 +840,10 @@ function CreateInvoice() {
                     </RadioGroup>
                   </FormControl>
                 </Tooltip>
-              </Grid>
+              </Grid> */}
 
               {/* RADIO DEL IVA */}
-              <Grid item xs={12} md={1.7} align="right">
+              {/* <Grid item xs={12} md={1.7} align="right">
                 <InputLabel required>Iva Exento</InputLabel>
                 <FormControl>
                   <RadioGroup
@@ -829,10 +883,10 @@ function CreateInvoice() {
                     />
                   </RadioGroup>
                 </FormControl>
-              </Grid>
+              </Grid> */}
 
               {/* TIPO DE CAMBIO */}
-              <Grid item xs={12} md={1} align="right">
+              {/* <Grid item xs={12} md={1} align="right">
                 <Stack>
                   <InputLabel required>Dolar</InputLabel>
                   <TextField
@@ -852,7 +906,7 @@ function CreateInvoice() {
                     }} // Aquí se alinea el texto a la derecha y opacamos el dolar
                   />
                 </Stack>
-              </Grid>
+              </Grid> */}
 
               {/* DETALLE DE PRESUPUESTADOR */}
               <Grid item xs={12}>
@@ -908,12 +962,8 @@ function CreateInvoice() {
                 </Stack>
               </Grid> */}
 
-              
-
               {/* ESPACIO DE RELLENO */}
               {/* <Grid item md={0}></Grid> */}
-
-              
 
               {/* FECHA DE FACTURACION */}
               {/* <Grid item xs={12} md={2} align="right">
@@ -940,64 +990,64 @@ function CreateInvoice() {
                 <Divider />
               </Grid> */}
 
-                  {
-                    //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                    cellInput.map((field) => (
-                      <CustomSelect
-                        key={field.id}
-                        {...field}
-                        formik={formik}
-                        XS={12}
-                        MD={2}
-                        PaisRegion={formik.values.paisregion_id}
-                      />
-                    ))
-                  }
-                  {/* CARGA DE PRODUCTOS */}
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                  <ProductsPage
-                    productsData={productsData}
-                    deleteProductHandler={deleteProductHandler}
-                    editProductHandler={editProductHandler}
+              {
+                //COMPONENTE DE INPUTS que maneja la data de cellInput *
+                cellInput.map((field) => (
+                  <CustomSelect
+                    key={field.id}
+                    {...field}
+                    formik={formik}
+                    XS={12}
+                    MD={2}
+                    PaisRegion={formik.values.paisregion_id}
                   />
-                  {addItemClicked ? (
-                    <Grid item xs={12}>
-                      <AddItemPage
-                        handleAddItem={handleAddItem}
-                        setAddItemClicked={setAddItemClicked}
-                        dataHelp={dataHelp}
-                        formik={formik}
-                      />
-                    </Grid>
-                  ) : (
-                    <Grid item>
-                      <Button
-                        variant="text"
-                        onClick={() => setAddItemClicked(true)}
-                      >
-                        + Agregar Producto
-                      </Button>
-                    </Grid>
-                  )}
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
+                ))
+              }
+              {/* CARGA DE PRODUCTOS */}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <ProductsPage
+                productsData={productsData}
+                deleteProductHandler={deleteProductHandler}
+                editProductHandler={editProductHandler}
+              />
+              {addItemClicked ? (
+                <Grid item xs={12}>
+                  <AddItemPage
+                    handleAddItem={handleAddItem}
+                    setAddItemClicked={setAddItemClicked}
+                    dataHelp={dataHelp}
+                    formik={formik}
+                  />
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Button
+                    variant="text"
+                    onClick={() => setAddItemClicked(true)}
+                  >
+                    + Agregar Producto
+                  </Button>
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
 
-                  {/* PESAJE CONTENEDORES */}
-                  {ocultar ? (
-                    ""
-                  ) : (
-                    <PesajeContenedor
-                      productsData={productsData}
-                      tipoContenedor={formik.values.carga_id}
-                    />
-                  )}
+              {/* PESAJE CONTENEDORES */}
+              {ocultar ? (
+                ""
+              ) : (
+                <PesajeContenedor
+                  productsData={productsData}
+                  tipoContenedor={formik.values.carga_id}
+                />
+              )}
 
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
 
               <Grid
                 item

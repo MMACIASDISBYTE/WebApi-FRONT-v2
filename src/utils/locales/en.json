@@ -86,8 +86,9 @@
     "Despachantes": " Broker",
 
     "Carga de principales": "Otros libros principales",
-    "NCM": " NCM",
-    "NCM_MEX": " NCM Mex",
+    "NCM": " Posicion Arancelaria",
+    "NCM_MEX": " Mexico",
+    "NCM_ARG": " Argentina",
     "IIBB": " Taxes",
 
     "forms": "Forms",
