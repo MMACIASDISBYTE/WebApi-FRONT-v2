@@ -91,7 +91,7 @@ const headCells = [
     label: "Id",
     align: "Left",
   },
-  {
+  /*{
     id: "description",
     numeric: false,
     isRequired: true,
@@ -99,6 +99,16 @@ const headCells = [
     isDisabled: false,
     ocultar: false,
     label: "Descripcion",
+    align: "Left",
+  },*/
+  {
+    id: "description",
+    numeric: false,
+    isRequired: true,
+    select: "Banco",
+    isDisabled: false,
+    ocultar: false,
+    label: "Nombre Cotizacion",
     align: "Left",
   },
   {
@@ -134,7 +144,7 @@ const headCells = [
   {
     id: "gasto_otro1",
     numeric: true,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -144,7 +154,7 @@ const headCells = [
   {
     id: "notas",
     numeric: false,
-    isRequired: true,
+    isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
@@ -162,17 +172,17 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "banco_id",
+    id: "banco",
     numeric: false,
     isRequired: true,
     select: "Banco",
     isDisabled: false,
     ocultar: false,
-    label: "Nombre Banco",
+    label: "Banco",
     align: "Left",
   },
   {
-    id: "pais",
+    id: "pais_vista",
     numeric: false,
     isRequired: false,
     select: null,
@@ -182,7 +192,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "region",
+    id: "region_vista",
     numeric: false,
     select: null,
     isRequired: false,

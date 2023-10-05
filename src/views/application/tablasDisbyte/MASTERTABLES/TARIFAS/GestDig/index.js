@@ -99,24 +99,24 @@ const headCells = [
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Descripcion",
+    label: "Nombre Cotizacion",
     align: "Left",
   },
   {
     id: "gestdigdoc_id",
-    numeric: true,
-    isRequired: true,
+    numeric: false,
+    isRequired: false,
     select: "GestDig",
     isDisabled: false,
     ocultar: false,
-    label: "Gestion Digital",
+    label: "Proveedor Gest. Dig.",
     align: "Left",
   },
   {
     id: "paisregion_id",
     numeric: false,
     select: "paisRegion",
-    isRequired: true,
+    isRequired: false,
     isDisabled: false,
     ocultar: false,
     label: "Pais/Region",
@@ -172,6 +172,36 @@ const headCells = [
     label: "Fecha/hora",
     align: "Left",
   },
+  {
+    id: "gestdigdoc_vista",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: false, 
+    ocultar: true,
+    label: "Proveedor GestDig.",
+    align: "Left",
+  },
+  {
+    id: "pais_vista",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: false,
+    ocultar: false,
+    label: "Pais",
+    align: "Left",
+  },
+  {
+    id: "region_vista",
+    numeric: false,
+    select: null,
+    isRequired: false,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region",
+    align: "Left",
+  }
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -191,7 +221,7 @@ function EnhancedTableHead({
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id"];
+  const excludedColumns = ["id","paisregion_id","gestdigdoc_id"];
 
   return (
     <TableHead>
@@ -359,7 +389,7 @@ const ProductList = () => {
 
   const fetchData = async (accessToken) => {
     try {
-      const jsonData = await TarifasGestDigDocHelper.fetchData();
+      const jsonData = await TarifasGestDigDocHelper.fetchDataPais();
 
       setRows(jsonData);
     } catch (error) {
@@ -368,7 +398,7 @@ const ProductList = () => {
     }
   };
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id"];
+  const exclude = ["id", "paisregion_id","gestdigdoc_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
@@ -711,9 +741,7 @@ const ProductList = () => {
                             >
                               {attribute === "htimestamp"
                                 ? new Date(row[attribute]).toLocaleDateString()
-                                : attribute === "paisregion_id" ?
-                                UtilidadesHelper.paisRegionSwitch(row[attribute])
-                                : attribute ==="gestdigdoc_id" ? UtilidadesHelper.gestionDigitalSwitch(row[attribute]) :row[attribute]}
+                                : row[attribute]}
                             </Typography>
                           </TableCell>
                         ))}
