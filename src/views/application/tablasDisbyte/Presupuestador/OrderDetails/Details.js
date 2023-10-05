@@ -41,7 +41,7 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-
+import { Box } from "@mui/system";
 
 const sxDivider = {
   borderColor: "primary.light",
@@ -193,15 +193,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
     setVerMas(false);
   };
   const useStyles = makeStyles({
-  tableCell: {
-    borderRight: "1px solid rgba(224, 224, 224, 1)",  // Color y grosor del borde 
-    whiteSpace: 'nowrap',
-  },
-  lastCell: {
-    borderRight: "none"
-  },
-});
-const classes = useStyles();
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+    },
+    lastCell: {
+      borderRight: "none",
+    },
+  });
+  const classes = useStyles();
+  const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -576,72 +577,75 @@ const classes = useStyles();
                     <Stack spacing={2}>
                       <Typography variant="h4">
                         Historico Presupuesto
-                      { showHistorico?
-                        (
-                        <Tooltip title="Ver Historico completo">
-                        <VisibilityOutlinedIcon
-                          variant="text"
-                          onClick={() => setShowHistorico(!showHistorico)}
-                        />
-                      </Tooltip>
-                      ) : (
-                        <Tooltip title="Reducir Historico">
-                          <VisibilityOffOutlinedIcon
-                            variant="text"
-                            onClick={() => setShowHistorico(!showHistorico)}
-                          />
-                        </Tooltip>
-                      )}
+                        {showHistorico ? (
+                          <Tooltip title="Ver Historico completo">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() => setShowHistorico(!showHistorico)}
+                            />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Reducir Historico">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() => setShowHistorico(!showHistorico)}
+                            />
+                          </Tooltip>
+                        )}
                       </Typography>
-                      {(showHistorico ? historico : historico.slice(0, 4)).map((historial) => (
-                        <Stack spacing={0}>
-                          {/* <Typography variant="h6" sx={{ mb: 1 }}>
+                      {(showHistorico ? historico : historico.slice(0, 4)).map(
+                        (historial) => (
+                          <Stack spacing={0}>
+                            {/* <Typography variant="h6" sx={{ mb: 1 }}>
                                                 Carrier
                                             </Typography> */}
-                          <Stack direction="row" spacing={1}>
-                            <Typography variant="subtitle1" color={"green"}>
-                              Version:
-                            </Typography>
-                            <Typography variant="body2">
-                              {historial.estvers ? historial.estvers : "#"}
-                            </Typography>
-                            <Typography variant="subtitle1" color={"green"}>
-                              Emisor:
-                            </Typography>
-                            <Typography variant="body2">
-                              {historial.own ? historial.own : "Sin data"}
-                            </Typography>
+                            <Stack direction="row" spacing={1}>
+                              <Typography variant="subtitle1" color={"green"}>
+                                Version:
+                              </Typography>
+                              <Typography variant="body2">
+                                {historial.estvers ? historial.estvers : "#"}
+                              </Typography>
+                              <Typography variant="subtitle1" color={"green"}>
+                                Emisor:
+                              </Typography>
+                              <Typography variant="body2">
+                                {historial.own ? historial.own : "Sin data"}
+                              </Typography>
+                            </Stack>
+                            <Stack direction="row" spacing={1}>
+                              <Typography variant="subtitle1" color={"green"}>
+                                Fecha:
+                              </Typography>
+                              <Typography variant="body2">
+                                {" "}
+                                {/* Para formato de fecha importar date-fns */}
+                                {historial.htimestamp
+                                  ? UtilidadesHelper.formatFecha(
+                                      historial.htimestamp
+                                    )
+                                  : "Sin data"}
+                              </Typography>
+                              <Typography variant="subtitle1" color={"green"}>
+                                Estado :
+                              </Typography>
+                              <Typography variant="body2">
+                                {historial.status ? historial.status : "0"}
+                              </Typography>
+                              <Typography variant="subtitle1" color={"green"}>
+                                Fob Total:
+                              </Typography>
+                              <Typography variant="body2">
+                                {historial.fob_grand_total
+                                  ? `USD ${historial.fob_grand_total.toFixed(
+                                      2
+                                    )}`
+                                  : "Sin data"}
+                              </Typography>
+                            </Stack>
                           </Stack>
-                          <Stack direction="row" spacing={1}>
-                            <Typography variant="subtitle1" color={"green"}>
-                              Fecha:
-                            </Typography>
-                            <Typography variant="body2">
-                              {" "}
-                              {/* Para formato de fecha importar date-fns */}
-                              {historial.htimestamp
-                                ? UtilidadesHelper.formatFecha(
-                                    historial.htimestamp
-                                  )
-                                : "Sin data"}
-                            </Typography>
-                            <Typography variant="subtitle1" color={"green"}>
-                              Estado :
-                            </Typography>
-                            <Typography variant="body2">
-                              {historial.status ? historial.status : "0"}
-                            </Typography>
-                            <Typography variant="subtitle1" color={"green"}>
-                              Fob Total:
-                            </Typography>
-                            <Typography variant="body2">
-                              {historial.fob_grand_total
-                                ? `USD ${historial.fob_grand_total.toFixed(2)}`
-                                : "Sin data"}
-                            </Typography>
-                          </Stack>
-                        </Stack>
-                      ))}
+                        )
+                      )}
                     </Stack>
                   </Grid>
 
@@ -851,51 +855,173 @@ const classes = useStyles();
                       {/*VISTA ABREVIADA*/}
                       {verMas ? (
                         <>
-                          <TableCell align="left"
-                            sx={{ minWidth: 400, backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              minWidth: 100,
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
+                            SKU
+                          </TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{ minWidth: 400, backgroundColor: "#B8B8B8" }}
+                            className={classes.tableCell}
+                          >
                             Description
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
+                            Imagen URL
+                          </TableCell>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             NCM
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             EXW U USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             Cant PCS
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80, backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              pl: 3,
+                              minWidth: 80,
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CBM x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             Peso x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CBM TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             PESO TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CIF TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             IMP TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             G. LOC USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             EXTRA G. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             COSTOu USD
                           </TableCell>
                         </>
@@ -903,127 +1029,224 @@ const classes = useStyles();
                         <>
                           {/*VISTA FULL*/}
                           <TableCell
+                            align="right"
+                            sx={{
+                              minWidth: 100,
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
+                            SKU
+                          </TableCell>
+                          <TableCell
                             align="left"
-                            sx={{ minWidth: 400, backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>Description
+                            sx={{ minWidth: 400, backgroundColor: "#B8B8B8" }}
+                            className={classes.tableCell}
+                          >
+                            Description
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             NCM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ minWidth: 100, whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
-                            SKU
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                             sx={{minWidth: 180, whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              minWidth: 180,
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             OEM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             EXW u USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CBM x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             PESO x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             Cant. Cajas
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CBM TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             PESO TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FOB TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FP
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FREIGHT CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             INSUR. CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             CIF TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             FOB to CIF
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             ARANC.%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             ARANC USD
                           </TableCell>
                           {pais == 7 ? (
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 TE%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 TE USD
                               </TableCell>
                             </>
@@ -1031,102 +1254,164 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 DTA%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 DTA USD
                               </TableCell>
                             </>
                           )}
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             BASE IVA USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             IVA%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                          className={classes.tableCell}>
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             IVA USD
                           </TableCell>
                           {pais == 7 ? (
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 IVA Ad%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 IVA Ad USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 IIBB%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 IIBB USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 GCIAS %
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                className={classes.tableCell}>
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                                className={classes.tableCell}
+                              >
                                 GCIAS USD
                               </TableCell>
                             </>
                           ) : (
                             ""
                           )}
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                          >
                             IMP TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             GLOC TERM USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             GLOC FLETE USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             GLOC FWD USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             GLOC DESPA USD
                           </TableCell>
@@ -1134,14 +1419,20 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                >
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                              >
                                 GLOC BANC USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
-                                >
+                                sx={{
+                                  whiteSpace: "nowrap",
+                                  backgroundColor: "#B8B8B8",
+                                }}
+                              >
                                 GLOC CUST USD
                               </TableCell>
                             </>
@@ -1150,139 +1441,208 @@ const classes = useStyles();
                           )}
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             GLOC TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg LOC1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg LOC2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg CMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg CMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg CMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg CMX NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg FIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg FIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg FIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg FIN NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gCMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gCMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gCMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gCMX4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gCMX5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gFIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gFIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gFIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gFIN4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             EXTRG gFIN5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             extrg TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
                           >
                             COSTO u. USD
                           </TableCell>
@@ -1310,179 +1670,337 @@ const classes = useStyles();
                           }}
                           className={classes.tableCell}
                         >
-                          <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
+                          <TableCell
+                            align="right"
+                            className={classes.tableCell}
+                          >
+                            {row.sku ? row.sku : 0}
+                          </TableCell>
+                          <TableCell
+                            sx={{ pl: 3, maxWidth: 350 }}
+                            className={classes.tableCell}
+                          >
                             <Typography align="left" variant="subtitle1">
                               {row.description ? row.description : ""}
                               {/* {row.description} */}
                               {/* {console.log(row)} */}
                             </Typography>
                           </TableCell>
+                          <TableCell
+                            align="right"
+                            className={classes.tableCell}
+                          >
+                            {row.imageurl ? (
+                              <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                                height="100%"
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)}
+                              >
+                                <Avatar
+                                  sx={{
+                                    width: isHovered ? "200%" : "75%",
+                                    height: isHovered ? "200%" : "75%",
+                                    maxWidth: isHovered ? "200%" : "75%",
+                                    maxHeight: isHovered ? "200%" : "75%",
+                                    margin: -2,
+                                    padding: -10,
+                                    borderRadius: 0,
+                                    transition: 'all 0.3s', // animación suave
+                                  }}
+                                  alt={row.sku}
+                                  src={row.imageurl}
+                                  variant="rounded"
+                                />
+                              </Box>
+                            ) : (
+                              "Sin imagen"
+                            )}
+                          </TableCell>
                           {/* DATOS DE LA VISTA ABREVIADA */}
                           {verMas ? (
                             <>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {rowsAddData[index].ncm_str
                                   ? rowsAddData[index].ncm_str
                                   : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.qty ? row.qty : "0"}u.
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.pcsctn ? row.pcsctn : "0"}u.
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.cbmctn ? row.cbmctn.toFixed(4) : "0"}m3
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gwctn ? row.gwctn.toFixed(2) : "0"}kg
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalcbm ? row.totalcbm.toFixed(2) : "0"}m3
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalgw ? row.totalgw.toFixed(2) : "0"}kg
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalcif ? row.totalcif.toFixed(2) : "0"}
                               </TableCell>
                               {/*console.log(rows)*/}
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
                               <TableCell className={classes.tableCell}>
                                 {sumGlocPais(row, pais).toFixed(2)}
                               </TableCell>
 
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {sumExtrag(row).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.costo_u ? row.costo_u.toFixed(3) : ""}
                               </TableCell>
                             </>
                           ) : (
                             <>
                               {/* DATOS DE LA VISTA FULL */}
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {rowsAddData[index].ncm_str
                                   ? rowsAddData[index].ncm_str
                                   : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.sku ? row.sku : 0}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {rowsAddData[index].proveedor
                                   ? rowsAddData[index].proveedor
                                   : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.exw_u ? row.exw_u.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.fob_u ? row.fob_u.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.pcsctn ? row.pcsctn : 0} u.
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.cbmctn ? row.cbmctn.toFixed(4) : 0.0} m3
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gwctn ? row.gwctn.toFixed(2) : 0.0} kg
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.pcsctn > 1
                                   ? Math.ceil(row.qty / row.pcsctn).toFixed(2)
                                   : 0.0}
                                 u.
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalcbm ? row.totalcbm.toFixed(2) : 0.0}{" "}
                                 m3
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalgw ? row.totalgw.toFixed(2) : 0.0} kg
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalfob ? row.totalfob.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.factorproducto
                                   ? row.factorproducto.toFixed(2)
                                   : 0.0}
                                 %
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.freightCharge
                                   ? row.freightCharge.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.insuranceCharge
                                   ? row.insuranceCharge.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalcif ? row.totalcif.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.totalfob > 0
                                   ? (row.totalcif / row.totalfob).toFixed(3)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.ncm_arancel
                                   ? row.ncm_arancel.toFixed(3)
                                   : 0.0}{" "}
                                 %
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.arancelgrav_cif
                                   ? row.arancelgrav_cif.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.ncm_te_dta_otro
                                   ? row.ncm_te_dta_otro.toFixed(3)
                                   : 0.0}{" "}
                                 %
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.te_dta_otro_cif
                                   ? row.te_dta_otro_cif.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 USD {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.ncm_iva ? row.ncm_iva.toFixed(3) : 0.0} %
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.iva_cif ? row.iva_cif.toFixed(2) : 0.0}
                               </TableCell>
                               {pais == 7 ? (
                                 <>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.ncm_ivaad
                                       ? row.ncm_ivaad.toFixed(3)
                                       : 0.0}{" "}
                                     %
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.ivaad_cif
                                       ? row.ivaad_cif.toFixed(2)
                                       : 0.0}
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {presupuestador.estHeader.iibb_total
                                       ? presupuestador.estHeader.iibb_total.toFixed(
                                           3
@@ -1490,13 +2008,22 @@ const classes = useStyles();
                                       : 0.0}{" "}
                                     %
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.iibb900 ? row.iibb900.toFixed(2) : 0.0}
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.gcias ? row.gcias.toFixed(3) : 0.0} %
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.gcias424
                                       ? row.gcias424.toFixed(2)
                                       : 0.0}
@@ -1505,21 +2032,36 @@ const classes = useStyles();
                               ) : (
                                 ""
                               )}
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 USD {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gloc_terminales
                                   ? row.gloc_terminales.toFixed(2)
                                   : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gloc_flete ? row.gloc_flete.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gloc_fwd ? row.gloc_fwd.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.gloc_despachantes
                                   ? row.gloc_despachantes.toFixed(2)
                                   : 2}
@@ -1527,12 +2069,18 @@ const classes = useStyles();
 
                               {pais == 7 ? (
                                 <>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.gloc_bancos
                                       ? row.gloc_bancos.toFixed(2)
                                       : 0}
                                   </TableCell>
-                                  <TableCell align="right" className={classes.tableCell}>
+                                  <TableCell
+                                    align="right"
+                                    className={classes.tableCell}
+                                  >
                                     {row.gloc_polizas
                                       ? row.gloc_polizas.toFixed(2)
                                       : 0.0}
@@ -1541,114 +2089,184 @@ const classes = useStyles();
                               ) : (
                                 ""
                               )}
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {sumGlocPais(row, pais).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_local1
                                   ? row.extrag_local1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_local2
                                   ? row.extrag_local2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_comex1
                                   ? row.extrag_comex1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_comex2
                                   ? row.extrag_comex2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_comex3
                                   ? row.extrag_comex3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_comex_notas
                                   ? row.extrag_comex_notas
                                   : ""}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_finan1
                                   ? row.extrag_finan1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_finan2
                                   ? row.extrag_finan2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_finan3
                                   ? row.extrag_finan3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_finan_notas
                                   ? row.extrag_finan_notas
                                   : ""}
                               </TableCell>
 
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_comex1
                                   ? row.extrag_glob_comex1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_comex2
                                   ? row.extrag_glob_comex2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_comex3
                                   ? row.extrag_glob_comex3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_comex4
                                   ? row.extrag_glob_comex4.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_comex5
                                   ? row.extrag_glob_comex5.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_finan1
                                   ? row.extrag_glob_finan1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_finan2
                                   ? row.extrag_glob_finan2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_finan3
                                   ? row.extrag_glob_finan3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_finan4
                                   ? row.extrag_glob_finan4.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {row.extrag_glob_finan5
                                   ? row.extrag_glob_finan5.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
                                 {sumExtrag(row).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right" className={classes.tableCell} sx={{ pl: 10, whiteSpace: 'nowrap' }}>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                                sx={{ pl: 10, whiteSpace: "nowrap" }}
+                              >
                                 {row.costo_u ? row.costo_u.toFixed(3) : ""}
                               </TableCell>
                             </>
