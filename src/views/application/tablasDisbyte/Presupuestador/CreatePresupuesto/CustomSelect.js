@@ -82,9 +82,9 @@ export const CustomSelect = ({
                     <MenuItem
                       key={item.id}
                       value={item}
-                      disabled={item.description === "LCL"} // Desactiva el ítem si es "LCL"
+                      disabled={item.description === "LCL" || item.description === "40ST" || item.description === "2*40ST"} // Desactiva el ítem si es "LCL"
                       style={
-                        item.description === "LCL"
+                        item.description === "LCL" || item.description === "40ST" || item.description === "2*40ST"
                           ? { backgroundColor: "lightgray" }
                           : {}
                       }

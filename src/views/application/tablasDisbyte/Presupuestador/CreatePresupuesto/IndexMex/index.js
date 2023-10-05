@@ -60,6 +60,7 @@ import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
 import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
+import AddDetailsPage from "../AddDetailsPage";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -175,7 +176,15 @@ function CreateInvoice() {
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
 
-  const ordenArrCarga = ['LCL', '20ST', '40ST', '40HQ', '2*20ST', '2*40ST', '2*40HQ']; 
+  const ordenArrCarga = [
+    "LCL",
+    "20ST",
+    "40ST",
+    "40HQ",
+    "2*20ST",
+    "2*40ST",
+    "2*40HQ",
+  ];
 
   const dataHelpers = async () => {
     const cargaAOrdenar = await CargaHelper.fetchData();
@@ -196,7 +205,10 @@ function CreateInvoice() {
     const TarifasBanco = await TarifasBancosHelper.fetchDataFecha();
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
 
-    const carga = await UtilidadesHelper.ordenadorDeArray( ordenArrCarga, cargaAOrdenar);
+    const carga = await UtilidadesHelper.ordenadorDeArrayByDescription(
+      ordenArrCarga,
+      cargaAOrdenar
+    );
 
     const objData = {
       carga,
@@ -220,7 +232,7 @@ function CreateInvoice() {
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
-  console.log(dataHelp);
+  // console.log(dataHelp);
 
   const cellInput = [
     // {
@@ -338,8 +350,8 @@ function CreateInvoice() {
 
   const cabeceraPRJ = [
     {
-      id: "prj",
-      name: "prj",
+      id: "project",
+      name: "project",
       em: "Ingrese un PRJ", //placeholder en caso de String
       inputLabel: "PRJ",
       data: "String",
@@ -349,7 +361,6 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  //   console.log(dataHelp);
 
   // const today = new Date();
   // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
@@ -359,11 +370,12 @@ function CreateInvoice() {
   const formik = useFormik({
     initialValues: {
       description: null,
-      prj: '',
-      estnumber: '',
+      project: "",
+      estnumber: "",
       estvers: 1,
       status: 1,
-      paisregion_id: 5, //Mexico Guadalajara
+      paisregion_id: 5, //Mexico Guadalajara HARCODEADO
+      fwdpaisregion_id: 9, // es CHINA  Puede cambiar segun importador
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
       ivaExcento: "true",
@@ -371,7 +383,6 @@ function CreateInvoice() {
 
       usarmoneda_local: "false",
       carga_id: null,
-      fwdpaisregion_id: 9, // es china
       //   polizaProv: null,
       dolar: "",
       tarifupdate: 1023, //harcodeado (formula de calculo)
@@ -417,7 +428,7 @@ function CreateInvoice() {
       freight_cost: 0,
       freight_insurance_cost: 0,
       iibb_total: 0,
-
+      tarifonmex_id: 0,
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -435,13 +446,13 @@ function CreateInvoice() {
 
             // nuevos inputs
             description: values.description ? values.description : "",
-            paisregion_id: values.paisregion_id ? values.paisregion_id.id : "",
+
+            //AQUI ESTAN COMENTADOS YA QUE SINO PONEN EL ELEMENTO EN 0
+            // paisregion_id: values.paisregion_id ? values.paisregion_id.id : "", //HARCODEADO EN 5
+            // fwdpaisregion_id: values.fwdpaisregion_id ? values.fwdpaisregion_id.id : "",
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
 
-            fwdpaisregion_id: values.fwdpaisregion_id
-              ? values.fwdpaisregion_id.id
-              : "",
             tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             tarifasflete_id: values.tarifasflete_id
               ? values.tarifasflete_id.id
@@ -507,7 +518,7 @@ function CreateInvoice() {
       }
     },
   });
-  console.log(formik.values);
+  // console.log(formik.values);
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
@@ -603,6 +614,8 @@ function CreateInvoice() {
         proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
         sku: addingData.sku,
+        productowner: addingData.productowner,
+        purchaseorder: addingData.purchaseorder,
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
@@ -639,11 +652,23 @@ function CreateInvoice() {
         costo_u: addingData.costo_u,
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
+        detailorder: addingData.detailorder,
       },
     ]);
     console.log(addingData);
 
     setAddItemClicked(false);
+  };
+
+  //ventana de productos lateral
+
+  const [open2, setOpen2] = React.useState(false);
+  const handleClickOpenDialog = () => {
+    setOpen2(true);
+    console.log(open2);
+  };
+  const handleCloseDialog = () => {
+    setOpen2(false);
   };
 
   return (
@@ -1019,11 +1044,18 @@ function CreateInvoice() {
                 deleteProductHandler={deleteProductHandler}
                 editProductHandler={editProductHandler}
               />
-              {addItemClicked ? (
+              {open2 ? (
                 <Grid item xs={12}>
-                  <AddItemPage
+                  {/* <AddItemPage
                     handleAddItem={handleAddItem}
                     setAddItemClicked={setAddItemClicked}
+                    dataHelp={dataHelp}
+                    formik={formik}
+                  /> */}
+                  <AddDetailsPage
+                    handleAddItem={handleAddItem}
+                    open={open2}
+                    handleCloseDialog={handleCloseDialog}
                     dataHelp={dataHelp}
                     formik={formik}
                   />
@@ -1032,7 +1064,8 @@ function CreateInvoice() {
                 <Grid item>
                   <Button
                     variant="text"
-                    onClick={() => setAddItemClicked(true)}
+                    // onClick={() => setAddItemClicked(true)}
+                    onClick={handleClickOpenDialog}
                   >
                     + Agregar Producto
                   </Button>
