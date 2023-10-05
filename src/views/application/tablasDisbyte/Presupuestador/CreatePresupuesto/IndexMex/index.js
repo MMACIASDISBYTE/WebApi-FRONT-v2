@@ -78,6 +78,7 @@ const validationSchema = yup.object({
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
   description: yup.string().nullable().required("La descripcion is required"),
+  project: yup.string().nullable().required("El Prj is required"),
 
   carga_id: yup
     .object()
@@ -352,7 +353,7 @@ function CreateInvoice() {
     {
       id: "project",
       name: "project",
-      em: "Ingrese un PRJ", //placeholder en caso de String
+      em: "Ingrese un Project", //placeholder en caso de String
       inputLabel: "PRJ",
       data: "String",
     },
@@ -690,7 +691,7 @@ function CreateInvoice() {
           <AnimateButton>
             <Button
               variant="contained"
-              onClick={() => navigate("/estimate/estimate-list")}
+              onClick={() => navigate("/estimateMex/estimate-list")}
             >
               Ir a la lista
             </Button>

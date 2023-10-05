@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 // material-ui
 import {
+  Avatar,
   Grid,
   IconButton,
   Table,
@@ -12,8 +13,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import { useState } from "react";
+import { Box } from "@mui/system";
 
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
@@ -23,6 +27,19 @@ function ProductsPage({
   editProductHandler,
 }) {
   console.log(productsData);
+
+  const useStyles = makeStyles({
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+    },
+    lastCell: {
+      borderRight: "none",
+    },
+  });
+  const classes = useStyles();
+  const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
+
   return (
     <>
       {productsData.length ? (
@@ -31,18 +48,135 @@ function ProductsPage({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ pl: 3 }}>SKU</TableCell>
-                  <TableCell sx={{ pl: 3 }}>Description</TableCell>
-                  <TableCell align="right">FOB Unit</TableCell>
-                  <TableCell align="right">EXW U. USD</TableCell>
-                  <TableCell align="right">Cant. PCS</TableCell>
-                  <TableCell align="right">Pcs x Caja</TableCell>
-                  <TableCell align="right">CBM x Caja</TableCell>
-                  <TableCell align="right">GW x Caja</TableCell>
-                  <TableCell align="right">NCM</TableCell>
-                  <TableCell align="right">Proveedor</TableCell>
-                  <TableCell align="right">FOB Tot</TableCell>
-                  <TableCell align="right" sx={{ pr: 3 }} />
+                  <TableCell
+                    className={classes.tableCell}
+                    sx={{
+                      pl: 3,
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    SKU
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    sx={{
+                      pl: 3,
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Description
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Imagen Url
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    FOB Unit USD
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    EXW U. USD
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Cant. PCS U.
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Pcs x Caja
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    CBM x Caja
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    GW x Caja
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    NCM
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Proveedor
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    FOB Tot USD
+                  </TableCell>
+                  <TableCell
+                    // className={classes.tableCell}
+                    align="right"
+                    sx={{
+                      pr: 3,
+                      whiteSpace: "nowrap",
+                      // backgroundColor: "#B8B8B8",
+                    }}
+                  />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -58,7 +192,7 @@ function ProductsPage({
                       },
                     }}
                   >
-                    <TableCell sx={{ pl: 3 }}>
+                    <TableCell className={classes.tableCell} sx={{ pl: 3 }}>
                       <Typography align="left" variant="subtitle1">
                         {row.sku}
                       </Typography>
@@ -68,38 +202,77 @@ function ProductsPage({
                                             {row.description || "sin descripción"} 
                                             </Typography> */}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell
+                      className={classes.tableCell}
+                      sx={{ pl: 3 }}
+                      align="right"
+                    >
                       {row.description ? row.description : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
-                      {row.fob_u ? `USD ${row.fob_u}` : "Sin data"}
+                    <TableCell className={classes.tableCell} align="left">
+                      {row.imageurl ? (
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          width="100%"
+                          height="100%"
+                          onMouseEnter={() => setIsHovered(true)}
+                          onMouseLeave={() => setIsHovered(false)}
+                        >
+                          <Avatar
+                            sx={{
+                              width: isHovered ? "200%" : "100%",
+                              height: isHovered ? "200%" : "100%",
+                              maxWidth: isHovered ? "200%" : "100%",
+                              maxHeight: isHovered ? "200%" : "100%",
+                              margin: -2,
+                              padding: -10,
+                              borderRadius: 0,
+                              transition: "all 0.3s", // animación suave
+                            }}
+                            alt={row.sku}
+                            src={row.imageurl}
+                            variant="rounded"
+                          />
+                        </Box>
+                      ) : (
+                        "Sin Imagen"
+                      )}
                     </TableCell>
-                    <TableCell align="right">
-                      {row.exw_u ? `USD ${row.exw_u}` : "Sin data"}
+                    <TableCell className={classes.tableCell} align="right">
+                      {row.fob_u ? `${row.fob_u}` : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
-                      {row.qty ? `${row.qty} u.` : "Sin data"}
+                    <TableCell className={classes.tableCell} align="right">
+                      {row.exw_u ? `${row.exw_u}` : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell className={classes.tableCell} align="right">
+                      {row.qty ? `${row.qty}` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="right">
                       {row.pcsctn ? row.pcsctn : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell className={classes.tableCell} align="right">
                       {row.cbmctn ? row.cbmctn : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell className={classes.tableCell} align="right">
                       {row.gwctn ? row.gwctn : "Sin data"}
                     </TableCell>
-                    {/* <TableCell align="right">{row.ncm_id}</TableCell>  */}
-                    <TableCell align="right">
+                    {/* <TableCell className={classes.tableCell}align="right">{row.ncm_id}</TableCell>  */}
+                    <TableCell className={classes.tableCell} align="right">
                       {row.ncm_code ? row.ncm_code : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell className={classes.tableCell} align="right">
                       {row.proovedores_name ? row.proovedores_name : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">{`USD ${(
+                    <TableCell className={classes.tableCell} align="right">{`${(
                       row.fob_u * row.qty
                     ).toFixed(2)}`}</TableCell>
-                    <TableCell sx={{ pr: 1 }} align="right">
+                    <TableCell
+                      // className={classes.tableCell}
+                      sx={{ pr: 1 }}
+                      align="right"
+                    >
                       {/* MOMENTANEAMENTE OCULTO boton de edicion */}
                       {/* <IconButton
                                                 color="secondary"
