@@ -86,13 +86,13 @@ const validationSchema = yup.object({
     .nullable()
     .required("Carga is required"),
 
-  fwdpaisregion_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Fwd Pais/Region is required"),
+  // fwdpaisregion_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Fwd Pais/Region is required"),
 
   tarifasfwd_id: yup
     .object()
@@ -175,8 +175,10 @@ function CreateInvoice() {
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
 
+  const ordenArrCarga = ['LCL', '20ST', '40ST', '40HQ', '2*20ST', '2*40ST', '2*40HQ']; 
+
   const dataHelpers = async () => {
-    const carga = await CargaHelper.fetchData();
+    const cargaAOrdenar = await CargaHelper.fetchData();
     const proveedoresOem = await ProveedoresOemHelper.fetchData();
     const NCM = await NcmHelper.fetchData();
     const NCM_Mex = await NcmHelper.fetchDataMex();
@@ -193,6 +195,8 @@ function CreateInvoice() {
     const TarifasDespachantes = await TarifasDespachanteHelper.fetchData();
     const TarifasBanco = await TarifasBancosHelper.fetchDataFecha();
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
+
+    const carga = await UtilidadesHelper.ordenadorDeArray( ordenArrCarga, cargaAOrdenar);
 
     const objData = {
       carga,
@@ -355,10 +359,11 @@ function CreateInvoice() {
   const formik = useFormik({
     initialValues: {
       description: null,
-      estnumber: "",
+      prj: '',
+      estnumber: '',
       estvers: 1,
       status: 1,
-      paisregion_id: 7,
+      paisregion_id: 5, //Mexico Guadalajara
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
       ivaExcento: "true",
@@ -366,7 +371,7 @@ function CreateInvoice() {
 
       usarmoneda_local: "false",
       carga_id: null,
-      fwdpaisregion_id: null,
+      fwdpaisregion_id: 9, // es china
       //   polizaProv: null,
       dolar: "",
       tarifupdate: 1023, //harcodeado (formula de calculo)
@@ -413,7 +418,6 @@ function CreateInvoice() {
       freight_insurance_cost: 0,
       iibb_total: 0,
 
-      // proveedores_id: null, //va en el details
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -503,7 +507,7 @@ function CreateInvoice() {
       }
     },
   });
-  // console.log(formik.values);
+  console.log(formik.values);
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
@@ -692,6 +696,7 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.5}
                   desactivado={true}
+                  ValorPorDefecto={"CHINA"}
                 />
               ))}
 
@@ -704,6 +709,7 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.5}
                   desactivado={true}
+                  ValorPorDefecto={"MEXICO"}
                 />
               ))}
 
@@ -733,6 +739,7 @@ function CreateInvoice() {
                       style: { textAlign: "left" },
                       className: classes.inputPlaceholder,
                     }} // Aquí se alinea el texto a la derecha y opacamos el dolar
+                    defaultValue="GUADALAJARA"
                   />
                 </Stack>
               </Grid>

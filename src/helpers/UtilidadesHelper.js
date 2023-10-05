@@ -101,8 +101,8 @@ export const UtilidadesHelper = {
   },
   valueToBoolArrPosition: function (valInt, position) {
     const arrBool = Array(30).fill(false);
-    const nuevoArr = arrBool.map((valor, index) =>
-      valInt & (1 << index) ? true : false //FUNCIONA
+    const nuevoArr = arrBool.map(
+      (valor, index) => (valInt & (1 << index) ? true : false) //FUNCIONA
       // valInt & (1 << index) ? false : true
     );
 
@@ -117,7 +117,7 @@ export const UtilidadesHelper = {
   boolArrToValue: function (boolArr) {
     const valor = boolArr.reduce((accumulator, currentValue, index) => {
       // return accumulator + (currentValue ? 0 : (1 << index));
-      return accumulator + (currentValue ? (1 << index) : 0); //FUNCIONA
+      return accumulator + (currentValue ? 1 << index : 0); //FUNCIONA
     }, 0);
 
     return valor;
@@ -187,62 +187,99 @@ export const UtilidadesHelper = {
       }
     }
   },
-  paisRegionSwitch: function(PaisRegion){
+  paisRegionSwitch: function (PaisRegion) {
     switch (PaisRegion) {
-      case 0: return 'Sin data'
-      break;
-      case 1: return 'Brasil / Sao Paulo'
-      break;
-      case 2: return 'Brasil / Rio'
-      break;
-      case 3: return 'Brasil / Porto Alegre'
-      break;
-      case 4: return 'Colombia / Medellin'
-      break;
-      case 5: return 'Mexico / CDMX'
-      break;
-      case 6: return 'Mexico / Guadalupe'
-      break;
-      case 7: return 'Argentina / BS.AS.';
-      break;
-      case 8: return 'Canada / London';
-      break;
-      case 9: return 'China / Shezhen';
-      break;
-      case 10: return 'Panama / Santos';
-      break;
-      case 15: return 'Any / Any';
-      break;
-      default: return 'Sin data';
+      case 0:
+        return "Sin data";
+        break;
+      case 1:
+        return "Brasil / Sao Paulo";
+        break;
+      case 2:
+        return "Brasil / Rio";
+        break;
+      case 3:
+        return "Brasil / Porto Alegre";
+        break;
+      case 4:
+        return "Colombia / Medellin";
+        break;
+      case 5:
+        return "Mexico / CDMX";
+        break;
+      case 6:
+        return "Mexico / Guadalupe";
+        break;
+      case 7:
+        return "Argentina / BS.AS.";
+        break;
+      case 8:
+        return "Canada / London";
+        break;
+      case 9:
+        return "China / Shezhen";
+        break;
+      case 10:
+        return "Panama / Santos";
+        break;
+      case 15:
+        return "Any / Any";
+        break;
+      default:
+        return "Sin data";
     }
   },
-  gestionDigitalSwitch: function(gestiondigital){
+  gestionDigitalSwitch: function (gestiondigital) {
     switch (gestiondigital) {
-      case 0: return 'Sin data'
-      break;
-      case 1: return "LAKAUT S.A."
-      break;
-      case 2: return 'Brasil / Rio'
-      break;
-      case 3: return 'Brasil / Porto Alegre'
-      break;
-      case 4: return 'Colombia / Medellin'
-      break;
-      case 5: return 'Mexico / CDMX'
-      break;
-      case 6: return 'Mexico / Guadalupe'
-      break;
-      case 7: return "DIGI MEX";
-      break;
-      case 8: return 'Canada / London';
-      break;
-      case 9: return 'China / Shezhen';
-      break;
-      case 10: return 'Panama / Santos';
-      break;
-      case 15: return 'Any / Any';
-      break;
-      default: return 'Sin data';
+      case 0:
+        return "Sin data";
+        break;
+      case 1:
+        return "LAKAUT S.A.";
+        break;
+      case 2:
+        return "Brasil / Rio";
+        break;
+      case 3:
+        return "Brasil / Porto Alegre";
+        break;
+      case 4:
+        return "Colombia / Medellin";
+        break;
+      case 5:
+        return "Mexico / CDMX";
+        break;
+      case 6:
+        return "Mexico / Guadalupe";
+        break;
+      case 7:
+        return "DIGI MEX";
+        break;
+      case 8:
+        return "Canada / London";
+        break;
+      case 9:
+        return "China / Shezhen";
+        break;
+      case 10:
+        return "Panama / Santos";
+        break;
+      case 15:
+        return "Any / Any";
+        break;
+      default:
+        return "Sin data";
     }
+  },
+  ordenadorDeArray: function (Orden, ArrAOrdenar) {
+    ArrAOrdenar.sort((a, b) => {
+      const orderA = Orden.indexOf(a.description);
+      const orderB = Orden.indexOf(b.description);
+
+      if (orderA < orderB) return -1;
+      if (orderA > orderB) return 1;
+      return 0;
+    });
+    return ArrAOrdenar; // <-- Devuelve el array ordenado
   },
 };
