@@ -350,8 +350,8 @@ function CreateInvoice() {
 
   const cabeceraPRJ = [
     {
-      id: "prj",
-      name: "prj",
+      id: "project",
+      name: "project",
       em: "Ingrese un PRJ", //placeholder en caso de String
       inputLabel: "PRJ",
       data: "String",
@@ -370,11 +370,12 @@ function CreateInvoice() {
   const formik = useFormik({
     initialValues: {
       description: null,
-      prj: "",
+      project: "",
       estnumber: "",
       estvers: 1,
       status: 1,
-      paisregion_id: 5, //Mexico Guadalajara
+      paisregion_id: 5, //Mexico Guadalajara HARCODEADO
+      fwdpaisregion_id: 9, // es CHINA  Puede cambiar segun importador
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
       ivaExcento: "true",
@@ -382,7 +383,6 @@ function CreateInvoice() {
 
       usarmoneda_local: "false",
       carga_id: null,
-      fwdpaisregion_id: 9, // es china
       //   polizaProv: null,
       dolar: "",
       tarifupdate: 1023, //harcodeado (formula de calculo)
@@ -428,6 +428,7 @@ function CreateInvoice() {
       freight_cost: 0,
       freight_insurance_cost: 0,
       iibb_total: 0,
+      tarifonmex_id: 0,
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -445,13 +446,13 @@ function CreateInvoice() {
 
             // nuevos inputs
             description: values.description ? values.description : "",
-            paisregion_id: values.paisregion_id ? values.paisregion_id.id : "",
+
+            //AQUI ESTAN COMENTADOS YA QUE SINO PONEN EL ELEMENTO EN 0
+            // paisregion_id: values.paisregion_id ? values.paisregion_id.id : "", //HARCODEADO EN 5
+            // fwdpaisregion_id: values.fwdpaisregion_id ? values.fwdpaisregion_id.id : "",
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
 
-            fwdpaisregion_id: values.fwdpaisregion_id
-              ? values.fwdpaisregion_id.id
-              : "",
             tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             tarifasflete_id: values.tarifasflete_id
               ? values.tarifasflete_id.id
@@ -613,6 +614,8 @@ function CreateInvoice() {
         proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
         sku: addingData.sku,
+        productowner: addingData.productowner,
+        purchaseorder: addingData.purchaseorder,
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
@@ -649,6 +652,7 @@ function CreateInvoice() {
         costo_u: addingData.costo_u,
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
+        detailorder: addingData.detailorder,
       },
     ]);
     console.log(addingData);
@@ -1049,6 +1053,7 @@ function CreateInvoice() {
                     formik={formik}
                   /> */}
                   <AddDetailsPage
+                    handleAddItem={handleAddItem}
                     open={open2}
                     handleCloseDialog={handleCloseDialog}
                     dataHelp={dataHelp}
