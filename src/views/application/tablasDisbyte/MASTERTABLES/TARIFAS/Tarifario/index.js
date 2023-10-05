@@ -1,9 +1,9 @@
-// LISTED 28/9/2023 12:13PM 
+// LISTED 5_10_2023 17:51PM 
 import PropTypes from "prop-types";
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
-import {MenuItem} from "@mui/material";
+import {MenuItem,Divider} from "@mui/material";
 import * as React from "react";
 
 // material-ui
@@ -32,6 +32,8 @@ import { visuallyHidden } from "@mui/utils";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
+import { CircularProgress, makeStyles } from "@material-ui/core";
+import SubCard from "ui-component/cards/SubCard";
 
 //importamos el useNavigate para manejar navegaciones y redireccciones
 import { redirect, useNavigate } from "react-router-dom";
@@ -81,6 +83,44 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+
+
+
+
+/*public class TarifonMex
+{
+    public int id {get;set;}
+    public string description {get;set;}
+    public double flete_internacional_40sthq{get;set;}
+    public double flete_internacional_20ft{get;set;}
+    public double seguro{get;set;}
+    public double gastosLocales_40sthq{get;set;}
+    public double gastosLocales_20ft{get;set;}   
+    public double terminal_40sthq{get;set;}
+    public double terminal_20ft{get;set;}
+    public double flete_interno_1p40sthq_guad{get;set;}     //1*40hq
+    public double flete_interno_1p20ft_guad{get;set;}       //1*20ft
+    public double flete_interno_1p40sthq_cdmx{get;set;}     
+    public double flete_interno_1p20ft_cdmx{get;set;}
+    public double flete_interno_2p40sthq_guad{get;set;}     //2*40hq o st GUAD
+    public double flete_interno_2p20ft_guad{get;set;}       //2*20ft GUAD
+    public double flete_interno_2p40sthq_cdmx{get;set;}     //2*40hq CDMX
+    public double flete_interno_2p20ft_cdmx{get;set;}       //2*20ft CDMX
+    public double descarga_meli_40sthq_guad{get;set;}
+    public double descarga_meli_20ft_guad{get;set;}
+    public double descarga_meli_40sthq_cdmx{get;set;}
+    public double descarga_meli_20ft_cdmx{get;set;}
+    public double despa_fijo{get;set;}
+    public double despa_var{get;set;}
+    public double despa_clasific_oper{get;set;}
+    public double despa_consult_compl{get;set;}
+    public DateTime htimestamp{get;set;}
+}*/
+
+
+
+
+
 // table header options/ATRIBUTOS DEL MODELO, tambien este arr le da la caracteristica al formulario tanto de AddIetm como CompUpdate
 const headCells = [
   {
@@ -104,113 +144,243 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal_id",
-    numeric: false,
-    select: "Terminal",
-    isRequired: false,
-    isDisabled: false,
-    ocultar: false,
-    label: "Terminal",
-    align: "Left",
-  },
-  {
-    id: "carga_id",
-    numeric: false,
-    select: "Carga",
-    isRequired: false,
-    isDisabled: false,
-    ocultar: false,
-    label: "Carga",
-    align: "Left",
-  },
-  {
-    id: "paisregion_id",
-    numeric: false,
-    select: "paisRegion",
-    isRequired: false,
-    isDisabled: false,
-    ocultar: false,
-    label: "Pais/Region",
-    align: "Left",
-  },
-  {
-    id: "gasto_fijo",
+    id: "flete_internacional_40sthq",
     numeric: true,
     select: null,
     isRequired: true,
     isDisabled: false,
     ocultar: false,
-    label: "Gasto Fijo",
+    label: "Flete Internacional 40HQ/STD",
     align: "Left",
   },
   {
-    id: "gasto_variable",
+    id: "flete_internacional_20ft",
     numeric: true,
     select: null,
     isRequired: true,
     isDisabled: false,
     ocultar: false,
-    label: "Gasto Variable",
+    label: "Flete Internacional 20FT",
     align: "Left",
   },
   {
-    id: "gasto_otro1",
+    id: "seguro",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Seguro Variable (segun FOB)",
+    align: "Left",
+  },
+  {
+    id: "gastosLocales_40sthq",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Gastos Locales 40HQ/STD",
+    align: "Left",
+  },
+  {
+    id: "gastosLocales_20ft",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Gastos Locales 20FT",
+    align: "Left",
+  },
+  {
+    id: "terminal_40sthq",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Terminal 40HQ/STD",
+    align: "Left",
+  },
+  {
+    id: "terminal_20ft",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Terminal 20FT",
+    align: "Left",
+  },
+  {
+    id: "flete_interno_1p40sthq_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Flete Interno 1*40HQ/STD GUAD",
+    align: "Left",
+  },
+  {
+    id: "flete_interno_1p20ft_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Flete Interno 1*20FT GUAD",
+    align: "Left",
+  },
+  {
+    id: "flete_interno_1p40sthq_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: false,
-    label: "Otros gastos1",
+    ocultar: true,
+    label: "Flete Interno 1*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "gasto_otro2",
+    id: "flete_interno_1p20ft_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: false,
-    label: "Otros gastos2",
+    ocultar: true,
+    label: "Flete Interno 1*20FT CDMX",
     align: "Left",
   },
   {
-    id: "notas",
-    numeric: false,
+    id: "flete_interno_2p40sthq_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Flete Interno 2*40HQ/STD GUAD",
+    align: "Left",
+  },
+  {
+    id: "flete_interno_2p20ft_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Flete Interno 2*20FT GUAD",
+    align: "Left",
+  },
+  {
+    id: "flete_interno_2p40sthq_cdmx",
+    numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: false,
-    label: "Notas",
+    ocultar: true,
+    label: "Flete Interno 2*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "htimestamp",
-    numeric: "fecha",
+    id: "flete_interno_2p20ft_cdmx",
+    numeric: true,
+    select: null,
+    isRequired: false,
+    isDisabled: false,
+    ocultar: true,
+    label: "Flete Interno 2*20FT CDMX",
+    align: "Left",
+  },
+  {
+    id: "descarga_meli_40sthq_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Descarga MELI 40HQ/STD GUAD",
+    align: "Left",
+  },
+  {
+    id: "descarga_meli_20ft_guad",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Descarga MELI 20FT GUAD",
+    align: "Left",
+  },
+  {
+    id: "descarga_meli_40sthq_cdmx",
+    numeric: true,
     select: null,
     isRequired: false,
     isDisabled: true,
     ocultar: false,
-    label: "Fecha/hora",
+    label: "Descarga 40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "pais",
-    numeric: false,
-    select: "Pais Dest.",
+    id: "descarga_meli_20ft_cdmx",
+    numeric: true,
+    select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: false,
-    label: "Pais Dest.",
+    ocultar: true,
+    label: "Descarga 20FT CDMX",
     align: "Left",
   },
   {
-    id: "region",
-    numeric: false,
-    select: "Region",
-    isRequired: false,
+    id: "despa_fijo",
+    numeric: true,
+    select: null,
+    isRequired: true,
     isDisabled: false,
     ocultar: false,
-    label: "Region",
+    label: "Despachante Cargo Fijo",
+    align: "Left",
+  },
+  {
+    id: "despa_var",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Despachante cargo Var.",
+    align: "Left",
+  },
+  {
+    id: "despa_clasific_oper",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Despachante Clasific x Oper.",
+    align: "Left",
+  },
+  {
+    id: "despa_consult_compl",
+    numeric: true,
+    select: null,
+    isRequired: true,
+    isDisabled: false,
+    ocultar: false,
+    label: "Despachante Consult Compl.",
+    align: "Left",
+  },
+  {
+    id: "htimestamp",
+    numeric: true,
+    select: null,
+    isRequired: false,
+    isDisabled: false,
+    ocultar: true,
+    label: "Fecha/Hora",
     align: "Left",
   },
 ];
@@ -614,11 +784,19 @@ const ProductList = () => {
           setPaisSelect(SeleccionPais);
   }  
 
-  React.useEffect(()=>{
-      console.log(paisSelect);
-      console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
-      setPage(0);
-  },[paisSelect])
+  const useStyles = makeStyles({
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)",  // Color y grosor del borde 
+      //whiteSpace: 'nowrap',
+    },
+    lastCell: {
+      borderRight: "none"
+    },
+  });
+
+  const classes = useStyles();
+
+
 
   return (
     <>
@@ -714,133 +892,160 @@ const ProductList = () => {
           </CardContent>
 
           {/* table */}
-          <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-                theme={theme}
-                selected={selected}
-              />
-              <TableBody>
-              {stableSort(paisSelect?rows.filter(myRow=>myRow.pais==paisSelect?.description):rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    if (typeof row === "number") return null;
-                    const isItemSelected = isSelected(row.description);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {/*VISTA ABREVIADA*/}
+                      
+                        <>
+                          <TableCell align="center"
+                            sx={{ minWidth: 120, backgroundColor: '#B8B8B8' }}
+                          className={classes.tableCell}>
+                            Fecha
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/  backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete 4HQ/STD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete 20FT
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Seguro Var. (segun FOB)
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Gastos Locales FWD 40HQ/STD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Gastos Locales FWD 20FT
+                          </TableCell>
+                          <TableCell align="center" sx={{ minwidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Terminal 40HQ/STD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:110,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Terminal 20FT
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 1*40HQ/STD GUAD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 1*20FT GUAD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 2*40HQ/STD GUAD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 2*20FT GUAD
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 2*40HQ/STD CDMX
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Flete Interno 2*20FT/STD CDMX
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Descarga MELI GUAD 40HQ/STD
+                          </TableCell><TableCell align="right" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Descarga MELI GUAD 20FT
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:120,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Despachante Cargo Fijo por Oper. 
+                          </TableCell>
+                          <TableCell align="center" sx={{ mindWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Despachante Variable Segun CIF
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Clasificacion por Oper.
+                          </TableCell>
+                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                            Consultoria Compliance por Oper.
+                          </TableCell>                          
+                        </>
 
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={index}
-                        selected={isItemSelected}
-                      >
-                        {attributes.map((attribute) => (
-                          <TableCell
-                            align="left"
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            sx={{
-                              fontSize: 20,
-                              "&:hover": {
-                                fontStyle: "italic",
-                              },
-                            }}
-                          >
-                            <Typography
-                              variant="subtitle1"
-                              sx={{
-                                color:
-                                  theme.palette.mode === "dark"
-                                    ? "grey.600"
-                                    : "grey.900",
-                              }}
-                            >
-                              {attribute === "htimestamp"
-                                ? new Date(row[attribute]).toLocaleDateString()
-                                : row[attribute]}
+                      <TableCell align="right" sx={{ pr: 3 }} />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.length === 0 ? (
+                      <TableRow>
+                        <TableCell>Cargando...</TableCell>
+                      </TableRow>
+                    ) : (
+                      rows.map((row, index) => (
+                        <TableRow
+                          key={index}
+                          hover
+                          role="checkbox"
+                          sx={{
+                            fontSize: 20,
+                            "&:hover": {
+                              fontStyle: "italic",
+                            },
+                          }}
+                          className={classes.tableCell}
+                        >
+                          <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
+                            <Typography align="left" variant="subtitle1">
+                            {row.htimestamp
+                                  ? UtilidadesHelper.formatFecha(
+                                    row.htimestamp
+                                                                )
+                                  : "Sin data"}
+                              {/* {row.description} */}
+                              {/* {console.log(row)} */}
                             </Typography>
                           </TableCell>
-                        ))}
-
-                        <TableCell align="right">
-                          {EditOK ? (
+                          {/* DATOS DE LA VISTA ABREVIADA */}
+                          {
                             <>
-                              {DeleleOK && (
-                                <Tooltip title="Delete">
-                                  <IconButton size="large">
-                                    <DeleteIcon
-                                      fontSize="small"
-                                      onClick={() => handleDelete(row.id)}
-                                    />
-                                  </IconButton>
-                                </Tooltip>
-                              )}
-
-                              <Tooltip title="Edit item">
-                                <IconButton
-                                  size="large"
-                                  onClick={() => handleEdit(row)}
-                                >
-                                  <EditIcon />
-                                </IconButton>
-                              </Tooltip>
+                              
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.gasto_fijo.toFixed(3)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.gasto_variable.toFixed(3)}
+                              </TableCell>
                             </>
-                          ) : (
-                            "Sin permisos"
-                          )}
-                        </TableCell>
+}
 
-                        <CompUpdate
-                          open={openUpdate}
-                          dataRow={selectedRow}
-                          handleUpdateAPI={handleUpdateAPI}
-                          handleCloseDialog={handleCloseDialogUpdate}
-                          TableName={TableName}
-                          dataSelectPais={paisRegion}
-                          dataSelectTerminal={Terminales}
-                          dataSelectCarga={Carga}
-                          dataSelectPoliza={Poliza}
-                          selectPais={true}
-                          selectCarga={true}
-                          selectTerminal={true}
-                          selectPoliza={false}
-                        />
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                          {/* ICONO DE BORRADO por ahora innecesario */}
+                          {/* <TableCell sx={{ pr: 3 }} align="right">
+                                                        <IconButton
+                                                            color="primary"
+                                                            size="large"
+                                                            aria-label="product delete"
+                                                            onClick={() => deteleDetails(row.id)}
+                                                        >
+                                                            <DeleteTwoToneIcon />
+                                                        </IconButton>
+                                                    </TableCell> */}
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
 
-          {/* table pagination */}
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+            <Grid item xs={12}>
+              <SubCard
+                sx={{
+                  mx: 3,
+                  mb: 3,
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? theme.palette.dark.main
+                      : theme.palette.primary.light,
+                }}
+              >
+                
+              </SubCard>
+            </Grid>
+          </Grid>
+
+          
         </MainCard>
       }
     </>
