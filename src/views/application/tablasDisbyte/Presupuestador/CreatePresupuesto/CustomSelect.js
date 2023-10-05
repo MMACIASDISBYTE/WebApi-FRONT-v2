@@ -21,6 +21,7 @@ export const CustomSelect = ({
   MD = 3,
   PaisRegion = null,
   desactivado = false,
+  ValorPorDefecto = null,
 }) => {
   // console.log(PaisRegion);
   // Filtramos los datos basados en paisregion_id solo si data es un array
@@ -49,7 +50,7 @@ export const CustomSelect = ({
           <InputLabel required>{`${inputLabel}`}</InputLabel>
           {/* Si data existe, mostramos el Select. Si no, mostramos el TextField. */}
           {data !== "String" ? (
-            <Tooltip    //consulto si trae una fecha valida mostrar la fecha con formato sino no mostrar nada
+            <Tooltip //consulto si trae una fecha valida mostrar la fecha con formato sino no mostrar nada
               title={tooltipInfo != "Fecha: Invalid Date" ? tooltipInfo : ""}
             >
               <Select
@@ -64,7 +65,11 @@ export const CustomSelect = ({
                 disabled={desactivado}
                 renderValue={(selected) => {
                   if (!selected || Object.keys(selected).length === 0) {
-                    return <em>{em}</em>;
+                    if (ValorPorDefecto) {
+                      return ValorPorDefecto;
+                    } else {
+                      return <em>{em}</em>;
+                    }
                   }
                   return selected.description;
                 }}
@@ -74,7 +79,16 @@ export const CustomSelect = ({
                 </MenuItem>
                 {filteredData && filteredData.length > 0 ? (
                   filteredData.map((item) => (
-                    <MenuItem key={item.id} value={item}>
+                    <MenuItem
+                      key={item.id}
+                      value={item}
+                      disabled={item.description === "LCL"} // Desactiva el ítem si es "LCL"
+                      style={
+                        item.description === "LCL"
+                          ? { backgroundColor: "lightgray" }
+                          : {}
+                      }
+                    >
                       {item.description}{" "}
                       {/* {item.paisregion_id ? ` - ${item.paisregion_id}` : ""}{" "}
                       {item.region ? ` - ${item.region}` : ""} */}

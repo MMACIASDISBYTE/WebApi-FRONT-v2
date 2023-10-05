@@ -852,50 +852,50 @@ const classes = useStyles();
                       {verMas ? (
                         <>
                           <TableCell align="left"
-                            sx={{ minWidth: 400, backgroundColor: '#5EF986' }}
+                            sx={{ minWidth: 400, backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             Description
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             NCM
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             EXW U USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             Cant PCS
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80, backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ pl: 3, minWidth: 80, backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             CBM x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             Peso x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             CBM TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             PESO TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             CIF TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             IMP TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             G. LOC USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             EXTRA G. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
                             COSTOu USD
                           </TableCell>
                         </>
@@ -904,111 +904,111 @@ const classes = useStyles();
                           {/*VISTA FULL*/}
                           <TableCell
                             align="left"
-                            sx={{ minWidth: 400, backgroundColor: '#5EF986' }}
+                            sx={{ minWidth: 400, backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>Description
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             NCM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ minWidth: 100, whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ minWidth: 100, whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             SKU
                           </TableCell>
                           <TableCell
                             align="right"
-                             sx={{minWidth: 180, whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                             sx={{minWidth: 180, whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             OEM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             EXW u USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
                             FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}className={classes.tableCell}>
                             CBM x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             PESO x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             Cant. Cajas
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             CBM TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             PESO TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             FOB TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             FP
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             FREIGHT CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             INSUR. CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             CIF TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             FOB to CIF
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             ARANC.%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             ARANC USD
                           </TableCell>
@@ -1016,13 +1016,13 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 TE%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 TE USD
                               </TableCell>
@@ -1031,13 +1031,13 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 DTA%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 DTA USD
                               </TableCell>
@@ -1045,19 +1045,19 @@ const classes = useStyles();
                           )}
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             BASE IVA USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             IVA%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           className={classes.tableCell}>
                             IVA USD
                           </TableCell>
@@ -1065,37 +1065,37 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 IVA Ad%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 IVA Ad USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 IIBB%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 IIBB USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 GCIAS %
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 className={classes.tableCell}>
                                 GCIAS USD
                               </TableCell>
@@ -1103,30 +1103,30 @@ const classes = useStyles();
                           ) : (
                             ""
                           )}
-                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}>
                             IMP TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             GLOC TERM USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             GLOC FLETE USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             GLOC FWD USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             GLOC DESPA USD
                           </TableCell>
@@ -1134,13 +1134,13 @@ const classes = useStyles();
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 >
                                 GLOC BANC USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                                 >
                                 GLOC CUST USD
                               </TableCell>
@@ -1150,139 +1150,139 @@ const classes = useStyles();
                           )}
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             GLOC TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg LOC1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg LOC2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg CMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg CMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg CMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg CMX NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg FIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg FIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg FIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg FIN NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gCMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gCMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gCMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gCMX4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gCMX5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gFIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gFIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gFIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gFIN4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             EXTRG gFIN5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             extrg TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#B8B8B8' }}
                           >
                             COSTO u. USD
                           </TableCell>
