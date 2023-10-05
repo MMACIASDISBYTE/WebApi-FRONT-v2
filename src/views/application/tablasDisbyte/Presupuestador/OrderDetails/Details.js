@@ -219,7 +219,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                 <AnimateButton>
                   <Button
                     variant="contained"
-                    onClick={() => navigate("/estimate/estimate-list")}
+                    onClick={() => navigate("/estimateMex/estimate-list")}
                   >
                     Volver a la lista
                   </Button>
