@@ -20,6 +20,7 @@ export const CustomSelect = ({
   XS = 12,
   MD = 3,
   PaisRegion = null,
+  desactivado = false,
 }) => {
   // console.log(PaisRegion);
   // Filtramos los datos basados en paisregion_id solo si data es un array
@@ -45,7 +46,7 @@ export const CustomSelect = ({
     <>
       <Grid item xs={XS} md={MD}>
         <Stack>
-          <InputLabel required>{inputLabel}</InputLabel>
+          <InputLabel required>{`${inputLabel}`}</InputLabel>
           {/* Si data existe, mostramos el Select. Si no, mostramos el TextField. */}
           {data !== "String" ? (
             <Tooltip    //consulto si trae una fecha valida mostrar la fecha con formato sino no mostrar nada
@@ -60,6 +61,7 @@ export const CustomSelect = ({
                 error={formik.touched[name] && Boolean(formik.errors[name])}
                 helperText={formik.touched[name] && formik.errors[name]}
                 onChange={formik.handleChange}
+                disabled={desactivado}
                 renderValue={(selected) => {
                   if (!selected || Object.keys(selected).length === 0) {
                     return <em>{em}</em>;
@@ -74,8 +76,8 @@ export const CustomSelect = ({
                   filteredData.map((item) => (
                     <MenuItem key={item.id} value={item}>
                       {item.description}{" "}
-                      {item.paisregion_id ? ` - ${item.paisregion_id}` : ""}{" "}
-                      {item.region ? ` - ${item.region}` : ""}
+                      {/* {item.paisregion_id ? ` - ${item.paisregion_id}` : ""}{" "}
+                      {item.region ? ` - ${item.region}` : ""} */}
                       {item.htimestamp
                         ? ` - Fecha: ${new Date(
                             item.htimestamp

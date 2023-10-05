@@ -23,7 +23,7 @@ import {
   Typography,
 } from "@mui/material";
 // Importa CircularProgress de Material UI
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
 
 // project imports
@@ -192,6 +192,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
     }
     setVerMas(false);
   };
+  const useStyles = makeStyles({
+  tableCell: {
+    borderRight: "1px solid rgba(224, 224, 224, 1)",  // Color y grosor del borde 
+    whiteSpace: 'nowrap',
+  },
+  lastCell: {
+    borderRight: "none"
+  },
+});
+const classes = useStyles();
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -841,175 +851,179 @@ const Details = ({ presupuestador, usuario, historico }) => {
                       {/*VISTA ABREVIADA*/}
                       {verMas ? (
                         <>
-                          <TableCell sx={{ pl: 3, minWidth: 280 }}>
+                          <TableCell align="left"
+                            sx={{ minWidth: 400, backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             Description
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             NCM
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            EXW U
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            EXW U USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            FOB U
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             Cant PCS
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80 }}>
+                          <TableCell align="right" sx={{ pl: 3, minWidth: 80, backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             CBM x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             Peso x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             CBM TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             PESO TOT
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            CIF TOT
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            CIF TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            IMP TOT
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            IMP TOT USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            G. LOC
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            G. LOC USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            EXTRA G.
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
+                            EXTRA G. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }} className={classes.tableCell}>
                             COSTOu USD
                           </TableCell>
                         </>
                       ) : (
                         <>
                           {/*VISTA FULL*/}
-                          <TableCell sx={{ pl: 5, minWidth: 400 }}>
-                            Description
+                          <TableCell
+                            align="left"
+                            sx={{ minWidth: 400, backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>Description
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             NCM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ minWidth: 100, whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             SKU
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 220 }}
-                          >
+                             sx={{minWidth: 180, whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             OEM
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
-                            EXW u
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
+                            EXW u USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80 }}>
-                            FOB u
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
+                            FOB u. USD
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
                             PCS x Caja
                           </TableCell>
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 80 }}>
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}className={classes.tableCell}>
                             CBM x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             PESO x Caja
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             Cant. Cajas
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
-                            CBM TOT
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
+                            CBM TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             PESO TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             FOB TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             FP
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             FREIGHT CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             INSUR. CHRG
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             CIF TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 110 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             FOB to CIF
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             ARANC.%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             ARANC USD
                           </TableCell>
                           {pais == 7 ? (
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 TE%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 TE USD
                               </TableCell>
                             </>
@@ -1017,118 +1031,118 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 DTA%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 DTA USD
                               </TableCell>
                             </>
                           )}
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
-                            BASE IVA
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
+                            BASE IVA USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             IVA%
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
-                          >
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                          className={classes.tableCell}>
                             IVA USD
                           </TableCell>
                           {pais == 7 ? (
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 IVA Ad%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 IVA Ad USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 IIBB%
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 IIBB USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 GCIAS %
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                className={classes.tableCell}>
                                 GCIAS USD
                               </TableCell>
                             </>
                           ) : (
                             ""
                           )}
-                          <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                            IMP TOT
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}>
+                            IMP TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 12, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            GLOC TERM
+                            GLOC TERM USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            GLOC FLETE
+                            GLOC FLETE USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            GLOC FWD
+                            GLOC FWD USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            GLOC DESPA
+                            GLOC DESPA USD
                           </TableCell>
                           {pais == 7 ? (
                             <>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
-                                GLOC BANC
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                >
+                                GLOC BANC USD
                               </TableCell>
                               <TableCell
                                 align="right"
-                                sx={{ pl: 3, minWidth: 100 }}
-                              >
-                                GLOC CUST
+                                sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
+                                >
+                                GLOC CUST USD
                               </TableCell>
                             </>
                           ) : (
@@ -1136,141 +1150,141 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           )}
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            GLOC TOT
+                            GLOC TOT USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 12, minWidth: 150 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg LOC1
+                            extrg LOC1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg LOC2
+                            extrg LOC2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg CMX1
+                            extrg CMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg CMX2
+                            extrg CMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg CMX3
+                            extrg CMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 220 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
                             extrg CMX NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 12, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg FIN1
+                            extrg FIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg FIN2
+                            extrg FIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            extrg FIN3
+                            extrg FIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 3, minWidth: 220 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
                             extrg FIN NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 10, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gCMX1
+                            EXTRG gCMX1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gCMX2
+                            EXTRG gCMX2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gCMX3
+                            EXTRG gCMX3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gCMX4
+                            EXTRG gCMX4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gCMX5
+                            EXTRG gCMX5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 10, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gFIN1
+                            EXTRG gFIN1 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gFIN2
+                            EXTRG gFIN2 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gFIN3
+                            EXTRG gFIN3 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gFIN4
+                            EXTRG gFIN4 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 1, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            EXTRG gFIN5
+                            EXTRG gFIN5 USD
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 10, minWidth: 140 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
                             extrg TOT
                           </TableCell>
                           <TableCell
                             align="right"
-                            sx={{ pl: 10, minWidth: 100 }}
+                            sx={{ whiteSpace: 'nowrap', backgroundColor: '#5EF986' }}
                           >
-                            COSTO u
+                            COSTO u. USD
                           </TableCell>
                         </>
                       )}
@@ -1294,8 +1308,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               fontStyle: "italic",
                             },
                           }}
+                          className={classes.tableCell}
                         >
-                          <TableCell sx={{ pl: 3 }}>
+                          <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
                             <Typography align="left" variant="subtitle1">
                               {row.description ? row.description : ""}
                               {/* {row.description} */}
@@ -1305,174 +1320,169 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           {/* DATOS DE LA VISTA ABREVIADA */}
                           {verMas ? (
                             <>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {rowsAddData[index].ncm_str
                                   ? rowsAddData[index].ncm_str
                                   : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.qty ? row.qty : "0"}u.
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.pcsctn ? row.pcsctn : "0"}u.
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.cbmctn ? row.cbmctn.toFixed(4) : "0"}m3
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.gwctn ? row.gwctn.toFixed(2) : "0"}kg
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalcbm ? row.totalcbm.toFixed(2) : "0"}m3
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalgw ? row.totalgw.toFixed(2) : "0"}kg
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalcif ? row.totalcif.toFixed(2) : "0"}
                               </TableCell>
                               {/*console.log(rows)*/}
-                              <TableCell align="right">
-                                USD {sumImpuestosPais(row, pais).toFixed(2)}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
-                              <TableCell>
-                                USD {sumGlocPais(row, pais).toFixed(2)}
+                              <TableCell className={classes.tableCell}>
+                                {sumGlocPais(row, pais).toFixed(2)}
                               </TableCell>
 
-                              <TableCell align="right">
-                                USD {sumExtrag(row).toFixed(2)}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {sumExtrag(row).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.costo_u ? row.costo_u.toFixed(3) : ""}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.costo_u ? row.costo_u.toFixed(3) : ""}
                               </TableCell>
                             </>
                           ) : (
                             <>
                               {/* DATOS DE LA VISTA FULL */}
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {rowsAddData[index].ncm_str
                                   ? rowsAddData[index].ncm_str
                                   : 0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.sku ? row.sku : 0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {rowsAddData[index].proveedor
                                   ? rowsAddData[index].proveedor
                                   : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.exw_u ? row.exw_u.toFixed(2) : 0}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.exw_u ? row.exw_u.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.fob_u ? row.fob_u.toFixed(2) : 0}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.fob_u ? row.fob_u.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.pcsctn ? row.pcsctn : 0} u.
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.cbmctn ? row.cbmctn.toFixed(4) : 0.0} m3
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.gwctn ? row.gwctn.toFixed(2) : 0.0} kg
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.pcsctn > 1
                                   ? Math.ceil(row.qty / row.pcsctn).toFixed(2)
                                   : 0.0}
                                 u.
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalcbm ? row.totalcbm.toFixed(2) : 0.0}{" "}
                                 m3
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalgw ? row.totalgw.toFixed(2) : 0.0} kg
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalfob ? row.totalfob.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.factorproducto
                                   ? row.factorproducto.toFixed(2)
                                   : 0.0}
                                 %
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.freightCharge
                                   ? row.freightCharge.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.insuranceCharge
                                   ? row.insuranceCharge.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalcif ? row.totalcif.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.totalfob > 0
                                   ? (row.totalcif / row.totalfob).toFixed(3)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.ncm_arancel
                                   ? row.ncm_arancel.toFixed(3)
                                   : 0.0}{" "}
                                 %
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.arancelgrav_cif
                                   ? row.arancelgrav_cif.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.ncm_te_dta_otro
                                   ? row.ncm_te_dta_otro.toFixed(3)
                                   : 0.0}{" "}
                                 %
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.te_dta_otro_cif
                                   ? row.te_dta_otro_cif.toFixed(2)
                                   : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 USD {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.ncm_iva ? row.ncm_iva.toFixed(3) : 0.0} %
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.iva_cif ? row.iva_cif.toFixed(2) : 0.0}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.iva_cif ? row.iva_cif.toFixed(2) : 0.0}
                               </TableCell>
                               {pais == 7 ? (
                                 <>
-                                  <TableCell align="right">
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.ncm_ivaad
                                       ? row.ncm_ivaad.toFixed(3)
                                       : 0.0}{" "}
                                     %
                                   </TableCell>
-                                  <TableCell align="right">
-                                    USD{" "}
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.ivaad_cif
                                       ? row.ivaad_cif.toFixed(2)
                                       : 0.0}
                                   </TableCell>
-                                  <TableCell align="right">
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {presupuestador.estHeader.iibb_total
                                       ? presupuestador.estHeader.iibb_total.toFixed(
                                           3
@@ -1480,15 +1490,13 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                       : 0.0}{" "}
                                     %
                                   </TableCell>
-                                  <TableCell align="right">
-                                    USD{" "}
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.iibb900 ? row.iibb900.toFixed(2) : 0.0}
                                   </TableCell>
-                                  <TableCell align="right">
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.gcias ? row.gcias.toFixed(3) : 0.0} %
                                   </TableCell>
-                                  <TableCell align="right">
-                                    USD{" "}
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.gcias424
                                       ? row.gcias424.toFixed(2)
                                       : 0.0}
@@ -1497,24 +1505,21 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               ) : (
                                 ""
                               )}
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 USD {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.gloc_terminales
                                   ? row.gloc_terminales.toFixed(2)
                                   : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.gloc_flete ? row.gloc_flete.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.gloc_fwd ? row.gloc_fwd.toFixed(2) : 0}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.gloc_fwd ? row.gloc_fwd.toFixed(2) : 0}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.gloc_despachantes
                                   ? row.gloc_despachantes.toFixed(2)
                                   : 2}
@@ -1522,14 +1527,12 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
                               {pais == 7 ? (
                                 <>
-                                  <TableCell align="right">
-                                    USD{" "}
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.gloc_bancos
                                       ? row.gloc_bancos.toFixed(2)
                                       : 0}
                                   </TableCell>
-                                  <TableCell align="right">
-                                    USD{" "}
+                                  <TableCell align="right" className={classes.tableCell}>
                                     {row.gloc_polizas
                                       ? row.gloc_polizas.toFixed(2)
                                       : 0.0}
@@ -1538,133 +1541,115 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               ) : (
                                 ""
                               )}
-                              <TableCell align="right">
-                                USD {sumGlocPais(row, pais).toFixed(2)}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {sumGlocPais(row, pais).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_local1
                                   ? row.extrag_local1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_local2
                                   ? row.extrag_local2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_comex1
                                   ? row.extrag_comex1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_comex2
                                   ? row.extrag_comex2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_comex3
                                   ? row.extrag_comex3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_comex_notas
                                   ? row.extrag_comex_notas
                                   : ""}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_finan1
                                   ? row.extrag_finan1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_finan2
                                   ? row.extrag_finan2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_finan3
                                   ? row.extrag_finan3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_finan_notas
                                   ? row.extrag_finan_notas
                                   : ""}
                               </TableCell>
 
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_comex1
                                   ? row.extrag_glob_comex1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_comex2
                                   ? row.extrag_glob_comex2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_comex3
                                   ? row.extrag_glob_comex3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_comex4
                                   ? row.extrag_glob_comex4.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_comex5
                                   ? row.extrag_glob_comex5.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_finan1
                                   ? row.extrag_glob_finan1.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_finan2
                                   ? row.extrag_glob_finan2.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_finan3
                                   ? row.extrag_glob_finan3.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_finan4
                                   ? row.extrag_glob_finan4.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD{" "}
+                              <TableCell align="right" className={classes.tableCell}>
                                 {row.extrag_glob_finan5
                                   ? row.extrag_glob_finan5.toFixed(2)
                                   : "0"}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {sumExtrag(row).toFixed(2)}
+                              <TableCell align="right" className={classes.tableCell}>
+                                {sumExtrag(row).toFixed(2)}
                               </TableCell>
-                              <TableCell align="right">
-                                USD {row.costo_u ? row.costo_u.toFixed(3) : ""}
+                              <TableCell align="right" className={classes.tableCell} sx={{ pl: 10, whiteSpace: 'nowrap' }}>
+                                {row.costo_u ? row.costo_u.toFixed(3) : ""}
                               </TableCell>
                             </>
                           )}
@@ -1808,6 +1793,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 color="primary"
                                 variant="subtitle1"
+                                sx={{ pl: 10, minWidth: 180 }}
                               >
                                 USD{" "}
                                 {presupuestador.estHeader.cif_grand_total ||
@@ -1823,15 +1809,15 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           </Grid>
                           <Grid container spacing={1}>
                             <Grid item xs={6}>
-                              <Typography
+                              {/* <Typography
                                 align="right"
                                 color="primary"
                                 variant="subtitle1"
                               >
                                 CIF Total ARS:
-                              </Typography>
+                              </Typography> */}
                             </Grid>
-                            <Grid item xs={6}>
+                            {/* <Grid item xs={6}>
                               <Typography
                                 align="right"
                                 color="primary"
@@ -1849,7 +1835,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                     )
                                   : "Sin data"}
                               </Typography>
-                            </Grid>
+                            </Grid> */}
                           </Grid>
                         </Grid>
                       </Grid>

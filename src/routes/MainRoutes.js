@@ -89,20 +89,14 @@ const AppNCM_MEX = Loadable(lazy(() => import('views/application/tablasDisbyte/M
 const AppIIBB = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/IIBB')));
 
 // application --> TARIFAS -> SHIPPING
+const AppTarifario = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/Tarifario')));
 const AppSHIPPING = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/SHIPPING')));
-// application --> TARIFAS -> TERMINALES 
 const AppTERMINALES = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/TERMINALES')));
-// application --> TARIFAS -> DEPOSITOS 
 const AppDEPOSITOS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/DEPOSITOS')));
-// application --> TARIFAS -> TRANSPORTE LOCAL 
 const AppTRANSPORTELOC = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/TRANSPORTELOC')));
-// application --> TARIFAS -> POLIZAS 
 const AppPOLIZAS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/POLIZAS')));
-// application --> TARIFAS -> POLIZAS 
 const AppBANCOS = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/BANCOS')));
-// application --> TARIFAS -> POLIZAS 
 const AppGestDig = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/GestDig')));
-// application --> TARIFAS -> POLIZAS 
 const AppDESPACHANTES = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/TARIFAS/DESPACHANTES')));
 
 
@@ -251,6 +245,10 @@ const MainRoutes = {
         { //ruta para manejar cualquier ingreso no autorizado
             path:'/NoAutorizado',
             element: <NoAutorizado/>
+        }, 
+        { //ruta para manejar cualquier ingreso no autorizado
+            path:'/UnderConstruction',
+            element: <UnderContruction/>
         },
         {
             path: '/user/social-profile/:tab',
@@ -363,6 +361,10 @@ const MainRoutes = {
             element: <AppCargaProduct />
         },
         // RUTAS PARA TARIFAS
+        { // Padre como item, no colapse
+            path: '/TARIFAS/Tarifario',
+            element: <AppTarifario />
+        },
         // CHILD: SHIPPING
         {
             path: '/TARIFAS/SHIPPING',
