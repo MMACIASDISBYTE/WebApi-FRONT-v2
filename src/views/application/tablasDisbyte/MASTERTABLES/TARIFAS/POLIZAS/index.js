@@ -101,7 +101,7 @@ const headCells = [
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Descripcion",
+    label: "Nombre Cotizacion",
     align: "Left",
   },
   {
