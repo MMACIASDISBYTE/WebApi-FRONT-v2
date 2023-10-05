@@ -102,7 +102,7 @@ const headCells = [
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Descripcion",
+    label: "Nombre Cotizacion",
     align: "Left",
   },
   {
@@ -206,7 +206,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "fwdtte",
+    id: "fwdtte_vista",
     numeric: false,
     select: null,
     isRequired: false,
@@ -216,7 +216,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "carga1",
+    id: "carga_vista",
     numeric: false,
     select: null,
     isRequired: false,
@@ -226,7 +226,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "pais_dest",
+    id: "pais_dest_vista",
     numeric: false,
     select: null,
     isRequired: false,
@@ -236,7 +236,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "region_dest",
+    id: "region_dest_vista",
     numeric: false,
     select: null,
     isRequired: false,
@@ -246,7 +246,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "pais_orig",
+    id: "pais_orig_vista",
     numeric: false,
     select: null,
     isRequired: false,
@@ -256,7 +256,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "region_orig",
+    id: "region_orig_vista",
     numeric: false,
     select: null,
     isRequired: false,

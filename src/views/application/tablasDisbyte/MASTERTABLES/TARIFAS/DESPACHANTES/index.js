@@ -105,7 +105,7 @@ const headCells = [
     select: null,
     isDisabled: false,
     ocultar: false,
-    label: "Descripcion",
+    label: "Nombre Cotizacion",
     align: "Left",
   },
   {
@@ -209,7 +209,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "despachante",
+    id: "despachante_vista",
     numeric: true,
     isRequired: false,
     select: null,
@@ -219,13 +219,23 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "pais",
+    id: "pais_vista",
     numeric: true,
     isRequired: false,
     select: null,
     isDisabled: false,
     ocultar: false,
     label: "Pais",
+    align: "Left",
+  },
+  {
+    id: "region_vista",
+    numeric: true,
+    isRequired: false,
+    select: null,
+    isDisabled: false,
+    ocultar: false,
+    label: "Region",
     align: "Left",
   },
 ];
