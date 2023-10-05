@@ -271,10 +271,21 @@ export const UtilidadesHelper = {
         return "Sin data";
     }
   },
-  ordenadorDeArray: function (Orden, ArrAOrdenar) {
+  ordenadorDeArrayByDescription: function (Orden, ArrAOrdenar) {
     ArrAOrdenar.sort((a, b) => {
       const orderA = Orden.indexOf(a.description);
       const orderB = Orden.indexOf(b.description);
+
+      if (orderA < orderB) return -1;
+      if (orderA > orderB) return 1;
+      return 0;
+    });
+    return ArrAOrdenar; // <-- Devuelve el array ordenado
+  },
+  ordenadorDeArrayById: function (Orden, ArrAOrdenar) {
+    ArrAOrdenar.sort((a, b) => {
+      const orderA = Orden.indexOf(a.id);
+      const orderB = Orden.indexOf(b.id);
 
       if (orderA < orderB) return -1;
       if (orderA > orderB) return 1;
