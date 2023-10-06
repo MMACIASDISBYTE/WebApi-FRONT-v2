@@ -296,6 +296,7 @@ const ProductList = () => {
       const jsonData = await CargaHelper.fetchData();
 
       setRows(jsonData);
+      // console.log(rows);
     } catch (error) {
       console.log("Carga.fetchData::erro: ".error);
       navigate("/pages/error");

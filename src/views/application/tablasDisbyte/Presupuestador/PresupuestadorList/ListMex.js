@@ -45,6 +45,7 @@ import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
 import { SelectPais } from "../SelectPais";
+import { SelectCarga } from "../SelectCarga";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -83,15 +84,15 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    label: "N° de Presupuesto",
+    label: "N° Est / Version",
     align: "left",
   },
-  {
-    id: "estvers",
-    numeric: false,
-    label: "Version",
-    align: "left",
-  },
+  // {
+  //   id: "estvers",
+  //   numeric: false,
+  //   label: "Version",
+  //   align: "left",
+  // },
   {
     id: "description",
     numeric: false,
@@ -102,6 +103,12 @@ const headCells = [
     id: "paisregion_id",
     numeric: false,
     label: "Pais / Region",
+    align: "left",
+  },
+  {
+    id: "carga_id",
+    numeric: true,
+    label: "Carga",
     align: "left",
   },
   {
@@ -302,6 +309,8 @@ const CustomerList = () => {
   const { customers } = useSelector((state) => state.customer);
   const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
+  const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
+
 
 
   React.useEffect(() => {
@@ -340,6 +349,11 @@ const filtrarPresupuestos = () => {
     presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.paisregion_id === seleccionPais);
   }
 
+  // Si hay un carga seleccionado, filtrar por país
+  if (seleccionCarga !== null && seleccionCarga !== undefined) {
+    presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.carga_id === seleccionCarga);
+  }
+
   // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
   if (ultVerMostrar) {
     presupuestosFiltrados = presupuestosFiltrados.reduce((acc, presupuesto) => {
@@ -358,11 +372,16 @@ const filtrarPresupuestos = () => {
 // Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
 React.useEffect(() => {
   filtrarPresupuestos();
-}, [customers, seleccionPais, ultVerMostrar]);
+}, [customers, seleccionPais, seleccionCarga, ultVerMostrar]);
 
   const handleChangePais = (pais) =>{
     console.log(pais.id);
     setSeleccionPais(pais.id)
+  } 
+
+  const handleChangeCarga = (carga) =>{
+    console.log(carga.id);
+    setSeleccionCarga(carga.id)
   }
 
   const handleSearch = (event) => {
@@ -378,6 +397,7 @@ React.useEffect(() => {
           "estvers",
           "description",
           "paisregion_id",
+          "carga_id",
           "status",
           "cantidad_contenedores",
           "gastos_loc_total",
@@ -506,6 +526,11 @@ React.useEffect(() => {
             datosSelect = {[]}
             handleChangePais={handleChangePais}
           /> */}
+          <SelectCarga
+            nameSelect = {'Carga'}
+            datosSelect = {[]}
+            handleChangeCarga={handleChangeCarga}
+          />
 
           <Grid item xs={12} md={3}>
                   <Grid container spacing={1}>
@@ -614,17 +639,15 @@ React.useEffect(() => {
                                         </TableCell> */}
 
                     <TableCell align="left">
-                      N° -{" "}
                       {row.id !== null && row.id !== undefined
-                        ? row.estnumber
+                        ? `N°${row.estnumber} - V ${row.estvers}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
-                      Ver N°{" "}
+                    {/* <TableCell align="left">
                       {row.estvers !== null && row.estvers !== undefined
                         ? row.estvers
                         : "Sin data"}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="left">
                       {row.estvers !== null && row.description !== undefined
                         ? row.description
@@ -636,9 +659,20 @@ React.useEffect(() => {
                         : "Sin data"}
                     </TableCell>
                     <TableCell align="left">
+                      {row.estvers !== null && row.carga_id !== undefined
+                        ? <StatusComp
+                            texto={'Carga'} 
+                            estadio={UtilidadesHelper.cargaSwitch(row.carga_id)}
+                            colores = {'orange'}
+                          />
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
                       {row.estvers !== null && row.status !== undefined
-                        ? <StatusComp 
+                        ? <StatusComp
+                            texto={'Estado'} 
                             estadio={row.status}
+                            colores = {'primary'}
                           />
                         : "Sin data"}
                     </TableCell>
