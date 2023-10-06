@@ -128,7 +128,7 @@ const AddDetailsPage = ({
   dataHelp,
   formik = null,
 }) => {
-  console.log(dataHelp);
+  // console.log(dataHelp);
   const theme = useTheme();
 
   // handle category change dropdown
@@ -356,7 +356,7 @@ const AddDetailsPage = ({
 
     // // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.productowner.trim()) {
-      errors.poError = "Po is required";
+      errors.productownerError = "Po is required";
     }
 
     // // Validacion sku
@@ -505,8 +505,8 @@ const AddDetailsPage = ({
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
-                {errors.poError && (
-                  <FormHelperText>{errors.poError}</FormHelperText>
+                {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -686,7 +686,7 @@ const AddDetailsPage = ({
                   id="gwctn"
                   name="gwctn"
                   fullWidth
-                  label="Cbmctn"
+                  label="Gwctn"
                   value={selectedItem?.gwctn || ""}
                   InputProps={{
                     endAdornment: (
