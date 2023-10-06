@@ -20,6 +20,7 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import Chip from "ui-component/extended/Chip";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -62,6 +63,8 @@ import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
 import AddDetailsPage from "../AddDetailsPage";
 import { TarifarioArrBool } from "../TarifarioArrBool";
+import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
+import { TarifonMexHelper } from "helpers/TarifonMexHelper";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -97,69 +100,69 @@ const validationSchema = yup.object({
   //   .nullable()
   //   .required("Fwd Pais/Region is required"),
 
-  tarifasfwd_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Fwd is required"),
+  // tarifasfwd_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Fwd is required"),
 
-  tarifasflete_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Flete is required"),
+  // tarifasflete_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Flete is required"),
 
-  tarifasterminales_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Terminal is required"),
+  // tarifasterminales_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Terminal is required"),
 
-  tarifaspolizas_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Poliza is required"),
+  // tarifaspolizas_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Poliza is required"),
 
-  tarifasdepositos_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Deposito is required"),
+  // tarifasdepositos_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Deposito is required"),
 
-  tarifasdespachantes_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Deposito is required"),
+  // tarifasdespachantes_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Deposito is required"),
 
-  tarifasbancos_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Deposito is Banco"),
+  // tarifasbancos_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Deposito is Banco"),
 
-  tarifasgestdigdoc_id: yup
-    .object()
-    .shape({
-      description: yup.string(),
-    })
-    .nullable()
-    .required("Tarifas Gest Dig is Banco"),
+  // tarifasgestdigdoc_id: yup
+  //   .object()
+  //   .shape({
+  //     description: yup.string(),
+  //   })
+  //   .nullable()
+  //   .required("Tarifas Gest Dig is Banco"),
 });
 
 // ==============================|| CREATE INVOICE ||============================== //
@@ -360,6 +363,89 @@ function CreateInvoice() {
     },
   ];
 
+  const ExtraCostosLocal = [
+    {
+      id: "gloc_fwd",
+      name: "gloc_fwd",
+      em: "Ingrese Extra Gasto Local Fwd USD",
+      inputLabel: "Gasto Local Fwd USD",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 4,
+    },
+    {
+      id: "gloc_flete",
+      name: "gloc_flete",
+      em: "Ingrese Extra Gasto Local Flete USD",
+      inputLabel: "Gasto Local Flete USD",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 3,
+    },
+    {
+      id: "gloc_terminales",
+      name: "gloc_terminales",
+      em: "Ingrese Extra Gasto Local Terminal USD",
+      inputLabel: "Gasto Local Terminal USD",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 7,
+    },
+    {
+      id: "gloc_despachantes",
+      name: "gloc_despachantes",
+      em: "Ingrese Extra Gasto Local Despachantes USD",
+      inputLabel: "Gasto Local Despachantes USD",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 2,
+    },
+    {
+      id: "freight_cost",
+      name: "freight_cost",
+      em: "flete internacional USD",
+      inputLabel: "flete internacional USD",
+      data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 8,
+    },
+    {
+      id: "freight_insurance_cost",
+      name: "freight_insurance_cost",
+      em: "Seguro Carga %.",
+      inputLabel: "Seguro Carga %.",
+      data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
+      dataType: "number",
+      Xs_Xd: [12, 2],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 9,
+    },
+  ];
+
+  
+
   useEffect(() => {
     dataHelpers();
   }, []);
@@ -387,16 +473,16 @@ function CreateInvoice() {
       carga_id: null,
       //   polizaProv: null,
       dolar: "",
-      tarifupdate: 1023, //harcodeado (formula de calculo)
-      tarifrecent: 1023, //harcodeado (formula de calculo)
-      tarifasfwd_id: null,
-      tarifasflete_id: null,
-      tarifasterminales_id: null,
-      tarifaspolizas_id: null,
-      tarifasdepositos_id: null,
-      tarifasdespachantes_id: null,
-      tarifasbancos_id: null,
-      tarifasgestdigdoc_id: null,
+      tarifupdate: 0, //harcodeado (formula de calculo)
+      tarifrecent: 0, //harcodeado (formula de calculo)
+      tarifasfwd_id: 9,
+      tarifasflete_id: 9,
+      tarifasterminales_id: 2,
+      tarifaspolizas_id: 0,
+      tarifasdepositos_id: 0,
+      tarifasdespachantes_id: 2,
+      tarifasbancos_id: 0,
+      tarifasgestdigdoc_id: 0,
 
       pesoTotal: 0,
 
@@ -431,6 +517,13 @@ function CreateInvoice() {
       freight_insurance_cost: 0,
       iibb_total: 0,
       tarifonmex_id: 0,
+
+      gloc_fwd: 0,
+      gloc_flete: 0,
+      gloc_terminales: 0,
+      gloc_despachantes: 0,
+      freight_cost: 0,
+      freight_insurance_cost: 0,
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -455,28 +548,30 @@ function CreateInvoice() {
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
 
-            tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
-            tarifasflete_id: values.tarifasflete_id
-              ? values.tarifasflete_id.id
-              : "",
-            tarifasterminales_id: values.tarifasterminales_id
-              ? values.tarifasterminales_id.id
-              : "",
-            tarifaspolizas_id: values.tarifaspolizas_id
-              ? values.tarifaspolizas_id.id
-              : "",
-            tarifasdepositos_id: values.tarifasdepositos_id
-              ? values.tarifasdepositos_id.id
-              : "",
-            tarifasdespachantes_id: values.tarifasdespachantes_id
-              ? values.tarifasdespachantes_id.id
-              : "",
-            tarifasbancos_id: values.tarifasbancos_id
-              ? values.tarifasbancos_id.id
-              : "",
-            tarifasgestdigdoc_id: values.tarifasgestdigdoc_id
-              ? values.tarifasgestdigdoc_id.id
-              : "",
+
+            // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
+            // tarifasflete_id: values.tarifasflete_id
+            //   ? values.tarifasflete_id.id
+            //   : "",
+            // tarifasterminales_id: values.tarifasterminales_id
+            //   ? values.tarifasterminales_id.id
+            //   : "",
+            // tarifaspolizas_id: values.tarifaspolizas_id
+            //   ? values.tarifaspolizas_id.id
+            //   : "",
+            // tarifasdepositos_id: values.tarifasdepositos_id
+            //   ? values.tarifasdepositos_id.id
+            //   : "",
+            // tarifasdespachantes_id: values.tarifasdespachantes_id
+            //   ? values.tarifasdespachantes_id.id
+            //   : "",
+            // tarifasbancos_id: values.tarifasbancos_id
+            //   ? values.tarifasbancos_id.id
+            //   : "",
+            // tarifasgestdigdoc_id: values.tarifasgestdigdoc_id
+            //   ? values.tarifasgestdigdoc_id.id
+            //   : "",
+
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -672,6 +767,44 @@ function CreateInvoice() {
   const handleCloseDialog = () => {
     setOpen2(false);
   };
+
+  const [ArrBool, setArrBool] = useState(Array(30).fill(false));
+  const handleSwitchChangeInIndex = (newState, position) => {
+    // console.log("Nuevo estado del interruptor en Index:", newState);
+    // console.log("Posición en el array:", position); // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor // Crear una copia del array para evitar modificar el estado directamente
+    const updatedArrBool = [...ArrBool]; //crea copia del array // Actualizar el valor en el índice específico
+    updatedArrBool[position] = newState; // Actualizar el estado con el nuevo array
+    setArrBool(updatedArrBool);
+  };
+
+  
+  const [gastoLocal, setGastoLocal] = useState({});
+
+  const CalculoDespachanteMex = (cif_grand_total) => {
+    return ((cif_grand_total * gastoLocal?.gloc_despachante_var) + gastoLocal?.gloc_despachante_fijo + gastoLocal?.gloc_despachante_otro1 + gastoLocal?.gloc_despachante_otro2);
+  };
+
+  const tarifonDataFetch = async(id) => {
+    const tarifonData = await TarifonMexHelper.readDataByCargaId(id);
+    setGastoLocal(tarifonData);
+  };
+
+  useEffect(() => {
+    tarifonDataFetch(formik?.values?.carga_id?.id);
+  },[formik?.values?.carga_id])
+  console.log(gastoLocal);
+  
+  useEffect(() => {
+
+    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd); 
+    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno + gastoLocal?.gasto_descarga_depo);
+    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal); 
+    formik.setFieldValue("gloc_despachantes", CalculoDespachanteMex(formik?.values?.cif_grand_total));
+    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge); 
+    formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * formik?.values?.cif_grand_total)); 
+
+    console.log(formik.values);
+  }, [gastoLocal, productsData]);
 
   return (
     <>
@@ -1024,7 +1157,7 @@ function CreateInvoice() {
                 <Divider />
               </Grid> */}
 
-        {/* {
+              {/* {
                 //COMPONENTE DE INPUTS que maneja la data de cellInput *
                 cellInput.map((field) => (
                   <TarifarioArrBool
@@ -1038,19 +1171,53 @@ function CreateInvoice() {
                 ))
               } */}
 
-              {
-                //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                cellInput.map((field) => (
-                  <CustomSelect
-                    key={field.id}
-                    {...field}
-                    formik={formik}
-                    XS={12}
-                    MD={1.5}
-                    PaisRegion={formik.values.paisregion_id}
-                  />
-                ))
-              }
+              {formik.values.carga_id != null ? (
+                <>
+                  {/* {
+                    //COMPONENTE DE INPUTS que maneja la data de cellInput *
+                    cellInput.map((field) => (
+                      <CustomSelect
+                        key={field.id}
+                        {...field}
+                        formik={formik}
+                        XS={12}
+                        MD={1.5}
+                        PaisRegion={formik.values.paisregion_id}
+                      />
+                    ))
+                  } */}
+                  
+                  {
+                  ExtraCostosLocal.map((input) => (
+                    <ExtraCostosArrBool
+                      key={input.id}
+                      id={input.id}
+                      name={input.name}
+                      em={input.em}
+                      inputLabel={input.inputLabel}
+                      data={input.data}
+                      dataType={input.dataType}
+                      formik={formik}
+                      Xs_Xd={input.Xs_Xd}
+                      blockDeGastos={input.blockDeGastos}
+                      onSwitchChange={(newState) =>
+                        handleSwitchChangeInIndex(newState, input.arrPosition)
+                      }
+                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                      ValorSwitch={input.ValorSwitch}
+                      ValorSwitchBase={input.ValorSwitchBase}
+                      arrPosition={input.arrPosition}
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  <Typography align="center" variant="h2">
+                    Seleccione una carga
+                  </Typography>
+                </>
+              )}
+
               {/* CARGA DE PRODUCTOS */}
               <Grid item xs={12}>
                 <Divider />
