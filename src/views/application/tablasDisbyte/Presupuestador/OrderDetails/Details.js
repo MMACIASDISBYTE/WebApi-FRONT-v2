@@ -1054,6 +1054,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
+                            Imagen URL
+                          </TableCell>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#B8B8B8",
+                            }}
+                            className={classes.tableCell}
+                          >
                             NCM
                           </TableCell>
                           <TableCell
