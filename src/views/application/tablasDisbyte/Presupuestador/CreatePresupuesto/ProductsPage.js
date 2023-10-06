@@ -213,32 +213,12 @@ function ProductsPage({
                     </TableCell>
                     <TableCell className={classes.tableCell} align="left">
                       {row.imageurl ? (
-                        <ImagenAvatar src={row.imageurl} alt={row.sku} />
-                        // <Box
-                        //   display="flex"
-                        //   alignItems="center"
-                        //   justifyContent="center"
-                        //   width="100%"
-                        //   height="100%"
-                        //   onMouseEnter={() => setHoveredIndex(index)}
-                        //   onMouseLeave={() => setHoveredIndex(null)}
-                        // >
-                        //   <Avatar
-                        //     sx={{
-                        //       width: hoveredIndex === index ? "200%" : "100%",
-                        //       height: hoveredIndex === index ? "200%" : "100%",
-                        //       maxWidth: hoveredIndex === index ? "200%" : "100%",
-                        //       maxHeight: hoveredIndex === index ? "200%" : "100%",
-                        //       margin: -2,
-                        //       padding: -10,
-                        //       borderRadius: 0,
-                        //       transition: "all 0.3s", // animación suave
-                        //     }}
-                        //     alt={row.sku}
-                        //     src={row.imageurl}
-                        //     variant="rounded"
-                        //   />
-                        // </Box>
+                        <>
+                          <ImagenAvatar
+                            src={row.imageurl}
+                            alt={row.sku}
+                          />
+                        </>
                       ) : (
                         "Sin Imagen"
                       )}
