@@ -61,6 +61,7 @@ import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
 import AddDetailsPage from "../AddDetailsPage";
+import { TarifarioArrBool } from "../TarifarioArrBool";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -1023,6 +1024,20 @@ function CreateInvoice() {
                 <Divider />
               </Grid> */}
 
+        {/* {
+                //COMPONENTE DE INPUTS que maneja la data de cellInput *
+                cellInput.map((field) => (
+                  <TarifarioArrBool
+                    key={field.id}
+                    {...field}
+                    formik={formik}
+                    XS={12}
+                    MD={1.5}
+                    PaisRegion={formik.values.paisregion_id}
+                  />
+                ))
+              } */}
+
               {
                 //COMPONENTE DE INPUTS que maneja la data de cellInput *
                 cellInput.map((field) => (
@@ -1031,7 +1046,7 @@ function CreateInvoice() {
                     {...field}
                     formik={formik}
                     XS={12}
-                    MD={2}
+                    MD={1.5}
                     PaisRegion={formik.values.paisregion_id}
                   />
                 ))

@@ -49,7 +49,7 @@ import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 //importacion del helper fwette
 import { TarifasTerminalHelper } from "../../../../../../helpers/TarifasTerminalHelper";
 import { TarifonMexHelper } from "../../../../../../helpers/TarifonMexHelper";
-import AddItem from "../../AddItem";
+import AddTarifario from "../../AddTarifario";
 import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
@@ -135,13 +135,13 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "description",
-    numeric: false,
+    id: "htimestamp",
+    numeric: 'fecha',
     select: null,
-    isRequired: true,
-    isDisabled: false,
+    isRequired: false,
+    isDisabled: true,
     ocultar: false,
-    label: "Descripcion",
+    label: "Ult. Edicion",
     align: "Left",
   },
   {
@@ -374,16 +374,16 @@ const headCells = [
     label: "Despachante Consult Compl.",
     align: "Left",
   },
-  {
-    id: "htimestamp",
-    numeric: true,
-    select: null,
-    isRequired: false,
-    isDisabled: false,
-    ocultar: true,
-    label: "Fecha/Hora",
-    align: "Left",
-  },
+  // {
+  //   id: "htimestamp",
+  //   numeric: 'fecha',
+  //   select: null,
+  //   isRequired: false,
+  //   isDisabled: true,
+  //   ocultar: true,
+  //   label: "Fecha/Hora",
+  //   align: "Left",
+  // },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -607,6 +607,10 @@ const ProductList = () => {
     if(newData.id==undefined)
     {
       newData.id=0;
+    }
+    if(newData.description==undefined)
+    {
+      newData.description="Sin notas";
     }
     if(newData.notas==undefined)
     {
@@ -861,7 +865,7 @@ const ProductList = () => {
                         <AddIcon fontSize="small" />
                       </Fab>
                     </Tooltip>
-                    <AddItem
+                    <AddTarifario
                       dataRow={row}
                       open={open}
                       handleCloseDialog={handleCloseDialog}
