@@ -18,6 +18,7 @@ import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import { useState } from "react";
 import { Box } from "@mui/system";
+import { ImagenAvatar } from "./ImagenAvatar";
 
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
@@ -39,6 +40,7 @@ function ProductsPage({
   });
   const classes = useStyles();
   const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
     <>
@@ -211,31 +213,32 @@ function ProductsPage({
                     </TableCell>
                     <TableCell className={classes.tableCell} align="left">
                       {row.imageurl ? (
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          width="100%"
-                          height="100%"
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
-                          <Avatar
-                            sx={{
-                              width: isHovered ? "200%" : "100%",
-                              height: isHovered ? "200%" : "100%",
-                              maxWidth: isHovered ? "200%" : "100%",
-                              maxHeight: isHovered ? "200%" : "100%",
-                              margin: -2,
-                              padding: -10,
-                              borderRadius: 0,
-                              transition: "all 0.3s", // animación suave
-                            }}
-                            alt={row.sku}
-                            src={row.imageurl}
-                            variant="rounded"
-                          />
-                        </Box>
+                        <ImagenAvatar src={row.imageurl} alt={row.sku} />
+                        // <Box
+                        //   display="flex"
+                        //   alignItems="center"
+                        //   justifyContent="center"
+                        //   width="100%"
+                        //   height="100%"
+                        //   onMouseEnter={() => setHoveredIndex(index)}
+                        //   onMouseLeave={() => setHoveredIndex(null)}
+                        // >
+                        //   <Avatar
+                        //     sx={{
+                        //       width: hoveredIndex === index ? "200%" : "100%",
+                        //       height: hoveredIndex === index ? "200%" : "100%",
+                        //       maxWidth: hoveredIndex === index ? "200%" : "100%",
+                        //       maxHeight: hoveredIndex === index ? "200%" : "100%",
+                        //       margin: -2,
+                        //       padding: -10,
+                        //       borderRadius: 0,
+                        //       transition: "all 0.3s", // animación suave
+                        //     }}
+                        //     alt={row.sku}
+                        //     src={row.imageurl}
+                        //     variant="rounded"
+                        //   />
+                        // </Box>
                       ) : (
                         "Sin Imagen"
                       )}
