@@ -155,7 +155,11 @@ const AddItem = ({
   }, [showAlert]);
 
   //excluimos elementos del formulario para casos de vistas
-  const excludedColumns = ["pais_vista", "region_vista","banco_vista", "deposito_vista", "despachante_vista", "freight_vista", "semi_vista", "fwdtte_vista", "pais_dest_vista", "region_dest_vista", "pais_orig_vista", "region_orig_vista", "carga_vista","gestdigdoc_vista","carga_vista","terminal_vista"];
+  const excludedColumns = ["pais_vista", "region_vista","banco_vista", "deposito_vista", "despachante_vista", 
+                          "freight_vista", "semi_vista", "fwdtte_vista", "pais_dest_vista", "region_dest_vista", 
+                          "pais_orig_vista", "region_orig_vista", "carga_vista","gestdigdoc_vista","carga_vista",
+                          "terminal_vista","flete_interno_1p40sthq_cdmx","flete_interno_1p20ft_cdmx","flete_interno_2p40sthq_cdmx",
+                          "flete_interno_2p20ft_cdmx","descarga_meli_40sthq_cdmx","descarga_meli_20ft_cdmx","htimestamp"];
 
   return (
     <Dialog
