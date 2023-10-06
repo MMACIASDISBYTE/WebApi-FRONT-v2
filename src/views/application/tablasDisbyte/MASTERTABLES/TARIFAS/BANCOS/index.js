@@ -784,7 +784,7 @@ const ProductList = () => {
                           TableName={TableName}
                           dataSelectPais={paisRegion}
                           dataSelectTerminal={Terminales}
-                          dataSelectCarga={Carga}
+                          dataSelectCarga={Carga} 
                           dataSelectPoliza={Poliza}
                           dataSelectFwd={Fwd}
                           dataSelectFlete={Flete}

@@ -48,6 +48,7 @@ import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 //importacion del helper fwette
 import { TarifasTerminalHelper } from "../../../../../../helpers/TarifasTerminalHelper";
+import { TarifonMexHelper } from "../../../../../../helpers/TarifonMexHelper";
 import AddItem from "../../AddItem";
 import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
@@ -503,7 +504,7 @@ EnhancedTableToolbar.propTypes = {
 const ProductList = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const TableName = "Mexico";
+  const TableName = "Tarifas Mexico";
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
@@ -551,13 +552,14 @@ const ProductList = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
-  const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
+  const [row, setRow] = React.useState(); //estoy almacenando la data fwette
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
   const [actualizacion, SetActualizacion] = React.useState(false);
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
+    //console.log(rows);
   }, [actualizacion]);
 
   // traigo data de fwette Y LO ALMACENO EN EL STATE DE setRows
@@ -565,15 +567,15 @@ const ProductList = () => {
   const fetchData = async (accessToken) => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const jsonData = await TarifasTerminalHelper.fetchDataPais();
+      const jsonData = await TarifonMexHelper.fetchData();
       // const jsonData = await BancoHelper.fetchData(accessToken);
 
-      //console.log(jsonData);
+      console.log(jsonData);
       //console.log(jsonDataStatus.status);
-      setRows(jsonData);
+      setRow(jsonData);
       // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
-      setRows(jsonData);
+      //setRows(jsonData);
     } catch (error) {
       console.log(error);
       console.log("Prueba");
@@ -582,14 +584,14 @@ const ProductList = () => {
   };
 
   //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
-  const exclude = ["id","terminal_id","carga_id","paisregion_id"];
+  /*const exclude = ["id","terminal_id","carga_id","paisregion_id"];
   const attributes = Array.from(
     new Set(
       rows.flatMap((row) =>
         Object.keys(row).filter((attr) => !exclude.includes(attr))
       )
     )
-  );
+  );*/
 
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id) => {
@@ -606,14 +608,6 @@ const ProductList = () => {
     {
       newData.id=0;
     }
-    if(newData.gasto_otro1==undefined)
-    {
-      newData.gasto_otro1=0;
-    }
-    if(newData.gasto_otro2==undefined)
-    {
-      newData.gasto_otro2=0;
-    }
     if(newData.notas==undefined)
     {
       newData.notas="Sin notas";
@@ -622,7 +616,32 @@ const ProductList = () => {
     {
       newData.htimestamp= UtilidadesHelper.fechaParaDB();
     }
-    await TarifasTerminalHelper.createData(newData);
+    if(newData.flete_interno_2p20ft_cdmx==undefined)
+    {
+      newData.flete_interno_2p20ft_cdmx=0.0;
+    }
+    if(newData.flete_interno_2p40sthq_cdmx==undefined)
+    {
+      newData.flete_interno_2p40sthq_cdmx=0.0;
+    }
+    if(newData.flete_interno_1p40sthq_cdmx==undefined)
+    {
+      newData.flete_interno_1p40sthq_cdmx=0.0; 
+    }
+    if(newData.flete_interno_1p20ft_cdmx==undefined)
+    {
+      newData.flete_interno_1p20ft_cdmx=0.0; 
+    }
+    if(newData.descarga_meli_20ft_cdmx==undefined)
+    {
+      newData.descarga_meli_20ft_cdmx=0.0;
+    }
+    if(newData.descarga_meli_40sthq_cdmx==undefined)
+    {
+      newData.descarga_meli_40sthq_cdmx=0.0;
+    }
+
+    await TarifonMexHelper.createData(newData);
   };
 
   // Función para actualizar la API utilizando
@@ -686,7 +705,7 @@ const ProductList = () => {
     FetchDataPoliza();
   }, []);
 
-  const handleSearch = (event) => {
+  /*const handleSearch = (event) => {
     const newString = event?.target.value;
     setSearch(newString || "");
 
@@ -735,7 +754,7 @@ const ProductList = () => {
     } else {
       setRows(rows);
     }
-  };
+  };*/
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -743,7 +762,7 @@ const ProductList = () => {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
+  /*const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       if (selected.length > 0) {
         setSelected([]);
@@ -754,7 +773,7 @@ const ProductList = () => {
       return;
     }
     setSelected([]);
-  };
+  };*/
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -765,7 +784,7 @@ const ProductList = () => {
     setPage(0);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  /*const isSelected = (name) => selected.indexOf(name) !== -1;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -776,13 +795,9 @@ const ProductList = () => {
       "region": "CDMX",
       "moneda": "MDX",
       "puerto": "DF"
-  }); 
+  }); */
 
-  const handlePaisRegionChange = (event)=>{
-      let SeleccionPais = event.target.value;
-      console.log(SeleccionPais);
-          setPaisSelect(SeleccionPais);
-  }  
+
 
   const useStyles = makeStyles({
     tableCell: {
@@ -801,7 +816,7 @@ const ProductList = () => {
   return (
     <>
       {
-        <MainCard title={`Maestro Tarifas ${TableName}`} content={false}>
+        <MainCard title={`Maestro ${TableName} - [USD]`}content={false}>
           <CardContent>
             <Grid
               container
@@ -819,7 +834,7 @@ const ProductList = () => {
                       </InputAdornment>
                     ),
                   }}
-                  onChange={handleSearch}
+                  //onChange={handleSearch}
                   placeholder={`Buscar en ${TableName}`}
                   value={search}
                   size="small"
@@ -847,6 +862,7 @@ const ProductList = () => {
                       </Fab>
                     </Tooltip>
                     <AddItem
+                      dataRow={row}
                       open={open}
                       handleCloseDialog={handleCloseDialog}
                       handleCreateAPI={handleCreateAPI}
@@ -968,14 +984,13 @@ const ProductList = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.length === 0 ? (
+                    {row==undefined? (
                       <TableRow>
                         <TableCell>Cargando...</TableCell>
                       </TableRow>
                     ) : (
-                      rows.map((row, index) => (
                         <TableRow
-                          key={index}
+                          //key={index}
                           hover
                           role="checkbox"
                           sx={{
@@ -1002,10 +1017,61 @@ const ProductList = () => {
                             <>
                               
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.gasto_fijo.toFixed(3)}
+                                {row.flete_internacional_40sthq.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.gasto_variable.toFixed(3)}
+                                {row.flete_internacional_20ft.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.seguro.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.gastosLocales_40sthq.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.gastosLocales_20ft.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.terminal_40sthq.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.terminal_20ft.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_1p40sthq_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_1p20ft_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_2p40sthq_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_2p20ft_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_2p40sthq_cdmx.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.flete_interno_2p20ft_cdmx.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.descarga_meli_40sthq_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.descarga_meli_20ft_guad.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.despa_fijo.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.despa_var.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.despa_clasific_oper.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right" className={classes.tableCell}>
+                                {row.despa_consult_compl.toFixed(2)}
                               </TableCell>
                             </>
 }
@@ -1022,7 +1088,7 @@ const ProductList = () => {
                                                         </IconButton>
                                                     </TableCell> */}
                         </TableRow>
-                      ))
+
                     )}
                   </TableBody>
                 </Table>
