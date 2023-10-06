@@ -66,6 +66,9 @@ export const ExtraCostosArrBool = ({
 
   // console.log(formik.values);
   // console.log(ValorSwitch);
+  useEffect(()=>{
+
+  }, [formik.values])
 
   return (
     <>
