@@ -271,6 +271,36 @@ export const UtilidadesHelper = {
         return "Sin data";
     }
   },
+  cargaSwitch: function (gestiondigital) {
+    switch (gestiondigital) {
+      case 0:
+        return "Sin data";
+        break;
+      case 1:
+        return "20ST";
+        break;
+      case 2:
+        return "40ST";
+        break;
+      case 3:
+        return "40HQ";
+        break;
+      case 6:
+        return "LCL";
+        break;
+      case 12:
+        return "2*40ST";
+        break;
+      case 11:
+        return "2*20ST";
+        break;
+      case 13:
+        return "2*40HQ";
+        break;
+      default:
+        return "Sin data";
+    }
+  },
   ordenadorDeArrayByDescription: function (Orden, ArrAOrdenar) {
     ArrAOrdenar.sort((a, b) => {
       const orderA = Orden.indexOf(a.description);
