@@ -21,6 +21,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  styled,
 } from "@mui/material";
 import Chip from "ui-component/extended/Chip";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -65,6 +66,7 @@ import AddDetailsPage from "../AddDetailsPage";
 import { TarifarioArrBool } from "../TarifarioArrBool";
 import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
 import { TarifonMexHelper } from "helpers/TarifonMexHelper";
+import { Box } from "@mui/system";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -444,8 +446,6 @@ function CreateInvoice() {
     },
   ];
 
-  
-
   useEffect(() => {
     dataHelpers();
   }, []);
@@ -548,7 +548,6 @@ function CreateInvoice() {
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
 
-
             // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             // tarifasflete_id: values.tarifasflete_id
             //   ? values.tarifasflete_id.id
@@ -571,7 +570,6 @@ function CreateInvoice() {
             // tarifasgestdigdoc_id: values.tarifasgestdigdoc_id
             //   ? values.tarifasgestdigdoc_id.id
             //   : "",
-
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -693,6 +691,20 @@ function CreateInvoice() {
     setLoadingEnvio(true);
   };
 
+
+  //VECTOR
+  // const [calculo, setCalculo ] = useState([]);
+  // const mapeoProductData = (productsData) => {
+  //   let provisorio = productsData.map((index, valor) => {return(index * 4)  });
+  //   console.log(provisorio);
+  //   setCalculo(...calculo, provisorio);
+  // };
+
+  // useState(()=>{
+  //   mapeoProductData(productsData);
+  //   console.log(productsData);
+  // },[productsData])
+
   // add item handler
   const handleAddItem = (addingData) => {
     setProductsData([
@@ -750,6 +762,7 @@ function CreateInvoice() {
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
         detailorder: addingData.detailorder,
+        // Calculo: calculo,
       },
     ]);
     console.log(addingData);
@@ -777,34 +790,60 @@ function CreateInvoice() {
     setArrBool(updatedArrBool);
   };
 
-  
   const [gastoLocal, setGastoLocal] = useState({});
 
   const CalculoDespachanteMex = (cif_grand_total) => {
-    return ((cif_grand_total * gastoLocal?.gloc_despachante_var) + gastoLocal?.gloc_despachante_fijo + gastoLocal?.gloc_despachante_otro1 + gastoLocal?.gloc_despachante_otro2);
+    return (
+      cif_grand_total * gastoLocal?.gloc_despachante_var +
+      gastoLocal?.gloc_despachante_fijo +
+      gastoLocal?.gloc_despachante_otro1 +
+      gastoLocal?.gloc_despachante_otro2
+    );
   };
 
-  const tarifonDataFetch = async(id) => {
+  const tarifonDataFetch = async (id) => {
     const tarifonData = await TarifonMexHelper.readDataByCargaId(id);
     setGastoLocal(tarifonData);
   };
 
   useEffect(() => {
     tarifonDataFetch(formik?.values?.carga_id?.id);
-  },[formik?.values?.carga_id])
+  }, [formik?.values?.carga_id]);
   console.log(gastoLocal);
-  
-  useEffect(() => {
 
-    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd); 
-    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno + gastoLocal?.gasto_descarga_depo);
-    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal); 
-    formik.setFieldValue("gloc_despachantes", CalculoDespachanteMex(formik?.values?.cif_grand_total));
-    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge); 
-    formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * formik?.values?.cif_grand_total)); 
+  useEffect(() => {
+    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+    formik.setFieldValue(
+      "gloc_flete",
+      gastoLocal?.flete_interno + gastoLocal?.gasto_descarga_depo
+    );
+    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+    formik.setFieldValue(
+      "gloc_despachantes",
+      CalculoDespachanteMex(formik?.values?.cif_grand_total)
+    );
+    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+    formik.setFieldValue(
+      "freight_insurance_cost",
+      gastoLocal?.insurance_charge * formik?.values?.cif_grand_total
+    );
 
     console.log(formik.values);
   }, [gastoLocal, productsData]);
+
+  function handleTextClick() {
+    const inputElement = document.getElementById('carga_id');
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }
+
+  const StyledTypography = styled(Typography)(({ theme }) => ({
+    '&:hover': {
+      color: 'green',
+      cursor:"pointer"
+    },
+  }));
 
   return (
     <>
@@ -1186,9 +1225,8 @@ function CreateInvoice() {
                       />
                     ))
                   } */}
-                  
-                  {
-                  ExtraCostosLocal.map((input) => (
+
+                  {ExtraCostosLocal.map((input) => (
                     <ExtraCostosArrBool
                       key={input.id}
                       id={input.id}
@@ -1212,9 +1250,22 @@ function CreateInvoice() {
                 </>
               ) : (
                 <>
-                  <Typography align="center" variant="h2">
+                <Box
+                display="flex" 
+                justifyContent="center" 
+                alignItems="center" 
+                // height="5vh" 
+                width="100vw"
+                >
+                  <StyledTypography
+                    color={"red"}
+                    variant="h2"
+                    style={{ margin: "15px" }}
+                    onClick={handleTextClick}
+                  >
                     Seleccione una carga
-                  </Typography>
+                  </StyledTypography>
+                </Box>
                 </>
               )}
 
