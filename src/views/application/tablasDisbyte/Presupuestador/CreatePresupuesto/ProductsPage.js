@@ -26,6 +26,8 @@ function ProductsPage({
   productsData,
   deleteProductHandler,
   editProductHandler,
+  freightCost,
+  insurancePorct
 }) {
   console.log(productsData);
 
@@ -41,6 +43,11 @@ function ProductsPage({
   const classes = useStyles();
   const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.exw_u * currentValue.qty;
+  }, 0);
+
 
   return (
     <>
@@ -150,7 +157,7 @@ function ProductsPage({
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    GW x Caja  {"[kg]"}
+                    GW CTN  {"[kg]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -169,7 +176,47 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
-                  />   
+                  >   
+                   FP. {"[%]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  Freight Chrg. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  Ins. Chrg. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  CIF Tot. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  /> 
                  {/* FP  {"[%]"}
                   </TableCell>
                   <TableCell
@@ -293,9 +340,25 @@ function ProductsPage({
                     {/*<TableCell className={classes.tableCell} align="center">
                       {row.proovedores_name ? row.proovedores_name : "Sin data"}
                       </TableCell>*/}
+
+                    {/*CALCULO DEL FOB TOTAL*/}
                     <TableCell className={classes.tableCell} align="center">{`${(
-                      row.fob_u * row.qty
+                      row.exw_u * row.qty
                     ).toFixed(2)}`}</TableCell>
+
+                    {/*CALCULO DEL FP*/}
+                    <TableCell className={classes.tableCell} align="center">
+                      { fobGrandTotal>0?(row.exw_u*row.qty/fobGrandTotal).toFixed(2): "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { freightCost?(freightCost*(row.exw_u*row.qty/fobGrandTotal)).toFixed(2) : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { insurancePorct?((insurancePorct/100)*(row.exw_u*row.qty)).toFixed(2) : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { ((row.exw_u * row.qty)+(freightCost*(row.exw_u*row.qty/fobGrandTotal))+((insurancePorct/100)*row.exw_u*row.qty)).toFixed(2)}
+                    </TableCell>
                     <TableCell
                       // className={classes.tableCell}
                       sx={{ pr: 1 }}
