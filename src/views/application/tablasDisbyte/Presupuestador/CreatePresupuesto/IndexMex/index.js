@@ -801,10 +801,35 @@ function CreateInvoice() {
     formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal); 
     formik.setFieldValue("gloc_despachantes", CalculoDespachanteMex(formik?.values?.cif_grand_total));
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge); 
-    formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * formik?.values?.cif_grand_total)); 
+    //formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * formik?.values?.cif_grand_total)); 
 
     console.log(formik.values);
+    console.log(productsData);
   }, [gastoLocal, productsData]);
+
+
+  const [insuranceCost,setInsuranceCost]=useState(0);
+  const [fp,setFp]=useState([0]);
+  const [freightCharge,setFreightCharge]=useState([0])
+  const [insuranceCharge,setInsuranceCharge]=useState([0]);
+  const [cifTot,setCifTot]=useState([0]);
+  const [fobTot,setFobTot]=useState([0]);
+
+
+  /*useEffect(()=>{
+    const fobGrandTotal=productsData.reduce((accumulator,currentValue)=>{return accumulator+(currentValue.fob_u*currentValue.qty)},0)
+    setInsuranceCost((gastoLocal?.insurance_charge * fobGrandTotal))
+    formik.setFieldValue("freight_insurance_cost", insuranceCost);
+    if(fobGrandTotal>0)
+    {
+      setFobTot(productsData.map((value)=>{return value.fob_u*value.qty}));
+      setFp(productsData.map((value)=>{return value.fob_u/fobGrandTotal}));
+      setFreightCharge(fp.map((value)=>{return value*gastoLocal?.freight_charge}));
+      setInsuranceCharge(fp.map((value)=>{return value*insuranceCharge}));
+      setCifTot(fobTot.map((value,index)=>{return value+freightCharge[index]+insuranceCharge[index]}))
+    }
+
+  },[productsData])*/
 
   return (
     <>
