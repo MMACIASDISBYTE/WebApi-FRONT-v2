@@ -224,13 +224,13 @@ const AddDetailsPage = ({
   });
   //   console.log(dataHelp.proveedoresOem);
 
-  //   console.log(dataHelp);
+    // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
   //   console.log(formik.values.paisregion_id);
 
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
-    let paisregion_id = formik?.values?.paisregion_id?.id;
+    let paisregion_id = 5; // harcodeado Mexico
     // console.log(paisregion_id);
     // console.log(formik.values.paisregion_id.id);
 
@@ -253,6 +253,7 @@ const AddDetailsPage = ({
     }
 
     setNCMList(updatedList);
+    console.log(NCMList);
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({

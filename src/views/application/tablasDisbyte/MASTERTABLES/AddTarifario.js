@@ -238,7 +238,7 @@ const AddTarifario = ({
     >
       {open && (
         <>
-          <DialogTitle>Agregar Tarifario {TableName}  | Fecha: {UtilidadesHelper.fechaParaVista(new Date().toISOString().slice(0, 16)) }</DialogTitle>
+          <DialogTitle>Agregar Tarifario {TableName}  | Fecha: {UtilidadesHelper.fechaParaVistaHoy(new Date().toISOString().slice(0, 16)) }</DialogTitle>
           <DialogContent>
             <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
               {headCells

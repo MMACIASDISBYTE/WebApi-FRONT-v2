@@ -643,9 +643,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               </Typography>
                               <Typography variant="body2">
                                 {historial.fob_grand_total
-                                  ? `${historial.fob_grand_total.toFixed(
-                                      2
-                                    )}`
+                                  ? `${historial.fob_grand_total.toFixed(2)}`
                                   : "Sin data"}
                               </Typography>
                             </Stack>
@@ -1686,13 +1684,15 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           }}
                           className={classes.tableCell}
                         >
-                          <Tooltip title={`Costo U.[USD] ${row.costo_u.toFixed(3)}`}>
-                          <TableCell
-                            align="right"
-                            className={classes.tableCell}
+                          <Tooltip
+                            title={`Costo U.[USD] ${row.costo_u.toFixed(3)}`}
                           >
-                            {row.sku ? row.sku : 0}
-                          </TableCell>
+                            <TableCell
+                              align="right"
+                              className={classes.tableCell}
+                            >
+                              {row.sku ? row.sku : 0}
+                            </TableCell>
                           </Tooltip>
                           <TableCell
                             sx={{ pl: 3, maxWidth: 350 }}
@@ -1792,7 +1792,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
                               <TableCell className={classes.tableCell}>
-                                {row.totalgastos_loc_y_extra? row.totalgastos_loc_y_extra : 0}
+                                {row.totalgastos_loc_y_extra
+                                  ? row.totalgastos_loc_y_extra
+                                  : 0}
                                 {/* {sumGlocPais(row, pais).toFixed(2)} */}
                               </TableCell>
 
@@ -1965,7 +1967,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                [USD] {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
+                                {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -2322,7 +2324,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           <Grid container spacing={1}>
                             <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
-                              Fob Total[USD]:
+                                Fob Total[USD]:
                               </Typography>
                             </Grid>
                             <Grid item xs={6}>
@@ -2340,7 +2342,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
                                 {/* Aranceles / Pagado (10%): */}
-                                Aranceles Pagados[USD]{" "}:
+                                Aranceles Pagados[USD] :
                               </Typography>
                             </Grid>
                             <Grid item xs={6}>
@@ -2358,7 +2360,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
                                 {/* Discount (5%) : */}
-                                Flete[USD]{" "}:
+                                Flete[USD] :
                               </Typography>
                             </Grid>
                             <Grid item xs={6}>
@@ -2373,6 +2375,34 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   : "Sin dataa"}
                               </Typography>
                             </Grid>
+
+                            <Grid item xs={6}>
+                              <Typography
+                                align="right"
+                                // color="primary"
+                                variant="subtitle1"
+                              >
+                                Total CIF[USD]:
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                              <Typography
+                                align="right"
+                                // color="primary"
+                                variant="body2"
+                                // sx={{ pl: 10, minWidth: 180 }}
+                              >
+                                {presupuestador.estHeader.cif_grand_total ||
+                                presupuestador.estHeader.cif_grand_total == 0
+                                  ? UtilidadesHelper.formatNumber(
+                                      presupuestador.estHeader.cif_grand_total.toFixed(
+                                        2
+                                      )
+                                    )
+                                  : "Sin data"}
+                              </Typography>
+                            </Grid>
+                            
                             {/* <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
                                 Seguro:
@@ -2390,15 +2420,20 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid> */}
                           </Grid>
                         </Grid>
-                        <Grid item xs={12}>
+
+                        {/* <Grid item xs={12}>
                           <Divider sx={{ bgcolor: "dark.main" }} />
-                        </Grid>
+                        </Grid> */}
+
                         <Grid item xs={12}>
-                          <Grid container spacing={1}>
+                          {/* <Grid
+                            container
+                            // spacing={1}
+                          >
                             <Grid item xs={6}>
                               <Typography
                                 align="right"
-                                color="primary"
+                                // color="primary"
                                 variant="subtitle1"
                               >
                                 Total CIF[USD]:
@@ -2407,11 +2442,10 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             <Grid item xs={6}>
                               <Typography
                                 align="right"
-                                color="primary"
+                                // color="primary"
                                 variant="subtitle1"
-                                sx={{ pl: 10, minWidth: 180 }}
+                                // sx={{ pl: 10, minWidth: 180 }}
                               >
-                                [USD]{" "}
                                 {presupuestador.estHeader.cif_grand_total ||
                                 presupuestador.estHeader.cif_grand_total == 0
                                   ? UtilidadesHelper.formatNumber(
@@ -2422,9 +2456,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   : "Sin data"}
                               </Typography>
                             </Grid>
-                          </Grid>
-                          <Grid container spacing={1}>
-                            <Grid item xs={6}>
+                          </Grid> */}
+                          {/* <Grid container spacing={1}> */}
+                            {/* <Grid item xs={6}> */}
                               {/* <Typography
                                 align="right"
                                 color="primary"
@@ -2432,7 +2466,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               >
                                 CIF Total ARS:
                               </Typography> */}
-                            </Grid>
+                            {/* </Grid> */}
                             {/* <Grid item xs={6}>
                               <Typography
                                 align="right"
@@ -2452,8 +2486,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   : "Sin data"}
                               </Typography>
                             </Grid> */}
-                          </Grid>
+                          {/* </Grid> */}
                         </Grid>
+
                       </Grid>
                     </Grid>
                   )}
