@@ -691,6 +691,20 @@ function CreateInvoice() {
     setLoadingEnvio(true);
   };
 
+
+  //VECTOR
+  // const [calculo, setCalculo ] = useState([]);
+  // const mapeoProductData = (productsData) => {
+  //   let provisorio = productsData.map((index, valor) => {return(index * 4)  });
+  //   console.log(provisorio);
+  //   setCalculo(...calculo, provisorio);
+  // };
+
+  // useState(()=>{
+  //   mapeoProductData(productsData);
+  //   console.log(productsData);
+  // },[productsData])
+
   // add item handler
   const handleAddItem = (addingData) => {
     setProductsData([
@@ -748,6 +762,7 @@ function CreateInvoice() {
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
         detailorder: addingData.detailorder,
+        // Calculo: calculo,
       },
     ]);
     console.log(addingData);
