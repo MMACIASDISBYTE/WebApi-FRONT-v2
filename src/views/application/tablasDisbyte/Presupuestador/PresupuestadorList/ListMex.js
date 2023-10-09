@@ -27,6 +27,8 @@ import {
   Typography,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
+import { makeStyles } from "@material-ui/core";
+
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -132,13 +134,13 @@ const headCells = [
   {
     id: "gastos_loc_total",
     numeric: true,
-    label: "Gasto Local Total",
+    label: "Gasto Local Total[USD]",
     align: "left",
   },
   {
     id: "fob_grand_total",
     numeric: true,
-    label: "Fob Total",
+    label: "Fob Total[USD]",
     align: "left",
   },
   {
@@ -170,11 +172,24 @@ function EnhancedTableHead({
     onRequestSort(event, property);
   };
 
+  const useStyles = makeStyles({
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      minWidth: 100,
+      whiteSpace: "nowrap",
+      backgroundColor: "#B8B8B8",
+    },
+    lastCell: {
+      borderRight: "none",
+    }
+  });
+  const classes = useStyles();
+
   return (
     <TableHead>
       <TableRow>
         {numSelected > 0 && (
-          <TableCell padding="none" colSpan={6}>
+          <TableCell padding="none" colSpan={6} className={classes.tableCell}>
             <EnhancedTableToolbar numSelected={selected.length} />
           </TableCell>
         )}
@@ -186,6 +201,7 @@ function EnhancedTableHead({
                 align={headCell.align}
                 padding={headCell.disablePadding ? "none" : "normal"}
                 sortDirection={orderBy === headCell.id ? order : false}
+                className={classes.tableCell}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -205,7 +221,7 @@ function EnhancedTableHead({
             </Tooltip>
           ))}
         {numSelected <= 0 && (
-          <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
+          <TableCell sortDirection={false} align="center" sx={{ pr: 3 }} className={classes.tableCell}>
             Action
           </TableCell>
         )}
@@ -504,6 +520,16 @@ React.useEffect(() => {
     navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
   
+  const useStyles = makeStyles({
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+    },
+    lastCell: {
+      borderRight: "none",
+    },
+  });
+  const classes = useStyles();
   return (
     <MainCard title="Presupuestos Mexico" content={false}>
       <CardContent>
@@ -645,7 +671,7 @@ React.useEffect(() => {
                                             <Typography variant="caption"> Disponible para data </Typography>
                                         </TableCell> */}
 
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.id !== null && row.id !== undefined
                         ? `N°${row.estnumber} - V ${row.estvers}`
                         : "Sin data"}
@@ -655,22 +681,22 @@ React.useEffect(() => {
                         ? row.estvers
                         : "Sin data"}
                     </TableCell> */}
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.estvers !== null && row.project !== undefined || row.project !== ''
                         ? row.project
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.estvers !== null && row.description !== undefined
                         ? row.description
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.paisregion_id !== null && row.paisregion_id !== undefined
                         ? UtilidadesHelper.paisRegionSwitch(row.paisregion_id)
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.estvers !== null && row.carga_id !== undefined
                         ? <StatusComp
                             texto={'Carga'} 
@@ -679,7 +705,7 @@ React.useEffect(() => {
                           />
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.estvers !== null && row.status !== undefined
                         ? <StatusComp
                             texto={'Estado'} 
@@ -688,30 +714,30 @@ React.useEffect(() => {
                           />
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.cantidad_contenedores !== null &&
                       row.cantidad_contenedores !== undefined
                         ? row.cantidad_contenedores.toFixed(3)
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.gastos_loc_total !== null &&
                       row.gastos_loc_total !== undefined
-                        ? `USD ${row.gastos_loc_total.toFixed(2)}`
+                        ? `${row.gastos_loc_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.fob_grand_total !== null &&
                       row.fob_grand_total !== undefined
-                        ? `USD ${row.fob_grand_total.toFixed(2)}`
+                        ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" className={classes.tableCell}>
                       {row.own !== null && row.own !== undefined
                         ? row.own
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" className={classes.tableCell}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&
                       new Date(row.htimestamp).toLocaleDateString() !==
                         undefined
@@ -723,7 +749,7 @@ React.useEffect(() => {
                                             {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
                                             {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
                                         </TableCell> */}
-                    <TableCell align="center" sx={{ pr: 3 }}>
+                    <TableCell align="center" sx={{ pr: 3 }} className={classes.tableCell}>
                       <Tooltip title="Ver Detalle">
                         <IconButton
                           color="primary"
