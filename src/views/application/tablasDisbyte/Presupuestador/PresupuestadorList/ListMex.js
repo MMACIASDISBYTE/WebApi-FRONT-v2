@@ -94,6 +94,12 @@ const headCells = [
   //   align: "left",
   // },
   {
+    id: "project",
+    numeric: false,
+    label: "Prj",
+    align: "left",
+  },
+  {
     id: "description",
     numeric: false,
     label: "Descripcion",
@@ -395,6 +401,7 @@ React.useEffect(() => {
         const properties = [
           "id",
           "estvers",
+          "project",
           "description",
           "paisregion_id",
           "carga_id",
@@ -648,6 +655,11 @@ React.useEffect(() => {
                         ? row.estvers
                         : "Sin data"}
                     </TableCell> */}
+                    <TableCell align="left">
+                      {row.estvers !== null && row.project !== undefined || row.project !== ''
+                        ? row.project
+                        : "Sin data"}
+                    </TableCell>
                     <TableCell align="left">
                       {row.estvers !== null && row.description !== undefined
                         ? row.description

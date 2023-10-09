@@ -65,6 +65,13 @@ export const UtilidadesHelper = {
     ).padStart(2, "0")}-${today.getFullYear()}`;
     return dateString;
   },
+  fechaParaVistaHoy: function () {
+    const today = new Date();
+    const dateString = `${String(today.getDate()).padStart(2, "0")}/${String(
+      today.getMonth() + 1
+    ).padStart(2, "0")}/${today.getFullYear()}`;
+    return dateString;
+},
   fechaParaDB: function () {
     const today = new Date();
     const isoString = today.toISOString();
