@@ -720,7 +720,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
         {itemDetails.map(
           (item, index) =>
             !item.oculto && (
-              <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index} sx={12}>
+              <Grid item xs={item.xs_md[0]} md={item.xs_md[1]} key={index} xs={12} md={1.2}>
                 <Stack spacing={1}>
                   <Typography variant="subtitle1">{item.inputName}</Typography>
                   <FormControl>
