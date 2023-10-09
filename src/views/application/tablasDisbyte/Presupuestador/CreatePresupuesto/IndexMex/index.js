@@ -858,9 +858,7 @@ function CreateInvoice() {
       <MainCard
         title={`Crear Presupuesto de Mexico - Bs. As. : #00${
           formik?.values?.estnumber
-        }/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVista(
-          valueBasic
-        )}`}
+        }/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
       >
         <div
           style={{

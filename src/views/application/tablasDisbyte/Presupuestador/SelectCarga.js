@@ -34,7 +34,7 @@ export const SelectCarga = ({
     <>
       <Grid item xs={12} md={2}>
         <Stack>
-            <Tooltip title={'Filtro por Carga'}>
+            {/* <Tooltip title={'Filtro por Carga'}> */}
             <Select
                 id={'cargaSeleccionada'}
                 name={'cargaSeleccionada'}
@@ -63,7 +63,7 @@ export const SelectCarga = ({
                   <MenuItem value="">Sin datos</MenuItem>
                 )}
               </Select>
-            </Tooltip>
+            {/* </Tooltip> */}
           
         </Stack>
       </Grid>
