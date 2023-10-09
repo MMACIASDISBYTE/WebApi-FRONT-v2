@@ -38,6 +38,7 @@ import Product2 from "assets/images/widget/prod2.jpg";
 import Product3 from "assets/images/widget/prod3.jpg";
 import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
+import AutoCompleteTextField from "./AutoCompleteTextField";
 
 // styles
 const ImageWrapper = styled("div")(({ theme }) => ({
@@ -510,7 +511,7 @@ const AddDetailsPage = ({
                 )}{" "}
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <TextField
                   id="sku"
                   name="sku"
@@ -522,7 +523,19 @@ const AddDetailsPage = ({
                 {errors.skuError && (
                   <FormHelperText>{errors.skuError}</FormHelperText>
                 )}{" "}
+              </Grid> */}
+
+              {/* AUTOCOMPLETE DE SKU */}
+              <Grid item xs={12} md={6} fullWidth>
+                <AutoCompleteTextField
+                  handleChange={handleChange}
+                  name="sku"
+                />
+                {errors.skuError && (
+                  <FormHelperText>{errors.skuError}</FormHelperText>
+                )}{" "}
               </Grid>
+
 
               <Grid item xs={12} md={6}>
                 <TextField
