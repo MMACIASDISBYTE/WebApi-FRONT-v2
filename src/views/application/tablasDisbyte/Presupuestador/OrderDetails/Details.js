@@ -153,7 +153,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
         myRow.gloc_flete +
         myRow.gloc_fwd +
         myRow.gloc_gestdigdoc +
-        myRow.gloc_despachantes +
         myRow.gloc_polizas +
         myRow.gloc_terminales
       );
@@ -1787,7 +1786,8 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
                               <TableCell className={classes.tableCell}>
-                                {sumGlocPais(row, pais).toFixed(2)}
+                                {row.totalgastos_loc_y_extra? row.totalgastos_loc_y_extra : 0}
+                                {/* {sumGlocPais(row, pais).toFixed(2)} */}
                               </TableCell>
 
                               <TableCell

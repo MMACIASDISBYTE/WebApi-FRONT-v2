@@ -689,7 +689,6 @@ function CreateInvoice() {
     setLoadingEnvio(true);
   };
 
-
   //VECTOR
   // const [calculo, setCalculo ] = useState([]);
   // const mapeoProductData = (productsData) => {
@@ -827,25 +826,30 @@ function CreateInvoice() {
   }, [gastoLocal, productsData]);
 
   function handleTextClick() {
-    const inputElement = document.getElementById('carga_id');
+    const inputElement = document.getElementById("carga_id");
     if (inputElement) {
       inputElement.focus();
     }
   }
 
-  useEffect(()=>{
-      if(productsData.length>0){
-        const fobGrandTotal=productsData.reduce((accumulator,currentValue)=>{return accumulator+(currentValue.fob_u*currentValue.qty)},0)
-        formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * fobGrandTotal));
-        console.log(fobGrandTotal);
-        console.log(productsData);
-      }
-    },[productsData])
+  useEffect(() => {
+    if (productsData.length > 0) {
+      const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.fob_u * currentValue.qty;
+      }, 0);
+      formik.setFieldValue(
+        "freight_insurance_cost",
+        gastoLocal?.insurance_charge * fobGrandTotal
+      );
+      console.log(fobGrandTotal);
+      console.log(productsData);
+    }
+  }, [productsData]);
 
   const StyledTypography = styled(Typography)(({ theme }) => ({
-    '&:hover': {
-      color: 'green',
-      cursor:"pointer"
+    "&:hover": {
+      color: "green",
+      cursor: "pointer",
     },
   }));
 
@@ -1254,22 +1258,22 @@ function CreateInvoice() {
                 </>
               ) : (
                 <>
-                <Box
-                display="flex" 
-                justifyContent="center" 
-                alignItems="center" 
-                // height="5vh" 
-                width="100vw"
-                >
-                  <StyledTypography
-                    color={"red"}
-                    variant="h2"
-                    style={{ margin: "15px" }}
-                    onClick={handleTextClick}
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    // height="5vh"
+                    width="100vw"
                   >
-                    Seleccione una carga
-                  </StyledTypography>
-                </Box>
+                    <StyledTypography
+                      color={"red"}
+                      variant="h2"
+                      style={{ margin: "15px" }}
+                      onClick={handleTextClick}
+                    >
+                      Seleccione una carga
+                    </StyledTypography>
+                  </Box>
                 </>
               )}
 
@@ -1298,20 +1302,24 @@ function CreateInvoice() {
                     formik={formik}
                   />
                 </Grid>
+              ) : formik.values.carga_id != null ? (
+                <>
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      // onClick={() => setAddItemClicked(true)}
+                      onClick={handleClickOpenDialog}
+                    >
+                      + Agregar Producto
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+                </>
               ) : (
-                <Grid item>
-                  <Button
-                    variant="text"
-                    // onClick={() => setAddItemClicked(true)}
-                    onClick={handleClickOpenDialog}
-                  >
-                    + Agregar Producto
-                  </Button>
-                </Grid>
+                ""
               )}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
 
               {/* PESAJE CONTENEDORES */}
               {ocultar ? (
