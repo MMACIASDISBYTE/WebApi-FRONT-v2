@@ -82,103 +82,147 @@ function ProductsPage({
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
+                  NCM
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >  
+                  EXW U. USD
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+
                     FOB Unit USD
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    EXW U. USD
+                  
+                    QTY {"[pcs]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    Cant. PCS U.
+                    PCS/CTN 
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    Pcs x Caja
+                    CBM/CTN  {"[m3]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    CBM x Caja
+                    GW x Caja  {"[kg]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
                   >
-                    GW x Caja
+                   FOB TOT. {"[USD]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
-                  >
-                    NCM
+                  />   
+                 {/* FP  {"[%]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
-                  >
+                  >  
+                   Freight Charge {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >  
+                  Freight Insur. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  />  */}
+                  
+               {/*     
                     Proveedor
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       whiteSpace: "nowrap",
                       backgroundColor: "#B8B8B8",
                     }}
-                  >
-                    FOB Tot USD
+                  >*/}
+                  {/*
+                    FOB Tot  {"[USD]"}
                   </TableCell>
                   <TableCell
                     // className={classes.tableCell}
-                    align="right"
+                    align="center"
                     sx={{
                       pr: 3,
                       whiteSpace: "nowrap",
                       // backgroundColor: "#B8B8B8",
-                    }}
-                  />
+                    */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -207,7 +251,7 @@ function ProductsPage({
                     <TableCell
                       className={classes.tableCell}
                       sx={{ pl: 3 }}
-                      align="right"
+                      align="center"
                     >
                       {row.description ? row.description : "Sin data"}
                     </TableCell>
@@ -223,32 +267,33 @@ function ProductsPage({
                         "Sin Imagen"
                       )}
                     </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
-                      {row.fob_u ? `${row.fob_u}` : "Sin data"}
-                    </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.ncm_code ? row.ncm_code : "Sin data"}
+                    </TableCell>  
+
+                    
+                    <TableCell className={classes.tableCell} align="center">
                       {row.exw_u ? `${row.exw_u}` : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.fob_u ? `${row.fob_u}` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
                       {row.qty ? `${row.qty}` : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    <TableCell className={classes.tableCell} align="center">
                       {row.pcsctn ? row.pcsctn : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    <TableCell className={classes.tableCell} align="center">
                       {row.cbmctn ? row.cbmctn : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    <TableCell className={classes.tableCell} align="center">
                       {row.gwctn ? row.gwctn : "Sin data"}
                     </TableCell>
-                    {/* <TableCell className={classes.tableCell}align="right">{row.ncm_id}</TableCell>  */}
-                    <TableCell className={classes.tableCell} align="right">
-                      {row.ncm_code ? row.ncm_code : "Sin data"}
-                    </TableCell>
-                    <TableCell className={classes.tableCell} align="right">
+                    {/*<TableCell className={classes.tableCell} align="center">
                       {row.proovedores_name ? row.proovedores_name : "Sin data"}
-                    </TableCell>
-                    <TableCell className={classes.tableCell} align="right">{`${(
+                      </TableCell>*/}
+                    <TableCell className={classes.tableCell} align="center">{`${(
                       row.fob_u * row.qty
                     ).toFixed(2)}`}</TableCell>
                     <TableCell

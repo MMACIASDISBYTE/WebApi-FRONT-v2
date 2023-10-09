@@ -811,6 +811,13 @@ function CreateInvoice() {
   }, [formik?.values?.carga_id]);
   console.log(gastoLocal);
 
+    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd); 
+    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno + gastoLocal?.gasto_descarga_depo);
+    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal); 
+    formik.setFieldValue("gloc_despachantes", CalculoDespachanteMex(formik?.values?.cif_grand_total));
+    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge); 
+    //formik.setFieldValue("freight_insurance_cost", (gastoLocal?.insurance_charge * formik?.values?.cif_grand_total)); 
+
   useEffect(() => {
     formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
     formik.setFieldValue(
@@ -828,8 +835,26 @@ function CreateInvoice() {
       gastoLocal?.insurance_charge * formik?.values?.cif_grand_total
     );
 
+
     console.log(formik.values);
+    console.log(productsData);
   }, [gastoLocal, productsData]);
+
+
+  const [insuranceCost,setInsuranceCost]=useState(0);
+  const [fp,setFp]=useState([0]);
+  const [freightCharge,setFreightCharge]=useState([0])
+  const [insuranceCharge,setInsuranceCharge]=useState([0]);
+  const [cifTot,setCifTot]=useState([0]);
+  const [fobTot,setFobTot]=useState([0]);
+
+
+  useEffect(()=>{
+    const fobGrandTotal=productsData.reduce((accumulator,currentValue)=>{return accumulator+(currentValue.fob_u*currentValue.qty)},0)
+    setInsuranceCost((gastoLocal?.insurance_charge * fobGrandTotal))
+    formik.setFieldValue("freight_insurance_cost", insuranceCost);
+
+  },[productsData])
 
   function handleTextClick() {
     const inputElement = document.getElementById('carga_id');
@@ -844,6 +869,7 @@ function CreateInvoice() {
       cursor:"pointer"
     },
   }));
+
 
   return (
     <>
