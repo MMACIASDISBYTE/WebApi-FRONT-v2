@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 
 // material-ui
@@ -369,8 +369,8 @@ function CreateInvoice() {
     {
       id: "gloc_fwd",
       name: "gloc_fwd",
-      em: "Ingrese Extra Gasto Local Fwd USD",
-      inputLabel: "Gasto Local Fwd USD",
+      em: "Ingrese Gastos Locales FWD [USD]",
+      inputLabel: "Gastos Locales FWD [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -382,8 +382,8 @@ function CreateInvoice() {
     {
       id: "gloc_flete",
       name: "gloc_flete",
-      em: "Ingrese Extra Gasto Local Flete USD",
-      inputLabel: "Gasto Local Flete USD",
+      em: "Ingrese Gasto Flete Interno [USD]",
+      inputLabel: "Flete Interno [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -395,8 +395,8 @@ function CreateInvoice() {
     {
       id: "gloc_terminales",
       name: "gloc_terminales",
-      em: "Ingrese Extra Gasto Local Terminal USD",
-      inputLabel: "Gasto Local Terminal USD",
+      em: "Ingrese Gasto Terminal [USD]",
+      inputLabel: "Gasto Terminal [USD[",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -408,8 +408,8 @@ function CreateInvoice() {
     {
       id: "gloc_despachantes",
       name: "gloc_despachantes",
-      em: "Ingrese Extra Gasto Local Despachantes USD",
-      inputLabel: "Gasto Local Despachantes USD",
+      em: "Ingrese Gastos Despachante [USD]",
+      inputLabel: "Gastos Despachante [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -421,8 +421,8 @@ function CreateInvoice() {
     {
       id: "freight_cost",
       name: "freight_cost",
-      em: "flete internacional USD",
-      inputLabel: "flete internacional USD",
+      em: "Freight Cost USD",
+      inputLabel: "Freight Cost [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -434,8 +434,8 @@ function CreateInvoice() {
     {
       id: "freight_insurance_cost",
       name: "freight_insurance_cost",
-      em: "Seguro Carga %.",
-      inputLabel: "Seguro Carga %.",
+      em: "Freight Insurance [USD]",
+      inputLabel: "Freight Insurance [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
       Xs_Xd: [12, 2],
@@ -839,7 +839,7 @@ function CreateInvoice() {
       }, 0);
       formik.setFieldValue(
         "freight_insurance_cost",
-        gastoLocal?.insurance_charge * fobGrandTotal
+        (gastoLocal?.insurance_charge/100) * fobGrandTotal
       );
       console.log(fobGrandTotal);
       console.log(productsData);
@@ -1285,6 +1285,10 @@ function CreateInvoice() {
                 productsData={productsData}
                 deleteProductHandler={deleteProductHandler}
                 editProductHandler={editProductHandler}
+                freightCost={gastoLocal?.freight_charge}
+                insurancePorct={gastoLocal?.insurance_charge}
+                //formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+    // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
               />
               {open2 ? (
                 <Grid item xs={12}>
