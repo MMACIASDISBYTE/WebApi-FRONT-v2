@@ -370,7 +370,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Flete :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.gloc_flete ||
                             presupuestador.estHeader.gloc_flete == 0
                               ? UtilidadesHelper.formatNumber(
@@ -384,7 +384,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Freight Cost :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.freight_cost ||
                             presupuestador.estHeader.freight_cost == 0
                               ? UtilidadesHelper.formatNumber(
@@ -400,7 +400,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Freight Insurance Cost :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.freight_insurance_cost ||
                             presupuestador.estHeader.freight_insurance_cost == 0
                               ? UtilidadesHelper.formatNumber(
@@ -416,7 +416,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             CIF Total :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.cif_grand_total
                               ? UtilidadesHelper.formatNumber(
                                   presupuestador.estHeader.cif_grand_total.toFixed(
@@ -431,7 +431,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Impuestos :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.impuestos_total
                               ? UtilidadesHelper.formatNumber(
                                   presupuestador.estHeader.impuestos_total.toFixed(
@@ -523,7 +523,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Gastos loc. :
                           </Typography>
                           <Typography variant="body2">
-                            USD{" "}
+                            [USD]{" "}
                             {presupuestador.estHeader.gastos_loc_total ||
                             presupuestador.estHeader.gastos_loc_total == 0
                               ? UtilidadesHelper.formatNumber(
@@ -638,7 +638,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               </Typography>
                               <Typography variant="body2">
                                 {historial.fob_grand_total
-                                  ? `USD ${historial.fob_grand_total.toFixed(
+                                  ? `[USD] ${historial.fob_grand_total.toFixed(
                                       2
                                     )}`
                                   : "Sin data"}
@@ -902,7 +902,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            EXW U USD
+                            EXW U [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -912,7 +912,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FOB u. USD
+                            FOB u. [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -922,7 +922,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            Cant PCS
+                            Qty[PCS]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -933,7 +933,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            PCS x Caja
+                            PCS/CTN
                           </TableCell>
                           <TableCell
                             align="right"
@@ -943,7 +943,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CBM x Caja
+                            CBM/CTN[m3]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -953,7 +953,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            Peso x Caja
+                            GW CTN [kg]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -963,7 +963,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CBM TOT
+                            Total CBM [m3]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -973,7 +973,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            PESO TOT
+                            Total GW [kg]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -983,7 +983,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CIF TOT USD
+                            CIF TOT [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -993,7 +993,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            IMP TOT USD
+                            Tot Impuestos[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1003,7 +1003,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            G. LOC USD
+                            Tot Gasto Destino[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1013,7 +1013,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            EXTRA G. USD
+                            EXTRA G. [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1023,7 +1023,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            COSTOu USD
+                            COSTOu [USD]
                           </TableCell>
                         </>
                       ) : (
@@ -1076,7 +1076,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            OEM
+                            Proveedor
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1086,7 +1086,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            EXW u USD
+                            EXW u [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1096,7 +1096,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FOB u. USD
+                            FOB u. [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1106,7 +1106,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            PCS x Caja
+                            PCS/CTN
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1116,7 +1116,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CBM x Caja
+                            CBM/CTN[m3]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1126,7 +1126,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            PESO x Caja
+                            GW CTN [kg]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1136,7 +1136,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            Cant. Cajas
+                            Qty[PCS]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1146,7 +1146,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CBM TOT USD
+                            Total CBM [m3]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1156,7 +1156,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            PESO TOT
+                            Total GW [kg]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1166,7 +1166,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FOB TOT
+                            Total FOB[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1176,7 +1176,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FP
+                            FP [%]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1186,7 +1186,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FREIGHT CHRG
+                            FREIGHT CHRG[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1196,7 +1196,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            INSUR. CHRG
+                            INSUR. CHRG[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1206,7 +1206,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            CIF TOT
+                            CIF TOT[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1216,7 +1216,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FOB to CIF
+                            FOB to CIF[%]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1226,7 +1226,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            ARANC.%
+                            ARANC.[%]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1236,7 +1236,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            ARANC USD
+                            ARANC[USD]
                           </TableCell>
                           {pais == 7 ? (
                             <>
@@ -1258,7 +1258,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                TE USD
+                                TE[USD]
                               </TableCell>
                             </>
                           ) : (
@@ -1271,7 +1271,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                DTA%
+                                DTA[%]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1281,7 +1281,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                DTA USD
+                                DTA[USD]
                               </TableCell>
                             </>
                           )}
@@ -1293,7 +1293,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            BASE IVA USD
+                            BASE IVA[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1303,7 +1303,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            IVA%
+                            IVA[%]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1313,7 +1313,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            IVA USD
+                            IVA[USD]
                           </TableCell>
                           {pais == 7 ? (
                             <>
@@ -1325,7 +1325,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                IVA Ad%
+                                IVA Ad[%]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1335,7 +1335,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                IVA Ad USD
+                                IVA Ad[USD]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1345,7 +1345,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                IIBB%
+                                IIBB[%]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1355,7 +1355,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                IIBB USD
+                                IIBB[USD]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1365,7 +1365,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                GCIAS %
+                                GCIAS[%]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1375,7 +1375,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 }}
                                 className={classes.tableCell}
                               >
-                                GCIAS USD
+                                GCIAS[USD]
                               </TableCell>
                             </>
                           ) : (
@@ -1388,7 +1388,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            IMP TOT USD
+                            IMP TOT[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1397,7 +1397,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            GLOC TERM USD
+                            Gasto Terminal[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1406,7 +1406,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            GLOC FLETE USD
+                            Flete Interno[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1415,7 +1415,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            GLOC FWD USD
+                            Gasto Loc FWD[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1424,7 +1424,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            GLOC DESPA USD
+                            Gasto DESPA[USD]
                           </TableCell>
                           {pais == 7 ? (
                             <>
@@ -1435,7 +1435,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   backgroundColor: "#B8B8B8",
                                 }}
                               >
-                                GLOC BANC USD
+                                Gasto BANCO[USD]
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1444,7 +1444,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   backgroundColor: "#B8B8B8",
                                 }}
                               >
-                                GLOC CUST USD
+                                Gasto CUST[USD]
                               </TableCell>
                             </>
                           ) : (
@@ -1457,7 +1457,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            GLOC TOT USD
+                            Total Gast Dest[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1466,7 +1466,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg LOC1 USD
+                            Extrg LOC1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1475,7 +1475,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg LOC2 USD
+                            Extrg LOC2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1484,7 +1484,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg CMX1 USD
+                            Extrg CMX1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1493,7 +1493,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg CMX2 USD
+                            Extrg CMX2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1502,7 +1502,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg CMX3 USD
+                            Extrg CMX3[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1511,7 +1511,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg CMX NOTAS
+                            Extrg CMX NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1520,7 +1520,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg FIN1 USD
+                            Extrg FIN1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1529,7 +1529,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg FIN2 USD
+                            Extrg FIN2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1538,7 +1538,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg FIN3 USD
+                            Extrg FIN3[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1547,7 +1547,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg FIN NOTAS
+                            Extrg FIN NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1556,7 +1556,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gCMX1 USD
+                            Extrg gCMX1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1565,7 +1565,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gCMX2 USD
+                            Extrg gCMX2 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1574,7 +1574,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gCMX3 USD
+                            Extrg gCMX3 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1583,7 +1583,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gCMX4 USD
+                            Extrg gCMX4 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1592,7 +1592,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gCMX5 USD
+                            Extrg gCMX5 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1601,7 +1601,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gFIN1 USD
+                            Extrg gFIN1 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1610,7 +1610,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gFIN2 USD
+                            Extrg gFIN2 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1619,7 +1619,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gFIN3 USD
+                            Extrg gFIN3 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1628,7 +1628,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gFIN4 USD
+                            Extrg gFIN4 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1637,7 +1637,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            EXTRG gFIN5 USD
+                            Extrg gFIN5 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1646,7 +1646,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            extrg TOT
+                            Extrg TOT
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1655,7 +1655,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#B8B8B8",
                             }}
                           >
-                            COSTO u. USD
+                            COSTO u.[USD]
                           </TableCell>
                         </>
                       )}
@@ -1681,12 +1681,14 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           }}
                           className={classes.tableCell}
                         >
+                          <Tooltip title={`Costo U.[USD] ${row.costo_u.toFixed(3)}`}>
                           <TableCell
                             align="right"
                             className={classes.tableCell}
                           >
                             {row.sku ? row.sku : 0}
                           </TableCell>
+                          </Tooltip>
                           <TableCell
                             sx={{ pl: 3, maxWidth: 350 }}
                             className={classes.tableCell}
@@ -1855,10 +1857,11 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                {row.pcsctn > 1
+                                {row.qty ? row.qty : 0}
+                                {/* {row.pcsctn > 1
                                   ? Math.ceil(row.qty / row.pcsctn).toFixed(2)
                                   : 0.0}
-                                u.
+                                u. */}
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -1956,7 +1959,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                USD {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
+                                [USD] {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -2028,7 +2031,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                USD {sumImpuestosPais(row, pais).toFixed(2)}
+                                [USD] {sumImpuestosPais(row, pais).toFixed(2)}
                               </TableCell>
                               <TableCell
                                 align="right"
@@ -2318,7 +2321,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid>
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
-                                USD{" "}
+                                [USD]{" "}
                                 {presupuestador.estHeader.fob_grand_total ||
                                 presupuestador.estHeader.fob_grand_total == 0
                                   ? UtilidadesHelper.formatNumber(
@@ -2337,7 +2340,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid>
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
-                                USD{" "}
+                                [USD]{" "}
                                 {presupuestador.estHeader.impuestos_total ||
                                 presupuestador.estHeader.impuestos_total == 0
                                   ? UtilidadesHelper.formatNumber(
@@ -2356,7 +2359,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid>
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
-                                USD{" "}
+                                [USD]{" "}
                                 {presupuestador.estHeader.gloc_flete ||
                                 presupuestador.estHeader.gloc_flete == 0
                                   ? UtilidadesHelper.formatNumber(
@@ -2374,7 +2377,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid>
                             <Grid item xs={6}>
                               <Typography align="right" variant="body2">
-                                USD{" "}
+                                [USD]{" "}
                                 {presupuestador.estHeader.seguro
                                   ? UtilidadesHelper.formatNumber(
                                       presupuestador.estHeader.seguro.toFixed(2)
@@ -2395,7 +2398,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 color="primary"
                                 variant="subtitle1"
                               >
-                                CIF Total USD:
+                                CIF Total [USD]:
                               </Typography>
                             </Grid>
                             <Grid item xs={6}>
@@ -2405,7 +2408,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 variant="subtitle1"
                                 sx={{ pl: 10, minWidth: 180 }}
                               >
-                                USD{" "}
+                                [USD]{" "}
                                 {presupuestador.estHeader.cif_grand_total ||
                                 presupuestador.estHeader.cif_grand_total == 0
                                   ? UtilidadesHelper.formatNumber(
