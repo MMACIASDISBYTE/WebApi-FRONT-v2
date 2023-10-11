@@ -22,6 +22,7 @@ export const CustomSelect = ({
   PaisRegion = null,
   desactivado = false,
   ValorPorDefecto = null,
+  tooltip = '',
 }) => {
   // console.log(PaisRegion);
   // Filtramos los datos basados en paisregion_id solo si data es un array
@@ -45,6 +46,7 @@ export const CustomSelect = ({
     : [];
   return (
     <>
+    <Tooltip title={tooltip}>
       <Grid item xs={XS} md={MD}>
         <Stack>
           <InputLabel required>{`${inputLabel}`}</InputLabel>
@@ -122,6 +124,7 @@ export const CustomSelect = ({
           )}
         </Stack>
       </Grid>
+    </Tooltip>
     </>
   );
 };
