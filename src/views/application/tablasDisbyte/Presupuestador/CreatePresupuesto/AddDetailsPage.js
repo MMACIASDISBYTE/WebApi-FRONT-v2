@@ -24,6 +24,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 
 // project imports
 import { gridSpacing } from "store/constant";
@@ -224,7 +225,7 @@ const AddDetailsPage = ({
   });
   //   console.log(dataHelp.proveedoresOem);
 
-    // console.log(dataHelp);
+  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
   //   console.log(formik.values.paisregion_id);
 
@@ -315,7 +316,7 @@ const AddDetailsPage = ({
         if (type === "Number") {
           updatedSelectedItem[name] = parseFloat(value) || value;
         } else {
-          updatedSelectedItem[name] = value;
+          updatedSelectedItem[name] = value.toUpperCase();
         }
       }
       setSelectedQuantity(event.target.value);
@@ -342,7 +343,7 @@ const AddDetailsPage = ({
     }
 
     // // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku.trim()) {
+    if (!selectedItem?.exw_u || !selectedItem?.sku) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }
@@ -410,6 +411,11 @@ const AddDetailsPage = ({
       errors.gwctnError = "Valor gwctn debe ser numerico";
     }
 
+    // // Validacion Imagen
+    if (!selectedItem?.imageurl || !selectedItem?.description.trim()) {
+      errors.imageurlError = "Imagen is required";
+    }
+
     if (Object.keys(errors).length > 0) {
       setErrors(errors); // actualizamos los errores de validación en el estado
       return;
@@ -426,6 +432,25 @@ const AddDetailsPage = ({
     console.log(data);
     handleAddItem(data);
   };
+
+  // ESTILO PARA QUITAR FLECHAS NUMERICAS DE TEXTFIELD NUMBER
+  const useStyles = makeStyles({
+    hideSpinButton: {
+      "& input[type=number]::-webkit-inner-spin-button, & input[type=number]::-webkit-outer-spin-button":
+        {
+          "-webkit-appearance": "none",
+          margin: 0,
+        },
+      "& input[type=number]": {
+        "-moz-appearance": "textfield",
+      },
+    },
+    alignedLeft: {
+      textAlign: 'left', // Asegura que el texto esté alineado a la izquierda
+    },
+  });
+
+  const classes = useStyles();
 
   return (
     <Dialog
@@ -447,7 +472,7 @@ const AddDetailsPage = ({
     >
       {open && (
         <>
-          <DialogTitle>Add Details</DialogTitle>
+          <DialogTitle>Agregar Producto</DialogTitle>
           <DialogContent>
             <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
               {/* SELECCION DE Proveedor */}
@@ -528,15 +553,11 @@ const AddDetailsPage = ({
 
               {/* AUTOCOMPLETE DE SKU */}
               <Grid item xs={12} md={6} fullWidth>
-                <AutoCompleteTextField
-                  handleChange={handleChange}
-                  name="sku"
-                />
+                <AutoCompleteTextField handleChange={handleChange} name="sku" />
                 {errors.skuError && (
                   <FormHelperText>{errors.skuError}</FormHelperText>
                 )}{" "}
               </Grid>
-
 
               <Grid item xs={12} md={6}>
                 <TextField
@@ -583,6 +604,7 @@ const AddDetailsPage = ({
                   id="exw_u"
                   name="exw_u"
                   value={selectedItem?.exw_u || ""}
+                  className={`${classes.hideSpinButton} ${classes.alignedLeft}`} // quitar flechas numericas
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
@@ -592,7 +614,7 @@ const AddDetailsPage = ({
                     handleChange(e, "Number");
                   }}
                   fullWidth
-                  label="Exw U.*"
+                  label="EXW U.*"
                   //   defaultValue="0"
                 />
                 {errors.exw_uError && (
@@ -607,6 +629,7 @@ const AddDetailsPage = ({
                   id="fob_u"
                   name="fob_u"
                   value={selectedItem?.fob_u || ""}
+                  className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
@@ -616,7 +639,7 @@ const AddDetailsPage = ({
                     handleChange(e, "Number");
                   }}
                   fullWidth
-                  label="Fob U.*"
+                  label="FOB U.*"
                   //   defaultValue="Samsung"
                 />
                 {errors.fob_uError && (
@@ -631,6 +654,7 @@ const AddDetailsPage = ({
                   id="qty"
                   name="qty"
                   value={selectedItem?.qty || ""}
+                  className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">U.</InputAdornment>
@@ -640,7 +664,7 @@ const AddDetailsPage = ({
                     handleChange(e, "Number");
                   }}
                   fullWidth
-                  label="Qty*"
+                  label="QTY*"
                 />
                 {errors.qtyError && (
                   <FormHelperText>{errors.qtyError}</FormHelperText>
@@ -654,6 +678,7 @@ const AddDetailsPage = ({
                   id="pcsctn"
                   name="pcsctn"
                   value={selectedItem?.pcsctn || ""}
+                  className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">U.</InputAdornment>
@@ -663,7 +688,7 @@ const AddDetailsPage = ({
                     handleChange(e, "Number");
                   }}
                   fullWidth
-                  label="Pcsctn*"
+                  label="PCSCTN*"
                 />
                 {errors.pcsctnError && (
                   <FormHelperText>{errors.pcsctnError}</FormHelperText>
@@ -677,6 +702,7 @@ const AddDetailsPage = ({
                   id="cbmctn"
                   name="cbmctn"
                   value={selectedItem?.cbmctn || ""}
+                  className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">M3.</InputAdornment>
@@ -686,7 +712,7 @@ const AddDetailsPage = ({
                     handleChange(e, "Number");
                   }}
                   fullWidth
-                  label="Cbmctn*"
+                  label="CBMCTN*"
                 />
                 {errors.cbmctnError && (
                   <FormHelperText>{errors.cbmctnError}</FormHelperText>
@@ -700,8 +726,9 @@ const AddDetailsPage = ({
                   id="gwctn"
                   name="gwctn"
                   fullWidth
-                  label="Gwctn"
+                  label="GWCTN"
                   value={selectedItem?.gwctn || ""}
+                  className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">kg</InputAdornment>
@@ -738,8 +765,8 @@ const AddDetailsPage = ({
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
-                {errors.descriptionError && (
-                  <FormHelperText>{errors.descriptionError}</FormHelperText>
+                {errors.imageurlError && (
+                  <FormHelperText>{errors.imageurlError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -827,12 +854,12 @@ const AddDetailsPage = ({
                       ) : (
                         <Grid item>
                           <ImageWrapper
-                          style={{ width: '120px', height: '120px' }}>
+                            style={{ width: "120px", height: "120px" }}
+                          >
                             <CardMedia
                               component="img"
                               image={selectedItem?.imageurl}
                               title="Product"
-                              
                             />
                           </ImageWrapper>
                         </Grid>

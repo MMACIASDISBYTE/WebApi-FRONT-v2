@@ -8,6 +8,7 @@ import {
   TextField,
   Switch,
   InputAdornment,
+  Tooltip,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import InputLabel from "ui-component/extended/Form/InputLabel";
@@ -15,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
-export const ExtraCostosArrBool = ({
+export const ExtraCostoDobleClick = ({
   id,
   name,
   em,
@@ -34,6 +35,11 @@ export const ExtraCostosArrBool = ({
 
   const [value, setValue] = useState("");
   const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(false); // Estado inicial
+  const [dobleClick, setDobleClick] = useState(true);
+  const [textDeTooltip, setTextDeTooltip] = useState("Doble click para desbloquear")
+  const TextTooltip = () =>{
+    !dobleClick ? setTextDeTooltip("Doble click para Desbloquear") : setTextDeTooltip('Doble Click para Bloquear')
+  }
 
   const onSwitchChangeDesabled = (newSwitchState) => {
     // console.log("El nuevo estado del interruptor es:", newSwitchState);
@@ -54,22 +60,21 @@ export const ExtraCostosArrBool = ({
     }
   };
 
-  useEffect(() => {
-
-  }, [ValorSwitch]);
+  useEffect(() => {}, [ValorSwitch]);
   // console.log(data);
   useEffect(() => {
     // console.log('valor antes :', ValorSwitchaplicable);
-    const valorInicialSwitch = UtilidadesHelper.valueToBoolArrPosition(ValorSwitchBase, arrPosition);
+    const valorInicialSwitch = UtilidadesHelper.valueToBoolArrPosition(
+      ValorSwitchBase,
+      arrPosition
+    );
     setValorSwitchAplicable(valorInicialSwitch);
     // console.log('valor despues :',valorInicialSwitch);
-  },[ValorSwitchBase])
+  }, [ValorSwitchBase]);
 
   // console.log(formik.values);
   // console.log(ValorSwitch);
-  useEffect(()=>{
-
-  }, [formik.values])
+  useEffect(() => {}, [formik.values]);
 
   // ESTILO PARA QUITAR FLECHAS NUMERICAS DE TEXTFIELD NUMBER
   const useStyles = makeStyles({
@@ -84,7 +89,7 @@ export const ExtraCostosArrBool = ({
       },
     },
     input: {
-      textAlign: 'left', // Asegura que el texto esté alineado a la izquierda
+      textAlign: "left", // Asegura que el texto esté alineado a la izquierda
     },
   });
 
@@ -92,7 +97,7 @@ export const ExtraCostosArrBool = ({
 
   return (
     <>
-      <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]}>
+      <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]} align="left">
         <Stack>
           <InputLabel required>{inputLabel}</InputLabel>
           {dataType == "string" ? (
@@ -116,40 +121,38 @@ export const ExtraCostosArrBool = ({
               placeholder={em}
             />
           ) : (
-            <Grid item>
-              <TextField
-                id={id}
-                name={name}
-                type="string"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
-                  style: { textAlign: "left" },
-                  // classes: { input: classes.input }, // aplicar la clase al input interno
-                }}
-                value={formik.values[name]}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-                onChange={(event) => UtilidadesHelper.handleChangeCustom(event, formik, name)}
-                fullWidth
-                placeholder={em}
-                disabled={!ValorSwitchaplicable}
-                inputProps={{
-                  style: { textAlign: "right" },
-                }}
-              />
-              {blockDeGastos && (
-                <SwitchGastos
-                  // onSwitchChange={onSwitchChange}
-                  onSwitchChange={(newState) => {
-                    handleSwitchChangeInIndex(newState, arrPosition); // Pasa el estado al componente padre (Index)
-                    onSwitchChangeDesabled(newState)
+            <Grid item align="left">
+              <Tooltip title={textDeTooltip}>
+                <TextField
+                  id={id}
+                  name={name}
+                  type="string"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                    style: { textAlign: "left" },
+                    // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-                  ValorSwitchaplicable={ValorSwitchaplicable}
+                  value={formik.values[name]}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                  onChange={(event) =>
+                    UtilidadesHelper.handleChangeCustom(event, formik, name)
+                  }
+                  fullWidth
+                  placeholder={em}
+                  disabled={dobleClick}
+                  inputProps={{
+                    style: { textAlign: "right" },
+                  }}
+                  onDoubleClick={(event) => {
+                    setDobleClick(!dobleClick);
+                    TextTooltip();
+                  }}
                 />
-              )}
+              </Tooltip>
             </Grid>
           )}
           {formik.errors[name] && (

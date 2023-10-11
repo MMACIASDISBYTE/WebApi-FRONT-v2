@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // material-ui
@@ -67,6 +67,7 @@ import { TarifarioArrBool } from "../TarifarioArrBool";
 import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
 import { TarifonMexHelper } from "helpers/TarifonMexHelper";
 import { Box } from "@mui/system";
+import { ExtraCostoDobleClick } from "../../UpdateVersPresupuesto/ExtraCostoDobleClick";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -84,7 +85,7 @@ const validationSchema = yup.object({
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
   description: yup.string().nullable().required("La descripcion is required"),
-  project: yup.string().nullable().required("El Prj is required"),
+  // project: yup.string().nullable().required("El Prj is required"),
 
   carga_id: yup
     .object()
@@ -839,7 +840,7 @@ function CreateInvoice() {
       }, 0);
       formik.setFieldValue(
         "freight_insurance_cost",
-        (gastoLocal?.insurance_charge/100) * fobGrandTotal
+        (gastoLocal?.insurance_charge / 100) * fobGrandTotal
       );
       console.log(fobGrandTotal);
       console.log(productsData);
@@ -856,15 +857,17 @@ function CreateInvoice() {
   return (
     <>
       <MainCard
-        title={`Crear Presupuesto de Mexico - Bs. As. : #00${
-          formik?.values?.estnumber
-        }/00${formik?.values?.estvers} Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
+        // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
+        title={`Crear Presupuesto de Mexico:`}
       >
         <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            marginBottom: "15px",
+            position: 'relative', // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+            top: '-55px', // Posición desde la parte superior del contenedor
+            right: '10px', // Posición desde la derecha del contenedor
+            margin: '-25px'
           }}
         >
           <AnimateButton>
@@ -892,6 +895,52 @@ function CreateInvoice() {
             <Grid container spacing={gridSpacing}>
               {/* COMPONENTE DE INPUTS que maneja la data de cabeceraPais SELECCIONA PAIS */}
 
+              {/* CABECERA DE PRESUPUESTADOR */}
+
+              {/* FECHA DE FACTURACION */}
+              <Grid item xs={12} md={1.6} align="left">
+                <Stack>
+                  <InputLabel required>Fecha de Emisión</InputLabel>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      inputFormat="dd/MM/yyyy"
+                      renderInput={(props) => (
+                        <TextField fullWidth {...props} />
+                      )}
+                      value={valueBasic}
+                      disabled
+                      onChange={(newValue) => {
+                        setValueBasic(newValue);
+                      }}
+                    />
+                  </LocalizationProvider>
+                </Stack>
+              </Grid>
+
+              {/* NUM DE ESTIMADO */}
+              <Grid item xs={12} md={0.8}>
+                <Stack>
+                  <InputLabel required>#</InputLabel>
+                  <TextField
+                    id="estnumber"
+                    name="estnumber"
+                    disabled
+                    value={formik.values.estnumber}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.estnumber &&
+                      Boolean(formik.errors.estnumber)
+                    }
+                    helperText={
+                      formik.touched.estnumber && formik.errors.estnumber
+                    }
+                    onChange={formik.handleChange}
+                    fullWidth
+                    placeholder="Invoice #"
+                  />
+                </Stack>
+              </Grid>
+
               {/* SELECT PAIS ORIGEN CABECERA */}
               {cabeceraPaisOrigen.map((field) => (
                 <CustomSelect
@@ -899,29 +948,32 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.5}
+                  MD={1.2}
                   desactivado={true}
                   ValorPorDefecto={"CHINA"}
+                  tooltip={"CHINA"}
                 />
               ))}
 
               {/* CABECERA PAIS */}
               {cabeceraPais.map((field) => (
-                <CustomSelect
-                  key={field.id}
-                  {...field}
-                  formik={formik}
-                  XS={12}
-                  MD={1.5}
-                  desactivado={true}
-                  ValorPorDefecto={"MEXICO"}
-                />
+                  <CustomSelect
+                    key={field.id}
+                    {...field}
+                    formik={formik}
+                    XS={12}
+                    MD={1.2}
+                    desactivado={true}
+                    ValorPorDefecto={"MEXICO"}
+                    tooltip={"MEXICO"}
+                  />
               ))}
 
               {/* Seleccion pais*/}
               <Grid item xs={12} md={1.5} align="left">
                 <Stack>
                   <InputLabel>Region</InputLabel>
+                  <Tooltip title="GUADALAJARA">
                   <TextField
                     id="SeleccionPais"
                     name="SeleccionPais"
@@ -946,6 +998,7 @@ function CreateInvoice() {
                     }} // Aquí se alinea el texto a la derecha y opacamos el dolar
                     defaultValue="GUADALAJARA"
                   />
+                  </Tooltip>
                 </Stack>
               </Grid>
 
@@ -956,7 +1009,8 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.5}
+                  MD={1.2}
+                  tooltip={"Seleccione Carga"}
                 />
               ))}
 
@@ -991,7 +1045,7 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={3}
+                  MD={2}
                 />
               ))}
 
@@ -1002,7 +1056,7 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={3}
+                  MD={2.5}
                 />
               ))}
 
@@ -1128,31 +1182,6 @@ function CreateInvoice() {
               {/* ESPACIO DE RELLENO */}
               {/* <Grid item md={6}></Grid> */}
 
-              {/* CABECERA DE PRESUPUESTADOR */}
-              {/* NUM DE ESTIMADO */}
-              {/* <Grid item xs={12} md={2}>
-                <Stack>
-                  <InputLabel required>#</InputLabel>
-                  <TextField
-                    id="estnumber"
-                    name="estnumber"
-                    disabled
-                    value={formik.values.estnumber}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.estnumber &&
-                      Boolean(formik.errors.estnumber)
-                    }
-                    helperText={
-                      formik.touched.estnumber && formik.errors.estnumber
-                    }
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="Invoice #"
-                  />
-                </Stack>
-              </Grid> */}
-
               {/* NUM DE VERSION */}
               {/* <Grid item xs={12} md={2}>
                 <Stack>
@@ -1176,26 +1205,6 @@ function CreateInvoice() {
 
               {/* ESPACIO DE RELLENO */}
               {/* <Grid item md={0}></Grid> */}
-
-              {/* FECHA DE FACTURACION */}
-              {/* <Grid item xs={12} md={2} align="right">
-                <Stack>
-                  <InputLabel required>Fecha de Emisión</InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                      inputFormat="dd/MM/yyyy"
-                      renderInput={(props) => (
-                        <TextField fullWidth {...props} />
-                      )}
-                      value={valueBasic}
-                      disabled
-                      onChange={(newValue) => {
-                        setValueBasic(newValue);
-                      }}
-                    />
-                  </LocalizationProvider>
-                </Stack>
-              </Grid> */}
 
               {/* DETALLE DE PRESUPUESTADOR */}
               {/* <Grid item xs={12}>
@@ -1232,8 +1241,30 @@ function CreateInvoice() {
                     ))
                   } */}
 
-                  {ExtraCostosLocal.map((input) => (
+                  {/* {ExtraCostosLocal.map((input) => (
                     <ExtraCostosArrBool
+                      key={input.id}
+                      id={input.id}
+                      name={input.name}
+                      em={input.em}
+                      inputLabel={input.inputLabel}
+                      data={input.data}
+                      dataType={input.dataType}
+                      formik={formik}
+                      Xs_Xd={input.Xs_Xd}
+                      blockDeGastos={input.blockDeGastos}
+                      onSwitchChange={(newState) =>
+                        handleSwitchChangeInIndex(newState, input.arrPosition)
+                      }
+                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                      ValorSwitch={input.ValorSwitch}
+                      ValorSwitchBase={input.ValorSwitchBase}
+                      arrPosition={input.arrPosition}
+                    />
+                  ))} */}
+
+                  {ExtraCostosLocal.map((input) => (
+                    <ExtraCostoDobleClick
                       key={input.id}
                       id={input.id}
                       name={input.name}
@@ -1286,7 +1317,7 @@ function CreateInvoice() {
                 freightCost={gastoLocal?.freight_charge}
                 insurancePorct={gastoLocal?.insurance_charge}
                 //formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
-    // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
+                // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
               />
               {open2 ? (
                 <Grid item xs={12}>
