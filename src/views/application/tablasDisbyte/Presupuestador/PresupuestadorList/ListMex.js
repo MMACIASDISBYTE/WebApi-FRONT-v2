@@ -325,7 +325,7 @@ const CustomerList = () => {
   const [orderBy, setOrderBy] = React.useState("id");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [search, setSearch] = React.useState("");
   const [rows, setRows] = React.useState([]);
   const { customers } = useSelector((state) => state.customer);
@@ -802,7 +802,7 @@ React.useEffect(() => {
 
       {/* table pagination */}
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[10, 20, 50]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
