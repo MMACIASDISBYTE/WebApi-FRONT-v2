@@ -1698,7 +1698,17 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             sx={{ pl: 3, maxWidth: 350 }}
                             className={classes.tableCell}
                           >
-                            <Typography align="left" variant="subtitle1">
+                            <Typography
+                            align="left"
+                            variant="subtitle1"
+                            noWrap // evita que el texto se envuelva en nuevas líneas
+                            sx={{ 
+                              maxWidth: 500, // o cualquier otro valor que se ajuste a tus necesidades
+                              overflow: 'hidden', // asegura que el contenido extra esté oculto
+                              textOverflow: 'ellipsis', // agrega puntos suspensivos al final
+                              whiteSpace: 'nowrap', // mantiene el texto en una sola línea
+                            }}
+                            >
                               {row.description ? row.description : ""}
                               {/* {row.description} */}
                               {/* {console.log(row)} */}
