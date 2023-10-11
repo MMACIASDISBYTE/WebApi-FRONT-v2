@@ -1,24 +1,34 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import { Box, Tooltip } from "@mui/material";
 
 const filter = createFilterOptions();
 
 export default function AutoCompleteTextField({ handleChange, name }) {
   const [value, setValue] = React.useState(null);
-
+  const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
+  const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
   return (
     <Autocomplete
       value={value}
       onChange={(event, newValue) => {
         let newEventValue;
         if (typeof newValue === "string") {
+          setIsInputValue(true); // Si es un string, fue ingresado directamente
+          setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
+          console.log(newValue);
           newEventValue = newValue;
           setValue({ title: newValue });
         } else if (newValue && newValue.inputValue) {
+          setIsInputValue(true); // Si tiene inputValue, también fue ingresado directamente
+          setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
+          console.log(newValue);
           newEventValue = newValue.inputValue;
           setValue({ title: newValue.inputValue });
         } else {
+          setIsInputValue(false); // En otros casos, no fue ingresado directamente
+          setToolIngresoManual('')
           newEventValue = newValue ? newValue.title : "";
           setValue(newValue);
         }
@@ -72,12 +82,25 @@ export default function AutoCompleteTextField({ handleChange, name }) {
       fullWidth
       freeSolo
       renderInput={(params) => (
-        <TextField
-          fullWidth
-          {...params}
-          name={name}
-          label="Seleccione o Ingrese un Sku"
-        />
+        <Box
+      component="form"
+      // sx={{
+      //   '& > :not(style)': { m: 1, width: '25ch' },
+      // }}
+      // noValidate
+      autoComplete="off"
+    >
+      <Tooltip title={toolIngresoManual}>
+      <TextField
+        fullWidth
+        {...params}
+        name={name}
+        label="Seleccione o Ingrese un Sku"
+        // Cambiamos el estilo basado en si el valor fue ingresado directamente
+        color={isInputValue ? 'warning' : 'success'}
+      />
+      </Tooltip>
+    </Box>
       )}
     />
   );
