@@ -431,6 +431,7 @@ const AddDetailsPage = ({
 
     console.log(data);
     handleAddItem(data);
+    handleCloseDialog();
   };
 
   // ESTILO PARA QUITAR FLECHAS NUMERICAS DE TEXTFIELD NUMBER
@@ -474,8 +475,11 @@ const AddDetailsPage = ({
         <>
           <DialogTitle>Agregar Producto</DialogTitle>
           <DialogContent>
-            <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-              {/* SELECCION DE Proveedor */}
+            <Grid
+              container spacing={gridSpacing}
+              // sx={{ mt: 0.25 }}
+            >
+              {/* SELECCION DE Proveedor de Select */}
               <Grid item xs={12} md={6}>
                 <TextField
                   id="proveedores_id"
@@ -499,8 +503,38 @@ const AddDetailsPage = ({
                 )}{" "}
               </Grid>
 
-              {/* SELECCION DE NCM */}
               <Grid item xs={12} md={6}>
+                <TextField
+                  id="proveedores_id"
+                  name="proveedores_id"
+                  fullWidth
+                  label="Ingrese Proveedor*"
+                  onChange={handleChange}
+                  //   defaultValue="Iphone 11 Pro Max"
+                />
+                {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+              </Grid>
+
+              {/* AUTOCOMPLETE DE SKU */}
+              <Grid item xs={12} md={4} fullWidth>
+                <AutoCompleteTextField handleChange={handleChange} name="sku" />
+                {errors.skuError && (
+                  <FormHelperText>{errors.skuError}</FormHelperText>
+                )}{" "}
+              </Grid>
+
+              {/* AUTOCOMPLETE DE SKU */}
+              <Grid item xs={12} md={4} fullWidth>
+                <AutoCompleteTextField handleChange={handleChange} name="sku" />
+                {errors.skuError && (
+                  <FormHelperText>{errors.skuError}</FormHelperText>
+                )}{" "}
+              </Grid>
+
+              {/* SELECCION DE NCM */}
+              <Grid item xs={12} md={4}>
                 <TextField
                   id="ncm_id"
                   name="ncm_id"
@@ -523,12 +557,40 @@ const AddDetailsPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <TextField
                   id="productowner"
                   name="productowner"
                   fullWidth
                   label="Ingrese Po*"
+                  onChange={handleChange}
+                  //   defaultValue="Iphone 11 Pro Max"
+                />
+                {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="productowner"
+                  name="productowner"
+                  fullWidth
+                  label="Ingrese Pi*"
+                  onChange={handleChange}
+                  //   defaultValue="Iphone 11 Pro Max"
+                />
+                {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="productowner"
+                  name="productowner"
+                  fullWidth
+                  label="Ingrese Ci*"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -551,21 +613,13 @@ const AddDetailsPage = ({
                 )}{" "}
               </Grid> */}
 
-              {/* AUTOCOMPLETE DE SKU */}
-              <Grid item xs={12} md={6} fullWidth>
-                <AutoCompleteTextField handleChange={handleChange} name="sku" />
-                {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
-                )}{" "}
-              </Grid>
-
               <Grid item xs={12} md={6}>
                 <TextField
                   id="description"
                   name="description"
                   fullWidth
                   multiline
-                  rows={1}
+                  rows={3}
                   label="Ingrese Descripcion"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
@@ -754,7 +808,7 @@ const AddDetailsPage = ({
               </Grid> */}
 
               {/* VALOR url Imagen */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   id="imageurl"
                   name="imageurl"
