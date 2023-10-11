@@ -6,6 +6,7 @@ import { useTheme, styled } from "@mui/material/styles";
 import {
   Button,
   CardMedia,
+  Checkbox,
   Chip,
   CircularProgress,
   Dialog,
@@ -22,6 +23,7 @@ import {
   Select,
   Slide,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
@@ -304,6 +306,7 @@ const AddDetailsPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
+      console.log('selectedOption :' ,selectedOption);
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso
@@ -447,11 +450,24 @@ const AddDetailsPage = ({
       },
     },
     alignedLeft: {
-      textAlign: 'left', // Asegura que el texto esté alineado a la izquierda
+      textAlign: "left", // Asegura que el texto esté alineado a la izquierda
     },
   });
 
   const classes = useStyles();
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const [textFieldSKU, setTextFieldSKU] = useState(true);
+  const [mensajeTextFieldSKU, setMensajeTextFieldSKU] = useState(
+    "Para ingreso manual de SKU"
+  );
+
+  const showSKU = () => {
+    textFieldSKU
+      ? setMensajeTextFieldSKU("Para listar SKUs")
+      : setMensajeTextFieldSKU("Para ingreso manual de SKU");
+
+    setTextFieldSKU(!textFieldSKU);
+  };
 
   return (
     <Dialog
@@ -476,11 +492,12 @@ const AddDetailsPage = ({
           <DialogTitle>Agregar Producto</DialogTitle>
           <DialogContent>
             <Grid
-              container spacing={gridSpacing}
-              // sx={{ mt: 0.25 }}
+              container
+              spacing={gridSpacing}
+              sx={{ mt: 0.5 }}
             >
               {/* SELECCION DE Proveedor de Select */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   id="proveedores_id"
                   name="proveedores_id"
@@ -503,7 +520,7 @@ const AddDetailsPage = ({
                 )}{" "}
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <TextField
                   id="proveedores_id"
                   name="proveedores_id"
@@ -514,27 +531,71 @@ const AddDetailsPage = ({
                 />
                 {/* {errors.productownerError && (
                   <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} 
+              </Grid> */}
+
+
+              {/* MUESTRA */}
+              <Grid item xs={12} md={6} fullWidth>
+                <AutoCompleteTextField handleChange={handleChange} name="sku" />
+                {errors.skuError && (
+                  <FormHelperText>{errors.skuError}</FormHelperText>
+                )}{" "}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  id="sku"
+                  name="sku"
+                  fullWidth
+                  label="Ingrese un Sku*"
+                  onChange={handleChange}
+                  //   defaultValue="Iphone 11 Pro Max"
+                />
+                {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
               {/* AUTOCOMPLETE DE SKU */}
-              <Grid item xs={12} md={4} fullWidth>
-                <AutoCompleteTextField handleChange={handleChange} name="sku" />
-                {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
-                )}{" "}
-              </Grid>
+              {textFieldSKU ? (
+                <Grid item xs={12} md={6} fullWidth>
+                  <AutoCompleteTextField
+                    handleChange={handleChange}
+                    name="sku"
+                  />
+                  {errors.skuError && (
+                    <FormHelperText>{errors.skuError}</FormHelperText>
+                  )}{" "}
+                </Grid>
+              ) : (
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    id="sku"
+                    name="sku"
+                    fullWidth
+                    label="Ingrese un Sku*"
+                    onChange={handleChange}
+                    //   defaultValue="Iphone 11 Pro Max"
+                  />
+                  {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+                </Grid>
+              )}
 
-              {/* AUTOCOMPLETE DE SKU */}
-              <Grid item xs={12} md={4} fullWidth>
-                <AutoCompleteTextField handleChange={handleChange} name="sku" />
-                {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
-                )}{" "}
+              <Grid item xs={12} md={1}>
+                <Tooltip title={mensajeTextFieldSKU}>
+                  <Checkbox
+                    {...label}
+                    defaultChecked
+                    size="small"
+                    onClick={showSKU}
+                  />
+                </Tooltip>
               </Grid>
 
               {/* SELECCION DE NCM */}
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={5}>
                 <TextField
                   id="ncm_id"
                   name="ncm_id"
@@ -542,12 +603,18 @@ const AddDetailsPage = ({
                   label="Select NCM"
                   value={selectedItem?.ncm_id || ""}
                   fullWidth
+                  noWrap
                   onChange={handleChange}
                   //   helperText="Seleccione Proveedor"
                 >
                   {/* {categories.map((option) => ( */}
                   {NCMList.map((option) => (
-                    <MenuItem key={option.id} value={option.id}>
+                    <MenuItem key={option.id} value={option.id} sx={{ 
+                      maxWidth: 700, // o cualquier otro valor que se ajuste a tus necesidades
+                      overflow: 'hidden', // asegura que el contenido extra esté oculto
+                      textOverflow: 'ellipsis', // agrega puntos suspensivos al final
+                      whiteSpace: 'nowrap', // mantiene el texto en una sola línea
+                    }}>
                       Code: {option.ncm_code} - {option.description}
                     </MenuItem>
                   ))}
@@ -573,8 +640,8 @@ const AddDetailsPage = ({
 
               <Grid item xs={12} md={4}>
                 <TextField
-                  id="productowner"
-                  name="productowner"
+                  id="proforma_invoice"
+                  name="proforma_invoice"
                   fullWidth
                   label="Ingrese Pi*"
                   onChange={handleChange}
@@ -587,8 +654,8 @@ const AddDetailsPage = ({
 
               <Grid item xs={12} md={4}>
                 <TextField
-                  id="productowner"
-                  name="productowner"
+                  id="comercial_invoice"
+                  name="comercial_invoice"
                   fullWidth
                   label="Ingrese Ci*"
                   onChange={handleChange}
@@ -620,7 +687,7 @@ const AddDetailsPage = ({
                   fullWidth
                   multiline
                   rows={3}
-                  label="Ingrese Descripcion"
+                  label="Ingrese Especificacion"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
