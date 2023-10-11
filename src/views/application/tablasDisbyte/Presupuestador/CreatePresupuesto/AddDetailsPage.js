@@ -357,10 +357,10 @@ const AddDetailsPage = ({
       errors.exw_uError = "Valor exw_u is required";
     }
 
-    // // Validacion sku
-    if (!selectedItem?.sku || !selectedItem?.productowner.trim()) {
-      errors.productownerError = "Po is required";
-    }
+    // // Validacion Po
+    // if (!selectedItem?.sku || !selectedItem?.productowner.trim()) {
+    //   errors.productownerError = "Po is required";
+    // }
 
     // // Validacion sku
     if (!selectedItem?.sku || !selectedItem?.sku.trim()) {
@@ -514,7 +514,7 @@ const AddDetailsPage = ({
                   {/* {categories.map((option) => ( */}
                   {NCMList.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option.description} - Code: {option.ncm_code}
+                      Code: {option.ncm_code} - {option.description}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -532,9 +532,9 @@ const AddDetailsPage = ({
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
-                {errors.productownerError && (
+                {/* {errors.productownerError && (
                   <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "}
+                )}{" "} */}
               </Grid>
 
               {/* <Grid item xs={12} md={6}>

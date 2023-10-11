@@ -320,22 +320,22 @@ function ProductsPage({
 
                     
                     <TableCell className={classes.tableCell} align="center">
-                      {row.exw_u ? `${row.exw_u}` : "Sin data"}
+                      {row.exw_u ? `${row.exw_u.toFixed(2)}` : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.fob_u ? `${row.fob_u}` : "Sin data"}
+                      {row.fob_u ? `${row.fob_u.toFixed(2)}` : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.qty ? `${row.qty}` : "Sin data"}
+                      {row.qty ? `${row.qty}u.` : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.pcsctn ? row.pcsctn : "Sin data"}
+                      {row.pcsctn ? `${row.pcsctn}u.` : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.cbmctn ? row.cbmctn : "Sin data"}
+                      {row.cbmctn ? `${row.cbmctn.toFixed(2)}m3` : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.gwctn ? row.gwctn : "Sin data"}
+                      {row.gwctn ? `${row.gwctn.toFixed(2)}Kg` : "Sin data"}
                     </TableCell>
                     {/*<TableCell className={classes.tableCell} align="center">
                       {row.proovedores_name ? row.proovedores_name : "Sin data"}

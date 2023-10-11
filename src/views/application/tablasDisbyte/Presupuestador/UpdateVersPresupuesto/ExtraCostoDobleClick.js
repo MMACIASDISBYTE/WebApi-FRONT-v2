@@ -134,7 +134,7 @@ export const ExtraCostoDobleClick = ({
                     style: { textAlign: "left" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-                  value={formik.values[name]}
+                  value={formik.values[name] ? formik?.values[name]?.toFixed(2) : formik.values[name]}
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
