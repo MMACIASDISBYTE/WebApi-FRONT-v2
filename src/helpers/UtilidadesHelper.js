@@ -71,7 +71,7 @@ export const UtilidadesHelper = {
       today.getMonth() + 1
     ).padStart(2, "0")}/${today.getFullYear()}`;
     return dateString;
-},
+  },
   fechaParaDB: function () {
     const today = new Date();
     const isoString = today.toISOString();
@@ -313,9 +313,17 @@ export const UtilidadesHelper = {
       const orderA = Orden.indexOf(a.description);
       const orderB = Orden.indexOf(b.description);
 
+      // Si ambos elementos no están en el array de orden, los dejamos en el mismo orden
+      if (orderA === -1 && orderB === -1) return 0;
+      // Si 'a' no está en el array, debe venir después de 'b'
+      if (orderA === -1) return 1;
+      // Si 'b' no está en el array, debe venir después de 'a'
+      if (orderB === -1) return -1;
+      // Si ambos están en el array, los comparamos normalmente
       if (orderA < orderB) return -1;
       if (orderA > orderB) return 1;
-      return 0;
+
+      return 0; // Si son iguales
     });
     return ArrAOrdenar; // <-- Devuelve el array ordenado
   },
