@@ -181,8 +181,11 @@ const AddDetailsPage = ({
     ncm_id: 0,
     gwctn: "",
     proveedores_id: null,
+    proveedor_prov: "",
     sku: "",
     productowner: "",
+    proforma_invoice: "",
+    comercial_invoice: "",
     purchaseorder: "",
     imageurl: "",
     exw_u: "",
@@ -208,8 +211,8 @@ const AddDetailsPage = ({
     extrag_comex3: 0,
     extrag_comex_notas: "",
 
-    extrag_local1: 0,
-    extrag_local2: 0,
+    extrag_src1: 0,
+    extrag_src2: 0,
 
     extrag_finan1: 0,
     extrag_finan2: 0,

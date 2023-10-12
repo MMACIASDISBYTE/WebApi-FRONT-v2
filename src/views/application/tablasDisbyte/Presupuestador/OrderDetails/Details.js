@@ -123,8 +123,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
   // Suma de los extrag
   function sumExtrag(myRow) {
     return (
-      myRow.extrag_local1 +
-      myRow.extrag_local2 +
       myRow.extrag_comex1 +
       myRow.extrag_comex2 +
       myRow.extrag_comex3 +
@@ -134,8 +132,8 @@ const Details = ({ presupuestador, usuario, historico }) => {
       myRow.extrag_glob_comex1 +
       myRow.extrag_glob_comex2 +
       myRow.extrag_glob_comex3 +
-      myRow.extrag_glob_comex4 +
-      myRow.extrag_glob_comex5 +
+      myRow.extrag_glob_src1 +
+      myRow.extrag_glob_src2 +
       myRow.extrag_glob_finan1 +
       myRow.extrag_glob_finan2 +
       myRow.extrag_glob_finan3 +

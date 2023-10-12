@@ -496,6 +496,8 @@ function CreateInvoice() {
       tarifasbancos_id: 0,
       tarifasgestdigdoc_id: 0,
 
+      extrag_src_notas: '',
+
       pesoTotal: 0,
 
       //gastos
@@ -504,6 +506,8 @@ function CreateInvoice() {
       extrag_comex3: 0,
       extrag_comex4: 0,
       extrag_comex5: 0,
+      extrag_glob_src1: 0, //nuevos
+      extrag_glob_src2: 0, //nuevos
       extrag_comex_notas: "Sin notas",
       extrag_finanformula1_id: 0,
       extrag_finanformula2_id: 0,
@@ -557,6 +561,7 @@ function CreateInvoice() {
             // fwdpaisregion_id: values.fwdpaisregion_id ? values.fwdpaisregion_id.id : "",
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
+            embarque: values.embarque ? values.embarque : "",
 
             // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             // tarifasflete_id: values.tarifasflete_id
@@ -722,15 +727,15 @@ function CreateInvoice() {
         // VALORES DEL DETAILS
         id: addingData.id,
         description: addingData.description,
-        // description: addingData.desc,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
-        total: addingData.totalAmount,
+        // total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
         proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
+        proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
         
         productowner: addingData.productowner,
@@ -761,8 +766,8 @@ function CreateInvoice() {
         extrag_comex3: addingData.extrag_comex3,
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_local1: addingData.extrag_local1,
-        extrag_local2: addingData.extrag_local2,
+        extrag_src1: addingData.extrag_src1,
+        extrag_src2: addingData.extrag_src2,
 
         extrag_finan1: addingData.extrag_finan1,
         extrag_finan2: addingData.extrag_finan2,
@@ -772,6 +777,7 @@ function CreateInvoice() {
         costo_u_est: addingData.costo_u_est,
         costo_u_prov: addingData.costo_u_prov,
         costo_u: addingData.costo_u,
+
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
         detailorder: addingData.detailorder,
