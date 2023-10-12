@@ -700,7 +700,8 @@ function CreateInvoice() {
   const handleDialogOk = () => {
     setOpen(false);
     if (mensaje == "Presupuesto creado Exitosamante") {
-      navigate("/estimate/estimate-list");
+      // navigate("/estimate/estimate-list"); 
+      navigate(`/estimate/details/${dataHelp.proximoEstDisponible}/1`)
     }
     setMensaje("");
     setLoadingEnvio(true);
@@ -733,7 +734,7 @@ function CreateInvoice() {
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
-        proovedores_name: addingData.proovedores_name,
+        proovedores_name: addingData.proovedores_name ? addingData.proovedores_name : 'Proveedor Provisorio',
         proveedores_id: addingData.proveedores_id,
         proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,

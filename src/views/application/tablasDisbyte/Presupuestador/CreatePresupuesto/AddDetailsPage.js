@@ -137,7 +137,7 @@ const AddDetailsPage = ({
   // console.log(dataHelp);
   const theme = useTheme();
 
-  let ordenProveedor = ['Sin Proveedor'];
+  let ordenProveedor = ["Sin Proveedor"];
 
   // handle category change dropdown
   // const [currency, setCurrency] = useState(dataHelp?.proveedoresOem[0].id);
@@ -180,7 +180,7 @@ const AddDetailsPage = ({
     description: "",
     ncm_id: 0,
     gwctn: "",
-    proveedores_id: null,
+    proveedores_id: 10, //por defecto es el sin proveedor
     proveedor_prov: "",
     sku: "",
     productowner: "",
@@ -476,6 +476,18 @@ const AddDetailsPage = ({
     setTextFieldSKU(!textFieldSKU);
   };
 
+  const [textFieldProveedor, setTextFieldProveedor] = useState(true);
+  const [mensajeTextFieldProveedor, setMensajeTextFieldProveedor] = useState(
+    "Para ingreso manual de Proveedor"
+  );
+  const showProveedor = () => {
+    textFieldSKU
+      ? setMensajeTextFieldProveedor("Para listar Proveedors")
+      : setMensajeTextFieldProveedor("Para ingreso manual de Proveedor");
+
+    setTextFieldProveedor(!textFieldProveedor);
+  };
+
   return (
     <Dialog
       open={open}
@@ -500,28 +512,67 @@ const AddDetailsPage = ({
           <DialogContent>
             <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
-              <Grid item xs={12} md={12}>
-                <TextField
-                  id="proveedores_id"
-                  name="proveedores_id"
-                  select
-                  label="Select Proveedor"
-                  value={selectedItem?.proveedores_id || ""}
-                  fullWidth
-                  onChange={handleChange}
-                  //   helperText="Seleccione Proveedor"
-                >
-                  {/* {categories.map((option) => ( */}
-                  {UtilidadesHelper.ordenadorDeArrayByDescription(ordenProveedor, dataHelp.proveedoresOem).map((option) => ( //envio la lista de proovedores con helper para ordenar
-                    <MenuItem key={option.id} value={option.id}>
-                      {option.description}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                {errors.ProveedoresError && (
-                  <FormHelperText>{errors.ProveedoresError}</FormHelperText>
-                )}{" "}
-              </Grid>
+              {textFieldProveedor ? (
+                <Grid item xs={12} md={11}>
+                  <TextField
+                    id="proveedores_id"
+                    name="proveedores_id"
+                    select
+                    label="Select Proveedor"
+                    value={selectedItem?.proveedores_id || ""}
+                    fullWidth
+                    onChange={handleChange}
+                    //   helperText="Seleccione Proveedor"
+                  >
+                    {/* {categories.map((option) => ( */}
+                    {UtilidadesHelper.ordenadorDeArrayByDescription(
+                      ordenProveedor,
+                      dataHelp.proveedoresOem
+                    ).map(
+                      (
+                        option //envio la lista de proovedores con helper para ordenar
+                      ) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.description}
+                        </MenuItem>
+                      )
+                    )}
+                  </TextField>
+                  {errors.ProveedoresError && (
+                    <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                  )}{" "}
+                </Grid>
+              ) : (
+                <Grid item xs={12} md={11}>
+                  <TextField
+                    id="proveedor_prov"
+                    name="proveedor_prov"
+                    fullWidth
+                    label="Ingrese un Proveedor Provisorio*"
+                    onChange={handleChange}
+                    //   defaultValue="Iphone 11 Pro Max"
+                  />
+                  {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+                </Grid>
+              )}
+
+              <Tooltip title={mensajeTextFieldProveedor}>
+                <Grid item xs={12} md={1}>
+                  <SwitchIOS
+                    defaultChecked
+                    size="small"
+                    onChange={showProveedor}
+                  />
+                  {/* <Checkbox
+                    {...label}
+                    defaultChecked
+                    size="small"
+                    onClick={showSKU}
+                  /> */}
+                </Grid>
+              </Tooltip>
 
               {/* <Grid item xs={12} md={6}>
                 <TextField
@@ -585,21 +636,17 @@ const AddDetailsPage = ({
                 </Grid>
               )}
 
-                <Tooltip title={mensajeTextFieldSKU}>
-              <Grid item xs={12} md={1}>
-                  <SwitchIOS
-                    defaultChecked
-                    size="small"
-                    onChange={showSKU}
-                  />
+              <Tooltip title={mensajeTextFieldSKU}>
+                <Grid item xs={12} md={1}>
+                  <SwitchIOS defaultChecked size="small" onChange={showSKU} />
                   {/* <Checkbox
                     {...label}
                     defaultChecked
                     size="small"
                     onClick={showSKU}
                   /> */}
-              </Grid>
-                </Tooltip>
+                </Grid>
+              </Tooltip>
 
               {/* SELECCION DE NCM */}
               <Grid item xs={12} md={5}>

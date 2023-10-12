@@ -1801,7 +1801,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               </TableCell>
                               <TableCell className={classes.tableCell}>
                                 {row.totalgastos_loc_y_extra
-                                  ? row.totalgastos_loc_y_extra
+                                  ? row.totalgastos_loc_y_extra.toFixed(2)
                                   : 0}
                                 {/* {sumGlocPais(row, pais).toFixed(2)} */}
                               </TableCell>
