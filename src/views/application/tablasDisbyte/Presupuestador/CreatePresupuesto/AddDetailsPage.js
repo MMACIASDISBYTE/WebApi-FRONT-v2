@@ -42,6 +42,8 @@ import Product3 from "assets/images/widget/prod3.jpg";
 import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import AutoCompleteTextField from "./AutoCompleteTextField";
+import { SwitchGastos } from "../UpdateVersPresupuesto/SwitchGastos";
+import { SwitchIOS } from "./SwitchIOS";
 
 // styles
 const ImageWrapper = styled("div")(({ theme }) => ({
@@ -306,7 +308,7 @@ const AddDetailsPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
-      console.log('selectedOption :' ,selectedOption);
+      console.log("selectedOption :", selectedOption);
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso
@@ -491,11 +493,7 @@ const AddDetailsPage = ({
         <>
           <DialogTitle>Agregar Producto</DialogTitle>
           <DialogContent>
-            <Grid
-              container
-              spacing={gridSpacing}
-              sx={{ mt: 0.5 }}
-            >
+            <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
               <Grid item xs={12} md={12}>
                 <TextField
@@ -534,9 +532,8 @@ const AddDetailsPage = ({
                 )}{" "} 
               </Grid> */}
 
-
               {/* MUESTRA */}
-              <Grid item xs={12} md={6} fullWidth>
+              {/* <Grid item xs={12} md={6} fullWidth>
                 <AutoCompleteTextField handleChange={handleChange} name="sku" />
                 {errors.skuError && (
                   <FormHelperText>{errors.skuError}</FormHelperText>
@@ -547,14 +544,14 @@ const AddDetailsPage = ({
                   id="sku"
                   name="sku"
                   fullWidth
-                  label="Ingrese un Sku*"
+                  label="Ingreso de SKU Manual*"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
                   <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} */}
-              </Grid>
+                )}{" "} 
+              </Grid> */}
 
               {/* AUTOCOMPLETE DE SKU */}
               {textFieldSKU ? (
@@ -583,16 +580,21 @@ const AddDetailsPage = ({
                 </Grid>
               )}
 
-              <Grid item xs={12} md={1}>
                 <Tooltip title={mensajeTextFieldSKU}>
-                  <Checkbox
+              <Grid item xs={12} md={1}>
+                  <SwitchIOS
+                    defaultChecked
+                    size="small"
+                    onChange={showSKU}
+                  />
+                  {/* <Checkbox
                     {...label}
                     defaultChecked
                     size="small"
                     onClick={showSKU}
-                  />
-                </Tooltip>
+                  /> */}
               </Grid>
+                </Tooltip>
 
               {/* SELECCION DE NCM */}
               <Grid item xs={12} md={5}>
@@ -609,12 +611,16 @@ const AddDetailsPage = ({
                 >
                   {/* {categories.map((option) => ( */}
                   {NCMList.map((option) => (
-                    <MenuItem key={option.id} value={option.id} sx={{ 
-                      maxWidth: 700, // o cualquier otro valor que se ajuste a tus necesidades
-                      overflow: 'hidden', // asegura que el contenido extra esté oculto
-                      textOverflow: 'ellipsis', // agrega puntos suspensivos al final
-                      whiteSpace: 'nowrap', // mantiene el texto en una sola línea
-                    }}>
+                    <MenuItem
+                      key={option.id}
+                      value={option.id}
+                      sx={{
+                        maxWidth: 700, // o cualquier otro valor que se ajuste a tus necesidades
+                        overflow: "hidden", // asegura que el contenido extra esté oculto
+                        textOverflow: "ellipsis", // agrega puntos suspensivos al final
+                        whiteSpace: "nowrap", // mantiene el texto en una sola línea
+                      }}
+                    >
                       Code: {option.ncm_code} - {option.description}
                     </MenuItem>
                   ))}
