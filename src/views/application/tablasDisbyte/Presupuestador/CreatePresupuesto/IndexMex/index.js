@@ -354,7 +354,7 @@ function CreateInvoice() {
       inputLabel: "Descripcion",
       data: "String",
     },
-  ];
+  ]; 
 
   const cabeceraPRJ = [
     {
@@ -362,6 +362,16 @@ function CreateInvoice() {
       name: "project",
       em: "Ingrese un Project", //placeholder en caso de String
       inputLabel: "PRJ",
+      data: "String",
+    },
+  ];
+
+  const cabeceraEmbarque = [
+    {
+      id: "embarque",
+      name: "embarque",
+      em: "Ingrese un Embarque", //placeholder en caso de String
+      inputLabel: "Embarque",
       data: "String",
     },
   ];
@@ -374,7 +384,7 @@ function CreateInvoice() {
       inputLabel: "Gastos Locales FWD [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.6],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -387,7 +397,7 @@ function CreateInvoice() {
       inputLabel: "Flete Interno [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.6],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -400,7 +410,7 @@ function CreateInvoice() {
       inputLabel: "Gasto Terminal [USD[",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -413,7 +423,7 @@ function CreateInvoice() {
       inputLabel: "Gastos Despachante [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -426,7 +436,7 @@ function CreateInvoice() {
       inputLabel: "Freight Cost [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -439,7 +449,7 @@ function CreateInvoice() {
       inputLabel: "Freight Insurance [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -460,6 +470,7 @@ function CreateInvoice() {
     initialValues: {
       description: null,
       project: "",
+      embarque: "",
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -864,10 +875,10 @@ function CreateInvoice() {
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            position: 'relative', // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
-            top: '-55px', // Posición desde la parte superior del contenedor
-            right: '10px', // Posición desde la derecha del contenedor
-            margin: '-25px'
+            position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+            top: "-55px", // Posición desde la parte superior del contenedor
+            right: "10px", // Posición desde la derecha del contenedor
+            margin: "-25px",
           }}
         >
           <AnimateButton>
@@ -957,16 +968,16 @@ function CreateInvoice() {
 
               {/* CABECERA PAIS */}
               {cabeceraPais.map((field) => (
-                  <CustomSelect
-                    key={field.id}
-                    {...field}
-                    formik={formik}
-                    XS={12}
-                    MD={1.2}
-                    desactivado={true}
-                    ValorPorDefecto={"MEXICO"}
-                    tooltip={"MEXICO"}
-                  />
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={1.2}
+                  desactivado={true}
+                  ValorPorDefecto={"MEXICO"}
+                  tooltip={"MEXICO"}
+                />
               ))}
 
               {/* Seleccion pais*/}
@@ -974,30 +985,30 @@ function CreateInvoice() {
                 <Stack>
                   <InputLabel>Region</InputLabel>
                   <Tooltip title="GUADALAJARA">
-                  <TextField
-                    id="SeleccionPais"
-                    name="SeleccionPais"
-                    type="string"
-                    value={formik.values.paisregion_id.region}
-                    onBlur={formik.handleBlur}
-                    disabled
-                    error={
-                      formik.touched.SeleccionPais &&
-                      Boolean(formik.errors.SeleccionPais)
-                    }
-                    helperText={
-                      formik.touched.SeleccionPais &&
-                      formik.errors.SeleccionPais
-                    }
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="Seleccione un pais"
-                    inputProps={{
-                      style: { textAlign: "left" },
-                      className: classes.inputPlaceholder,
-                    }} // Aquí se alinea el texto a la derecha y opacamos el dolar
-                    defaultValue="GUADALAJARA"
-                  />
+                    <TextField
+                      id="SeleccionPais"
+                      name="SeleccionPais"
+                      type="string"
+                      value={formik.values.paisregion_id.region}
+                      onBlur={formik.handleBlur}
+                      disabled
+                      error={
+                        formik.touched.SeleccionPais &&
+                        Boolean(formik.errors.SeleccionPais)
+                      }
+                      helperText={
+                        formik.touched.SeleccionPais &&
+                        formik.errors.SeleccionPais
+                      }
+                      onChange={formik.handleChange}
+                      fullWidth
+                      placeholder="Seleccione un pais"
+                      inputProps={{
+                        style: { textAlign: "left" },
+                        className: classes.inputPlaceholder,
+                      }} // Aquí se alinea el texto a la derecha y opacamos el dolar
+                      defaultValue="GUADALAJARA"
+                    />
                   </Tooltip>
                 </Stack>
               </Grid>
@@ -1262,6 +1273,17 @@ function CreateInvoice() {
                       arrPosition={input.arrPosition}
                     />
                   ))} */}
+
+                  {/* NOTA CABECERA Descipcion */}
+                  {cabeceraEmbarque.map((field) => (
+                    <CustomSelect
+                      key={field.id}
+                      {...field}
+                      formik={formik}
+                      XS={12}
+                      MD={2}
+                    />
+                  ))}
 
                   {ExtraCostosLocal.map((input) => (
                     <ExtraCostoDobleClick
