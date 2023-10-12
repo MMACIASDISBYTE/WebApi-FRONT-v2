@@ -137,6 +137,8 @@ const AddDetailsPage = ({
   // console.log(dataHelp);
   const theme = useTheme();
 
+  let ordenProveedor = ['Sin Proveedor'];
+
   // handle category change dropdown
   // const [currency, setCurrency] = useState(dataHelp?.proveedoresOem[0].id);
   // const handleSelectChange = (event) => {
@@ -507,7 +509,7 @@ const AddDetailsPage = ({
                   //   helperText="Seleccione Proveedor"
                 >
                   {/* {categories.map((option) => ( */}
-                  {dataHelp.proveedoresOem.map((option) => (
+                  {UtilidadesHelper.ordenadorDeArrayByDescription(ordenProveedor, dataHelp.proveedoresOem).map((option) => ( //envio la lista de proovedores con helper para ordenar
                     <MenuItem key={option.id} value={option.id}>
                       {option.description}
                     </MenuItem>

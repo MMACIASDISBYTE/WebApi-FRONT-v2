@@ -732,8 +732,12 @@ function CreateInvoice() {
         proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
         sku: addingData.sku,
+        
         productowner: addingData.productowner,
+        proforma_invoice: addingData.proforma_invoice,
+        comercial_invoice: addingData.comercial_invoice,
         purchaseorder: addingData.purchaseorder,
+        
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
