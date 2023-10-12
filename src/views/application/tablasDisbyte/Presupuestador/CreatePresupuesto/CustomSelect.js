@@ -44,6 +44,7 @@ export const CustomSelect = ({
         return true;
       })
     : [];
+    console.log(formik.values);
   return (
     <>
     <Tooltip title={tooltip}>

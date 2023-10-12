@@ -1,7 +1,8 @@
-import PropTypes, { number } from "prop-types";
+import PropTypes from "prop-types";
 
 // material-ui
 import {
+  Avatar,
   Grid,
   IconButton,
   Table,
@@ -12,19 +13,42 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import { useState } from "react";
+import { Box } from "@mui/system";
+import { ImagenAvatar } from "../CreatePresupuesto/ImagenAvatar";
 
 // ==============================|| PRODUCTS-DATA PAGE ||============================== //
 //
 function ProductsPage({
   productsData,
-  productsDataAdd,
   deleteProductHandler,
   editProductHandler,
+  freightCost,
+  insurancePorct
 }) {
-  //console.log(productsData);
-  // console.log(productsDataAdd);
+  console.log(productsData);
+
+  const useStyles = makeStyles({
+    tableCell: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+    },
+    lastCell: {
+      borderRight: "none",
+    },
+  });
+  const classes = useStyles();
+  const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.exw_u * currentValue.qty;
+  }, 0);
+
+
   return (
     <>
       {productsData.length ? (
@@ -33,43 +57,219 @@ function ProductsPage({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ pl: 3, minWidth: 220 }}>
+                  <TableCell
+                    className={classes.tableCell}
+                    sx={{
+                      pl: 3,
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    SKU
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    sx={{
+                      pl: 3,
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
                     Description
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    NCM
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    Imagen Url
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    EXW U
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                  NCM
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    FOB U
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >  
+                  EXW U. USD
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    Cant PCS
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+
+                    FOB Unit USD
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 80 }}>
-                    PCS x Caja
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                  
+                    QTY {"[pcs]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    CBM x Caja
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    PCS/CTN 
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    Peso x Caja
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    CBM/CTN  {"[m3]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    CBM TOT
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                    GW CTN  {"[kg]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    PESO TOT
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >
+                   FOB TOT. {"[USD]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    CIF TOT
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                   FP. {"[%]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pl: 3, minWidth: 90 }}>
-                    COSTOu USD
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  Freight Chrg. {"[USD]"}
                   </TableCell>
-                  <TableCell align="right" sx={{ pr: 3 }} />
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  Ins. Chrg. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >   
+                  CIF Tot. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  /> 
+                 {/* FP  {"[%]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >  
+                   Freight Charge {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >  
+                  Freight Insur. {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  />  */}
+                  
+               {/*     
+                    Proveedor
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#B8B8B8",
+                    }}
+                  >*/}
+                  {/*
+                    FOB Tot  {"[USD]"}
+                  </TableCell>
+                  <TableCell
+                    // className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      pr: 3,
+                      whiteSpace: "nowrap",
+                      // backgroundColor: "#B8B8B8",
+                    */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -85,7 +285,7 @@ function ProductsPage({
                       },
                     }}
                   >
-                    <TableCell sx={{ pl: 3 }}>
+                    <TableCell className={classes.tableCell} sx={{ pl: 3 }}>
                       <Typography align="left" variant="subtitle1">
                         {row.sku}
                       </Typography>
@@ -95,52 +295,85 @@ function ProductsPage({
                                             {row.description || "sin descripción"} 
                                             </Typography> */}
                     </TableCell>
-                    <TableCell align="right">
-                      {productsDataAdd[index]?.ncm_str
-                        ? productsDataAdd[index].ncm_str
-                        : row.ncm_code}
+                    <TableCell
+                      className={classes.tableCell}
+                      sx={{ pl: 3 }}
+                      align="center"
+                    >
+                      {row.description ? row.description : "Sin data"}
                     </TableCell>
-                    <TableCell align="right">
-                      USD {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
+                    <TableCell className={classes.tableCell} align="left">
+                      {row.imageurl ? (
+                        <>
+                          <ImagenAvatar
+                            src={row.imageurl}
+                            alt={row.sku}
+                          />
+                        </>
+                      ) : (
+                        "Sin Imagen"
+                      )}
                     </TableCell>
-                    <TableCell align="right">
-                      USD {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.qty ? row.qty : "0"}u.
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.pcsctn ? row.pcsctn : "0"}u.
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.cbmctn ? row.cbmctn.toFixed(4) : "0"}m3
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.gwctn ? row.gwctn.toFixed(2) : "0"}kg
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.totalcbm ? row.totalcbm.toFixed(2) : "0"}m3
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.totalgw ? row.totalgw.toFixed(2) : "0"}kg
-                    </TableCell>
-                    <TableCell align="right">
-                      USD {row.totalcif ? row.totalcif.toFixed(2) : "0"}
-                    </TableCell>
-                    {/*console.log(rows)*/}
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.ncm_code ? row.ncm_code : "Sin data"}
+                    </TableCell>  
 
-                    <TableCell align="right">
-                      USD {row.costo_u ? row.costo_u.toFixed(3) : ""}
+                    
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.exw_u ? `${row.exw_u.toFixed(2)}` : "Sin data"}
                     </TableCell>
-                    <TableCell sx={{ pr: 1 }} align="right">
-                      <IconButton
-                        color="secondary"
-                        size="small"
-                        onClick={() => editProductHandler(row)}
-                        aria-label="Product Delete"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.fob_u ? `${row.fob_u.toFixed(2)}` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.qty ? `${row.qty}u.` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.pcsctn ? `${row.pcsctn}u.` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.cbmctn ? `${row.cbmctn.toFixed(2)}m3` : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      {row.gwctn ? `${row.gwctn.toFixed(2)}Kg` : "Sin data"}
+                    </TableCell>
+                    {/*<TableCell className={classes.tableCell} align="center">
+                      {row.proovedores_name ? row.proovedores_name : "Sin data"}
+                      </TableCell>*/}
+
+                    {/*CALCULO DEL FOB TOTAL*/}
+                    <TableCell className={classes.tableCell} align="center">{`${(
+                      row.exw_u * row.qty
+                    ).toFixed(2)}`}</TableCell>
+
+                    {/*CALCULO DEL FP*/}
+                    <TableCell className={classes.tableCell} align="center">
+                      { fobGrandTotal>0?(row.exw_u*row.qty/fobGrandTotal).toFixed(2): "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { freightCost?(freightCost*(row.exw_u*row.qty/fobGrandTotal)).toFixed(2) : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { insurancePorct?((insurancePorct/100)*(row.exw_u*row.qty)).toFixed(2) : "Sin data"}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} align="center">
+                      { ((row.exw_u * row.qty)+(freightCost*(row.exw_u*row.qty/fobGrandTotal))+((insurancePorct/100)*row.exw_u*row.qty)).toFixed(2)}
+                    </TableCell>
+                    <TableCell
+                      // className={classes.tableCell}
+                      sx={{ pr: 1 }}
+                      align="right"
+                    >
+                      {/* MOMENTANEAMENTE OCULTO boton de edicion */}
+                      {/* <IconButton
+                                                color="secondary"
+                                                size="small"
+                                                onClick={() => editProductHandler(row)}
+                                                aria-label="Product Delete"
+                                            >
+                                                <EditTwoToneIcon fontSize="small" />
+                                            </IconButton> */}
+
                       <IconButton
                         color="error"
                         size="small"
@@ -162,7 +395,6 @@ function ProductsPage({
 }
 
 ProductsPage.propTypes = {
-  productsDataAdd: PropTypes.array,
   productsData: PropTypes.array,
   deleteProductHandler: PropTypes.func,
 };
