@@ -517,7 +517,8 @@ React.useEffect(() => {
   };
 
   const ActualizarPresupuesto = (estnumber, estvers) => {
-    navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
+    // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`); //presupuesto update anterior
+    navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
   };
   
   const useStyles = makeStyles({

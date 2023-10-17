@@ -68,6 +68,7 @@ import { PesajeContenedor } from "../../CreatePresupuesto/PesajeContenedor";
 import { CustomSelect } from "../../CreatePresupuesto/CustomSelect";
 import AddDetailsPage from "../../CreatePresupuesto/AddDetailsPage";
 import { CustomSelectUpdate } from "../CustomSelectUpdate";
+import UpdateItemPage from "../UpdateItemPage";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -381,24 +382,11 @@ function CreateInvoice() {
       inputLabel: "Gastos Locales FWD [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
-      Xs_Xd: [12, 1.6],
+      Xs_Xd: [12, 1.4],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
-    },
-    {
-      id: "gloc_flete",
-      name: "gloc_flete",
-      em: "Ingrese Gasto Flete Interno [USD]",
-      inputLabel: "Flete Interno [USD]",
-      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
-      dataType: "number",
-      Xs_Xd: [12, 1.6],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 3,
     },
     {
       id: "gloc_terminales",
@@ -407,11 +395,37 @@ function CreateInvoice() {
       inputLabel: "Gasto Terminal [USD[",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
-      Xs_Xd: [12, 1.7],
+      Xs_Xd: [12, 1.4],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
+    },
+    {
+      id: "gloc_flete",
+      name: "gloc_flete",
+      em: "Ingrese Gasto Flete Interno [USD]",
+      inputLabel: "Flete Interno [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
+      dataType: "number",
+      Xs_Xd: [12, 1.4],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 3,
+    },
+    {
+      id: "gloc_descarga",
+      name: "gloc_descarga",
+      em: "Ingrese Gasto Descarga [USD]",
+      inputLabel: "Descarga [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga,
+      dataType: "number",
+      Xs_Xd: [12, 1.4],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      arrPosition: 3,
     },
     {
       id: "gloc_despachantes",
@@ -420,7 +434,7 @@ function CreateInvoice() {
       inputLabel: "Gastos Despachante [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
-      Xs_Xd: [12, 1.7],
+      Xs_Xd: [12, 1.4],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -433,7 +447,7 @@ function CreateInvoice() {
       inputLabel: "Freight Cost [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
-      Xs_Xd: [12, 1.7],
+      Xs_Xd: [12, 1.4],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -446,11 +460,194 @@ function CreateInvoice() {
       inputLabel: "Freight Insurance [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
-      Xs_Xd: [12, 1.7],
+      Xs_Xd: [12, 1.6],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 9,
+    },
+  ];
+
+  const ExtraCostosSourcing = [
+    {
+      id: "extrag_glob_src1",
+      name: "extrag_glob_src1",
+      em: "Extra Gasto 1 [USD]",
+      inputLabel: "Extra Gasto 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src1,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src1,
+      arrPosition: 4,
+    },
+    {
+      id: "extrag_glob_src2",
+      name: "extrag_glob_src2",
+      em: "Extra Gasto 2 [USD]",
+      inputLabel: "Extra Gasto 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src2,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src2,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_src_notas",
+      name: "extrag_src_notas",
+      em: "Notas Extra Gasto sourcing",
+      inputLabel: "Notas Extra Gasto sourcing",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      dataType: "string",
+      Xs_Xd: [12, 6],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      arrPosition: 3,
+    },
+  ];
+
+  const ExtraCostosComex = [
+    {
+      id: "extrag_comex1",
+      name: "extrag_comex1",
+      em: "Extra Gasto 1 [USD]",
+      inputLabel: "Extra Gasto 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
+      arrPosition: 4,
+    },
+    {
+      id: "extrag_comex2",
+      name: "extrag_comex2",
+      em: "Extra Gasto 2 [USD]",
+      inputLabel: "Extra Gasto 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_comex3",
+      name: "extrag_comex3",
+      em: "Extra Gasto 3 [USD]",
+      inputLabel: "Extra Gasto 3 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_src_notas",
+      name: "extrag_src_notas",
+      em: "Notas Extra Gasto Comex",
+      inputLabel: "Notas Extra Gasto Comex",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
+      dataType: "string",
+      Xs_Xd: [12, 4],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
+      arrPosition: 3,
+    },
+  ];
+
+  const ExtraCostosFinanciero = [
+    {
+      id: "extrag_finan1",
+      name: "extrag_finan1",
+      em: "Extra Gasto 1 [USD]",
+      inputLabel: "Extra Gasto 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
+      arrPosition: 4,
+    },
+    {
+      id: "extrag_finan2",
+      name: "extrag_finan2",
+      em: "Extra Gasto 2 [USD]",
+      inputLabel: "Extra Gasto 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_finan3",
+      name: "extrag_finan3",
+      em: "Extra Gasto 3 [USD]",
+      inputLabel: "Extra Gasto 3 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_finan4",
+      name: "extrag_finan4",
+      em: "Extra Gasto 4 [USD]",
+      inputLabel: "Extra Gasto 4 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_finan5",
+      name: "extrag_finan5",
+      em: "Extra Gasto 5 [USD]",
+      inputLabel: "Extra Gasto 5 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
+      arrPosition: 3,
+    },
+    {
+      id: "extrag_finan_notas",
+      name: "extrag_finan_notas",
+      em: "Notas Extra Gasto Financiero",
+      inputLabel: "Notas Extra Gasto Financiero",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
+      dataType: "string",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
+      arrPosition: 3,
     },
   ];
 
@@ -496,11 +693,10 @@ function CreateInvoice() {
       extrag_comex1: 0,
       extrag_comex2: 0,
       extrag_comex3: 0,
-      extrag_comex4: 0,
-      extrag_comex5: 0,
+      extrag_comex_notas: "Sin notas",
       extrag_glob_src1: 0, //nuevos
       extrag_glob_src2: 0, //nuevos
-      extrag_comex_notas: "Sin notas",
+      extrag_src_notas: "Sin Notas",
       extrag_finanformula1_id: 0,
       extrag_finanformula2_id: 0,
       extrag_finanformula3_id: 0,
@@ -716,6 +912,8 @@ function CreateInvoice() {
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
 
+  const [rowUpdate, SetRowUpdate] = useState([]);
+
   // for calculating cost of all orders
   const getTotalAmounts = () => {
     const amounts = {
@@ -743,10 +941,16 @@ function CreateInvoice() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsData]);
 
-  // to delete row in order details
-  const editProductHandler = (id) => {
-    console.log(`El producto seleccionado es el: `, id);
+  // to Update row in order details
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const editProductHandler = (rowUpdate) => {
+    console.log(`El producto seleccionado es el: `, rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));
+    setOpenUpdate(true);
+    SetRowUpdate(rowUpdate);
+  };
+  const handleCloseUpdateDialog = () => {
+    setOpenUpdate(false);
   };
 
   // to delete row in order details
@@ -766,31 +970,38 @@ function CreateInvoice() {
   };
 
   // add item handler
-  const handleAddItem = (addingData) => {
-    setProductsData([
-      ...productsData,
-      {
+  const handleAddItem = (addingData, edicion = false) => {
+
+    if (edicion) {
+      // Encuentra el índice del producto en el arreglo productsData por su id
+      const index = productsData.findIndex(
+        (product) => product.id === addingData.id
+      );
+
+      if (index !== -1) {
+        // Elimina el producto existente de la lista
+        productsData.splice(index, 1);
+      }
+      function formatValue(value) {
+        return value === "0" ? 0 : value;
+      }
+
+      // Añade el producto actualizado a la lista
+      productsData.push({
+        // ... (mismos campos que tienes en el caso else)
         // VALORES DEL DETAILS
         id: addingData.id,
         description: addingData.description,
+        // description: addingData.desc,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
-        // total: addingData.totalAmount,
+        total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
-        proovedores_name: addingData.proovedores_name
-          ? addingData.proovedores_name
-          : "Proveedor Provisorio",
+        proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
-        proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
-
-        productowner: addingData.productowner,
-        proforma_invoice: addingData.proforma_invoice,
-        comercial_invoice: addingData.comercial_invoice,
-        purchaseorder: addingData.purchaseorder,
-
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
@@ -809,32 +1020,99 @@ function CreateInvoice() {
         ncm_sp2: addingData.ncm_sp2,
         precio_u: addingData.precio_u,
 
-        extrag_comex1: addingData.extrag_comex1,
-        extrag_comex2: addingData.extrag_comex2,
-        extrag_comex3: addingData.extrag_comex3,
+        extrag_comex1: formatValue(addingData.extrag_comex1),
+        extrag_comex2: formatValue(addingData.extrag_comex2),
+        extrag_comex3: formatValue(addingData.extrag_comex3),
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_src1: addingData.extrag_src1,
-        extrag_src2: addingData.extrag_src2,
+        extrag_local1: formatValue(addingData.extrag_local1),
+        extrag_local2: formatValue(addingData.extrag_local2),
 
-        extrag_finan1: addingData.extrag_finan1,
-        extrag_finan2: addingData.extrag_finan2,
-        extrag_finan3: addingData.extrag_finan3,
+        extrag_finan1: formatValue(addingData.extrag_finan1),
+        extrag_finan2: formatValue(addingData.extrag_finan2),
+        extrag_finan3: formatValue(addingData.extrag_finan3),
         extrag_finan_notas: addingData.extrag_finan_notas,
 
         costo_u_est: addingData.costo_u_est,
         costo_u_prov: addingData.costo_u_prov,
         costo_u: addingData.costo_u,
-
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
-        detailorder: addingData.detailorder,
-        // Calculo: calculo,
-      },
-    ]);
+      });
+
+      // Actualiza el estado
+      setProductsData([...productsData]);
+    } else {
+
+      setProductsData([
+        ...productsData,
+        {
+          // VALORES DEL DETAILS
+          id: addingData.id,
+          description: addingData.description,
+          ncm_id: addingData.ncm_id,
+          ncm_code: addingData.ncm_code,
+          // total: addingData.totalAmount,
+          pcsctn: addingData.pcsctn,
+          gwctn: addingData.gwctn,
+          ncm_ack: true, //aplicar el RadioGroup,
+          proovedores_name: addingData.proovedores_name
+            ? addingData.proovedores_name
+            : "Proveedor Provisorio",
+          proveedores_id: addingData.proveedores_id,
+          proveedor_prov: addingData.proveedor_prov,
+          sku: addingData.sku,
+  
+          productowner: addingData.productowner,
+          proforma_invoice: addingData.proforma_invoice,
+          comercial_invoice: addingData.comercial_invoice,
+          purchaseorder: addingData.purchaseorder,
+  
+          imageurl: addingData.imageurl,
+          exw_u: addingData.exw_u,
+          fob_u: addingData.fob_u,
+          qty: addingData.qty,
+          pcsctn: addingData.pcsctn,
+          cbmctn: addingData.cbmctn,
+          gwctn: addingData.gwctn,
+  
+          cambios_notas: addingData.cambios_notas,
+          ncm_arancel: addingData.ncm_arancel,
+          ncm_te_dta_otro: addingData.ncm_te_dta_otro,
+          ncm_iva: addingData.ncm_iva,
+          ncm_ivaad: addingData.ncm_ivaad,
+          gcias: addingData.gcias,
+          ncm_sp1: addingData.ncm_sp1,
+          ncm_sp2: addingData.ncm_sp2,
+          precio_u: addingData.precio_u,
+  
+          extrag_comex1: addingData.extrag_comex1,
+          extrag_comex2: addingData.extrag_comex2,
+          extrag_comex3: addingData.extrag_comex3,
+          extrag_comex_notas: addingData.extrag_comex_notas,
+  
+          extrag_src1: addingData.extrag_src1,
+          extrag_src2: addingData.extrag_src2,
+  
+          extrag_finan1: addingData.extrag_finan1,
+          extrag_finan2: addingData.extrag_finan2,
+          extrag_finan3: addingData.extrag_finan3,
+          extrag_finan_notas: addingData.extrag_finan_notas,
+  
+          costo_u_est: addingData.costo_u_est,
+          costo_u_prov: addingData.costo_u_prov,
+          costo_u: addingData.costo_u,
+  
+          updated: addingData.updated,
+          htimestamp: addingData.htimestamp,
+          detailorder: addingData.detailorder,
+          // Calculo: calculo,
+        },
+      ]);
+      setAddItemClicked(false);
+    }
     console.log(addingData);
 
-    setAddItemClicked(false);
   };
 
   useEffect(() => {
@@ -883,14 +1161,23 @@ function CreateInvoice() {
   useEffect(() => {
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
+
+  useEffect(() => {
+    formik.setFieldValue(
+      "freight_insurance_cost",
+      dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
+    );
+
+  }, [gastoLocal]);
   console.log(gastoLocal);
 
   useEffect(() => {
     formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
     formik.setFieldValue(
       "gloc_flete",
-      gastoLocal?.flete_interno + gastoLocal?.gasto_descarga_depo
+      gastoLocal?.flete_interno
     );
+    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
     formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
     formik.setFieldValue(
       "gloc_despachantes",
@@ -987,7 +1274,7 @@ function CreateInvoice() {
                   position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
                   top: "-100px", // Posición desde la parte superior del contenedor
                   //right: "10px", // Posición desde la derecha del contenedor
-                marginBottom: '-100px'
+                  marginBottom: "-100px",
                 }}
               >
                 <Chip
@@ -1329,6 +1616,17 @@ function CreateInvoice() {
                     />
                   ))} */}
 
+                  <Grid item xs={12}>
+                    <Divider />
+                    <Typography
+                      color={"green"}
+                      variant="h4"
+                      style={{ margin: "8px" }}
+                    >
+                      Gastos Locales
+                    </Typography>
+                  </Grid>
+
                   {/* NOTA CABECERA Descipcion */}
                   {cabeceraEmbarque.map((field) => (
                     <CustomSelect
@@ -1383,6 +1681,103 @@ function CreateInvoice() {
                 </>
               )}
 
+              <Grid item xs={12}>
+                <Divider />
+                <Typography
+                  color={"green"}
+                  variant="h4"
+                  style={{ margin: "8px" }}
+                >
+                  Extra Gastos Sourcing
+                </Typography>
+              </Grid>
+              {ExtraCostosSourcing.map((input) => (
+                <ExtraCostoDobleClick
+                  key={input.id}
+                  id={input.id}
+                  name={input.name}
+                  em={input.em}
+                  inputLabel={input.inputLabel}
+                  data={input.data}
+                  dataType={input.dataType}
+                  formik={formik}
+                  Xs_Xd={input.Xs_Xd}
+                  blockDeGastos={input.blockDeGastos}
+                  onSwitchChange={(newState) =>
+                    handleSwitchChangeInIndex(newState, input.arrPosition)
+                  }
+                  handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                  ValorSwitch={input.ValorSwitch}
+                  ValorSwitchBase={input.ValorSwitchBase}
+                  arrPosition={input.arrPosition}
+                />
+              ))}
+
+              <Grid item xs={12}>
+                <Divider />
+                <Typography
+                  color={"green"}
+                  variant="h4"
+                  style={{ margin: "8px" }}
+                >
+                  Extra Gastos Comex
+                </Typography>
+              </Grid>
+              {ExtraCostosComex.map((input) => (
+                <ExtraCostoDobleClick
+                  key={input.id}
+                  id={input.id}
+                  name={input.name}
+                  em={input.em}
+                  inputLabel={input.inputLabel}
+                  data={input.data}
+                  dataType={input.dataType}
+                  formik={formik}
+                  Xs_Xd={input.Xs_Xd}
+                  blockDeGastos={input.blockDeGastos}
+                  onSwitchChange={(newState) =>
+                    handleSwitchChangeInIndex(newState, input.arrPosition)
+                  }
+                  handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                  ValorSwitch={input.ValorSwitch}
+                  ValorSwitchBase={input.ValorSwitchBase}
+                  arrPosition={input.arrPosition}
+                />
+              ))}
+
+              <Grid item xs={12}>
+                <Divider />
+                <Typography
+                  color={"green"}
+                  variant="h4"
+                  style={{ margin: "8px" }}
+                >
+                  Extra Gastos Financieros
+                </Typography>
+              </Grid>
+
+              {ExtraCostosFinanciero.map((input) => (
+                <ExtraCostoDobleClick
+                  key={input.id}
+                  id={input.id}
+                  name={input.name}
+                  em={input.em}
+                  inputLabel={input.inputLabel}
+                  data={input.data}
+                  dataType={input.dataType}
+                  formik={formik}
+                  Xs_Xd={input.Xs_Xd}
+                  blockDeGastos={input.blockDeGastos}
+                  onSwitchChange={(newState) =>
+                    handleSwitchChangeInIndex(newState, input.arrPosition)
+                  }
+                  handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                  ValorSwitch={input.ValorSwitch}
+                  ValorSwitchBase={input.ValorSwitchBase}
+                  arrPosition={input.arrPosition}
+                />
+              ))}
+
               {/* CARGA DE PRODUCTOS */}
               <Grid item xs={12}>
                 <Divider />
@@ -1430,6 +1825,21 @@ function CreateInvoice() {
                 </>
               ) : (
                 ""
+              )}
+
+              {openUpdate ? (
+                <>
+                  <UpdateItemPage
+                    handleAddItem={handleAddItem}
+                    open={openUpdate}
+                    handleCloseDialog={handleCloseUpdateDialog}
+                    dataHelp={dataHelp}
+                    rowUpdate={rowUpdate}
+                    formik={formik}
+                  />
+                </>
+              ) : (
+                ''
               )}
 
               {/* PESAJE CONTENEDORES */}

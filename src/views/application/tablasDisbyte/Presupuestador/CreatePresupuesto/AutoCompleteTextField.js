@@ -5,8 +5,8 @@ import { Box, Tooltip } from "@mui/material";
 
 const filter = createFilterOptions();
 
-export default function AutoCompleteTextField({ handleChange, name }) {
-  const [value, setValue] = React.useState(null);
+export default function AutoCompleteTextField({ handleChange, name, valorPorDefecto= null }) {
+  const [value, setValue] = React.useState(valorPorDefecto);
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
   return (
