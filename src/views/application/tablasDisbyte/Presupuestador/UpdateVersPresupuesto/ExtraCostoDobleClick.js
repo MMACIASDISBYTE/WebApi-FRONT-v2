@@ -108,7 +108,7 @@ export const ExtraCostoDobleClick = ({
               value={formik.values[name]}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
+                  <InputAdornment position="start"></InputAdornment> //aqui si queremos poner un placeholder fijo
                 ),
                 style: { textAlign: "left" },
                 // classes: { input: classes.input }, // aplicar la clase al input interno

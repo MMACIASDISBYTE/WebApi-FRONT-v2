@@ -116,7 +116,8 @@ const Details = ({ presupuestador, usuario, historico }) => {
   const nuevoPresupuesto = (estnumber, estvers) => {
     console.log(estnumber, "de list");
     console.log(estvers, "de list");
-    navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
+    navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
+    // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
   // totales de los que no dispone el json o no estan operativos a la fecha

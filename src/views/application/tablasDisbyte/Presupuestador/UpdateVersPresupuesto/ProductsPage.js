@@ -361,18 +361,18 @@ function ProductsPage({
                     </TableCell>
                     <TableCell
                       // className={classes.tableCell}
-                      sx={{ pr: 1 }}
+                      sx={{ pr: 1, minWidth: '90px' }}
                       align="right"
                     >
                       {/* MOMENTANEAMENTE OCULTO boton de edicion */}
-                      {/* <IconButton
+                      <IconButton
                                                 color="secondary"
                                                 size="small"
                                                 onClick={() => editProductHandler(row)}
                                                 aria-label="Product Delete"
                                             >
                                                 <EditTwoToneIcon fontSize="small" />
-                                            </IconButton> */}
+                                            </IconButton>
 
                       <IconButton
                         color="error"
