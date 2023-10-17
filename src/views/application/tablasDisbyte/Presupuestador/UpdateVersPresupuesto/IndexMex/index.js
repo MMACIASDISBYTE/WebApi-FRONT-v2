@@ -788,7 +788,7 @@ function CreateInvoice() {
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
-            await PresupuestoHelper.createData(postData);
+            await PresupuestoHelper.createNewPresupuesto(postData, estnumber);
             console.log("Creacion exitosa de: ", postData);
             setProductsData([]);
             setLoadingEnvio(false);
@@ -963,7 +963,7 @@ function CreateInvoice() {
     setOpen(false);
     if (mensaje == "Presupuesto creado Exitosamante") {
       // navigate("/estimate/estimate-list");
-      navigate(`/estimate/details/${dataHelp.proximoEstDisponible}/1`);
+      navigate(`/estimate/details/${estnumber}/${Number(vers) + 1}`);
     }
     setMensaje("");
     setLoadingEnvio(true);
@@ -971,7 +971,6 @@ function CreateInvoice() {
 
   // add item handler
   const handleAddItem = (addingData, edicion = false) => {
-
     if (edicion) {
       // Encuentra el índice del producto en el arreglo productsData por su id
       const index = productsData.findIndex(
@@ -1002,6 +1001,13 @@ function CreateInvoice() {
         proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
         sku: addingData.sku,
+
+        productowner: addingData.productowner,
+        proforma_invoice: addingData.proforma_invoice,
+        comercial_invoice: addingData.comercial_invoice,
+        purchaseorder: addingData.purchaseorder,
+        proveedor_prov: addingData.proveedor_prov,
+
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
@@ -1025,8 +1031,9 @@ function CreateInvoice() {
         extrag_comex3: formatValue(addingData.extrag_comex3),
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_local1: formatValue(addingData.extrag_local1),
-        extrag_local2: formatValue(addingData.extrag_local2),
+        extrag_src1: formatValue(addingData.extrag_src1),
+        extrag_src2: formatValue(addingData.extrag_src2),
+        extrag_src_notas: addingData.extrag_src_notas,
 
         extrag_finan1: formatValue(addingData.extrag_finan1),
         extrag_finan2: formatValue(addingData.extrag_finan2),
@@ -1038,12 +1045,12 @@ function CreateInvoice() {
         costo_u: addingData.costo_u,
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
+        detailorder: addingData.detailorder,
       });
 
       // Actualiza el estado
       setProductsData([...productsData]);
     } else {
-
       setProductsData([
         ...productsData,
         {
@@ -1062,12 +1069,12 @@ function CreateInvoice() {
           proveedores_id: addingData.proveedores_id,
           proveedor_prov: addingData.proveedor_prov,
           sku: addingData.sku,
-  
+
           productowner: addingData.productowner,
           proforma_invoice: addingData.proforma_invoice,
           comercial_invoice: addingData.comercial_invoice,
           purchaseorder: addingData.purchaseorder,
-  
+
           imageurl: addingData.imageurl,
           exw_u: addingData.exw_u,
           fob_u: addingData.fob_u,
@@ -1075,7 +1082,7 @@ function CreateInvoice() {
           pcsctn: addingData.pcsctn,
           cbmctn: addingData.cbmctn,
           gwctn: addingData.gwctn,
-  
+
           cambios_notas: addingData.cambios_notas,
           ncm_arancel: addingData.ncm_arancel,
           ncm_te_dta_otro: addingData.ncm_te_dta_otro,
@@ -1085,24 +1092,24 @@ function CreateInvoice() {
           ncm_sp1: addingData.ncm_sp1,
           ncm_sp2: addingData.ncm_sp2,
           precio_u: addingData.precio_u,
-  
+
           extrag_comex1: addingData.extrag_comex1,
           extrag_comex2: addingData.extrag_comex2,
           extrag_comex3: addingData.extrag_comex3,
           extrag_comex_notas: addingData.extrag_comex_notas,
-  
+
           extrag_src1: addingData.extrag_src1,
           extrag_src2: addingData.extrag_src2,
-  
+
           extrag_finan1: addingData.extrag_finan1,
           extrag_finan2: addingData.extrag_finan2,
           extrag_finan3: addingData.extrag_finan3,
           extrag_finan_notas: addingData.extrag_finan_notas,
-  
+
           costo_u_est: addingData.costo_u_est,
           costo_u_prov: addingData.costo_u_prov,
           costo_u: addingData.costo_u,
-  
+
           updated: addingData.updated,
           htimestamp: addingData.htimestamp,
           detailorder: addingData.detailorder,
@@ -1112,7 +1119,6 @@ function CreateInvoice() {
       setAddItemClicked(false);
     }
     console.log(addingData);
-
   };
 
   useEffect(() => {
@@ -1167,16 +1173,12 @@ function CreateInvoice() {
       "freight_insurance_cost",
       dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
     );
-
   }, [gastoLocal]);
   console.log(gastoLocal);
 
   useEffect(() => {
     formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-    formik.setFieldValue(
-      "gloc_flete",
-      gastoLocal?.flete_interno
-    );
+    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
     formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
     formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
     formik.setFieldValue(
@@ -1542,9 +1544,9 @@ function CreateInvoice() {
               </Grid> */}
 
               {/* DETALLE DE PRESUPUESTADOR */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Divider />
-              </Grid>
+              </Grid> */}
 
               {/* ESPACIO DE RELLENO */}
               {/* <Grid item md={6}></Grid> */}
@@ -1839,7 +1841,7 @@ function CreateInvoice() {
                   />
                 </>
               ) : (
-                ''
+                ""
               )}
 
               {/* PESAJE CONTENEDORES */}
