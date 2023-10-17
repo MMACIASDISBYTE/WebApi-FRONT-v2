@@ -120,7 +120,11 @@ export const CustomSelectUpdate = ({
                     : data
                   )
                   .map((item) => (
-                    <MenuItem key={item.id} value={item}>
+                    <MenuItem
+                      key={item.id}
+                      value={item}
+                      disabled={item.description === "LCL" || item.description === "40ST" || item.description === "2*40ST"} // Desactiva el ítem si es "LCL"
+                    >
                       {item.description}
                     </MenuItem>
                   ))

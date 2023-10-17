@@ -55,6 +55,7 @@ const AppPresupuestadorOrderDetails = Loadable(lazy(() => import('views/applicat
 const AppPresupuestadorProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/Presupuestador')));
 const AppPresupuestadorProductReview = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/PresupuestadorReview')));
 const AppPresupuestadorUpdate = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/UpdateVersPresupuesto')));
+const AppPresupuestadorUpdateMEX = Loadable(lazy(() => import('views/application/tablasDisbyte/Presupuestador/UpdateVersPresupuesto/IndexMex')));
 
 // application --> proveedores - canal routing 
 const AppTerminalProduct = Loadable(lazy(() => import('views/application/tablasDisbyte/MASTERTABLES/Proveedores/terminal')));
@@ -519,6 +520,10 @@ const MainRoutes = {
         {   // ACTUALIZAR PRESUPUESTO
             path: '/estimate/update-estimate/:estnumber/:vers',
             element: <AppPresupuestadorUpdate />
+        },
+        {   // ACTUALIZAR PRESUPUESTO MEX
+            path: '/estimate/update-estimateMEX/:estnumber/:vers',
+            element: <AppPresupuestadorUpdateMEX />
         },
 
         {

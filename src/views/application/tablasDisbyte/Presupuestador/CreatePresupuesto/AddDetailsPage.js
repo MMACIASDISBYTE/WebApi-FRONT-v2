@@ -481,8 +481,8 @@ const AddDetailsPage = ({
     "Para ingreso manual de Proveedor"
   );
   const showProveedor = () => {
-    textFieldSKU
-      ? setMensajeTextFieldProveedor("Para listar Proveedors")
+    textFieldProveedor
+      ? setMensajeTextFieldProveedor("Para listar Proveedores")
       : setMensajeTextFieldProveedor("Para ingreso manual de Proveedor");
 
     setTextFieldProveedor(!textFieldProveedor);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // material-ui
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -52,8 +52,6 @@ import { TarifasPolizaHelper } from "helpers/TarifasPolizaHelper";
 //importacion para poder opacar el placeholder del dolar
 import { makeStyles } from "@material-ui/core/styles";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { PesajeContenedor } from "../PesajeContenedor";
-import { CustomSelect } from "../CustomSelect";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { TarifasFwdHelper } from "helpers/TarifasFwdHelper";
 import { TarifasFleteHelper } from "helpers/TarifasFleteHelper";
@@ -62,12 +60,14 @@ import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
 import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
-import AddDetailsPage from "../AddDetailsPage";
-import { TarifarioArrBool } from "../TarifarioArrBool";
 import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
 import { TarifonMexHelper } from "helpers/TarifonMexHelper";
 import { Box } from "@mui/system";
 import { ExtraCostoDobleClick } from "../../UpdateVersPresupuesto/ExtraCostoDobleClick";
+import { PesajeContenedor } from "../../CreatePresupuesto/PesajeContenedor";
+import { CustomSelect } from "../../CreatePresupuesto/CustomSelect";
+import AddDetailsPage from "../../CreatePresupuesto/AddDetailsPage";
+import { CustomSelectUpdate } from "../CustomSelectUpdate";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -173,6 +173,7 @@ function CreateInvoice() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
+  const { estnumber, vers, presupuesto } = useParams();
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
   // console.log(user);
   const [open, setOpen] = useState(false);
@@ -200,6 +201,11 @@ function CreateInvoice() {
     const NCM = await NcmHelper.fetchData();
     const NCM_Mex = await NcmHelper.fetchDataMex();
     const presupuesto = await PresupuestoHelper.fetchData();
+    const presupuestoEditable = await PresupuestoHelper.readDataEstVers(
+      estnumber,
+      vers,
+      ""
+    );
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
@@ -224,6 +230,7 @@ function CreateInvoice() {
       NCM,
       NCM_Mex,
       presupuesto,
+      presupuestoEditable,
       proximoEstDisponible,
       // tipoCambio,
       Paises,
@@ -240,23 +247,9 @@ function CreateInvoice() {
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
-  // console.log(dataHelp);
+  console.log(dataHelp);
 
   const cellInput = [
-    // {
-    //   id: "carga_id",
-    //   name: "carga_id",
-    //   em: "Seleccione una Carga",
-    //   inputLabel: "Carga",
-    //   data: dataHelp.carga,
-    // },
-    // {
-    //   id: "fwdpaisregion_id",
-    //   name: "fwdpaisregion_id",
-    //   em: "Seleccione una pais de Origen",
-    //   inputLabel: "Pais Origen",
-    //   data: dataHelp.Paises,
-    // },
     {
       id: "tarifasfwd_id",
       name: "tarifasfwd_id",
@@ -333,6 +326,10 @@ function CreateInvoice() {
       em: "Seleccione una Carga",
       inputLabel: "Carga",
       data: dataHelp.carga,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      PaisRegionApply: false,
     },
   ];
 
@@ -354,7 +351,7 @@ function CreateInvoice() {
       inputLabel: "Descripcion",
       data: "String",
     },
-  ]; 
+  ];
 
   const cabeceraPRJ = [
     {
@@ -461,11 +458,6 @@ function CreateInvoice() {
     dataHelpers();
   }, []);
 
-  // const today = new Date();
-  // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
-  // const isoString = today.toISOString();
-  // console.log(isoString);
-
   const formik = useFormik({
     initialValues: {
       description: null,
@@ -496,7 +488,7 @@ function CreateInvoice() {
       tarifasbancos_id: 0,
       tarifasgestdigdoc_id: 0,
 
-      extrag_src_notas: 'Sin notas',
+      extrag_src_notas: "",
 
       pesoTotal: 0,
 
@@ -632,6 +624,7 @@ function CreateInvoice() {
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
+    //CABECERA
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue("estnumber", dataHelp.proximoEstDisponible); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
@@ -642,6 +635,70 @@ function CreateInvoice() {
     // }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue("dolar", 350);
+    }
+
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "project",
+        dataHelp.presupuestoEditable?.estHeader?.project == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.project
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "description",
+        dataHelp.presupuestoEditable?.estHeader?.description == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "embarque",
+        dataHelp.presupuestoEditable?.estHeader?.embarque == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.embarque
+      );
+    }
+
+    //GASTOS LOCALES
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwd",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_flete",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminales",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantes",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
+      );
     }
   }, [dataHelp]);
 
@@ -655,6 +712,7 @@ function CreateInvoice() {
   });
 
   const [productsData, setProductsData] = useState([]);
+  const [productsDataAdd, setProductsDataAdd] = useState([]);
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
 
@@ -700,25 +758,12 @@ function CreateInvoice() {
   const handleDialogOk = () => {
     setOpen(false);
     if (mensaje == "Presupuesto creado Exitosamante") {
-      // navigate("/estimate/estimate-list"); 
-      navigate(`/estimate/details/${dataHelp.proximoEstDisponible}/1`)
+      // navigate("/estimate/estimate-list");
+      navigate(`/estimate/details/${dataHelp.proximoEstDisponible}/1`);
     }
     setMensaje("");
     setLoadingEnvio(true);
   };
-
-  //VECTOR
-  // const [calculo, setCalculo ] = useState([]);
-  // const mapeoProductData = (productsData) => {
-  //   let provisorio = productsData.map((index, valor) => {return(index * 4)  });
-  //   console.log(provisorio);
-  //   setCalculo(...calculo, provisorio);
-  // };
-
-  // useState(()=>{
-  //   mapeoProductData(productsData);
-  //   console.log(productsData);
-  // },[productsData])
 
   // add item handler
   const handleAddItem = (addingData) => {
@@ -734,16 +779,18 @@ function CreateInvoice() {
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
-        proovedores_name: addingData.proovedores_name ? addingData.proovedores_name : 'Proveedor Provisorio',
+        proovedores_name: addingData.proovedores_name
+          ? addingData.proovedores_name
+          : "Proveedor Provisorio",
         proveedores_id: addingData.proveedores_id,
         proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
-        
+
         productowner: addingData.productowner,
         proforma_invoice: addingData.proforma_invoice,
         comercial_invoice: addingData.comercial_invoice,
         purchaseorder: addingData.purchaseorder,
-        
+
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
         fob_u: addingData.fob_u,
@@ -789,6 +836,13 @@ function CreateInvoice() {
 
     setAddItemClicked(false);
   };
+
+  useEffect(() => {
+    if (dataHelp.presupuestoEditable) {
+      setProductsData(dataHelp.presupuestoEditable.estDetails);
+      setProductsDataAdd(dataHelp.presupuestoEditable.estDetAddData);
+    }
+  }, [dataHelp]);
 
   //ventana de productos lateral
 
@@ -919,6 +973,34 @@ function CreateInvoice() {
 
               {/* CABECERA DE PRESUPUESTADOR */}
 
+              {/* STATUS */}
+              <Grid
+                item
+                xs={12}
+                md={11}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
+                  position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                  top: "-100px", // Posición desde la parte superior del contenedor
+                  //right: "10px", // Posición desde la derecha del contenedor
+                marginBottom: '-100px'
+                }}
+              >
+                <Chip
+                  label={`Status: ${
+                    formik.values.status == 1
+                      ? "Estado inicial"
+                      : "Segundo estadio"
+                  }`}
+                  size="string"
+                  chipcolor="orange"
+                />
+              </Grid>
+
               {/* FECHA DE FACTURACION */}
               <Grid item xs={12} md={1.6} align="left">
                 <Stack>
@@ -1026,7 +1108,7 @@ function CreateInvoice() {
 
               {/* SELECT CARGA CABECERA */}
               {cabeceraCarga.map((field) => (
-                <CustomSelect
+                <CustomSelectUpdate
                   key={field.id}
                   {...field}
                   formik={formik}
@@ -1035,30 +1117,6 @@ function CreateInvoice() {
                   tooltip={"Seleccione Carga"}
                 />
               ))}
-
-              {/* STATUS */}
-              {/* <Grid
-                item
-                xs={12}
-                md={2}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-end",
-                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
-                }}
-              >
-                <Chip
-                  label={`Status: ${
-                    formik.values.status == 1
-                      ? "Estado inicial"
-                      : "Segundo estadio"
-                  }`}
-                  size="string"
-                  chipcolor="orange"
-                />
-              </Grid> */}
 
               {/* PRJ CABECERA */}
               {cabeceraPRJ.map((field) => (
@@ -1233,20 +1291,6 @@ function CreateInvoice() {
                 <Divider />
               </Grid> */}
 
-              {/* {
-                //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                cellInput.map((field) => (
-                  <TarifarioArrBool
-                    key={field.id}
-                    {...field}
-                    formik={formik}
-                    XS={12}
-                    MD={1.5}
-                    PaisRegion={formik.values.paisregion_id}
-                  />
-                ))
-              } */}
-
               {formik.values.carga_id != null ? (
                 <>
                   {/* {
@@ -1345,6 +1389,7 @@ function CreateInvoice() {
               </Grid>
               <ProductsPage
                 productsData={productsData}
+                productsDataAdd={productsDataAdd}
                 deleteProductHandler={deleteProductHandler}
                 editProductHandler={editProductHandler}
                 freightCost={gastoLocal?.freight_charge}
