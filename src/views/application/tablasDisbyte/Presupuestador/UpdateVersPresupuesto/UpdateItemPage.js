@@ -136,11 +136,13 @@ const UpdateItemPage = ({
   dataHelp,
   rowUpdate = null,
   formik = null,
+  ProductsDisbyte = null,
 }) => {
   // console.log(dataHelp);
   const theme = useTheme();
 
   let ordenProveedor = ["Sin Proveedor"];
+  // console.log(ProductsDisbyte);
 
   // handle category change dropdown
   // const [currency, setCurrency] = useState(dataHelp?.proveedoresOem[0].id);
@@ -193,7 +195,7 @@ const UpdateItemPage = ({
     comercial_invoice: rowUpdate?.comercial_invoice
       ? rowUpdate?.comercial_invoice
       : "",
-    purchaseorder: rowUpdate?.purchaseorder ? rowUpdate?.purchaseorder : '',
+    purchaseorder: rowUpdate?.purchaseorder ? rowUpdate?.purchaseorder : "",
     imageurl: rowUpdate?.imageurl ? rowUpdate?.imageurl : "",
     exw_u: rowUpdate?.exw_u ? rowUpdate?.exw_u : 0,
     fob_u: rowUpdate?.fob_u ? rowUpdate?.fob_u : 0,
@@ -211,8 +213,8 @@ const UpdateItemPage = ({
     ncm_ivaad: rowUpdate?.ncm_ivaad ? rowUpdate?.ncm_ivaad : 0,
     gcias: rowUpdate?.gcias ? rowUpdate?.gcias : 0,
 
-    ncm_sp1: rowUpdate?.ncm_sp1 ? rowUpdate?.ncm_sp1 : '',
-    ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : '',
+    ncm_sp1: rowUpdate?.ncm_sp1 ? rowUpdate?.ncm_sp1 : "",
+    ncm_sp2: rowUpdate?.ncm_sp2 ? rowUpdate?.ncm_sp2 : "",
     precio_u: rowUpdate?.precio_u ? rowUpdate?.precio_u : 0,
 
     extrag_comex1: rowUpdate?.extrag_comex1 ? rowUpdate?.extrag_comex1 : 0,
@@ -450,7 +452,7 @@ const UpdateItemPage = ({
     counter++;
     const data = {
       ...selectedItem,
-    //   id: counter, // Aquí es donde generas el nuevo id
+      //   id: counter, // Aquí es donde generas el nuevo id
       totalAmount: qty,
       selectedQuantity,
     };
@@ -507,46 +509,30 @@ const UpdateItemPage = ({
   //ESTRA GASTOS
   const ExtraCostosSourcing = [
     {
-      id: "extrag_glob_src1",
-      name: "extrag_glob_src1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
-      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src1,
-      dataType: "number",
+      id: "extrag_src1",
+      name: "extrag_src1",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
+      dataType: "Number",
       Xs_Xd: [12, 3],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src1,
-      arrPosition: 4,
     },
     {
-      id: "extrag_glob_src2",
-      name: "extrag_glob_src2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
-      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src2,
-      dataType: "number",
-      Xs_Xd: [12, 3],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src2,
-      arrPosition: 3,
+      id: "extrag_src2",
+      name: "extrag_src2",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
+      dataType: "Number",
     },
     {
       id: "extrag_src_notas",
       name: "extrag_src_notas",
-      em: "Notas Extra Gasto sourcing",
-      inputLabel: "Notas Extra Gasto sourcing",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
-      dataType: "string",
+      dataType: "String",
       Xs_Xd: [12, 6],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
-      arrPosition: 3,
     },
   ];
 
@@ -554,55 +540,38 @@ const UpdateItemPage = ({
     {
       id: "extrag_comex1",
       name: "extrag_comex1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
-      arrPosition: 4,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
       id: "extrag_comex2",
       name: "extrag_comex2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
-      arrPosition: 3,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
       id: "extrag_comex3",
       name: "extrag_comex3",
-      em: "Extra Gasto 3 [USD]",
-      inputLabel: "Extra Gasto 3 [USD]",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
-      arrPosition: 3,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
-      id: "extrag_src_notas",
-      name: "extrag_src_notas",
-      em: "Notas Extra Gasto Comex",
-      inputLabel: "Notas Extra Gasto Comex",
+      id: "extrag_comex_notas",
+      name: "extrag_comex_notas",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
-      dataType: "string",
-      Xs_Xd: [12, 4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
-      arrPosition: 3,
+      dataType: "String",
+      Xs_Xd: [12, 6],
     },
   ];
 
@@ -610,55 +579,38 @@ const UpdateItemPage = ({
     {
       id: "extrag_finan1",
       name: "extrag_finan1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
-      arrPosition: 4,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
       id: "extrag_finan2",
       name: "extrag_finan2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
-      arrPosition: 3,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
       id: "extrag_finan3",
       name: "extrag_finan3",
-      em: "Extra Gasto 3 [USD]",
-      inputLabel: "Extra Gasto 3 [USD]",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
-      dataType: "number",
-      Xs_Xd: [12, 2.66],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
-      arrPosition: 3,
+      dataType: "Number",
+      Xs_Xd: [12, 2],
     },
     {
       id: "extrag_finan_notas",
       name: "extrag_finan_notas",
-      em: "Notas Extra Gasto Financiero",
-      inputLabel: "Notas Extra Gasto Financiero",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
-      dataType: "string",
-      Xs_Xd: [12, 4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
-      arrPosition: 3,
+      dataType: "String",
+      Xs_Xd: [12, 6],
     },
   ];
 
@@ -688,12 +640,12 @@ const UpdateItemPage = ({
             <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
               {textFieldProveedor ? (
-                <Grid item xs={12} md={11} style={{ marginTop: "-20px" }}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     id="proveedores_id"
                     name="proveedores_id"
                     select
-                    label="Select Proveedor"
+                    label="Proveedor"
                     value={selectedItem?.proveedores_id || ""}
                     fullWidth
                     onChange={handleChange}
@@ -718,7 +670,7 @@ const UpdateItemPage = ({
                   )}{" "}
                 </Grid>
               ) : (
-                <Grid item xs={12} md={11}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     id="proveedor_prov"
                     name="proveedor_prov"
@@ -748,6 +700,21 @@ const UpdateItemPage = ({
                   /> */}
                 </Grid>
               </Tooltip>
+
+              <Grid item xs={12} md={5}>
+                <TextField
+                  id="productowner"
+                  name="productowner"
+                  value={selectedItem?.productowner}
+                  fullWidth
+                  label="Product Owner*"
+                  onChange={handleChange}
+                  //   defaultValue="Iphone 11 Pro Max"
+                />
+                {/* {errors.productownerError && (
+                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                )}{" "} */}
+              </Grid>
 
               {/* <Grid item xs={12} md={6}>
                 <TextField
@@ -789,7 +756,7 @@ const UpdateItemPage = ({
                 <Grid item xs={12} md={6} fullWidth>
                   <AutoCompleteTextField
                     handleChange={handleChange}
-                    name="sku"
+                    name="sku*"
                     valorPorDefecto={selectedItem?.sku}
                   />
                   {errors.skuError && (
@@ -803,7 +770,7 @@ const UpdateItemPage = ({
                     name="sku"
                     value={selectedItem?.sku}
                     fullWidth
-                    label="Ingrese un Sku*"
+                    label="un Sku*"
                     onChange={handleChange}
                     //   defaultValue="Iphone 11 Pro Max"
                   />
@@ -831,7 +798,7 @@ const UpdateItemPage = ({
                   id="ncm_id"
                   name="ncm_id"
                   select
-                  label="Select NCM"
+                  label="NCM*"
                   value={selectedItem?.ncm_id || ""}
                   fullWidth
                   noWrap
@@ -859,13 +826,13 @@ const UpdateItemPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
-                  id="productowner"
-                  name="productowner"
-                  value={selectedItem?.productowner}
+                  id="purchaseorder"
+                  name="purchaseorder"
+                  value={selectedItem?.purchaseorder}
                   fullWidth
-                  label="Ingrese Po*"
+                  label="Purchase Order"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -874,13 +841,13 @@ const UpdateItemPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   id="proforma_invoice"
                   name="proforma_invoice"
                   value={selectedItem?.proforma_invoice}
                   fullWidth
-                  label="Ingrese Pi*"
+                  label="Proforma Invoice"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -889,13 +856,13 @@ const UpdateItemPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   id="comercial_invoice"
                   name="comercial_invoice"
                   value={selectedItem?.comercial_invoice}
                   fullWidth
-                  label="Ingrese Ci*"
+                  label="Comercial Invoice"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -918,15 +885,15 @@ const UpdateItemPage = ({
                 )}{" "}
               </Grid> */}
 
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   id="description"
                   name="description"
                   value={selectedItem?.description}
                   fullWidth
                   multiline
-                  rows={3}
-                  label="Ingrese Especificacion"
+                  // rows={3}
+                  label="Especificacion*"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
@@ -963,7 +930,7 @@ const UpdateItemPage = ({
                   type="number"
                   id="exw_u"
                   name="exw_u"
-                  value={selectedItem?.exw_u || 0}
+                  value={selectedItem?.exw_u || ""}
                   className={`${classes.hideSpinButton} ${classes.alignedLeft}`} // quitar flechas numericas
                   InputProps={{
                     startAdornment: (
@@ -988,7 +955,7 @@ const UpdateItemPage = ({
                   type="number"
                   id="fob_u"
                   name="fob_u"
-                  value={selectedItem?.fob_u || 0}
+                  value={selectedItem?.fob_u || ""}
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     startAdornment: (
@@ -1013,7 +980,7 @@ const UpdateItemPage = ({
                   type="number"
                   id="qty"
                   name="qty"
-                  value={selectedItem?.qty || 0}
+                  value={selectedItem?.qty || ""}
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
@@ -1037,7 +1004,7 @@ const UpdateItemPage = ({
                   type="number"
                   id="pcsctn"
                   name="pcsctn"
-                  value={selectedItem?.pcsctn || 0}
+                  value={selectedItem?.pcsctn || ""}
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
@@ -1061,11 +1028,11 @@ const UpdateItemPage = ({
                   type="number"
                   id="cbmctn"
                   name="cbmctn"
-                  value={selectedItem?.cbmctn || 0}
+                  value={selectedItem?.cbmctn || ""}
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
-                      <InputAdornment position="end">M3.</InputAdornment>
+                      <InputAdornment position="end">m3.</InputAdornment>
                     ),
                   }}
                   onChange={(e) => {
@@ -1087,7 +1054,7 @@ const UpdateItemPage = ({
                   name="gwctn"
                   fullWidth
                   label="GWCTN"
-                  value={selectedItem?.gwctn || 0}
+                  value={selectedItem?.gwctn || ""}
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
@@ -1114,7 +1081,7 @@ const UpdateItemPage = ({
               </Grid> */}
 
               {/* VALOR url Imagen */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={9}>
                 <TextField
                   id="imageurl"
                   name="imageurl"
@@ -1122,7 +1089,7 @@ const UpdateItemPage = ({
                   fullWidth
                   multiline
                   rows={1}
-                  label="Ingrese Url de Imagen"
+                  label="Url de Imagen"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
@@ -1132,14 +1099,14 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* CARGA DE IMAGEN */}
-              <Grid item xs={6}>
+              <Grid item xs={3}>
                 <Grid container spacing={0}>
-                  <Grid item xs={4}>
+                  {/* <Grid item xs={7}>
                     <Typography variant="subtitle1" align="left">
                       Imagen del Producto*
                     </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
+                  </Grid> */}
+                  <Grid item xs={3}>
                     {/* <div>
                       <TextField
                         type="file"
@@ -1191,8 +1158,15 @@ const UpdateItemPage = ({
                       </Grid> */}
 
                     {selectedItem.imageurl == "" ? (
-                      <Grid item xs={6}>
-                        <ImageWrapper>
+                      <Grid item xs={1}>
+                        <ImageWrapper
+                          style={{
+                            width: "140px",
+                            height: "140px",
+                            marginLeft: "40px",
+                            marginTop: "-55px",
+                          }}
+                        >
                           <CardMedia
                             component="img"
                             image={Product4}
@@ -1215,12 +1189,13 @@ const UpdateItemPage = ({
                         </ImageWrapper>
                       </Grid>
                     ) : (
-                      <Grid item xs={6}>
+                      <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "120px",
-                            height: "120px",
-                            marginTop: "-50px",
+                            width: "150px",
+                            height: "150px",
+                            marginLeft: "40px",
+                            marginTop: "-55px",
                           }}
                         >
                           <CardMedia
@@ -1250,36 +1225,62 @@ const UpdateItemPage = ({
                 xs={12}
                 style={{
                   marginLeft: "8px",
+                  marginTop: "-30px",
+                  marginBottom: "-10px",
+                }}
+              >
+                <Grid item xs={12}>
+                  <Divider />
+                </Grid>
+
+                <Typography variant="h3" style={{ marginBottom: "10px" }}>
+                  Extra Gastos
+                </Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                style={{
+                  marginLeft: "8px",
                   marginTop: "-25px",
                   marginBottom: "-20px",
                 }}
               >
-                <Divider />
                 <Typography
-                  color={"green"}
+                  // color={"green"}
                   variant="h4"
-                  style={{ margin: "8px" }}
+                  style={{ marginTop: "30px" }}
                 >
-                  Extra Gastos Sourcing
+                  Sourcing
                 </Typography>
               </Grid>
 
-              {ExtraCostosSourcing.map((input) => (
-                <ExtraCostoDobleClick
-                  key={input.id}
-                  id={input.id}
-                  name={input.name}
-                  em={input.em}
-                  inputLabel={input.inputLabel}
-                  data={input.data}
-                  dataType={input.dataType}
-                  formik={formik}
-                  Xs_Xd={input.Xs_Xd}
-                  blockDeGastos={input.blockDeGastos}
-                  ValorSwitch={input.ValorSwitch}
-                  ValorSwitchBase={input.ValorSwitchBase}
-                  arrPosition={input.arrPosition}
-                />
+              {/* EXTRA COSTO SOURCING */}
+              {ExtraCostosSourcing.map((index) => (
+                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
+                  <TextField
+                    type={index.dataType == 'Number' ? 'number' : 'string'}
+                    id={index.id}
+                    name={index.name}
+                    value={selectedItem?.[index.name] || ""}
+                    className={classes.hideSpinButton} // quitar flechas numericas
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
+                      ),
+                    }}
+                    onChange={(e) => {
+                      handleChange(e, index.dataType);
+                    }}
+                    fullWidth
+                    label={index.inputLabel}
+                    //   defaultValue="Samsung"
+                  />
+                  {/* {errors.fob_uError && (
+                    <FormHelperText>{errors.fob_uError}</FormHelperText>
+                  )}{" "} */}
+                </Grid>
               ))}
 
               <Grid
@@ -1291,32 +1292,40 @@ const UpdateItemPage = ({
                   marginBottom: "-20px",
                 }}
               >
-                <Divider />
                 <Typography
-                  color={"green"}
+                  // color={"green"}
                   variant="h4"
-                  style={{ margin: "8px" }}
+                  style={{ marginTop: "30px" }}
                 >
-                  Extra Gastos Comex
+                  Comex
                 </Typography>
               </Grid>
 
-              {ExtraCostosComex.map((input) => (
-                <ExtraCostoDobleClick
-                  key={input.id}
-                  id={input.id}
-                  name={input.name}
-                  em={input.em}
-                  inputLabel={input.inputLabel}
-                  data={input.data}
-                  dataType={input.dataType}
-                  formik={formik}
-                  Xs_Xd={input.Xs_Xd}
-                  blockDeGastos={input.blockDeGastos}
-                  ValorSwitch={input.ValorSwitch}
-                  ValorSwitchBase={input.ValorSwitchBase}
-                  arrPosition={input.arrPosition}
-                />
+              {/* EXTRA COSTO Comex */}
+              {ExtraCostosComex.map((index) => (
+                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
+                  <TextField
+                    type={index.dataType == 'Number' ? 'number' : 'string'}
+                    id={index.id}
+                    name={index.name}
+                    value={selectedItem?.[index.name] || ""}
+                    className={classes.hideSpinButton} // quitar flechas numericas
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
+                      ),
+                    }}
+                    onChange={(e) => {
+                      handleChange(e, index.dataType);
+                    }}
+                    fullWidth
+                    label={index.inputLabel}
+                    //   defaultValue="Samsung"
+                  />
+                  {/* {errors.fob_uError && (
+                    <FormHelperText>{errors.fob_uError}</FormHelperText>
+                  )}{" "} */}
+                </Grid>
               ))}
 
               <Grid
@@ -1328,32 +1337,40 @@ const UpdateItemPage = ({
                   marginBottom: "-20px",
                 }}
               >
-                <Divider />
                 <Typography
-                  color={"green"}
+                  // color={"green"}
                   variant="h4"
-                  style={{ margin: "8px" }}
+                  style={{ marginTop: "30px" }}
                 >
-                  Extra Gastos Financiero
+                  Financiero
                 </Typography>
               </Grid>
 
-              {ExtraCostosFinanciero.map((input) => (
-                <ExtraCostoDobleClick
-                  key={input.id}
-                  id={input.id}
-                  name={input.name}
-                  em={input.em}
-                  inputLabel={input.inputLabel}
-                  data={input.data}
-                  dataType={input.dataType}
-                  formik={formik}
-                  Xs_Xd={input.Xs_Xd}
-                  blockDeGastos={input.blockDeGastos}
-                  ValorSwitch={input.ValorSwitch}
-                  ValorSwitchBase={input.ValorSwitchBase}
-                  arrPosition={input.arrPosition}
-                />
+              {/* EXTRA COSTO FINANCIERO */}
+              {ExtraCostosFinanciero.map((index) => (
+                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
+                  <TextField
+                    type={index.dataType == 'Number' ? 'number' : 'string'}
+                    id={index.id}
+                    name={index.name}
+                    value={selectedItem?.[index.name] || ""}
+                    className={classes.hideSpinButton} // quitar flechas numericas
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
+                      ),
+                    }}
+                    onChange={(e) => {
+                      handleChange(e, index.dataType);
+                    }}
+                    fullWidth
+                    label={index.inputLabel}
+                    //   defaultValue="Samsung"
+                  />
+                  {/* {errors.fob_uError && (
+                    <FormHelperText>{errors.fob_uError}</FormHelperText>
+                  )}{" "} */}
+                </Grid>
               ))}
 
               {/* TAG Q SE ALIMENTA DE LOS ITEM DECLARADOS EN TAGNAME */}

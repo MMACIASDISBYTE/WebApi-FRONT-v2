@@ -30,6 +30,8 @@ import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
 import { CircularProgress, Select } from "@material-ui/core";
+import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
+import ReplyAllRoundedIcon from "@mui/icons-material/ReplyAllRounded";
 
 // project imports
 import AddItemPage from "../AddItemPage";
@@ -69,6 +71,8 @@ import { CustomSelect } from "../../CreatePresupuesto/CustomSelect";
 import AddDetailsPage from "../../CreatePresupuesto/AddDetailsPage";
 import { CustomSelectUpdate } from "../CustomSelectUpdate";
 import UpdateItemPage from "../UpdateItemPage";
+import { ProductosHelper } from "helpers/ProductosHelper";
+import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -181,6 +185,8 @@ function CreateInvoice() {
   const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
   const [valueIva, setValueIva] = React.useState("false");
   const [dataHelp, setDataHelp] = useState({});
+  const [ProductsDisbyte, setProductsDisbyte] = useState({});
+
   const [loading, setLoading] = useState(true);
   const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
@@ -250,6 +256,17 @@ function CreateInvoice() {
   };
   console.log(dataHelp);
 
+  const ProductdataHelpers = async () => {
+    const ProductosDisbyte = await ProductosHelper.fetchData();
+
+    const prodData = {
+      ProductosDisbyte,
+    };
+
+    setProductsDisbyte(prodData);
+  }
+  // console.log(ProductsDisbyte);
+
   const cellInput = [
     {
       id: "tarifasfwd_id",
@@ -315,7 +332,7 @@ function CreateInvoice() {
       id: "paisregion_id",
       name: "paisregion_id",
       em: "Seleccione un Pais",
-      inputLabel: "Pais",
+      inputLabel: "Destino",
       data: dataHelp.Paises,
     },
   ];
@@ -339,7 +356,7 @@ function CreateInvoice() {
       id: "fwdpaisregion_id",
       name: "fwdpaisregion_id",
       em: "Seleccione una pais de Origen",
-      inputLabel: "Pais Origen",
+      inputLabel: "Origen",
       data: dataHelp.Paises,
     },
   ];
@@ -379,7 +396,7 @@ function CreateInvoice() {
       id: "gloc_fwd",
       name: "gloc_fwd",
       em: "Ingrese Gastos Locales FWD [USD]",
-      inputLabel: "Gastos Locales FWD [USD]",
+      inputLabel: "Locales FWD [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
       Xs_Xd: [12, 1.4],
@@ -392,7 +409,7 @@ function CreateInvoice() {
       id: "gloc_terminales",
       name: "gloc_terminales",
       em: "Ingrese Gasto Terminal [USD]",
-      inputLabel: "Gasto Terminal [USD[",
+      inputLabel: "Terminal [USD[",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 1.4],
@@ -430,8 +447,8 @@ function CreateInvoice() {
     {
       id: "gloc_despachantes",
       name: "gloc_despachantes",
-      em: "Ingrese Gastos Despachante [USD]",
-      inputLabel: "Gastos Despachante [USD]",
+      em: "Ingrese Gastos Despacho [USD]",
+      inputLabel: "Despacho [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
       Xs_Xd: [12, 1.4],
@@ -472,8 +489,8 @@ function CreateInvoice() {
     {
       id: "extrag_glob_src1",
       name: "extrag_glob_src1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src1,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -486,8 +503,8 @@ function CreateInvoice() {
     {
       id: "extrag_glob_src2",
       name: "extrag_glob_src2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_glob_src2,
       dataType: "number",
       Xs_Xd: [12, 3],
@@ -500,8 +517,8 @@ function CreateInvoice() {
     {
       id: "extrag_src_notas",
       name: "extrag_src_notas",
-      em: "Notas Extra Gasto sourcing",
-      inputLabel: "Notas Extra Gasto sourcing",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
       dataType: "string",
       Xs_Xd: [12, 6],
@@ -517,8 +534,8 @@ function CreateInvoice() {
     {
       id: "extrag_comex1",
       name: "extrag_comex1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
       Xs_Xd: [12, 2.66],
@@ -530,8 +547,8 @@ function CreateInvoice() {
     {
       id: "extrag_comex2",
       name: "extrag_comex2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       dataType: "number",
       Xs_Xd: [12, 2.66],
@@ -543,8 +560,8 @@ function CreateInvoice() {
     {
       id: "extrag_comex3",
       name: "extrag_comex3",
-      em: "Extra Gasto 3 [USD]",
-      inputLabel: "Extra Gasto 3 [USD]",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       dataType: "number",
       Xs_Xd: [12, 2.66],
@@ -556,8 +573,8 @@ function CreateInvoice() {
     {
       id: "extrag_src_notas",
       name: "extrag_src_notas",
-      em: "Notas Extra Gasto Comex",
-      inputLabel: "Notas Extra Gasto Comex",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
       dataType: "string",
       Xs_Xd: [12, 4],
@@ -573,8 +590,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan1",
       name: "extrag_finan1",
-      em: "Extra Gasto 1 [USD]",
-      inputLabel: "Extra Gasto 1 [USD]",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
       dataType: "number",
       Xs_Xd: [12, 1.8],
@@ -586,8 +603,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan2",
       name: "extrag_finan2",
-      em: "Extra Gasto 2 [USD]",
-      inputLabel: "Extra Gasto 2 [USD]",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
       dataType: "number",
       Xs_Xd: [12, 1.8],
@@ -599,8 +616,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan3",
       name: "extrag_finan3",
-      em: "Extra Gasto 3 [USD]",
-      inputLabel: "Extra Gasto 3 [USD]",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
       dataType: "number",
       Xs_Xd: [12, 1.8],
@@ -612,8 +629,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan4",
       name: "extrag_finan4",
-      em: "Extra Gasto 4 [USD]",
-      inputLabel: "Extra Gasto 4 [USD]",
+      em: "Valor 4 [USD]",
+      inputLabel: "Valor 4 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
       dataType: "number",
       Xs_Xd: [12, 1.8],
@@ -625,8 +642,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan5",
       name: "extrag_finan5",
-      em: "Extra Gasto 5 [USD]",
-      inputLabel: "Extra Gasto 5 [USD]",
+      em: "Valor 5 [USD]",
+      inputLabel: "Valor 5 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
       dataType: "number",
       Xs_Xd: [12, 1.8],
@@ -638,8 +655,8 @@ function CreateInvoice() {
     {
       id: "extrag_finan_notas",
       name: "extrag_finan_notas",
-      em: "Notas Extra Gasto Financiero",
-      inputLabel: "Notas Extra Gasto Financiero",
+      em: "Notas",
+      inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
       dataType: "string",
       Xs_Xd: [12, 3],
@@ -653,6 +670,10 @@ function CreateInvoice() {
 
   useEffect(() => {
     dataHelpers();
+  }, []);
+
+  useEffect(() => {
+    ProductdataHelpers();
   }, []);
 
   const formik = useFormik({
@@ -994,7 +1015,7 @@ function CreateInvoice() {
         // description: addingData.desc,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
-        total: addingData.totalAmount,
+        // total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
@@ -1219,6 +1240,70 @@ function CreateInvoice() {
     },
   }));
 
+  const [showCostosLocal, setShowCostosLocal] = useState(true);
+  const [showCostosComex, setShowCostosComex] = useState(true);
+  const [showCostosFinan, setShowCostosFinan] = useState(true);
+  const [showDetails, setShowDetails] = useState(true);
+
+  const CambioEstado = () => {
+    if (formik.values.status < 3) {
+      formik.setFieldValue("status", formik.values.status + 1);
+    }
+    // console.log(formik.values.status);
+  };
+  const CambioEstadoBack = () => {
+    if (formik.values.status > 0) {
+      formik.setFieldValue("status", formik.values.status - 1);
+    }
+    // console.log(formik.values.status);
+  };
+
+  // PERMISOS
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  // console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = [
+    "CEO",
+    "Gerencia",
+    "Lider",
+    "Comex",
+    "Finanzas",
+    "Sourcing",
+  ];
+  const permiCreate = ["CEO", "Sourcing"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+  const permiComex = ["Comex"];
+  const permiSourcing = ["Sourcing"];
+  const permiFinanzas = ["Finanzas"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const ComexOK = permiComex.every((permiso) => permisos.includes(permiso));
+  const SourcingOk = permiSourcing.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const FinanzasOk = permiFinanzas.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    navigate("/NoAutorizado");
+  }
+
   return (
     <>
       <MainCard
@@ -1279,15 +1364,82 @@ function CreateInvoice() {
                   marginBottom: "-100px",
                 }}
               >
+                {/* Flecha de return de estado */}
+                {formik.values.status > 0 && RetroEstadoOK && (
+                      <>
+                        <Tooltip title="Volver">
+                          <ReplyAllRoundedIcon
+                            sx={{
+                              marginTop: 1,
+                              "&:hover": {
+                                color: "red", // Cambia esto por el color que quieras
+                              },
+                            }}
+                            disabled={formik.values.status == 3 ? true : false}
+                            onClick={CambioEstadoBack}
+                          />
+                        </Tooltip>
+                      </>
+                    )}
                 <Chip
-                  label={`Status: ${
-                    formik.values.status == 1
-                      ? "Estado inicial"
-                      : "Segundo estadio"
+                  label={`Status ${
+                    formik.values.status == 0 || formik.values.status == 1
+                      ? `${formik.values.status}: Sourcing`
+                      : formik.values.status == 2
+                      ? `${formik.values.status}: Comex`
+                      : `${formik.values.status}: Financiero`
                   }`}
                   size="string"
                   chipcolor="orange"
                 />
+                {formik.values.status <= 3 && (
+                  <>
+                    {/* Mostrar Flechas de estado */}
+                    {formik.values.status == 0 && RetroEstadoOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 1 && SourcingOk && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 2 && ComexOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    
+                  </>
+                )}
               </Grid>
 
               {/* FECHA DE FACTURACION */}
@@ -1621,8 +1773,8 @@ function CreateInvoice() {
                   <Grid item xs={12}>
                     <Divider />
                     <Typography
-                      color={"green"}
-                      variant="h4"
+                      // color={"green"}
+                      variant="h3"
                       style={{ margin: "8px" }}
                     >
                       Gastos Locales
@@ -1686,8 +1838,8 @@ function CreateInvoice() {
               <Grid item xs={12}>
                 <Divider />
                 <Typography
-                  color={"green"}
-                  variant="h4"
+                  // color={"green"}
+                  variant="h3"
                   style={{ margin: "8px" }}
                 >
                   Extra Gastos Sourcing
@@ -1718,8 +1870,8 @@ function CreateInvoice() {
               <Grid item xs={12}>
                 <Divider />
                 <Typography
-                  color={"green"}
-                  variant="h4"
+                  // color={"green"}
+                  variant="h3"
                   style={{ margin: "8px" }}
                 >
                   Extra Gastos Comex
@@ -1750,8 +1902,8 @@ function CreateInvoice() {
               <Grid item xs={12}>
                 <Divider />
                 <Typography
-                  color={"green"}
-                  variant="h4"
+                  // color={"green"}
+                  variant="h3"
                   style={{ margin: "8px" }}
                 >
                   Extra Gastos Financieros
@@ -1838,6 +1990,7 @@ function CreateInvoice() {
                     dataHelp={dataHelp}
                     rowUpdate={rowUpdate}
                     formik={formik}
+                    ProductsDisbyte={ProductsDisbyte}
                   />
                 </>
               ) : (
