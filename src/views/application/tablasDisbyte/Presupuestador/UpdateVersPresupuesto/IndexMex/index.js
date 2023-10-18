@@ -571,8 +571,8 @@ function CreateInvoice() {
       arrPosition: 3,
     },
     {
-      id: "extrag_src_notas",
-      name: "extrag_src_notas",
+      id: "extrag_comex_notas",
+      name: "extrag_comex_notas",
       em: "Notas",
       inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
@@ -1359,7 +1359,7 @@ function CreateInvoice() {
                   justifyContent: "center",
                   flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
                   position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
-                  top: "-100px", // Posición desde la parte superior del contenedor
+                  top: "-110px", // Posición desde la parte superior del contenedor
                   //right: "10px", // Posición desde la derecha del contenedor
                   marginBottom: "-100px",
                 }}
