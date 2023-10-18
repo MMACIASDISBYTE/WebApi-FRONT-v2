@@ -30,6 +30,8 @@ import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
 import { CircularProgress, Select } from "@material-ui/core";
+import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
+import ReplyAllRoundedIcon from "@mui/icons-material/ReplyAllRounded";
 
 // project imports
 import AddItemPage from "../AddItemPage";
@@ -70,6 +72,7 @@ import AddDetailsPage from "../../CreatePresupuesto/AddDetailsPage";
 import { CustomSelectUpdate } from "../CustomSelectUpdate";
 import UpdateItemPage from "../UpdateItemPage";
 import { ProductosHelper } from "helpers/ProductosHelper";
+import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -329,7 +332,7 @@ function CreateInvoice() {
       id: "paisregion_id",
       name: "paisregion_id",
       em: "Seleccione un Pais",
-      inputLabel: "Pais",
+      inputLabel: "Destino",
       data: dataHelp.Paises,
     },
   ];
@@ -353,7 +356,7 @@ function CreateInvoice() {
       id: "fwdpaisregion_id",
       name: "fwdpaisregion_id",
       em: "Seleccione una pais de Origen",
-      inputLabel: "Pais Origen",
+      inputLabel: "Origen",
       data: dataHelp.Paises,
     },
   ];
@@ -1237,6 +1240,70 @@ function CreateInvoice() {
     },
   }));
 
+  const [showCostosLocal, setShowCostosLocal] = useState(true);
+  const [showCostosComex, setShowCostosComex] = useState(true);
+  const [showCostosFinan, setShowCostosFinan] = useState(true);
+  const [showDetails, setShowDetails] = useState(true);
+
+  const CambioEstado = () => {
+    if (formik.values.status < 3) {
+      formik.setFieldValue("status", formik.values.status + 1);
+    }
+    // console.log(formik.values.status);
+  };
+  const CambioEstadoBack = () => {
+    if (formik.values.status > 0) {
+      formik.setFieldValue("status", formik.values.status - 1);
+    }
+    // console.log(formik.values.status);
+  };
+
+  // PERMISOS
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  // console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = [
+    "CEO",
+    "Gerencia",
+    "Lider",
+    "Comex",
+    "Finanzas",
+    "Sourcing",
+  ];
+  const permiCreate = ["CEO", "Sourcing"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+  const permiComex = ["Comex"];
+  const permiSourcing = ["Sourcing"];
+  const permiFinanzas = ["Finanzas"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const ComexOK = permiComex.every((permiso) => permisos.includes(permiso));
+  const SourcingOk = permiSourcing.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const FinanzasOk = permiFinanzas.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    navigate("/NoAutorizado");
+  }
+
   return (
     <>
       <MainCard
@@ -1297,15 +1364,82 @@ function CreateInvoice() {
                   marginBottom: "-100px",
                 }}
               >
+                {/* Flecha de return de estado */}
+                {formik.values.status > 0 && RetroEstadoOK && (
+                      <>
+                        <Tooltip title="Volver">
+                          <ReplyAllRoundedIcon
+                            sx={{
+                              marginTop: 1,
+                              "&:hover": {
+                                color: "red", // Cambia esto por el color que quieras
+                              },
+                            }}
+                            disabled={formik.values.status == 3 ? true : false}
+                            onClick={CambioEstadoBack}
+                          />
+                        </Tooltip>
+                      </>
+                    )}
                 <Chip
-                  label={`Status: ${
-                    formik.values.status == 1
-                      ? "Estado inicial"
-                      : "Segundo estadio"
+                  label={`Status ${
+                    formik.values.status == 0 || formik.values.status == 1
+                      ? `${formik.values.status}: Sourcing`
+                      : formik.values.status == 2
+                      ? `${formik.values.status}: Comex`
+                      : `${formik.values.status}: Financiero`
                   }`}
                   size="string"
                   chipcolor="orange"
                 />
+                {formik.values.status <= 3 && (
+                  <>
+                    {/* Mostrar Flechas de estado */}
+                    {formik.values.status == 0 && RetroEstadoOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 1 && SourcingOk && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 2 && ComexOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    
+                  </>
+                )}
               </Grid>
 
               {/* FECHA DE FACTURACION */}

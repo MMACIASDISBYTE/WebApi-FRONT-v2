@@ -95,6 +95,11 @@ export const ExtraCostoDobleClick = ({
 
   const classes = useStyles();
 
+  const transformarValor = (event) => {
+    let valor = parseFloat(event)
+    return valor;
+  }
+
   return (
     <>
       <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]} align="left">
@@ -134,7 +139,11 @@ export const ExtraCostoDobleClick = ({
                     style: { textAlign: "left" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-                  value={ formik.values[name] ? formik?.values[name].toFixed(2) : formik.values[name]}
+                  value={
+                    !isNaN(formik.values[name]) && formik.values[name] !== ""
+                      ? Number(formik.values[name]).toFixed(2)
+                      : formik.values[name]
+                  }
                   // value={ isNaN(formik.values[name]) ? formik?.values[name] : formik.values[name].toFixed(2)}
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
