@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
-export const ExtraCostoDobleClick = ({
+export const ExtraCostoDobleClickDetails = ({
   id,
   name,
   em,
@@ -30,6 +30,7 @@ export const ExtraCostoDobleClick = ({
   ValorSwitchBase,
   arrPosition = null,
   handleSwitchChangeInIndex,
+  handleChange,
 }) => {
   const theme = useTheme();
 
@@ -105,7 +106,7 @@ export const ExtraCostoDobleClick = ({
               id={id}
               name={name}
               type={dataType}
-              value={formik.values[name]}
+              value={data ? data : ''}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment> //aqui si queremos poner un placeholde
@@ -134,13 +135,13 @@ export const ExtraCostoDobleClick = ({
                     style: { textAlign: "left" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-                  value={ formik.values[name] ? formik?.values[name].toFixed(2) : formik.values[name]}
+                  value={ data ? data : 0}
                   // value={ isNaN(formik.values[name]) ? formik?.values[name] : formik.values[name].toFixed(2)}
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
                   onChange={(event) =>
-                    UtilidadesHelper.handleChangeCustom(event, formik, name)
+                    handleChange(event, dataType)
                   }
                   fullWidth
                   placeholder={em}
