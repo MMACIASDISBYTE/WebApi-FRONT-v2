@@ -2,13 +2,36 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Box, Tooltip } from "@mui/material";
+import { ProductosHelper } from "helpers/ProductosHelper";
 
 const filter = createFilterOptions();
 
-export default function AutoCompleteTextField({ handleChange, name, valorPorDefecto= null }) {
+export default function AutoCompleteTextField({ handleChange, name, valorPorDefecto= null, ProductsDisbyte = null }) {
   const [value, setValue] = React.useState(valorPorDefecto);
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
+  
+  // const [ProductsDisbyte, setProductsDisbyte] = React.useState({});
+  // const ProductdataHelpers = async () => {
+  //   const ProductosDisbyte = await ProductosHelper.fetchData();
+
+  //   const prodData = {
+  //     ProductosDisbyte,
+  //   };
+
+  //   // Transforma ProductsDisbyte a la estructura necesaria
+  // const options = prodData.map(product => ({
+  //   title: product.name, // o product.codigo o cualquier campo que desees usar para el título
+  //   ...product // copia otras propiedades si son necesarias
+  // }));
+  //   setProductsDisbyte(options);
+  // };
+  // React.useEffect(() => {
+  //   ProductdataHelpers();
+  // }, []);
+  // console.log(ProductsDisbyte);
+
+
   return (
     <Autocomplete
       value={value}

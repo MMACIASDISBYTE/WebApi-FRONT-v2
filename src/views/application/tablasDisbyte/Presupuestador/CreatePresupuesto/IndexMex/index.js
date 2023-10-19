@@ -782,6 +782,7 @@ function CreateInvoice() {
 
         extrag_src1: addingData.extrag_src1,
         extrag_src2: addingData.extrag_src2,
+        extrag_src_notas: addingData.extrag_src_notas,
 
         extrag_finan1: addingData.extrag_finan1,
         extrag_finan2: addingData.extrag_finan2,

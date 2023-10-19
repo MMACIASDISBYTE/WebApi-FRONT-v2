@@ -209,15 +209,16 @@ const AddDetailsPage = ({
     extrag_comex1: 0,
     extrag_comex2: 0,
     extrag_comex3: 0,
-    extrag_comex_notas: "",
+    extrag_comex_notas: "Sin notas",
 
     extrag_src1: 0,
     extrag_src2: 0,
+    extrag_src_notas: "Sin notas",
 
     extrag_finan1: 0,
     extrag_finan2: 0,
     extrag_finan3: 0,
-    extrag_finan_notas: "",
+    extrag_finan_notas: "Sin notas",
 
     costo_u_est: 0,
     costo_u_prov: 0,
