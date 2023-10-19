@@ -42,7 +42,6 @@ import Product3 from "assets/images/widget/prod3.jpg";
 import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import AutoCompleteTextField from "./AutoCompleteTextField";
-import { SwitchGastos } from "../UpdateVersPresupuesto/SwitchGastos";
 import { SwitchIOS } from "./SwitchIOS";
 
 // styles
@@ -133,19 +132,24 @@ const AddDetailsPage = ({
   handleCloseDialog,
   dataHelp,
   formik = null,
+  ProductsDisbyte = null,
 }) => {
   // console.log(dataHelp);
   const theme = useTheme();
 
+  const [producto, setProductos] = useState();
+  useState(() => {
+    if (dataHelp.ProductosDisbyte) {
+      const opciones = dataHelp?.ProductosDisbyte.map((product) => ({
+        title: product.name,
+        ...product,
+      }));
+      setProductos(opciones);
+    }
+  }, [ProductsDisbyte]);
+
   let ordenProveedor = ["Sin Proveedor"];
 
-  // handle category change dropdown
-  // const [currency, setCurrency] = useState(dataHelp?.proveedoresOem[0].id);
-  // const handleSelectChange = (event) => {
-  //     console.log(event?.target.value);
-  //     setCurrency(event?.target.value);
-  // };
-  // set image upload progress
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(() => {});
   useEffect(() => {
@@ -158,16 +162,6 @@ const AddDetailsPage = ({
       }
     };
   });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      progressRef.current();
-    }, 500);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   // handle tag select
   const [personName, setPersonName] = useState([]);
@@ -501,7 +495,8 @@ const AddDetailsPage = ({
           "&>div": {
             m: 0,
             borderRadius: "0px",
-            maxWidth: 800,
+            maxWidth: 1200,
+            height: "100%",
             maxHeight: "100%",
           },
         },
@@ -514,12 +509,12 @@ const AddDetailsPage = ({
             <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
               {textFieldProveedor ? (
-                <Grid item xs={12} md={11}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     id="proveedores_id"
                     name="proveedores_id"
                     select
-                    label="Select Proveedor"
+                    label="Proveedor"
                     value={selectedItem?.proveedores_id || ""}
                     fullWidth
                     onChange={handleChange}
@@ -544,12 +539,12 @@ const AddDetailsPage = ({
                   )}{" "}
                 </Grid>
               ) : (
-                <Grid item xs={12} md={11}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     id="proveedor_prov"
                     name="proveedor_prov"
                     fullWidth
-                    label="Ingrese un Proveedor Provisorio*"
+                    label="Proveedor Provisorio*"
                     onChange={handleChange}
                     //   defaultValue="Iphone 11 Pro Max"
                   />
@@ -575,40 +570,20 @@ const AddDetailsPage = ({
                 </Grid>
               </Tooltip>
 
-              {/* <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={5}>
                 <TextField
-                  id="proveedores_id"
-                  name="proveedores_id"
+                  id="productowner"
+                  name="productowner"
+                  value={selectedItem?.productowner}
                   fullWidth
-                  label="Ingrese Proveedor*"
+                  label="Product Owner*"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
                   <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} 
-              </Grid> */}
-
-              {/* MUESTRA */}
-              {/* <Grid item xs={12} md={6} fullWidth>
-                <AutoCompleteTextField handleChange={handleChange} name="sku" />
-                {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
-                )}{" "}
+                )}{" "} */}
               </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  id="sku"
-                  name="sku"
-                  fullWidth
-                  label="Ingreso de SKU Manual*"
-                  onChange={handleChange}
-                  //   defaultValue="Iphone 11 Pro Max"
-                />
-                {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} 
-              </Grid> */}
 
               {/* AUTOCOMPLETE DE SKU */}
               {textFieldSKU ? (
@@ -616,6 +591,7 @@ const AddDetailsPage = ({
                   <AutoCompleteTextField
                     handleChange={handleChange}
                     name="sku"
+                    ProductsDisbyte={producto}
                   />
                   {errors.skuError && (
                     <FormHelperText>{errors.skuError}</FormHelperText>
@@ -683,12 +659,12 @@ const AddDetailsPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
-                  id="productowner"
-                  name="productowner"
+                  id="purchaseorder"
+                  name="purchaseorder"
                   fullWidth
-                  label="Ingrese Po*"
+                  label="Purchase Order"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -697,12 +673,12 @@ const AddDetailsPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   id="proforma_invoice"
                   name="proforma_invoice"
                   fullWidth
-                  label="Ingrese Pi*"
+                  label="Proforma Invoice"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -711,12 +687,12 @@ const AddDetailsPage = ({
                 )}{" "} */}
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   id="comercial_invoice"
                   name="comercial_invoice"
                   fullWidth
-                  label="Ingrese Ci*"
+                  label="Comercial Invoice"
                   onChange={handleChange}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
@@ -745,8 +721,8 @@ const AddDetailsPage = ({
                   name="description"
                   fullWidth
                   multiline
-                  rows={3}
-                  label="Ingrese Especificacion"
+                  // rows={3}
+                  label="Especificacion"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
@@ -778,7 +754,7 @@ const AddDetailsPage = ({
               {/* DATOS VARIOS (CANTIDAD, PRECIO, PESO, NUMBER, DESCUENTO, EXTRA) */}
 
               {/* VALOR exw_u */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="exw_u"
@@ -803,7 +779,7 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* VALOR fob_u */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="fob_u"
@@ -828,7 +804,7 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* VALOR qty */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="qty"
@@ -852,7 +828,7 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* VALOR pcsctn */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="pcsctn"
@@ -876,7 +852,7 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* VALOR cbmctn */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="cbmctn"
@@ -885,7 +861,7 @@ const AddDetailsPage = ({
                   className={classes.hideSpinButton} // quitar flechas numericas
                   InputProps={{
                     endAdornment: (
-                      <InputAdornment position="end">M3.</InputAdornment>
+                      <InputAdornment position="end">m3.</InputAdornment>
                     ),
                   }}
                   onChange={(e) => {
@@ -900,7 +876,7 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* VALOR gwctn */}
-              <Grid item md={3} xs={12}>
+              <Grid item md={1.5} xs={12}>
                 <TextField
                   type="number"
                   id="gwctn"
@@ -934,7 +910,7 @@ const AddDetailsPage = ({
               </Grid> */}
 
               {/* VALOR url Imagen */}
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={9}>
                 <TextField
                   id="imageurl"
                   name="imageurl"
@@ -951,14 +927,14 @@ const AddDetailsPage = ({
               </Grid>
 
               {/* CARGA DE IMAGEN */}
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-                  <Grid item xs={12}>
+              <Grid item xs={3}>
+                <Grid container spacing={0}>
+                  {/* <Grid item xs={12}>
                     <Typography variant="subtitle1" align="left">
                       Imagen del Producto*
                     </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
+                  </Grid> */}
+                  <Grid item xs={3}>
                     {/* <div>
                       <TextField
                         type="file"
@@ -986,8 +962,10 @@ const AddDetailsPage = ({
                         <CloudUploadIcon /> Drop file here to upload
                       </InputLabel>
                     </div> */}
-                    <Grid container spacing={1}>
-                      {/* <Grid item>
+
+                    {/* <Grid container spacing={1}> */}
+
+                    {/* <Grid item>
                         <ImageWrapper>
                           <CardMedia
                             component="img"
@@ -997,7 +975,7 @@ const AddDetailsPage = ({
                         </ImageWrapper>
                       </Grid> */}
 
-                      {/* <Grid item>
+                    {/* <Grid item>
                         <ImageWrapper>
                           <CardMedia
                             component="img"
@@ -1007,52 +985,65 @@ const AddDetailsPage = ({
                         </ImageWrapper>
                       </Grid> */}
 
-                      {selectedItem.imageurl == "" ? (
-                        <Grid item>
-                          <ImageWrapper>
-                            <CardMedia
-                              component="img"
-                              image={Product4}
-                              title="Product"
-                            />
-                            <CircularProgress
-                              variant="determinate"
-                              value={progress}
-                              color="secondary"
-                              sx={{
-                                position: "absolute",
-                                left: "0",
-                                top: "0",
-                                background: "rgba(255, 255, 255, .8)",
-                                width: "100% !important",
-                                height: "100% !important",
-                                p: 1.5,
-                              }}
-                            />
-                          </ImageWrapper>
-                        </Grid>
-                      ) : (
-                        <Grid item>
-                          <ImageWrapper
-                            style={{ width: "120px", height: "120px" }}
-                          >
-                            <CardMedia
-                              component="img"
-                              image={selectedItem?.imageurl}
-                              title="Product"
-                            />
-                          </ImageWrapper>
-                        </Grid>
-                      )}
+                    {selectedItem.imageurl == "" ? (
+                      <Grid item xs={1}>
+                        <ImageWrapper
+                          style={{
+                            width: "140px",
+                            height: "140px",
+                            marginLeft: "40px",
+                            marginTop: "-80px",
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            image={Product4}
+                            title="Product"
+                          />
+                          <CircularProgress
+                            variant="determinate"
+                            value={progress}
+                            color="secondary"
+                            sx={{
+                              position: "absolute",
+                              left: "0",
+                              top: "0",
+                              background: "rgba(255, 255, 255, .8)",
+                              width: "100% !important",
+                              height: "100% !important",
+                              p: 1.5,
+                            }}
+                          />
+                        </ImageWrapper>
+                      </Grid>
+                    ) : (
+                      <Grid item xs={1}>
+                        <ImageWrapper
+                          style={{
+                            width: "160px",
+                            height: "160px",
+                            marginLeft: "40px",
+                            marginTop: "-80px",
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            image={selectedItem?.imageurl}
+                            title="Product"
+                          />
+                        </ImageWrapper>
+                      </Grid>
+                    )}
 
-                      {/* <Grid item>
+                    {/* <Grid item>
                         <ImageWrapper>
                           <Fab color="secondary" size="small">
                             <CloseIcon />
                           </Fab>
                         </ImageWrapper>
                       </Grid> */}
-                    </Grid>
+
+                    {/* </Grid> */}
                   </Grid>
                 </Grid>
               </Grid>

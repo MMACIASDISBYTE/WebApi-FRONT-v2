@@ -1250,7 +1250,6 @@ function CreateInvoice() {
   const [open2, setOpen2] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen2(true);
-    console.log(open2);
   };
   const handleCloseDialog = () => {
     setOpen2(false);
@@ -1830,42 +1829,6 @@ function CreateInvoice() {
 
               {formik.values.carga_id != null ? (
                 <>
-                  {/* {
-                    //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                    cellInput.map((field) => (
-                      <CustomSelect
-                        key={field.id}
-                        {...field}
-                        formik={formik}
-                        XS={12}
-                        MD={1.5}
-                        PaisRegion={formik.values.paisregion_id}
-                      />
-                    ))
-                  } */}
-
-                  {/* {ExtraCostosLocal.map((input) => (
-                    <ExtraCostosArrBool
-                      key={input.id}
-                      id={input.id}
-                      name={input.name}
-                      em={input.em}
-                      inputLabel={input.inputLabel}
-                      data={input.data}
-                      dataType={input.dataType}
-                      formik={formik}
-                      Xs_Xd={input.Xs_Xd}
-                      blockDeGastos={input.blockDeGastos}
-                      onSwitchChange={(newState) =>
-                        handleSwitchChangeInIndex(newState, input.arrPosition)
-                      }
-                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                      ValorSwitch={input.ValorSwitch}
-                      ValorSwitchBase={input.ValorSwitchBase}
-                      arrPosition={input.arrPosition}
-                    />
-                  ))} */}
-
                   <Grid item xs={12}>
                     <Divider />
                     <Typography
