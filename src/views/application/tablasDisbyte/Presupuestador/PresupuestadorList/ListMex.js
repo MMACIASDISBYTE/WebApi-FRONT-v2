@@ -177,7 +177,7 @@ function EnhancedTableHead({
       borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
       minWidth: 100,
       whiteSpace: "nowrap",
-      backgroundColor: "#B8B8B8",
+      backgroundColor: "#2196f3",
     },
     lastCell: {
       borderRight: "none",
@@ -329,7 +329,7 @@ const CustomerList = () => {
   const [search, setSearch] = React.useState("");
   const [rows, setRows] = React.useState([]);
   const { customers } = useSelector((state) => state.customer);
-  const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
+  const [ultVerMostrar, setUltVerMostrar] = React.useState(true);
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
 
@@ -566,15 +566,17 @@ React.useEffect(() => {
             handleChangeCarga={handleChangeCarga}
           />
 
-          <Grid item xs={12} md={3}>
+
+          {/* FILTRO DE ULTIMA VERSION, QUEDA POR DEFECTO EN TRUE */}
+          {/* <Grid item xs={12} md={3}>
                   <Grid container spacing={1}>
                       <Grid item>
-                          {/* <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox defaultChecked />} label="Mostrar Ultima Version" /> */}
+                          {/* <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox defaultChecked />} label="Mostrar Ultima Version" /> 
                           <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox />} label="Mostrar Ultima Version" />
 
                       </Grid>
                   </Grid>
-          </Grid>
+          </Grid> */}
 
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             {AddOK && (

@@ -62,7 +62,7 @@ function ProductsPage({
                     sx={{
                       pl: 3,
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     SKU
@@ -72,7 +72,7 @@ function ProductsPage({
                     sx={{
                       pl: 3,
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     Description
@@ -82,7 +82,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     Imagen Url
@@ -92,7 +92,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                   NCM
@@ -102,7 +102,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >  
                   EXW U. USD
@@ -112,7 +112,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
 
@@ -123,7 +123,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                   
@@ -134,7 +134,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     PCS/CTN 
@@ -144,7 +144,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     CBM/CTN  {"[m3]"}
@@ -154,7 +154,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                     GW CTN  {"[kg]"}
@@ -164,7 +164,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >
                    FOB TOT. {"[USD]"}
@@ -174,7 +174,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >   
                    FP. {"[%]"}
@@ -184,7 +184,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >   
                   Freight Chrg. {"[USD]"}
@@ -194,7 +194,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >   
                   Ins. Chrg. {"[USD]"}
@@ -204,7 +204,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >   
                   CIF Tot. {"[USD]"}
@@ -214,7 +214,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   /> 
                  {/* FP  {"[%]"}
@@ -224,7 +224,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >  
                    Freight Charge {"[USD]"}
@@ -234,7 +234,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >  
                   Freight Insur. {"[USD]"}
@@ -244,7 +244,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   />  */}
                   
@@ -256,7 +256,7 @@ function ProductsPage({
                     align="center"
                     sx={{
                       whiteSpace: "nowrap",
-                      backgroundColor: "#B8B8B8",
+                      backgroundColor: "#2196f3",
                     }}
                   >*/}
                   {/*
@@ -268,7 +268,7 @@ function ProductsPage({
                     sx={{
                       pr: 3,
                       whiteSpace: "nowrap",
-                      // backgroundColor: "#B8B8B8",
+                      // backgroundColor: "#2196f3",
                     */}
                 </TableRow>
               </TableHead>

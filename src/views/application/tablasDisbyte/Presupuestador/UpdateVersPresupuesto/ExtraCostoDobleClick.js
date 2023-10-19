@@ -33,44 +33,15 @@ export const ExtraCostoDobleClick = ({
 }) => {
   const theme = useTheme();
 
-  const [value, setValue] = useState("");
-  const [ValorSwitchaplicable, setValorSwitchAplicable] = useState(false); // Estado inicial
   const [dobleClick, setDobleClick] = useState(true);
-  const [textDeTooltip, setTextDeTooltip] = useState("Doble click para desbloquear")
-  const TextTooltip = () =>{
-    !dobleClick ? setTextDeTooltip("Doble click para Desbloquear") : setTextDeTooltip('Doble Click para Bloquear')
-  }
-
-  const onSwitchChangeDesabled = (newSwitchState) => {
-    // console.log("El nuevo estado del interruptor es:", newSwitchState);
-    // Aquí puedes hacer lo que necesites con el nuevo estado del interruptor
-    setValorSwitchAplicable(newSwitchState); // Aquí actualizas el estado
+  const [textDeTooltip, setTextDeTooltip] = useState(
+    "Doble click para desbloquear"
+  );
+  const TextTooltip = () => {
+    !dobleClick
+      ? setTextDeTooltip("Doble click para Desbloquear")
+      : setTextDeTooltip("Doble Click para Bloquear");
   };
-
-  const handleChangeCustom = (event) => {
-    let inputValue = event.target.value;
-    // Reemplaza dos puntos o comas consecutivos por un solo punto
-    inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
-    // Reemplaza la coma por un punto
-    inputValue = inputValue.replace(",", ".");
-    // Valida si el inputValue es un número
-    if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
-      // Aquí puedes asignar el valor numérico a Formik o mantenerlo como una cadena según tus necesidades.
-      formik.setFieldValue(name, inputValue);
-    }
-  };
-
-  useEffect(() => {}, [ValorSwitch]);
-  // console.log(data);
-  useEffect(() => {
-    // console.log('valor antes :', ValorSwitchaplicable);
-    const valorInicialSwitch = UtilidadesHelper.valueToBoolArrPosition(
-      ValorSwitchBase,
-      arrPosition
-    );
-    setValorSwitchAplicable(valorInicialSwitch);
-    // console.log('valor despues :',valorInicialSwitch);
-  }, [ValorSwitchBase]);
 
   // console.log(formik.values);
   // console.log(ValorSwitch);
@@ -95,10 +66,31 @@ export const ExtraCostoDobleClick = ({
 
   const classes = useStyles();
 
-  const transformarValor = (event) => {
-    let valor = parseFloat(event)
-    return valor;
-  }
+  // Estado local para el valor formateado mostrado en el INPUT NUMERICO CON TOFIXED
+  const [displayValue, setDisplayValue] = useState("");
+
+  useEffect(() => {
+    // Inicializa el valor formateado cuando cambian los valores de formik
+    if (!isNaN(formik.values[name]) && formik.values[name] !== "") {
+      setDisplayValue(Number(formik.values[name]).toFixed(2));
+    } else {
+      setDisplayValue(formik.values[name]);
+    }
+  }, [formik.values, name]);
+  const handleBlur = (event) => {
+    // Actualiza formik solo cuando el input pierde el foco
+    UtilidadesHelper.handleChangeCustom(event, formik, name);
+    formik.handleBlur(event); // No olvides manejar el evento onBlur original de formik
+  };
+  const handleChangeDisplayValue = (event) => {
+    // Solo actualizamos el valor mostrado, no el de formik
+    let inputValue = event.target.value;
+    inputValue = inputValue.replace(/\.{2,}/g, ".").replace(/,{2,}/g, ",");
+    inputValue = inputValue.replace(",", ".");
+    if (!isNaN(inputValue) || inputValue === "." || inputValue === "") {
+      setDisplayValue(inputValue);
+    }
+  };
 
   return (
     <>
@@ -112,8 +104,9 @@ export const ExtraCostoDobleClick = ({
               type={dataType}
               value={formik.values[name]}
               InputProps={{
+                //aqui si queremos poner un placeholde
                 startAdornment: (
-                  <InputAdornment position="start"></InputAdornment> //aqui si queremos poner un placeholde
+                  <InputAdornment position="start"></InputAdornment>
                 ),
                 style: { textAlign: "left" },
                 // classes: { input: classes.input }, // aplicar la clase al input interno
@@ -139,18 +132,11 @@ export const ExtraCostoDobleClick = ({
                     style: { textAlign: "left" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-                  value={
-                    !isNaN(formik.values[name]) && formik.values[name] !== ""
-                      ? Number(formik.values[name]).toFixed(2)
-                      : formik.values[name]
-                  }
-                  // value={ isNaN(formik.values[name]) ? formik?.values[name] : formik.values[name].toFixed(2)}
-                  onBlur={formik.handleBlur}
+                  value={displayValue} // Usamos el valor formateado
+                  onBlur={handleBlur} // Actualiza formik en el evento onBlur
+                  onChange={handleChangeDisplayValue} // Cambia solo el valor mostrado
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
-                  onChange={(event) =>
-                    UtilidadesHelper.handleChangeCustom(event, formik, name)
-                  }
                   fullWidth
                   placeholder={em}
                   disabled={dobleClick}
@@ -158,7 +144,7 @@ export const ExtraCostoDobleClick = ({
                     style: { textAlign: "right" },
                   }}
                   onDoubleClick={(event) => {
-                    setDobleClick(!dobleClick);
+                    setDobleClick(!dobleClick); //para bloquear el campo
                     TextTooltip();
                   }}
                 />
