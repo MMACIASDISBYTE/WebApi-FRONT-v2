@@ -574,7 +574,7 @@ const AddDetailsPage = ({
                 <TextField
                   id="productowner"
                   name="productowner"
-                  value={selectedItem?.productowner}
+                  value={selectedItem?.productowner} // lo volvemos llamar para que pase en mayuscula
                   fullWidth
                   label="Product Owner*"
                   onChange={handleChange}
@@ -663,6 +663,7 @@ const AddDetailsPage = ({
                 <TextField
                   id="purchaseorder"
                   name="purchaseorder"
+                  value={selectedItem?.purchaseorder} //lo volvemos llamar para que pase en mayuscula
                   fullWidth
                   label="Purchase Order"
                   onChange={handleChange}
@@ -677,6 +678,7 @@ const AddDetailsPage = ({
                 <TextField
                   id="proforma_invoice"
                   name="proforma_invoice"
+                  value={selectedItem?.proforma_invoice} //lo volvemos llamar para que pase en mayuscula
                   fullWidth
                   label="Proforma Invoice"
                   onChange={handleChange}
@@ -691,6 +693,7 @@ const AddDetailsPage = ({
                 <TextField
                   id="comercial_invoice"
                   name="comercial_invoice"
+                  value={selectedItem?.comercial_invoice} //lo volvemos llamar para que pase en mayuscula
                   fullWidth
                   label="Comercial Invoice"
                   onChange={handleChange}
