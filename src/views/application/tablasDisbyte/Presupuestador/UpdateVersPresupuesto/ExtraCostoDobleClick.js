@@ -108,7 +108,7 @@ export const ExtraCostoDobleClick = ({
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
                 ),
-                style: { textAlign: "left" },
+                style: { textAlign: "right" },
                 // classes: { input: classes.input }, // aplicar la clase al input interno
               }}
               onBlur={formik.handleBlur}
@@ -129,7 +129,7 @@ export const ExtraCostoDobleClick = ({
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
                     ),
-                    style: { textAlign: "left" },
+                    style: { textAlign: "right" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
                   value={displayValue} // Usamos el valor formateado
@@ -139,14 +139,21 @@ export const ExtraCostoDobleClick = ({
                   helperText={formik.touched.name && formik.errors.name}
                   fullWidth
                   placeholder={em}
-                  disabled={dobleClick}
+                 
                   inputProps={{
-                    style: { textAlign: "right" },
+                    style: { textAlign: "right", color: "lightcoral"},
+                  }}
+
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: "red",
+                    },
                   }}
                   onDoubleClick={(event) => {
                     setDobleClick(!dobleClick); //para bloquear el campo
                     TextTooltip();
                   }}
+                  disabled={dobleClick}
                 />
               </Tooltip>
             </Grid>
