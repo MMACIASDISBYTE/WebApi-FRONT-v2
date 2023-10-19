@@ -194,16 +194,9 @@ function CreateInvoice() {
   const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
-  const [alertaCambios,setAlertaCambios] = useState([false,false,false,false])
+  const [resaltaCambios,setResaltaCambios] = useState([])
 
-  // An array de bool para cada uno de los gloc MEx (5), que se usa para indicar una diferencia entre el valor del 
-  // y el del tarifon. Se usara para cambiar el color de la fuente.
-  function setAlerta(estado,index)
-  {
-      const tmpAlerta=alertaCambios;
-      tmpAlerta[index]=estado;
-      setAlertaCambios(tmpAlerta);
-  }
+
 
   const ordenArrCarga = [
     "LCL",
@@ -425,6 +418,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
+      resaltar: false
     },
     {
       id: "gloc_terminales",
@@ -438,6 +432,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
+      resaltar: false
     },
     {
       id: "gloc_flete",
@@ -451,6 +446,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "gloc_descarga",
@@ -464,6 +460,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "gloc_despachantes",
@@ -477,6 +474,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 2,
+      resaltar: false
     },
     {
       id: "freight_cost",
@@ -490,6 +488,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 8,
+      resaltar: false
     },
     {
       id: "freight_insurance_cost",
@@ -503,6 +502,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 9,
+      resaltar: false
     },
   ];
 
@@ -519,6 +519,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
       arrPosition: 4,
+      resaltar: false
     },
     {
       id: "extrag_src2",
@@ -532,6 +533,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_src_notas",
@@ -546,6 +548,7 @@ function CreateInvoice() {
       ValorSwitchBase:
         dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
       arrPosition: 3,
+      resaltar: false
     },
   ];
 
@@ -562,6 +565,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       arrPosition: 4,
+      resaltar: false
     },
     {
       id: "extrag_comex2",
@@ -575,6 +579,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_comex3",
@@ -588,6 +593,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_comex_notas",
@@ -602,6 +608,7 @@ function CreateInvoice() {
       ValorSwitchBase:
         dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
       arrPosition: 3,
+      resaltar: false
     },
   ];
 
@@ -618,6 +625,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
       arrPosition: 4,
+      resaltar: false
     },
     {
       id: "extrag_finan2",
@@ -631,6 +639,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_finan3",
@@ -644,6 +653,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_finan4",
@@ -657,6 +667,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_finan5",
@@ -670,6 +681,7 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
       arrPosition: 3,
+      resaltar: false
     },
     {
       id: "extrag_finan_notas",
@@ -684,6 +696,7 @@ function CreateInvoice() {
       ValorSwitchBase:
         dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
       arrPosition: 3,
+      resaltar: false
     },
   ];
 
@@ -1286,6 +1299,14 @@ function CreateInvoice() {
     );
   };
 
+
+  function actualizaResaltar(id,valor)
+  {
+    const resaltaCambiosTmp=resaltaCambios;
+    resaltaCambios[ExtraCostosLocal.findIndex((el)=>el.id==id)]=valor;
+    setResaltaCambios(resaltaCambiosTmp);
+  }
+
   const tarifonDataFetch = async (id) => {
     const tarifonData = await TarifonMexHelper.readDataByCargaId(id);
     setGastoLocal(tarifonData);
@@ -1308,53 +1329,61 @@ function CreateInvoice() {
     // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
     if(gastoLocal?.gloc_fwd?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2))
     {
-        //console.log("EQ");
+        console.log("EQ");
         formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
-        setAlerta(false,0);
+        //setAlerta(false,0);
+        actualizaResaltar("gloc_fwd",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
-        setAlerta(true,0);
+        actualizaResaltar("gloc_fwd",true);
     }
+
     if(gastoLocal?.flete_interno?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2))
     {
         //console.log("EQ");
         formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
-        setAlerta(false,1);
+        //setAlerta(false,1);
+        actualizaResaltar("gloc_flete",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_flete",dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2));
-        setAlerta(false,1);
+        //setAlerta(false,1);
+        actualizaResaltar("gloc_flete",true);
     }
 
     if(gastoLocal?.gasto_descarga_depo?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2))
     {
         //console.log("EQ");
         formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
-        setAlerta(false,2);
+        //setAlerta(false,2);
+        actualizaResaltar("gloc_descarga",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_descarga",dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2));
-        setAlerta(true,2);
+        //set (true,2);
+        actualizaResaltar("gloc_descarga",true);
     }
 
     if(gastoLocal?.gasto_terminal?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2))
     {
         //console.log("EQ");
         formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
-        setAlerta(false,3);
+        //setAlerta(false,3);
+        actualizaResaltar("gloc_terminales",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_terminales",dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2));
-        setAlerta(true,3);
+        //setAlerta(true,3);
+        actualizaResaltar("gloc_terminales",true);
     }
 
 
@@ -1365,8 +1394,8 @@ function CreateInvoice() {
     formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
-
-    console.log(formik.values);
+    console.log(ExtraCostosLocal);
+    //console.log(formik.values);
   }, [gastoLocal, productsData,dataHelp?.presupuestoEditable]);
 
   function handleTextClick() {
@@ -1914,7 +1943,8 @@ function CreateInvoice() {
                     />
                   ))}
 
-                  {ExtraCostosLocal.map((input) => (
+                  {ExtraCostosLocal.map((input,index) => (
+  
                     <ExtraCostoDobleClick
                       key={input.id}
                       id={input.id}
@@ -1933,7 +1963,7 @@ function CreateInvoice() {
                       ValorSwitch={input.ValorSwitch}
                       ValorSwitchBase={input.ValorSwitchBase}
                       arrPosition={input.arrPosition}
-                      alertas={alertaCambios}
+                      resaltar={resaltaCambios[index]}
                     />
                     ))}
                 </>
