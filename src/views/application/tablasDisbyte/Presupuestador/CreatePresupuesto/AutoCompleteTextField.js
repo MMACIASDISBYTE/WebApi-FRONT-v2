@@ -2,13 +2,21 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Box, Tooltip } from "@mui/material";
+import { ProductosHelper } from "helpers/ProductosHelper";
 
 const filter = createFilterOptions();
 
-export default function AutoCompleteTextField({ handleChange, name, valorPorDefecto= null }) {
+export default function AutoCompleteTextField({ handleChange, name, valorPorDefecto= null, ProductsDisbyte = null }) {
   const [value, setValue] = React.useState(valorPorDefecto);
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
+  
+  const [productosSelect, setProductosSelect] = React.useState(ListaDeSKU);
+
+  React.useEffect(() => {
+    setProductosSelect(ProductsDisbyte);
+  },[ProductsDisbyte])
+
   return (
     <Autocomplete
       value={value}
@@ -64,7 +72,7 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
       clearOnBlur
       handleHomeEndKeys
       id="free-solo-with-text-demo"
-      options={ListaDeSKU}
+      options={productosSelect}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === "string") {
@@ -106,7 +114,7 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+
 const ListaDeSKU = [
   { title: 'URBAN NOTEBOOK MODEL 1', year: 1994 },
   { title: 'ANTI THEFT MDOEL 1', year: 1972 },

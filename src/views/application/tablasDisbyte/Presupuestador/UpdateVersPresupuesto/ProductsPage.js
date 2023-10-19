@@ -24,6 +24,7 @@ import { ImagenAvatar } from "../CreatePresupuesto/ImagenAvatar";
 //
 function ProductsPage({
   productsData,
+  productsDataAdd,
   deleteProductHandler,
   editProductHandler,
   freightCost,
@@ -315,7 +316,9 @@ function ProductsPage({
                       )}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      {row.ncm_code ? row.ncm_code : "Sin data"}
+                    {productsDataAdd[index]?.ncm_str
+                        ? productsDataAdd[index].ncm_str
+                        : row.ncm_code}
                     </TableCell>  
 
                     

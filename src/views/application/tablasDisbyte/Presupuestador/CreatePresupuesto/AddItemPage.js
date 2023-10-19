@@ -411,8 +411,9 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     extrag_comex3: 0,
     extrag_comex_notas: "",
 
-    extrag_local1: 0,
-    extrag_local2: 0,
+    extrag_src1: 0,
+    extrag_src2: 0,
+    extrag_src_notas: "Sin notas",
 
     extrag_finan1: 0,
     extrag_finan2: 0,

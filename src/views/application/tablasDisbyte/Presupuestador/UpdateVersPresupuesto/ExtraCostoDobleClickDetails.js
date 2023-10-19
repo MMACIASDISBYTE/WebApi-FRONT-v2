@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
-export const ExtraCostoDobleClick = ({
+export const ExtraCostoDobleClickDetails = ({
   id,
   name,
   em,
@@ -30,6 +30,7 @@ export const ExtraCostoDobleClick = ({
   ValorSwitchBase,
   arrPosition = null,
   handleSwitchChangeInIndex,
+  handleChange,
 }) => {
   const theme = useTheme();
 
@@ -95,11 +96,6 @@ export const ExtraCostoDobleClick = ({
 
   const classes = useStyles();
 
-  const transformarValor = (event) => {
-    let valor = parseFloat(event)
-    return valor;
-  }
-
   return (
     <>
       <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]} align="left">
@@ -110,12 +106,12 @@ export const ExtraCostoDobleClick = ({
               id={id}
               name={name}
               type={dataType}
-              value={formik.values[name]}
+              value={data ? data : ''}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment> //aqui si queremos poner un placeholde
                 ),
-                style: { textAlign: "right" },
+                style: { textAlign: "left" },
                 // classes: { input: classes.input }, // aplicar la clase al input interno
               }}
               onBlur={formik.handleBlur}
@@ -136,42 +132,27 @@ export const ExtraCostoDobleClick = ({
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
                     ),
-                    style: { textAlign: "right" },
+                    style: { textAlign: "left" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
-
-                  
-
-                  value={
-                    !isNaN(formik.values[name]) && formik.values[name] !== ""
-                      ? Number(formik.values[name]).toFixed(2)
-                      : formik.values[name]
-                  }
+                  value={ data ? data : 0}
                   // value={ isNaN(formik.values[name]) ? formik?.values[name] : formik.values[name].toFixed(2)}
-
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
                   onChange={(event) =>
-                    UtilidadesHelper.handleChangeCustom(event, formik, name)
+                    handleChange(event, dataType)
                   }
                   fullWidth
                   placeholder={em}
-                 
+                  disabled={dobleClick}
                   inputProps={{
-                    style: { textAlign: "right", color: "lightcoral"},
-                  }}
-
-                  sx={{
-                    "& .MuiInputBase-input.Mui-disabled": {
-                      WebkitTextFillColor: "red",
-                    },
+                    style: { textAlign: "right" },
                   }}
                   onDoubleClick={(event) => {
                     setDobleClick(!dobleClick);
                     TextTooltip();
                   }}
-                  disabled={dobleClick}
                 />
               </Tooltip>
             </Grid>
