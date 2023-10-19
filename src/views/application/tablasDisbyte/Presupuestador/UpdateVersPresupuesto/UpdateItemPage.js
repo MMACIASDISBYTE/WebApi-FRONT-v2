@@ -17,6 +17,7 @@ import {
   Fab,
   FormHelperText,
   Grid,
+  IconButton,
   Input,
   InputAdornment,
   InputLabel,
@@ -42,10 +43,12 @@ import Product2 from "assets/images/widget/prod2.jpg";
 import Product3 from "assets/images/widget/prod3.jpg";
 import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { SwitchGastos } from "../UpdateVersPresupuesto/SwitchGastos";
 import { SwitchIOS } from "../CreatePresupuesto/SwitchIOS";
 import AutoCompleteTextField from "../CreatePresupuesto/AutoCompleteTextField";
-import { ExtraCostoDobleClick } from "./ExtraCostoDobleClick";
+
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { Box } from "@mui/system";
 
 // styles
 const ImageWrapper = styled("div")(({ theme }) => ({
@@ -507,6 +510,13 @@ const UpdateItemPage = ({
   };
 
   //ESTRA GASTOS
+  const [showExtraGastos, setShowExtraGastos] = useState(false);
+  const [showCostosSourcing, setShowCostosSourcing] = useState(false);
+  const [showCostosComex, setShowCostosComex] = useState(false);
+  const [showCostosFinan, setShowCostosFinan] = useState(false);
+
+  const { status } = formik.values;
+
   const ExtraCostosSourcing = [
     {
       id: "extrag_src1",
@@ -758,6 +768,7 @@ const UpdateItemPage = ({
                     handleChange={handleChange}
                     name="sku*"
                     valorPorDefecto={selectedItem?.sku}
+                    ProductsDisbyte={ProductsDisbyte}
                   />
                   {errors.skuError && (
                     <FormHelperText>{errors.skuError}</FormHelperText>
@@ -1164,7 +1175,7 @@ const UpdateItemPage = ({
                             width: "140px",
                             height: "140px",
                             marginLeft: "40px",
-                            marginTop: "-55px",
+                            marginTop: "-80px",
                           }}
                         >
                           <CardMedia
@@ -1192,10 +1203,10 @@ const UpdateItemPage = ({
                       <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "150px",
-                            height: "150px",
+                            width: "160px",
+                            height: "160px",
                             marginLeft: "40px",
-                            marginTop: "-55px",
+                            marginTop: "-80px",
                           }}
                         >
                           <CardMedia
@@ -1225,153 +1236,194 @@ const UpdateItemPage = ({
                 xs={12}
                 style={{
                   marginLeft: "8px",
-                  marginTop: "-30px",
+                  marginTop: "-25px",
                   marginBottom: "-10px",
                 }}
               >
                 <Grid item xs={12}>
                   <Divider />
                 </Grid>
-
-                <Typography variant="h3" style={{ marginBottom: "10px" }}>
-                  Extra Gastos
-                </Typography>
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                style={{
-                  marginLeft: "8px",
-                  marginTop: "-25px",
-                  marginBottom: "-20px",
-                }}
-              >
-                <Typography
-                  // color={"green"}
-                  variant="h4"
-                  style={{ marginTop: "30px" }}
-                >
-                  Sourcing
-                </Typography>
+                <Box display="flex" alignItems="center">
+                  <Tooltip
+                    title={
+                      showExtraGastos ? "Ocultar Gastos" : "Mostrar Gastos"
+                    }
+                  >
+                    <IconButton
+                      onClick={() => setShowExtraGastos(!showExtraGastos)}
+                    >
+                      {showExtraGastos ? (
+                        <VisibilityOffOutlinedIcon />
+                      ) : (
+                        <VisibilityOutlinedIcon />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                  <Typography variant="h3" style={{ marginBottom: "10px" }}>
+                    Extra Gastos
+                  </Typography>
+                </Box>
               </Grid>
 
               {/* EXTRA COSTO SOURCING */}
-              {ExtraCostosSourcing.map((index) => (
-                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
-                  <TextField
-                    type={index.dataType == 'Number' ? 'number' : 'string'}
-                    id={index.id}
-                    name={index.name}
-                    value={selectedItem?.[index.name] || ""}
-                    className={classes.hideSpinButton} // quitar flechas numericas
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
-                      ),
+              {showExtraGastos && (status === 0 || status === 1) ? (
+                <>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      marginLeft: "8px",
+                      marginTop: "-25px",
+                      marginBottom: "-20px",
                     }}
-                    onChange={(e) => {
-                      handleChange(e, index.dataType);
-                    }}
-                    fullWidth
-                    label={index.inputLabel}
-                    //   defaultValue="Samsung"
-                  />
-                  {/* {errors.fob_uError && (
-                    <FormHelperText>{errors.fob_uError}</FormHelperText>
-                  )}{" "} */}
-                </Grid>
-              ))}
+                  >
+                    <Typography
+                      // color={"green"}
+                      variant="h4"
+                      style={{ marginTop: "30px" }}
+                    >
+                      Sourcing
+                    </Typography>
+                  </Grid>
 
-              <Grid
-                item
-                xs={12}
-                style={{
-                  marginLeft: "8px",
-                  marginTop: "-25px",
-                  marginBottom: "-20px",
-                }}
-              >
-                <Typography
-                  // color={"green"}
-                  variant="h4"
-                  style={{ marginTop: "30px" }}
-                >
-                  Comex
-                </Typography>
-              </Grid>
+                  {ExtraCostosSourcing.map((index) => (
+                    <Grid
+                      item
+                      md={index.Xs_Xd?.[1]}
+                      xs={index.Xs_Xd?.[0]}
+                      key={index.id} // Recuerda siempre añadir una 'key' única al hacer map en React
+                    >
+                      <TextField
+                        type={index.dataType === "Number" ? "number" : "string"}
+                        id={index.id}
+                        name={index.name}
+                        value={selectedItem?.[index.name] || ""}
+                        className={classes.hideSpinButton} // quitar flechas numericas
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              {index.dataType === "Number" ? "$" : ""}
+                            </InputAdornment>
+                          ),
+                        }}
+                        onChange={(e) => {
+                          handleChange(e, index.dataType);
+                        }}
+                        fullWidth
+                        label={index.inputLabel}
+                        // defaultValue="Samsung"
+                      />
+                      {/* 
+        {errors.fob_uError && (
+          <FormHelperText>{errors.fob_uError}</FormHelperText>
+        )} 
+        */}
+                    </Grid>
+                  ))}
+                </>
+              ) : null}
 
               {/* EXTRA COSTO Comex */}
-              {ExtraCostosComex.map((index) => (
-                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
-                  <TextField
-                    type={index.dataType == 'Number' ? 'number' : 'string'}
-                    id={index.id}
-                    name={index.name}
-                    value={selectedItem?.[index.name] || ""}
-                    className={classes.hideSpinButton} // quitar flechas numericas
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
-                      ),
+              {showExtraGastos && (status === 0 || status === 2) ? (
+                <>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      marginLeft: "8px",
+                      marginTop: "-25px",
+                      marginBottom: "-20px",
                     }}
-                    onChange={(e) => {
-                      handleChange(e, index.dataType);
-                    }}
-                    fullWidth
-                    label={index.inputLabel}
-                    //   defaultValue="Samsung"
-                  />
-                  {/* {errors.fob_uError && (
+                  >
+                    <Typography
+                      // color={"green"}
+                      variant="h4"
+                      style={{ marginTop: "30px" }}
+                    >
+                      Comex
+                    </Typography>
+                  </Grid>
+
+                  {ExtraCostosComex.map((index) => (
+                    <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
+                      <TextField
+                        type={index.dataType == "Number" ? "number" : "string"}
+                        id={index.id}
+                        name={index.name}
+                        value={selectedItem?.[index.name] || ""}
+                        className={classes.hideSpinButton} // quitar flechas numericas
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              {index.dataType == "Number" ? "$" : ""}
+                            </InputAdornment>
+                          ),
+                        }}
+                        onChange={(e) => {
+                          handleChange(e, index.dataType);
+                        }}
+                        fullWidth
+                        label={index.inputLabel}
+                        //   defaultValue="Samsung"
+                      />
+                      {/* {errors.fob_uError && (
                     <FormHelperText>{errors.fob_uError}</FormHelperText>
                   )}{" "} */}
-                </Grid>
-              ))}
-
-              <Grid
-                item
-                xs={12}
-                style={{
-                  marginLeft: "8px",
-                  marginTop: "-25px",
-                  marginBottom: "-20px",
-                }}
-              >
-                <Typography
-                  // color={"green"}
-                  variant="h4"
-                  style={{ marginTop: "30px" }}
-                >
-                  Financiero
-                </Typography>
-              </Grid>
+                    </Grid>
+                  ))}
+                </>
+              ) : null}
 
               {/* EXTRA COSTO FINANCIERO */}
-              {ExtraCostosFinanciero.map((index) => (
-                <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
-                  <TextField
-                    type={index.dataType == 'Number' ? 'number' : 'string'}
-                    id={index.id}
-                    name={index.name}
-                    value={selectedItem?.[index.name] || ""}
-                    className={classes.hideSpinButton} // quitar flechas numericas
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">{index.dataType == 'Number' ? '$' : ''}</InputAdornment>
-                      ),
+              {showExtraGastos && (status === 0 || status === 3) ? (
+                <>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      marginLeft: "8px",
+                      marginTop: "-25px",
+                      marginBottom: "-20px",
                     }}
-                    onChange={(e) => {
-                      handleChange(e, index.dataType);
-                    }}
-                    fullWidth
-                    label={index.inputLabel}
-                    //   defaultValue="Samsung"
-                  />
-                  {/* {errors.fob_uError && (
+                  >
+                    <Typography
+                      // color={"green"}
+                      variant="h4"
+                      style={{ marginTop: "30px" }}
+                    >
+                      Financiero
+                    </Typography>
+                  </Grid>
+
+                  {ExtraCostosFinanciero.map((index) => (
+                    <Grid item md={index.Xs_Xd?.[1]} xs={index.Xs_Xd?.[0]}>
+                      <TextField
+                        type={index.dataType == "Number" ? "number" : "string"}
+                        id={index.id}
+                        name={index.name}
+                        value={selectedItem?.[index.name] || ""}
+                        className={classes.hideSpinButton} // quitar flechas numericas
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              {index.dataType == "Number" ? "$" : ""}
+                            </InputAdornment>
+                          ),
+                        }}
+                        onChange={(e) => {
+                          handleChange(e, index.dataType);
+                        }}
+                        fullWidth
+                        label={index.inputLabel}
+                        //   defaultValue="Samsung"
+                      />
+                      {/* {errors.fob_uError && (
                     <FormHelperText>{errors.fob_uError}</FormHelperText>
                   )}{" "} */}
-                </Grid>
-              ))}
+                    </Grid>
+                  ))}
+                </>
+              ) : null}
 
               {/* TAG Q SE ALIMENTA DE LOS ITEM DECLARADOS EN TAGNAME */}
               {/* <Grid item xs={12}>
