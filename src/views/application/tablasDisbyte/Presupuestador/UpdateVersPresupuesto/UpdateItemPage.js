@@ -143,17 +143,24 @@ const UpdateItemPage = ({
 }) => {
   // console.log(dataHelp);
   const theme = useTheme();
+  console.log(ProductsDisbyte);
+
+  const [producto, setProductos] = useState();
+  useState(()=> {
+
+    if(dataHelp.ProductosDisbyte){
+
+      const opciones = dataHelp?.ProductosDisbyte.map(product => ({
+        title: product.name,
+        ...product
+      }))
+      setProductos(opciones)
+    }
+
+  },[ProductsDisbyte])
 
   let ordenProveedor = ["Sin Proveedor"];
-  // console.log(ProductsDisbyte);
 
-  // handle category change dropdown
-  // const [currency, setCurrency] = useState(dataHelp?.proveedoresOem[0].id);
-  // const handleSelectChange = (event) => {
-  //     console.log(event?.target.value);
-  //     setCurrency(event?.target.value);
-  // };
-  // set image upload progress
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(() => {});
   useEffect(() => {
@@ -167,15 +174,6 @@ const UpdateItemPage = ({
     };
   });
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      progressRef.current();
-    }, 500);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   // handle tag select
   const [personName, setPersonName] = useState([]);
@@ -768,7 +766,7 @@ const UpdateItemPage = ({
                     handleChange={handleChange}
                     name="sku*"
                     valorPorDefecto={selectedItem?.sku}
-                    ProductsDisbyte={ProductsDisbyte}
+                    ProductsDisbyte={producto}
                   />
                   {errors.skuError && (
                     <FormHelperText>{errors.skuError}</FormHelperText>
