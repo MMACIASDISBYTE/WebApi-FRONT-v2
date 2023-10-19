@@ -30,6 +30,7 @@ export const ExtraCostoDobleClick = ({
   ValorSwitchBase,
   arrPosition = null,
   handleSwitchChangeInIndex,
+  resaltar,
 }) => {
   const theme = useTheme();
 
@@ -64,7 +65,24 @@ export const ExtraCostoDobleClick = ({
     },
   });
 
+  let colorEnabled ="" 
+  let colorDisabled=""
+  
+  // Configuro el color del texto activo e inactivo segun el valor del flag resaltar
+  if(resaltar)
+  {
+    colorEnabled="red";
+    colorDisabled="darksalmon";
+  }
+  else
+  {
+    colorEnabled="black";
+    colorDisabled="grey";
+  }
+  
+
   const classes = useStyles();
+
 
   // Estado local para el valor formateado mostrado en el INPUT NUMERICO CON TOFIXED
   const [displayValue, setDisplayValue] = useState("");
@@ -91,6 +109,13 @@ export const ExtraCostoDobleClick = ({
       setDisplayValue(inputValue);
     }
   };
+
+
+  const transformarValor = (event) => {
+    let valor = parseFloat(event)
+    return valor;
+  }
+  console.log("Resaltar",id,resaltar,colorEnabled,colorDisabled);
 
   return (
     <>
@@ -141,12 +166,12 @@ export const ExtraCostoDobleClick = ({
                   placeholder={em}
                  
                   inputProps={{
-                    style: { textAlign: "right", color: "lightcoral"},
+                    style: { textAlign: "right", color: colorEnabled},
                   }}
 
                   sx={{
                     "& .MuiInputBase-input.Mui-disabled": {
-                      WebkitTextFillColor: "red",
+                      WebkitTextFillColor: colorDisabled,
                     },
                   }}
                   onDoubleClick={(event) => {
