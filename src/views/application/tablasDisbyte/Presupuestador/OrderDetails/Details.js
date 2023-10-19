@@ -863,7 +863,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             sx={{
                               minWidth: 100,
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -871,7 +871,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           </TableCell>
                           <TableCell
                             align="left"
-                            sx={{ minWidth: 400, backgroundColor: "#B8B8B8" }}
+                            sx={{ minWidth: 400, backgroundColor: "#2196f3" }}
                             className={classes.tableCell}
                           >
                             Description
@@ -880,7 +880,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -890,7 +890,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -900,7 +900,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -910,7 +910,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -920,7 +920,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -931,7 +931,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             sx={{
                               pl: 3,
                               minWidth: 80,
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -941,7 +941,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -951,7 +951,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -961,7 +961,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -971,7 +971,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -981,7 +981,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -991,7 +991,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1001,7 +1001,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1011,7 +1011,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1021,7 +1021,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1036,7 +1036,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             sx={{
                               minWidth: 100,
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1044,7 +1044,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           </TableCell>
                           <TableCell
                             align="left"
-                            sx={{ minWidth: 400, backgroundColor: "#B8B8B8" }}
+                            sx={{ minWidth: 400, backgroundColor: "#2196f3" }}
                             className={classes.tableCell}
                           >
                             Description
@@ -1053,7 +1053,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1063,7 +1063,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1074,7 +1074,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             sx={{
                               minWidth: 180,
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1084,7 +1084,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1094,7 +1094,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1104,7 +1104,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1114,7 +1114,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1124,7 +1124,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1134,7 +1134,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1144,7 +1144,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1154,7 +1154,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1164,7 +1164,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1174,7 +1174,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1184,7 +1184,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1194,7 +1194,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1204,7 +1204,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1214,7 +1214,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1224,7 +1224,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1234,7 +1234,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1246,7 +1246,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1256,7 +1256,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1269,7 +1269,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1279,7 +1279,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1291,7 +1291,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1301,7 +1301,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1311,7 +1311,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                             className={classes.tableCell}
                           >
@@ -1323,7 +1323,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1333,7 +1333,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1343,7 +1343,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1353,7 +1353,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1363,7 +1363,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1373,7 +1373,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                                 className={classes.tableCell}
                               >
@@ -1387,7 +1387,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             IMP TOT[USD]
@@ -1396,7 +1396,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Gasto Terminal[USD]
@@ -1405,7 +1405,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Flete Interno[USD]
@@ -1414,7 +1414,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Gasto Loc FWD[USD]
@@ -1423,7 +1423,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Gasto DESPA[USD]
@@ -1434,7 +1434,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                               >
                                 Gasto BANCO[USD]
@@ -1443,7 +1443,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 sx={{
                                   whiteSpace: "nowrap",
-                                  backgroundColor: "#B8B8B8",
+                                  backgroundColor: "#2196f3",
                                 }}
                               >
                                 Gasto CUST[USD]
@@ -1456,7 +1456,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Total Gast Dest[USD]
@@ -1465,7 +1465,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg LOC1[USD]
@@ -1474,7 +1474,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg LOC2[USD]
@@ -1483,7 +1483,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg CMX1[USD]
@@ -1492,7 +1492,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg CMX2[USD]
@@ -1501,7 +1501,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg CMX3[USD]
@@ -1510,7 +1510,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg CMX NOTAS
@@ -1519,7 +1519,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg FIN1[USD]
@@ -1528,7 +1528,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg FIN2[USD]
@@ -1537,7 +1537,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg FIN3[USD]
@@ -1546,7 +1546,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg FIN NOTAS
@@ -1555,7 +1555,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gCMX1[USD]
@@ -1564,7 +1564,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gCMX2 [USD]
@@ -1573,7 +1573,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gCMX3 [USD]
@@ -1582,7 +1582,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gCMX4 [USD]
@@ -1591,7 +1591,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gCMX5 [USD]
@@ -1600,7 +1600,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gFIN1 [USD]
@@ -1609,7 +1609,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gFIN2 [USD]
@@ -1618,7 +1618,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gFIN3 [USD]
@@ -1627,7 +1627,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gFIN4 [USD]
@@ -1636,7 +1636,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg gFIN5 [USD]
@@ -1645,7 +1645,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             Extrg TOT
@@ -1654,7 +1654,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             align="right"
                             sx={{
                               whiteSpace: "nowrap",
-                              backgroundColor: "#B8B8B8",
+                              backgroundColor: "#2196f3",
                             }}
                           >
                             COSTO u.[USD]

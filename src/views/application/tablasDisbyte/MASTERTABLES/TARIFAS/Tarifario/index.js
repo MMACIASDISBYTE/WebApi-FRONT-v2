@@ -922,64 +922,64 @@ const ProductList = () => {
                       
                         <>
                           <TableCell align="center"
-                            sx={{ minWidth: 120, backgroundColor: '#B8B8B8' }}
+                            sx={{ minWidth: 120, backgroundColor: '#2196f3' }}
                           className={classes.tableCell}>
                             Fecha
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/  backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/  backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete 4HQ/STD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete 20FT
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Seguro Var. (segun FOB)
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Gastos Locales FWD 40HQ/STD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Gastos Locales FWD 20FT
                           </TableCell>
-                          <TableCell align="center" sx={{ minwidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minwidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Terminal 40HQ/STD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:110,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:110,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Terminal 20FT
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 1*40HQ/STD GUAD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 1*20FT GUAD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 2*40HQ/STD GUAD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 2*20FT GUAD
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 2*40HQ/STD CDMX
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Flete Interno 2*20FT/STD CDMX
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Descarga MELI GUAD 40HQ/STD
-                          </TableCell><TableCell align="right" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          </TableCell><TableCell align="right" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Descarga MELI GUAD 20FT
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:120,/*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:120,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Despachante Cargo Fijo por Oper. 
                           </TableCell>
-                          <TableCell align="center" sx={{ mindWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ mindWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Despachante Variable Segun CIF
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Clasificacion por Oper.
                           </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#B8B8B8' }} className={classes.tableCell}>
+                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Consultoria Compliance por Oper.
                           </TableCell>                          
                         </>
