@@ -48,6 +48,7 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
 import { SelectPais } from "../SelectPais";
 import { SelectCarga } from "../SelectCarga";
+import { SelectEstado } from "../SelectEstado";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -332,6 +333,7 @@ const CustomerList = () => {
   const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
+  const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da carga
 
 
 
@@ -375,6 +377,10 @@ const filtrarPresupuestos = () => {
   if (seleccionCarga !== null && seleccionCarga !== undefined) {
     presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.carga_id === seleccionCarga);
   }
+   // Si hay un carga seleccionado, filtrar por país
+   if (seleccionEstado !== null && seleccionEstado !== undefined) {
+    presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.status === seleccionEstado);
+  }
 
   // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
   if (ultVerMostrar) {
@@ -389,12 +395,13 @@ const filtrarPresupuestos = () => {
   }
 
   setRows(presupuestosFiltrados);
+  setPage(0);
 };
 
 // Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
 React.useEffect(() => {
   filtrarPresupuestos();
-}, [customers, seleccionPais, seleccionCarga, ultVerMostrar]);
+}, [customers, seleccionPais, seleccionCarga, seleccionEstado, ultVerMostrar]);
 
   const handleChangePais = (pais) =>{
     console.log(pais.id);
@@ -404,6 +411,11 @@ React.useEffect(() => {
   const handleChangeCarga = (carga) =>{
     console.log(carga.id);
     setSeleccionCarga(carga.id)
+  }
+
+  const handleChangeEstado = (estado) =>{
+    console.log(estado.id);
+    setSeleccionEstado(estado.id)
   }
 
   const handleSearch = (event) => {
@@ -564,6 +576,11 @@ React.useEffect(() => {
             nameSelect = {'Carga'}
             datosSelect = {[]}
             handleChangeCarga={handleChangeCarga}
+          />
+          <SelectEstado
+            nameSelect = {'Estado'}
+            datosSelect = {[]}
+            handleChangeEstado={handleChangeEstado}
           />
 
           <Grid item xs={12} md={3}>

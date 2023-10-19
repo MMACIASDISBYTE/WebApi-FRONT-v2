@@ -115,7 +115,7 @@ export const ExtraCostoDobleClick = ({
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment> //aqui si queremos poner un placeholde
                 ),
-                style: { textAlign: "left" },
+                style: { textAlign: "right" },
                 // classes: { input: classes.input }, // aplicar la clase al input interno
               }}
               onBlur={formik.handleBlur}
@@ -136,15 +136,19 @@ export const ExtraCostoDobleClick = ({
                     startAdornment: (
                       <InputAdornment position="start">$</InputAdornment>
                     ),
-                    style: { textAlign: "left" },
+                    style: { textAlign: "right" },
                     // classes: { input: classes.input }, // aplicar la clase al input interno
                   }}
+
+                  
+
                   value={
                     !isNaN(formik.values[name]) && formik.values[name] !== ""
                       ? Number(formik.values[name]).toFixed(2)
                       : formik.values[name]
                   }
                   // value={ isNaN(formik.values[name]) ? formik?.values[name] : formik.values[name].toFixed(2)}
+
                   onBlur={formik.handleBlur}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
@@ -153,14 +157,21 @@ export const ExtraCostoDobleClick = ({
                   }
                   fullWidth
                   placeholder={em}
-                  disabled={dobleClick}
+                 
                   inputProps={{
-                    style: { textAlign: "right" },
+                    style: { textAlign: "right", color: "lightcoral"},
+                  }}
+
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: "red",
+                    },
                   }}
                   onDoubleClick={(event) => {
                     setDobleClick(!dobleClick);
                     TextTooltip();
                   }}
+                  disabled={dobleClick}
                 />
               </Tooltip>
             </Grid>

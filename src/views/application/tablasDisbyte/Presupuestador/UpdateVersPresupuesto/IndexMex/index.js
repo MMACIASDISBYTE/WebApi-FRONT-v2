@@ -194,6 +194,16 @@ function CreateInvoice() {
   const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
+  const [alertaCambios,setAlertaCambios] = useState([false,false,false,false])
+
+  // An array de bool para cada uno de los gloc MEx (5), que se usa para indicar una diferencia entre el valor del 
+  // y el del tarifon. Se usara para cambiar el color de la fuente.
+  function setAlerta(estado,index)
+  {
+      const tmpAlerta=alertaCambios;
+      tmpAlerta[index]=estado;
+      setAlertaCambios(tmpAlerta);
+  }
 
   const ordenArrCarga = [
     "LCL",
@@ -750,6 +760,7 @@ function CreateInvoice() {
       gloc_flete: 0,
       gloc_terminales: 0,
       gloc_despachantes: 0,
+      gloc_descarga: 0,
       freight_cost: 0,
       freight_insurance_cost: 0,
     },
@@ -1294,19 +1305,70 @@ function CreateInvoice() {
   console.log(gastoLocal);
 
   useEffect(() => {
-    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
-    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
-    formik.setFieldValue(
-      "gloc_despachantes",
-      CalculoDespachanteMex(formik?.values?.cif_grand_total)
-    );
+
+    // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
+    if(gastoLocal?.gloc_fwd?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
+        setAlerta(false,0);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
+        setAlerta(true,0);
+    }
+    if(gastoLocal?.flete_interno?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
+        setAlerta(false,1);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_flete",dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2));
+        setAlerta(false,1);
+    }
+
+    if(gastoLocal?.gasto_descarga_depo?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
+        setAlerta(false,2);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_descarga",dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2));
+        setAlerta(true,2);
+    }
+
+    if(gastoLocal?.gasto_terminal?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
+        setAlerta(false,3);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_terminales",dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2));
+        setAlerta(true,3);
+    }
+
+
+    //formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+    //formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
+    //formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
+    //formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+    formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
     console.log(formik.values);
-  }, [gastoLocal, productsData]);
+  }, [gastoLocal, productsData,dataHelp?.presupuestoEditable]);
 
   function handleTextClick() {
     const inputElement = document.getElementById("carga_id");
@@ -1907,8 +1969,9 @@ function CreateInvoice() {
                       ValorSwitch={input.ValorSwitch}
                       ValorSwitchBase={input.ValorSwitchBase}
                       arrPosition={input.arrPosition}
+                      alertas={alertaCambios}
                     />
-                  ))}
+                    ))}
                 </>
               ) : (
                 <>
