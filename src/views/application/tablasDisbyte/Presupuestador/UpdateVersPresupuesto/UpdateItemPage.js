@@ -143,7 +143,6 @@ const UpdateItemPage = ({
 }) => {
   // console.log(dataHelp);
   const theme = useTheme();
-  console.log(ProductsDisbyte);
 
   const [producto, setProductos] = useState();
   useState(()=> {
@@ -683,7 +682,7 @@ const UpdateItemPage = ({
                     id="proveedor_prov"
                     name="proveedor_prov"
                     fullWidth
-                    label="Ingrese un Proveedor Provisorio*"
+                    label="Proveedor Provisorio*"
                     onChange={handleChange}
                     //   defaultValue="Iphone 11 Pro Max"
                   />
@@ -723,41 +722,6 @@ const UpdateItemPage = ({
                   <FormHelperText>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
-
-              {/* <Grid item xs={12} md={6}>
-                <TextField
-                  id="proveedores_id"
-                  name="proveedores_id"
-                  fullWidth
-                  label="Ingrese Proveedor*"
-                  onChange={handleChange}
-                  //   defaultValue="Iphone 11 Pro Max"
-                />
-                {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} 
-              </Grid> */}
-
-              {/* MUESTRA */}
-              {/* <Grid item xs={12} md={6} fullWidth>
-                <AutoCompleteTextField handleChange={handleChange} name="sku" />
-                {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
-                )}{" "}
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  id="sku"
-                  name="sku"
-                  fullWidth
-                  label="Ingreso de SKU Manual*"
-                  onChange={handleChange}
-                  //   defaultValue="Iphone 11 Pro Max"
-                />
-                {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} 
-              </Grid> */}
 
               {/* AUTOCOMPLETE DE SKU */}
               {textFieldSKU ? (
