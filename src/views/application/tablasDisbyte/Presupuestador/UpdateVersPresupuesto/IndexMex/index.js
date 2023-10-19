@@ -263,6 +263,20 @@ function CreateInvoice() {
   };
   console.log(dataHelp);
 
+  const [producto, setProductos] = useState();
+  useState(()=> {
+
+    if(dataHelp.ProductosDisbyte){
+
+      const opciones = dataHelp?.ProductosDisbyte.map(product => ({
+        title: product.name,
+        ...product
+      }))
+      console.log(opciones);
+    }
+
+  },[dataHelp.ProductosDisbyte])
+
 
   const cellInput = [
     {

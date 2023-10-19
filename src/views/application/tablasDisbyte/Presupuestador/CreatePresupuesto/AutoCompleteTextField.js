@@ -11,26 +11,11 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
   
-  // const [ProductsDisbyte, setProductsDisbyte] = React.useState({});
-  // const ProductdataHelpers = async () => {
-  //   const ProductosDisbyte = await ProductosHelper.fetchData();
+  const [productosSelect, setProductosSelect] = React.useState(ListaDeSKU);
 
-  //   const prodData = {
-  //     ProductosDisbyte,
-  //   };
-
-  //   // Transforma ProductsDisbyte a la estructura necesaria
-  // const options = prodData.map(product => ({
-  //   title: product.name, // o product.codigo o cualquier campo que desees usar para el título
-  //   ...product // copia otras propiedades si son necesarias
-  // }));
-  //   setProductsDisbyte(options);
-  // };
-  // React.useEffect(() => {
-  //   ProductdataHelpers();
-  // }, []);
-  // console.log(ProductsDisbyte);
-
+  React.useEffect(() => {
+    setProductosSelect(ProductsDisbyte);
+  },[ProductsDisbyte])
 
   return (
     <Autocomplete
@@ -87,7 +72,7 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
       clearOnBlur
       handleHomeEndKeys
       id="free-solo-with-text-demo"
-      options={ListaDeSKU}
+      options={productosSelect}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === "string") {
@@ -129,7 +114,7 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+
 const ListaDeSKU = [
   { title: 'URBAN NOTEBOOK MODEL 1', year: 1994 },
   { title: 'ANTI THEFT MDOEL 1', year: 1972 },
