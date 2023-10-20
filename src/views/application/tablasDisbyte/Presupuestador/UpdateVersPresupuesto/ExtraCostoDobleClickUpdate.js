@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
-export const ExtraCostoDobleClick = ({
+export const ExtraCostoDobleClickUpdate = ({
   id,
   name,
   em,
@@ -31,10 +31,12 @@ export const ExtraCostoDobleClick = ({
   arrPosition = null,
   handleSwitchChangeInIndex,
   resaltar,
-  gastoLocal,
+  gastoLocal = null,
+  nameGastoLocalTarifon = null,
+  fobGrandTotal = 0,
 }) => {
   const theme = useTheme();
-  console.log('Gasto local:', gastoLocal);
+  console.log("Gasto local:", gastoLocal);
 
   const [dobleClick, setDobleClick] = useState(false);
   const [textDeTooltip, setTextDeTooltip] = useState(
@@ -67,21 +69,18 @@ export const ExtraCostoDobleClick = ({
     },
   });
 
-  let colorEnabled ="" 
-  let colorDisabled=""
-  
+  let colorEnabled = "";
+  let colorDisabled = "";
+
   // Configuro el color del texto activo e inactivo segun el valor del flag resaltar
-  if(resaltar)
-  {
-    colorEnabled="red";
-    colorDisabled="darksalmon";
+  if (resaltar) {
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } else {
+    colorEnabled = "black";
+    colorDisabled = "grey";
   }
-  else
-  {
-    colorEnabled="black";
-    colorDisabled="grey";
-  }
-  
+
   const classes = useStyles();
 
   // Estado local para el valor formateado mostrado en el INPUT NUMERICO CON TOFIXED
@@ -110,11 +109,10 @@ export const ExtraCostoDobleClick = ({
     }
   };
 
-
   const transformarValor = (event) => {
-    let valor = parseFloat(event)
+    let valor = parseFloat(event);
     return valor;
-  }
+  };
   // console.log("Resaltar",id,resaltar,colorEnabled,colorDisabled);
 
   const focusElement = (inputField) => {
@@ -122,7 +120,30 @@ export const ExtraCostoDobleClick = ({
     if (inputElement) {
       inputElement.focus();
     }
-  }
+  };
+
+  const [valorOriginal, setValorOriginal] = useState(0);
+  useEffect(() => {
+    if(gastoLocal.insurance_charge){
+
+      if (nameGastoLocalTarifon == "gloc_despachantes") {
+        let valorCalculado =
+          formik?.values?.cif_grand_total * gastoLocal?.gloc_despachante_var +
+          gastoLocal?.gloc_despachante_fijo +
+          gastoLocal?.gloc_despachante_otro1 +
+          gastoLocal?.gloc_despachante_otro2;
+        setValorOriginal(valorCalculado.toFixed(2));
+      } else if (nameGastoLocalTarifon == "freight_insurance_cost") {
+  
+        let valorCalculado = (gastoLocal?.insurance_charge / 100) * fobGrandTotal;
+        console.log(gastoLocal?.insurance_charge);
+        console.log(fobGrandTotal);
+        setValorOriginal(valorCalculado.toFixed(2));
+      } else {
+        setValorOriginal(gastoLocal[nameGastoLocalTarifon].toFixed(2));
+      }
+    }
+  }, [gastoLocal, fobGrandTotal]);
 
   return (
     <>
@@ -153,6 +174,9 @@ export const ExtraCostoDobleClick = ({
           ) : (
             <Grid item align="left">
               {/* <Tooltip title={textDeTooltip}> */}
+              <Tooltip
+                title={gastoLocal ? `Valor Actual: $${valorOriginal}` : `--.--`}
+              >
                 <TextField
                   id={id}
                   name={name}
@@ -171,11 +195,9 @@ export const ExtraCostoDobleClick = ({
                   helperText={formik.touched.name && formik.errors.name}
                   fullWidth
                   placeholder={em}
-                 
                   inputProps={{
-                    style: { textAlign: "right", color: colorEnabled},
+                    style: { textAlign: "right", color: colorEnabled },
                   }}
-
                   sx={{
                     "& .MuiInputBase-input.Mui-disabled": {
                       WebkitTextFillColor: colorDisabled,
@@ -188,7 +210,7 @@ export const ExtraCostoDobleClick = ({
                   }}
                   disabled={dobleClick}
                 />
-              {/* </Tooltip> */}
+              </Tooltip>
             </Grid>
           )}
           {formik.errors[name] && (

@@ -383,7 +383,7 @@ function CreateInvoice() {
       id: "gloc_terminales",
       name: "gloc_terminales",
       em: "Ingrese Gasto Terminal [USD]",
-      inputLabel: "Terminal [USD[",
+      inputLabel: "Terminal [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 1.7],

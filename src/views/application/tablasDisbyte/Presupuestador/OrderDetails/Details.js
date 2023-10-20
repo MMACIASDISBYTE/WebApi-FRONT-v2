@@ -304,6 +304,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                   </Grid>
                 )}
                 <Grid container spacing={gridSpacing}>
+
+                
+            
                   <Grid item xs={12} sm={6} md={4}>
                     <Stack spacing={2}>
                       <Typography variant="h4">Detalle Carga</Typography>
