@@ -97,7 +97,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
     fetchData();
     //console.log(presupuestador);
     console.log(presupuestador.estDetails);
-   
+
     //console.log(presupuestador.estHeader);
     // console.log(presupuestador.estHeader.description);
   }, [presupuestador]);
@@ -124,17 +124,15 @@ const Details = ({ presupuestador, usuario, historico }) => {
   // totales de los que no dispone el json o no estan operativos a la fecha
   // Suma de los extrag
   function sumExtrag(myRow) {
+    //console.log("CALC",myRow);
 
-      //console.log("CALC",myRow);
+    if (myRow == undefined) {
+      return 0.0;
+    }
 
-      if(myRow==undefined)
-      {
-        return 0.0;
-      }
-
-      return (
+    return (
       myRow.extrag_src1 +
-      myRow.extrag_src2 + 
+      myRow.extrag_src2 +
       myRow.extrag_comex1 +
       myRow.extrag_comex2 +
       myRow.extrag_comex3 +
@@ -633,7 +631,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         </TableHead>
 
                         <TableBody>
-                          <TableRow>
+                          {/* <TableRow>
                             <TableCell className={classes.tableCellCabecera}>
                               Version:
                             </TableCell>
@@ -647,17 +645,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 ? presupuestador.estHeader.estvers
                                 : "#"}
                             </TableCell>
-                          </TableRow>
+                          </TableRow> */}
 
                           <TableRow>
                             <TableCell className={classes.tableCellCabecera}>
-                              Id:
+                              Prj:
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
-                              #
-                              {presupuestador.estHeader.id
-                                ? presupuestador.estHeader.id
-                                : "#"}
+                              {presupuestador.estHeader.project
+                                ? presupuestador.estHeader.project
+                                : "Sin data"}
                             </TableCell>
                           </TableRow>
 
@@ -674,12 +671,12 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
                           <TableRow>
                             <TableCell className={classes.tableCellCabecera}>
-                              Prj:
+                              Embarque:
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.project
-                                ? presupuestador.estHeader.project
-                                : "Sin data"}
+                              {presupuestador.estHeader.embarque
+                                ? presupuestador.estHeader.embarque
+                                : "#"}
                             </TableCell>
                           </TableRow>
 
@@ -1775,7 +1772,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                          Extrg. SRC NOTAS
+                            Extrg. SRC NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
