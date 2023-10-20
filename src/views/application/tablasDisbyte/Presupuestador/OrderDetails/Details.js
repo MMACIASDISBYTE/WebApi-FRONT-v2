@@ -87,7 +87,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
         setRow(presupuestador.estDetails);
         // Los datos adicionales que acompañan a cada detalle, fruto de convertir FKs en descripcion.
         setRowAddData(presupuestador.estDetAddData);
-        console.log(rows);
+        //console.log("ROWS",rows[0]);
         //espera la respuesta de presupuestador y quita el loading
         setLoading(false);
         setPais(presupuestador.estHeader.paisregion_id);
@@ -97,7 +97,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
     fetchData();
     //console.log(presupuestador);
     console.log(presupuestador.estDetails);
-
+   
     //console.log(presupuestador.estHeader);
     // console.log(presupuestador.estHeader.description);
   }, [presupuestador]);
@@ -106,7 +106,8 @@ const Details = ({ presupuestador, usuario, historico }) => {
     if (presupuestador.estHeader != null && loading == false) {
       setLoading2(false);
     }
-    console.log(rows);
+    //console.log(rows);
+    //console.log("ROWS",rows[0]);
   }, [rows, loading]);
 
   const deteleDetails = async (id) => {
@@ -123,7 +124,17 @@ const Details = ({ presupuestador, usuario, historico }) => {
   // totales de los que no dispone el json o no estan operativos a la fecha
   // Suma de los extrag
   function sumExtrag(myRow) {
-    return (
+
+      //console.log("CALC",myRow);
+
+      if(myRow==undefined)
+      {
+        return 0.0;
+      }
+
+      return (
+      myRow.extrag_src1 +
+      myRow.extrag_src2 + 
       myRow.extrag_comex1 +
       myRow.extrag_comex2 +
       myRow.extrag_comex3 +
@@ -1182,7 +1193,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            EXW U [USD]
+                            EXW u. [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1303,7 +1314,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            COSTOu [USD]
+                            COSTO u. [USD]
                           </TableCell>
                         </>
                       ) : (
@@ -1366,7 +1377,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            EXW u [USD]
+                            EXW u. [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1466,7 +1477,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            FREIGHT CHRG[USD]
+                            FREIGHT CHRG.[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1476,7 +1487,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            INSUR. CHRG[USD]
+                            INSUR. CHRG.[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1516,7 +1527,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             }}
                             className={classes.tableCell}
                           >
-                            ARANC[USD]
+                            ARANC.[USD]
                           </TableCell>
                           {pais == 7 ? (
                             <>
@@ -1695,7 +1706,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Gasto Loc FWD[USD]
+                            Gasto Loc. FWD[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1746,7 +1757,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg LOC1[USD]
+                            Extrg. SRC1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1755,7 +1766,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg LOC2[USD]
+                            Extrg. SRC2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1764,7 +1775,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg CMX1[USD]
+                          Extrg. SRC NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1773,7 +1784,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg CMX2[USD]
+                            Extrg. CMX1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1782,7 +1793,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg CMX3[USD]
+                            Extrg. CMX2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1791,7 +1802,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg CMX NOTAS
+                            Extrg. CMX3[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1800,7 +1811,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg FIN1[USD]
+                            Extrg. CMX NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1809,7 +1820,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg FIN2[USD]
+                            Extrg. FIN1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1818,7 +1829,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg FIN3[USD]
+                            Extrg. FIN2[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1827,7 +1838,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg FIN NOTAS
+                            Extrg. FIN3[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1836,7 +1847,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gCMX1[USD]
+                            Extrg. FIN NOTAS
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1845,7 +1856,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gCMX2 [USD]
+                            Extrg. gCMX1[USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1854,7 +1865,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gCMX3 [USD]
+                            Extrg. gCMX2 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1863,7 +1874,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gCMX4 [USD]
+                            Extrg. gCMX3 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1872,7 +1883,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gCMX5 [USD]
+                            Extrg. gCMX4 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1881,7 +1892,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gFIN1 [USD]
+                            Extrg. gCMX5 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1890,7 +1901,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gFIN2 [USD]
+                            Extrg. gFIN1 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1899,7 +1910,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gFIN3 [USD]
+                            Extrg. gFIN2 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1908,7 +1919,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gFIN4 [USD]
+                            Extrg. gFIN3 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1917,7 +1928,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg gFIN5 [USD]
+                            Extrg. gFIN4 [USD]
                           </TableCell>
                           <TableCell
                             align="right"
@@ -1926,7 +1937,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               backgroundColor: "#2196f3",
                             }}
                           >
-                            Extrg TOT
+                            Extrg. gFIN5 [USD]
+                          </TableCell>
+                          <TableCell
+                            align="right"
+                            sx={{
+                              whiteSpace: "nowrap",
+                              backgroundColor: "#2196f3",
+                            }}
+                          >
+                            Extrg. TOT.
                           </TableCell>
                           <TableCell
                             align="right"
@@ -2389,17 +2409,25 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                {row.extrag_local1
-                                  ? row.extrag_local1.toFixed(2)
+                                {row.extrag_src1
+                                  ? row.extrag_src1.toFixed(2)
                                   : "0"}
                               </TableCell>
                               <TableCell
                                 align="right"
                                 className={classes.tableCell}
                               >
-                                {row.extrag_local2
-                                  ? row.extrag_local2.toFixed(2)
+                                {row.extrag_src2
+                                  ? row.extrag_src2.toFixed(2)
                                   : "0"}
+                              </TableCell>
+                              <TableCell
+                                align="right"
+                                className={classes.tableCell}
+                              >
+                                {row.extrag_src_notas
+                                  ? row.extrag_src_notas
+                                  : ""}
                               </TableCell>
                               <TableCell
                                 align="right"

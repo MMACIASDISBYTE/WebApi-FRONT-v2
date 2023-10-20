@@ -214,7 +214,19 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  />
+                  >
+
+                  Accion 
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#2196f3",
+                    }}
+                  />      
+
                   {/* FP  {"[%]"}
                   </TableCell>
                   <TableCell

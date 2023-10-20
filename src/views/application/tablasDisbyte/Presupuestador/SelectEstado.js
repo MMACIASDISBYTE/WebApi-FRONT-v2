@@ -14,10 +14,10 @@ export const SelectEstado = ({
 
     const dataEstado =  () =>{
         const estados = [
-                          {id:0,description:"Created"},
-                          {id:1,description:"Sourcing"},
-                          {id:2,description:"Comex"},
-                          {id:3,description:"Finan"}
+                          {id:0,description:"Estadp 0: Created"},
+                          {id:1,description:"Estado 1: Sourcing"},
+                          {id:2,description:"Estado 2: Comex"},
+                          {id:3,description:"Estado 3: Finanzas"}
                         ]        
         setEstado(estados);
     }
