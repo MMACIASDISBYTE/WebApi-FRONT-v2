@@ -76,6 +76,7 @@ import { CustomSelectUpdate } from "../CustomSelectUpdate";
 import UpdateItemPage from "../UpdateItemPage";
 import { ProductosHelper } from "helpers/ProductosHelper";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { ExtraCostoDobleClickUpdate } from "../ExtraCostoDobleClickUpdate";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -418,13 +419,14 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'gloc_fwd',
     },
     {
       id: "gloc_terminales",
       name: "gloc_terminales",
       em: "Ingrese Gasto Terminal [USD]",
-      inputLabel: "Terminal [USD[",
+      inputLabel: "Terminal [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 1.7],
@@ -432,7 +434,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'gasto_terminal',
     },
     {
       id: "gloc_flete",
@@ -446,7 +449,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'flete_interno',
     },
     {
       id: "gloc_descarga",
@@ -460,7 +464,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'gasto_descarga_depo',
     },
     {
       id: "gloc_despachantes",
@@ -474,7 +479,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 2,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'gloc_despachantes', //se calcula
     },
     {
       id: "freight_cost",
@@ -488,7 +494,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 8,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'freight_charge',
     },
     {
       id: "freight_insurance_cost",
@@ -502,7 +509,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 9,
-      resaltar: false
+      resaltar: false,
+      nameGastoLocalTarifon: 'freight_insurance_cost', // se calcula
     },
   ];
 
@@ -1336,7 +1344,7 @@ function CreateInvoice() {
     }
     else
     {
-        //console.log("NOTEQ");
+        console.log("NOTEQ");
         formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
         actualizaResaltar("gloc_fwd",true);
     }
@@ -1405,9 +1413,11 @@ function CreateInvoice() {
     }
   }
 
+  const [fobGrandTotal, setFobGrandTotal] = useState(0);
   useEffect(() => {
     if (productsData.length > 0) {
       const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
+        setFobGrandTotal(accumulator + currentValue.fob_u * currentValue.qty);
         return accumulator + currentValue.fob_u * currentValue.qty;
       }, 0);
       formik.setFieldValue(
@@ -1495,7 +1505,7 @@ function CreateInvoice() {
     <>
       <MainCard
         // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
-        title={`Crear Presupuesto de Mexico:`}
+        title={`Actualizar Presupuesto de Mexico:`}
       >
         <div
           style={{
@@ -1570,7 +1580,7 @@ function CreateInvoice() {
                 )}
                 <Chip
                   label={`Status ${
-                      formik.values.status == 0 ? 'Cero' :
+                      formik.values.status == 0 ? 'CEO' :
                       formik.values.status == 1
                       ? `${formik.values.status}: Sourcing`
                       : formik.values.status == 2
@@ -1945,7 +1955,7 @@ function CreateInvoice() {
 
                   {ExtraCostosLocal.map((input,index) => (
   
-                    <ExtraCostoDobleClick
+                    <ExtraCostoDobleClickUpdate
                       key={input.id}
                       id={input.id}
                       name={input.name}
@@ -1964,6 +1974,9 @@ function CreateInvoice() {
                       ValorSwitchBase={input.ValorSwitchBase}
                       arrPosition={input.arrPosition}
                       resaltar={resaltaCambios[index]}
+                      gastoLocal={gastoLocal}
+                      nameGastoLocalTarifon={input.nameGastoLocalTarifon}
+                      fobGrandTotal={fobGrandTotal}
                     />
                     ))}
                 </>

@@ -137,14 +137,17 @@ const AddDetailsPage = ({
   // console.log(dataHelp);
   const theme = useTheme();
 
+  
   const [producto, setProductos] = useState();
   useState(() => {
     if (dataHelp.ProductosDisbyte) {
       const opciones = dataHelp?.ProductosDisbyte.map((product) => ({
-        title: product.name,
+        title:  `${product.codigo} - ${product.name}`,
         ...product,
       }));
       setProductos(opciones);
+      console.log('productos :', opciones);
+
     }
   }, [ProductsDisbyte]);
 
