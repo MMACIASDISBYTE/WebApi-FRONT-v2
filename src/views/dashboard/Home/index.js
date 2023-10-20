@@ -212,7 +212,7 @@ const Inicio = () => {
                 </Grid>
               </Grid>
 
-              {autorizado && (
+              {/* {autorizado && (
                 <Grid item xs={12}>
                   <Grid container spacing={gridSpacing}>
                     <Grid item xs={12} md={12}>
@@ -223,8 +223,9 @@ const Inicio = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-              )}
+              )} */}
 
+              {/* GRAFICOS DE PRESUPUESTOS */}
               {/* <Grid item xs={12} lg={4}>
                     <SubCard title="Basic Card Style 1">
                         <UserDetailsCard {...userDetails} />
