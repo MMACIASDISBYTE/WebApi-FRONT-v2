@@ -192,8 +192,15 @@ const Details = ({ presupuestador, usuario, historico }) => {
     setVerMas(false);
   };
   const useStyles = makeStyles({
+    tableCellCabecera: {
+      border: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      padding: "6px 16px", // Ajuste del padding según necesidad
+      lineHeight: "1.4", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+    },
     tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      border: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
       whiteSpace: "nowrap",
     },
     lastCell: {
@@ -289,6 +296,10 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         variant="contained"
                         sx={{
                           background: theme.palette.error.main,
+                          position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                          top: "-55px", // Posición desde la parte superior del contenedor
+                          //right: "10px", // Posición desde la derecha del contenedor
+                          //margin: "-25px",
                           "&:hover": { background: theme.palette.error.dark },
                         }}
                         onClick={() =>
@@ -303,17 +314,171 @@ const Details = ({ presupuestador, usuario, historico }) => {
                     </AnimateButton>
                   </Grid>
                 )}
-                <Grid container spacing={gridSpacing}>
 
-                
-            
-                  <Grid item xs={12} sm={6} md={4}>
+                <Grid container spacing={gridSpacing}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell
+                              colSpan={2}
+                              className={classes.tableCell}
+                              sx={{ backgroundColor: "#2196f3" }}
+                            >
+                              <Typography variant="h4">
+                                Detalle Carga
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                          <TableCell className={classes.tableCellCabecera}>
+                            Tipo:
+                          </TableCell>
+                          <TableCell className={classes.tableCellCabecera}>
+                            {presupuestador.carga_str
+                              ? presupuestador.carga_str
+                              : 0}
+                          </TableCell>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Cant Contenedores:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.cantidad_contenedores
+                                ? presupuestador.estHeader.cantidad_contenedores.toFixed(
+                                    3
+                                  )
+                                : 0.0}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Total CBM[m3]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.cbm_grand_total || 0
+                                ? presupuestador.estHeader.cbm_grand_total.toFixed(
+                                    2
+                                  )
+                                : 0.0}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Pais ORIG {" -> "} DEST :
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {/*ADVERTENCIA !!!!:. En el presupuesto hay datos sueltos que son complementarios al header.
+                                 No se incluyen en el header para no modificar el tipo de datos en todo el back. Se envian como datos sueltos
+                                 (no so ni del detail ni del header) en le JSON. Esto se hizo para eliminar los IDs y tener las descripciones
+                                 en un solo query, evitando varias fetch*/}
+                              {presupuestador.paisorig
+                                ? presupuestador.paisorig
+                                : ""}
+                              {" -> "}
+                              {presupuestador.paisdest
+                                ? presupuestador.paisdest
+                                : ""}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Flete[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.gloc_flete ||
+                              presupuestador.estHeader.gloc_flete == 0
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.gloc_flete.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Freight Cost[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.freight_cost ||
+                              presupuestador.estHeader.freight_cost == 0
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.freight_cost.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Freight Insurance Cost[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader
+                                .freight_insurance_cost ||
+                              presupuestador.estHeader.freight_insurance_cost ==
+                                0
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.freight_insurance_cost.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Total CIF[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.cif_grand_total
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.cif_grand_total.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Impuestos[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.impuestos_total
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.impuestos_total.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+
+                  {/* <Grid item xs={12} sm={6} md={4}>
                     <Stack spacing={2}>
                       <Typography variant="h4">Detalle Carga</Typography>
                       <Stack spacing={0}>
                         {/* <Typography variant="h6" sx={{ mb: 1 }}>
                                                 Credit Card
-                                            </Typography> */}
+                                            </Typography>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             Tipo :
@@ -353,10 +518,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             Pais ORIG {" -> "} DEST :
                           </Typography>
                           <Typography variant="body2">
-                            {/*ADVERTENCIA !!!!:. En el presupuesto hay datos sueltos que son complementarios al header.
-                                 No se incluyen en el header para no modificar el tipo de datos en todo el back. Se envian como datos sueltos
-                                 (no so ni del detail ni del header) en le JSON. Esto se hizo para eliminar los IDs y tener las descripciones
-                                 en un solo query, evitando varias fetch*/}
                             {presupuestador.paisorig
                               ? presupuestador.paisorig
                               : ""}
@@ -439,15 +600,130 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         </Stack>
                       </Stack>
                     </Stack>
+                  </Grid> */}
+
+                  {/* <Grid container spacing={gridSpacing}> */}
+
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell
+                              colSpan={2}
+                              className={classes.tableCell}
+                              sx={{ backgroundColor: "#2196f3" }}
+                            >
+                              <Typography variant="h4">
+                                Detalle Presupuesto
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Version:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              #00
+                              {presupuestador.estHeader.estnumber
+                                ? presupuestador.estHeader.estnumber
+                                : "#"}{" "}
+                              / V0
+                              {presupuestador.estHeader.estvers
+                                ? presupuestador.estHeader.estvers
+                                : "#"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Id:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              #
+                              {presupuestador.estHeader.id
+                                ? presupuestador.estHeader.id
+                                : "#"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Detalle:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.description
+                                ? presupuestador.estHeader.description
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Prj:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.project
+                                ? presupuestador.estHeader.project
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Emisor :
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.own
+                                ? presupuestador.estHeader.own
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Total Gastos loc.[USD]:
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {presupuestador.estHeader.gastos_loc_total ||
+                              presupuestador.estHeader.gastos_loc_total == 0
+                                ? UtilidadesHelper.formatNumber(
+                                    presupuestador.estHeader.gastos_loc_total.toFixed(
+                                      2
+                                    )
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className={classes.tableCellCabecera}>
+                              Ult. Modificacion :
+                            </TableCell>
+                            <TableCell className={classes.tableCellCabecera}>
+                              {/* Para formato de fecha importar date-fns */}
+                              {presupuestador.estHeader.htimestamp
+                                ? UtilidadesHelper.formatFechaYhora(
+                                    presupuestador.estHeader.htimestamp
+                                  )
+                                : "Sin data"}
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </Grid>
 
-                  <Grid item xs={12} sm={6} md={4}>
+                  {/* <Grid item xs={12} sm={6} md={4}>
                     <Stack spacing={2}>
                       <Typography variant="h4">Detalle Presupuesto</Typography>
                       <Stack spacing={0}>
                         {/* <Typography variant="h6" sx={{ mb: 1 }}>
                                                 Carrier
-                                            </Typography> */}
+                                            </Typography>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             #00
@@ -504,7 +780,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         </Stack>
 
                         {/* ESTIMADO NUMERO Y VERSION */}
-                        {/* <Stack direction="row" spacing={1}>
+                  {/* <Stack direction="row" spacing={1}>
                                                     <Typography variant="subtitle1">Numero :</Typography>
                                                     <Typography variant="body2">{presupuestador.estnumber}</Typography>
                                                 </Stack>
@@ -513,7 +789,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                                     <Typography variant="body2">{presupuestador.estvers}</Typography>
                                                 </Stack> */}
 
-                        {/* <Stack direction="row" spacing={1}>
+                  {/* <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             Dolar Billete :
                           </Typography>
@@ -523,7 +799,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               ? presupuestador.estHeader.dolar.toFixed(2)
                               : "Sin data"}
                           </Typography>
-                        </Stack> */}
+                        </Stack>
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             Total Gastos loc.[USD]:
@@ -549,7 +825,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           </Typography>
                         </Stack> */}
 
-                        {/* <Stack direction="row" spacing={1}>
+                  {/* <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             IIBB :
                           </Typography>
@@ -562,14 +838,14 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                 : 0.0
                               : "NA"}
                           </Typography>
-                        </Stack> */}
+                        </Stack> 
                         <Stack direction="row" spacing={1}>
                           <Typography variant="subtitle1" color={"green"}>
                             Ult. Modificacion :
                           </Typography>
                           <Typography variant="body2">
                             {" "}
-                            {/* Para formato de fecha importar date-fns */}
+                            {/* Para formato de fecha importar date-fns 
                             {presupuestador.estHeader.htimestamp
                               ? UtilidadesHelper.formatFechaYhora(
                                   presupuestador.estHeader.htimestamp
@@ -579,9 +855,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         </Stack>
                       </Stack>
                     </Stack>
-                  </Grid>
+                  </Grid> */}
 
-                  <Grid item xs={12} sm={6} md={4}>
+                  {/* <Grid item xs={12} sm={6} md={4}>
                     <Stack spacing={2}>
                       <Typography variant="h4">
                         Historico Presupuesto
@@ -606,7 +882,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                           <Stack spacing={0}>
                             {/* <Typography variant="h6" sx={{ mb: 1 }}>
                                                 Carrier
-                                            </Typography> */}
+                                            </Typography>
                             <Stack direction="row" spacing={1}>
                               <Typography variant="subtitle1" color={"green"}>
                                 Version:
@@ -627,7 +903,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               </Typography>
                               <Typography variant="body2">
                                 {" "}
-                                {/* Para formato de fecha importar date-fns */}
                                 {historial.htimestamp
                                   ? UtilidadesHelper.formatFecha(
                                       historial.htimestamp
@@ -653,7 +928,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                         )
                       )}
                     </Stack>
-                  </Grid>
+                  </Grid> */}
 
                   {/* <Grid item xs={12} sm={6} md={4}>
                                     <Stack spacing={0} sx={{ mt: { xs: 0, md: 3 } }}>
@@ -1701,15 +1976,15 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             className={classes.tableCell}
                           >
                             <Typography
-                            align="left"
-                            variant="subtitle1"
-                            noWrap // evita que el texto se envuelva en nuevas líneas
-                            sx={{ 
-                              maxWidth: 500, // o cualquier otro valor que se ajuste a tus necesidades
-                              overflow: 'hidden', // asegura que el contenido extra esté oculto
-                              textOverflow: 'ellipsis', // agrega puntos suspensivos al final
-                              whiteSpace: 'nowrap', // mantiene el texto en una sola línea
-                            }}
+                              align="left"
+                              variant="subtitle1"
+                              noWrap // evita que el texto se envuelva en nuevas líneas
+                              sx={{
+                                maxWidth: 500, // o cualquier otro valor que se ajuste a tus necesidades
+                                overflow: "hidden", // asegura que el contenido extra esté oculto
+                                textOverflow: "ellipsis", // agrega puntos suspensivos al final
+                                whiteSpace: "nowrap", // mantiene el texto en una sola línea
+                              }}
                             >
                               {row.description ? row.description : ""}
                               {/* {row.description} */}
@@ -2414,7 +2689,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                                   : "Sin data"}
                               </Typography>
                             </Grid>
-                            
+
                             {/* <Grid item xs={6}>
                               <Typography align="right" variant="subtitle1">
                                 Seguro:
@@ -2470,16 +2745,16 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid>
                           </Grid> */}
                           {/* <Grid container spacing={1}> */}
-                            {/* <Grid item xs={6}> */}
-                              {/* <Typography
+                          {/* <Grid item xs={6}> */}
+                          {/* <Typography
                                 align="right"
                                 color="primary"
                                 variant="subtitle1"
                               >
                                 CIF Total ARS:
                               </Typography> */}
-                            {/* </Grid> */}
-                            {/* <Grid item xs={6}>
+                          {/* </Grid> */}
+                          {/* <Grid item xs={6}>
                               <Typography
                                 align="right"
                                 color="primary"
@@ -2500,7 +2775,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </Grid> */}
                           {/* </Grid> */}
                         </Grid>
-
                       </Grid>
                     </Grid>
                   )}

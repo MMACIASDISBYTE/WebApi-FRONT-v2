@@ -160,13 +160,13 @@ const OrderDetails = () => {
         />
 
         {/* ESTO PERTENECE A ENVOICE */}
-        {/* <Tab
+        <Tab
           icon={<ReceiptTwoToneIcon />}
           component={Link}
           to="#"
-          label="Preview"
+          label="Historico"
           {...a11yProps(1)}
-        /> */}
+        />
         {/* <Tab icon={<LocalShippingTwoToneIcon />} component={Link} to="#" label="Status" {...a11yProps(2)} /> */}
       </Tabs>
 
@@ -175,15 +175,16 @@ const OrderDetails = () => {
         <Details presupuestador={rowsDoble} usuario={user} historico={historico} />
       </TabPanel>
 
-      {/* tab - invoice ESTO PERTENECE A ENVOICE */}
-      {/* <TabPanel value={value} index={1}>
+      {/* tab - invoice ESTO PERTENECE A ENVOICE / historico */}
+      <TabPanel value={value} index={1}>
         <Invoice presupuestador={rowsDoble} usuario={user} historico={historico} />
-      </TabPanel> */}
+      </TabPanel>
 
       {/* tab - status */}
       {/* <TabPanel value={value} index={2}>
                 <Status />
             </TabPanel> */}
+            
     </MainCard>
   );
 };

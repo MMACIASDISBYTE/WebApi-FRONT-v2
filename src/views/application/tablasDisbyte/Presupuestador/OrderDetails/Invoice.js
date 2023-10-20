@@ -21,6 +21,7 @@ import LogoDisbyteAzul from '../../../../../assets/images/disbyte/LogoDisbyte.pn
 import LogoDisbyteBlanco from '../../../../../assets/images/disbyte/LogoDisbyte_blanco.png';
 import { UtilidadesHelper } from 'helpers/UtilidadesHelper';
 import { StatusComp } from '../StatusComp';
+import { makeStyles } from '@material-ui/core';
 // import user from 'store/slices/user';
 
 // table data
@@ -39,6 +40,27 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
     const componentRef = useRef(null);
     console.log(presupuestador);
     // console.log(usuario);
+
+
+    const useStyles = makeStyles({
+        tableCellCabecera: {
+          borderLeft: "1px solid rgba(224, 224, 224, 1)",
+          borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+          whiteSpace: "nowrap",
+          padding: "6px 16px", // Ajuste del padding según necesidad
+          lineHeight: "1.4", // Ajuste de la altura de línea según necesidad
+          fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+          backgroundColor: "#2196f3",
+        },
+        tableCell: {
+          border: "1px solid rgba(224, 224, 224, 1.5)", // Color y grosor del borde
+          whiteSpace: "nowrap",
+        },
+        lastCell: {
+          borderRight: "none",
+        },
+      });
+      const classes = useStyles();
     return (
         <Grid container justifyContent="center" spacing={gridSpacing}>
             <Grid item xs={12} md={10} lg={8} ref={componentRef}>
@@ -65,17 +87,24 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
+
+
+
                         <Grid item xs={12}>
+
                             <Grid container spacing={gridSpacing}>
                                 <Grid item sm={5}>
                                     <Grid container spacing={1}>
-                                        <Grid item xs={12}>
+                                        {/* <Grid item xs={12}>
                                             <Typography variant="h5">Customer :</Typography>
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid item xs={12}>
                                             <Grid container spacing={0}>
+                                            <Grid item xs={12}>
+                                            <Typography variant="h5">Detalles :</Typography>
+                                        </Grid>
                                                 <Grid item xs={12}>
-                                                    <Typography variant="subtitle1">Descripcion:{presupuestador.estHeader.description ? presupuestador.estHeader.description : 'Sin data'}</Typography>
+                                                    <Typography variant="body2">Descripcion:{presupuestador.estHeader.description ? presupuestador.estHeader.description : 'Sin data'}</Typography>
                                                 </Grid>
                                                 <Grid item xs={12}>
                                                     <Typography variant="body2">Origen: {presupuestador.estHeader.fwdpaisregion_id ? UtilidadesHelper.paisRegionSwitch(presupuestador.estHeader.fwdpaisregion_id) : 'Sin data'}</Typography>
@@ -85,9 +114,9 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     <Typography variant="body2">Tipo Cont: {presupuestador.carga_str ? presupuestador.carga_str : 'Sin data'}</Typography>
                                                     <Typography variant="body2">Cant. Cont: {presupuestador.estHeader.cantidad_contenedores ? (presupuestador.estHeader.cantidad_contenedores).toFixed(3) : 'Sin data'}</Typography>
                                                 </Grid>
-                                                <Grid item xs={12}>
+                                                {/* <Grid item xs={12}>
                                                     <Typography variant="body2">Dolar Billete: ARS$ {presupuestador.estHeader.dolar ? presupuestador.estHeader.dolar : 'Sin data'}</Typography>
-                                                </Grid>
+                                                </Grid> */}
                                                 {/* <Grid item xs={12}>
                                                     <Typography component={Link} to="#" variant="body2" color="primary">
                                                         demo@company.com
@@ -130,6 +159,11 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
+
+
+
+                        
+
                         <Grid item xs={12}>
                             <TableContainer>
                                 <Table
@@ -150,19 +184,19 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                 >
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ pl: 3 }}>Own</TableCell>
-                                            <TableCell align="right">Version</TableCell>
-                                            <TableCell align="right">Estado</TableCell>
-                                            <TableCell align="right">Fecha</TableCell>
+                                            <TableCell sx={{ pl: 3 }} className={classes.tableCellCabecera}>Own</TableCell>
+                                            <TableCell align="right" className={classes.tableCellCabecera}>Version</TableCell>
+                                            <TableCell align="right" className={classes.tableCellCabecera}>Estado</TableCell>
+                                            <TableCell align="right" className={classes.tableCellCabecera}>Fecha</TableCell>
                                             
-                                            <TableCell align="right" sx={{ pr: 3 }}>Fob Total</TableCell>
+                                            <TableCell align="right" sx={{ pr: 3 }} className={classes.tableCellCabecera}>Fob Total[USD]</TableCell>
                                             {/* <TableCell align="center">CeU. u$s</TableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {historico.map((row, index) => (
                                             <TableRow key={index}>
-                                                <TableCell sx={{ pl: 3 }}>
+                                                <TableCell sx={{ pl: 3 }} className={classes.tableCell}>
                                                     <Typography align="left" variant="subtitle1">
                                                         {row.own ? row.own : 'SIn data'}
                                                     </Typography>
@@ -171,11 +205,11 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                         {row.description}
                                                     </Typography> */}
                                                 </TableCell>
-                                                <TableCell align="right">{row.estvers ? row.estvers : 'Sin data'}</TableCell>
-                                                <TableCell align="right">{ row.status ? <StatusComp estadio={row.status}/> : 'Sin data'}</TableCell>
-                                                <TableCell align="right" sx={{ pr: 3 }}>{ row.htimestamp ? UtilidadesHelper.fechaParaVista(row.htimestamp)  : 'Sin data'}</TableCell>
+                                                <TableCell align="right" className={classes.tableCell}>{row.estvers ? row.estvers : 'Sin data'}</TableCell>
+                                                <TableCell align="right" className={classes.tableCell}>{ row.status ? <Chip label={row.status || row.status == 0 ? `Estado n° ${row.status}` : 'Sin data'} variant="outlined" size="small" chipcolor="warning" /> : <Chip label={`Estado n° 0`} variant="outlined" size="small" chipcolor="warning" />}</TableCell>
+                                                <TableCell align="right" sx={{ pr: 3 }} className={classes.tableCell}>{ row.htimestamp ? UtilidadesHelper.fechaParaVista(row.htimestamp)  : 'Sin data'}</TableCell>
                                                 
-                                                <TableCell align="right">USD {(row.fob_grand_total || row.fob_grand_total == 0) ? UtilidadesHelper.formatNumber((row.fob_grand_total).toFixed(2)) : 'Sin data'}</TableCell>
+                                                <TableCell align="right" className={classes.tableCell}>{(row.cif_grand_total || row.cif_grand_total == 0) ? UtilidadesHelper.formatNumber((row.cif_grand_total).toFixed(2)) : 'Sin data'}</TableCell>
                                                 {/* <TableCell align="center">u$s{(row.costoUnitEstimadoUSS).toFixed(2)}</TableCell> */}
                                             </TableRow>
                                         ))}
@@ -206,7 +240,11 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                        <Grid item xs={12}>
+
+
+                        {/* DETALLE */}
+
+                        {/* <Grid item xs={12}>
                             <SubCard
                                 sx={{
                                     bgcolor: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.primary.light
@@ -229,7 +267,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
-                                                            {/* Aranceles / Pagado (10%): */}
+                                                            {/* Aranceles / Pagado (10%):
                                                             Aranceles:
                                                         </Typography>
                                                     </Grid>
@@ -240,7 +278,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
-                                                            {/* Discount (5%) : */}
+                                                            {/* Discount (5%) : 
                                                             Freight Costo:
                                                         </Typography>
                                                     </Grid>
@@ -251,7 +289,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
-                                                            {/* Discount (5%) : */}
+                                                            {/* Discount (5%) : 
                                                             Freight Insurance Costo:
                                                         </Typography>
                                                     </Grid>
@@ -262,7 +300,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <Typography align="right" variant="subtitle1">
-                                                            {/* Discount (5%) : */}
+                                                            {/* Discount (5%) : 
                                                             IIBB Total:
                                                         </Typography>
                                                     </Grid>
@@ -290,7 +328,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                                         <Typography align="right" variant="body2">
                                                             $45.00
                                                         </Typography>
-                                                    </Grid> */}
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12}>
@@ -324,7 +362,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                                     </Grid>
                                 </Grid>
                             </SubCard>
-                        </Grid>
+                        </Grid> */}
 
                         {/* TERMINOS Y CONDICIONES */}
                         {/* <Grid item xs={12}>
