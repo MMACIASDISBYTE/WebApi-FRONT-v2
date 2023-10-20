@@ -1579,13 +1579,13 @@ function CreateInvoice() {
                   </>
                 )}
                 <Chip
-                  label={`Status ${
+                  label={` ${
                       formik.values.status == 0 ? 'CEO' :
                       formik.values.status == 1
-                      ? `${formik.values.status}: Sourcing`
+                      ? "Estado 1: Sourcing"
                       : formik.values.status == 2
-                      ? `${formik.values.status}: Comex`
-                      : `${formik.values.status}: Financiero`
+                      ? "Estado 2: Comex"
+                      : "Estado 3: Financiero"
                   }`}
                   size="string"
                   chipcolor="orange"

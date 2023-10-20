@@ -713,19 +713,19 @@ React.useEffect(() => {
                         ? UtilidadesHelper.paisRegionSwitch(row.paisregion_id)
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCell}>
                       {row.estvers !== null && row.carga_id !== undefined
                         ? <StatusComp
-                            texto={'Carga'} 
+                            texto={''} 
                             estadio={UtilidadesHelper.cargaSwitch(row.carga_id)}
                             colores = {'orange'}
                           />
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCell}>
                       {row.estvers !== null && row.status !== undefined
                         ? <StatusComp
-                            texto={'Estado'} 
+                            texto={''} 
                             estadio={row.status}
                             colores = {'primary'}
                           />
