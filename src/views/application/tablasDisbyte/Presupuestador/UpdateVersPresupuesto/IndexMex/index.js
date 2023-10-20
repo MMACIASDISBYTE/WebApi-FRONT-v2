@@ -413,7 +413,7 @@ function CreateInvoice() {
       inputLabel: "Locales FWD [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -427,7 +427,7 @@ function CreateInvoice() {
       inputLabel: "Terminal [USD[",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -441,7 +441,7 @@ function CreateInvoice() {
       inputLabel: "Flete Interno [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -455,7 +455,7 @@ function CreateInvoice() {
       inputLabel: "Descarga [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -469,7 +469,7 @@ function CreateInvoice() {
       inputLabel: "Despacho [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -483,7 +483,7 @@ function CreateInvoice() {
       inputLabel: "Freight Cost [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
-      Xs_Xd: [12, 1.4],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -497,7 +497,7 @@ function CreateInvoice() {
       inputLabel: "Freight Insurance [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
-      Xs_Xd: [12, 1.6],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -1753,7 +1753,7 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={2}
+                  MD={1.5}
                 />
               ))}
 
@@ -1764,9 +1764,20 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={2.5}
+                  MD={1.5}
                 />
               ))}
+
+              {/* NOTA CABECERA Embarque */}
+              {cabeceraEmbarque.map((field) => (
+                    <CustomSelect
+                      key={field.id}
+                      {...field}
+                      formik={formik}
+                      XS={12}
+                      MD={1.5}
+                    />
+                  ))}
 
               {/* ESPACIO DE RELLENO */}
               <Grid item md={0}></Grid>
@@ -1931,17 +1942,6 @@ function CreateInvoice() {
                       Gastos Locales
                     </Typography>
                   </Grid>
-
-                  {/* NOTA CABECERA Descipcion */}
-                  {cabeceraEmbarque.map((field) => (
-                    <CustomSelect
-                      key={field.id}
-                      {...field}
-                      formik={formik}
-                      XS={12}
-                      MD={2}
-                    />
-                  ))}
 
                   {ExtraCostosLocal.map((input,index) => (
   

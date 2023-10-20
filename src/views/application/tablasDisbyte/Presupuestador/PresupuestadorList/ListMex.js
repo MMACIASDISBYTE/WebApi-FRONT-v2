@@ -87,7 +87,7 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    label: "N° Est / Version",
+    label: "N° Presupuesto",
     align: "left",
   },
   // {
@@ -427,13 +427,10 @@ React.useEffect(() => {
         let matches = true;
 
         const properties = [
-          "id",
           "estvers",
           "project",
           "description",
           "paisregion_id",
-          "carga_id",
-          "status",
           "cantidad_contenedores",
           "gastos_loc_total",
           "fob_grand_total",
@@ -693,7 +690,7 @@ React.useEffect(() => {
 
                     <TableCell align="left" className={classes.tableCell}>
                       {row.id !== null && row.id !== undefined
-                        ? `N°${row.estnumber} - V ${row.estvers}`
+                        ? `N° ${row.estnumber}`
                         : "Sin data"}
                     </TableCell>
                     {/* <TableCell align="left">

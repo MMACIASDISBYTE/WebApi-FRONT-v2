@@ -28,7 +28,7 @@ function ProductsPage({
   deleteProductHandler,
   editProductHandler,
   freightCost,
-  insurancePorct
+  insurancePorct,
 }) {
   console.log(productsData);
 
@@ -48,7 +48,6 @@ function ProductsPage({
   const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.exw_u * currentValue.qty;
   }, 0);
-
 
   return (
     <>
@@ -96,17 +95,7 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                  NCM
-                  </TableCell>
-                  <TableCell
-                    className={classes.tableCell}
-                    align="center"
-                    sx={{
-                      whiteSpace: "nowrap",
-                      backgroundColor: "#2196f3",
-                    }}
-                  >  
-                  EXW U. USD
+                    NCM
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -116,7 +105,16 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-
+                    EXW U. USD
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableCell}
+                    align="center"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#2196f3",
+                    }}
+                  >
                     FOB Unit USD
                   </TableCell>
                   <TableCell
@@ -127,7 +125,6 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                  
                     QTY {"[pcs]"}
                   </TableCell>
                   <TableCell
@@ -138,7 +135,7 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                    PCS/CTN 
+                    PCS/CTN
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -148,7 +145,7 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                    CBM/CTN  {"[m3]"}
+                    CBM/CTN {"[m3]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -158,7 +155,7 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                    GW CTN  {"[kg]"}
+                    GW CTN {"[kg]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -168,7 +165,7 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   >
-                   FOB TOT. {"[USD]"}
+                    FOB TOT. {"[USD]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -177,8 +174,8 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  >   
-                   FP. {"[%]"}
+                  >
+                    FP. {"[%]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -187,8 +184,8 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  >   
-                  Freight Chrg. {"[USD]"}
+                  >
+                    Freight Chrg. {"[USD]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -197,8 +194,8 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  >   
-                  Ins. Chrg. {"[USD]"}
+                  >
+                    Ins. Chrg. {"[USD]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -207,8 +204,8 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  >   
-                  CIF Tot. {"[USD]"}
+                  >
+                    CIF Tot. {"[USD]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -217,8 +214,8 @@ function ProductsPage({
                       whiteSpace: "nowrap",
                       backgroundColor: "#2196f3",
                     }}
-                  /> 
-                 {/* FP  {"[%]"}
+                  />
+                  {/* FP  {"[%]"}
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
@@ -248,8 +245,8 @@ function ProductsPage({
                       backgroundColor: "#2196f3",
                     }}
                   />  */}
-                  
-               {/*     
+
+                  {/*     
                     Proveedor
                   </TableCell>
                   <TableCell
@@ -298,7 +295,13 @@ function ProductsPage({
                     </TableCell>
                     <TableCell
                       className={classes.tableCell}
-                      sx={{ pl: 3 }}
+                      sx={{
+                        pl: 3,
+                        maxWidth: 400, // o cualquier otro valor que se ajuste a tus necesidades
+                        overflow: "hidden", // asegura que el contenido extra esté oculto
+                        textOverflow: "ellipsis", // agrega puntos suspensivos al final
+                        whiteSpace: "nowrap", // mantiene el texto en una sola línea
+                      }}
                       align="center"
                     >
                       {row.description ? row.description : "Sin data"}
@@ -306,22 +309,18 @@ function ProductsPage({
                     <TableCell className={classes.tableCell} align="left">
                       {row.imageurl ? (
                         <>
-                          <ImagenAvatar
-                            src={row.imageurl}
-                            alt={row.sku}
-                          />
+                          <ImagenAvatar src={row.imageurl} alt={row.sku} />
                         </>
                       ) : (
                         "Sin Imagen"
                       )}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                    {productsDataAdd[index]?.ncm_str
+                      {productsDataAdd[index]?.ncm_str
                         ? productsDataAdd[index].ncm_str
                         : row.ncm_code}
-                    </TableCell>  
+                    </TableCell>
 
-                    
                     <TableCell className={classes.tableCell} align="center">
                       {row.exw_u ? `${row.exw_u.toFixed(2)}` : "Sin data"}
                     </TableCell>
@@ -345,37 +344,54 @@ function ProductsPage({
                       </TableCell>*/}
 
                     {/*CALCULO DEL FOB TOTAL*/}
-                    <TableCell className={classes.tableCell} align="center">{`${(
-                      row.exw_u * row.qty
-                    ).toFixed(2)}`}</TableCell>
+                    <TableCell
+                      className={classes.tableCell}
+                      align="center"
+                    >{`${(row.exw_u * row.qty).toFixed(2)}`}</TableCell>
 
                     {/*CALCULO DEL FP*/}
                     <TableCell className={classes.tableCell} align="center">
-                      { fobGrandTotal>0?(row.exw_u*row.qty/fobGrandTotal).toFixed(2): "Sin data"}
+                      {fobGrandTotal > 0
+                        ? ((row.exw_u * row.qty) / fobGrandTotal).toFixed(2)
+                        : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      { freightCost?(freightCost*(row.exw_u*row.qty/fobGrandTotal)).toFixed(2) : "Sin data"}
+                      {freightCost
+                        ? (
+                            freightCost *
+                            ((row.exw_u * row.qty) / fobGrandTotal)
+                          ).toFixed(2)
+                        : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      { insurancePorct?((insurancePorct/100)*(row.exw_u*row.qty)).toFixed(2) : "Sin data"}
+                      {insurancePorct
+                        ? (
+                            (insurancePorct / 100) *
+                            (row.exw_u * row.qty)
+                          ).toFixed(2)
+                        : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="center">
-                      { ((row.exw_u * row.qty)+(freightCost*(row.exw_u*row.qty/fobGrandTotal))+((insurancePorct/100)*row.exw_u*row.qty)).toFixed(2)}
+                      {(
+                        row.exw_u * row.qty +
+                        freightCost * ((row.exw_u * row.qty) / fobGrandTotal) +
+                        (insurancePorct / 100) * row.exw_u * row.qty
+                      ).toFixed(2)}
                     </TableCell>
                     <TableCell
                       // className={classes.tableCell}
-                      sx={{ pr: 1, minWidth: '90px' }}
+                      sx={{ pr: 1, minWidth: "90px" }}
                       align="right"
                     >
                       {/* MOMENTANEAMENTE OCULTO boton de edicion */}
                       <IconButton
-                                                color="secondary"
-                                                size="small"
-                                                onClick={() => editProductHandler(row)}
-                                                aria-label="Product Delete"
-                                            >
-                                                <EditTwoToneIcon fontSize="small" />
-                                            </IconButton>
+                        color="secondary"
+                        size="small"
+                        onClick={() => editProductHandler(row)}
+                        aria-label="Product Delete"
+                      >
+                        <EditTwoToneIcon fontSize="small" />
+                      </IconButton>
 
                       <IconButton
                         color="error"
