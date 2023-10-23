@@ -209,5 +209,8 @@
     "NCM": " Posicion Arancelaria",
     "NCM_MEX": " Mexico",
     "NCM_ARG": " Argentina",
-    "IIBB": " IIBB"
+    "IIBB": " IIBB",
+
+    "SIMULADOR" : "Simulador",
+    "simuladorMex" : "Mexico"
 }

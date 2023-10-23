@@ -27,7 +27,6 @@ import {
   Typography,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { makeStyles } from "@material-ui/core";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -46,8 +45,6 @@ import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
 import { SelectPais } from "../SelectPais";
-import { SelectCarga } from "../SelectCarga";
-import { SelectEstado } from "../SelectEstado";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -86,19 +83,13 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    label: "#",
+    label: "N° de Presupuesto",
     align: "left",
   },
-  // {
-  //   id: "estvers",
-  //   numeric: false,
-  //   label: "Version",
-  //   align: "left",
-  // },
   {
-    id: "project",
+    id: "estvers",
     numeric: false,
-    label: "Prj",
+    label: "Version",
     align: "left",
   },
   {
@@ -106,17 +97,11 @@ const headCells = [
     numeric: false,
     label: "Descripcion",
     align: "left",
-  },
+  }, 
   {
     id: "paisregion_id",
     numeric: false,
-    label: "Region",
-    align: "left",
-  },
-  {
-    id: "carga_id",
-    numeric: true,
-    label: "Carga",
+    label: "Pais / Region",
     align: "left",
   },
   {
@@ -128,19 +113,19 @@ const headCells = [
   {
     id: "cantidad_contenedores",
     numeric: true,
-    label: "Contenedores",
+    label: "Cant. Contenedores",
     align: "left",
   },
-  // {
-  //   id: "gastos_loc_total",
-  //   numeric: true,
-  //   label: "Gasto Local Total[USD]",
-  //   align: "left",
-  // },
+  {
+    id: "gastos_loc_total",
+    numeric: true,
+    label: "Gasto Local Total",
+    align: "left",
+  },
   {
     id: "fob_grand_total",
     numeric: true,
-    label: "Fob Total[USD]",
+    label: "Fob Total",
     align: "left",
   },
   {
@@ -172,29 +157,11 @@ function EnhancedTableHead({
     onRequestSort(event, property);
   };
 
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      minWidth: 100,
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      backgroundColor: "#2196f3",
-      padding: "6px 16px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 100,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
-
   return (
     <TableHead>
       <TableRow>
         {numSelected > 0 && (
-          <TableCell padding="none" colSpan={6} className={classes.tableCell}>
+          <TableCell padding="none" colSpan={6}>
             <EnhancedTableToolbar numSelected={selected.length} />
           </TableCell>
         )}
@@ -206,7 +173,6 @@ function EnhancedTableHead({
                 align={headCell.align}
                 padding={headCell.disablePadding ? "none" : "normal"}
                 sortDirection={orderBy === headCell.id ? order : false}
-                className={classes.tableCell}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -226,12 +192,7 @@ function EnhancedTableHead({
             </Tooltip>
           ))}
         {numSelected <= 0 && (
-          <TableCell
-            sortDirection={false}
-            align="center"
-            sx={{ pr: 3 }}
-            className={classes.tableCell}
-          >
+          <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
             Action
           </TableCell>
         )}
@@ -335,14 +296,13 @@ const CustomerList = () => {
   const [orderBy, setOrderBy] = React.useState("id");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
   const [rows, setRows] = React.useState([]);
   const { customers } = useSelector((state) => state.customer);
-  const [ultVerMostrar, setUltVerMostrar] = React.useState(true);
-  const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
-  const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
-  const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da carga
+  const [ultVerMostrar, setUltVerMostrar] = React.useState(false);
+  const [seleccionPais, setSeleccionPais] = React.useState(7);
+
 
   React.useEffect(() => {
     dispatch(getCustomers());
@@ -367,91 +327,61 @@ const CustomerList = () => {
   //   }
   // }, [ultVerMostrar, seleccionPais]);
 
-  const mostrarUltimaVersion = () => {
+  const mostrarUltimaVersion = () =>{
     setUltVerMostrar(!ultVerMostrar);
   };
 
   // Función para filtrar presupuestos
-  const filtrarPresupuestos = () => {
-    let presupuestosFiltrados = [...customers];
+const filtrarPresupuestos = () => {
+  let presupuestosFiltrados = [...customers];
 
-    // Si hay un país seleccionado, filtrar por país
-    if (seleccionPais !== null && seleccionPais !== 15) {
-      presupuestosFiltrados = presupuestosFiltrados.filter(
-        (presupuesto) => presupuesto.paisregion_id === seleccionPais
-      );
-    }
+  // Si hay un país seleccionado, filtrar por país
+  if (seleccionPais !== null && seleccionPais !== 15) {
+    presupuestosFiltrados = presupuestosFiltrados.filter(presupuesto => presupuesto.paisregion_id === seleccionPais);
+  }
 
-    // Si hay un carga seleccionado, filtrar por país
-    if (seleccionCarga !== null && seleccionCarga !== undefined) {
-      presupuestosFiltrados = presupuestosFiltrados.filter(
-        (presupuesto) => presupuesto.carga_id === seleccionCarga
-      );
-    }
-    // Si hay un carga seleccionado, filtrar por país
-    if (seleccionEstado !== null && seleccionEstado !== undefined) {
-      presupuestosFiltrados = presupuestosFiltrados.filter(
-        (presupuesto) => presupuesto.status === seleccionEstado
-      );
-    }
+  // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
+  if (ultVerMostrar) {
+    presupuestosFiltrados = presupuestosFiltrados.reduce((acc, presupuesto) => {
+      const { estnumber, estvers } = presupuesto;
+      if (!acc[estnumber] || acc[estnumber].estvers < estvers) {
+        acc[estnumber] = presupuesto;
+      }
+      return acc;
+    }, {});
+    presupuestosFiltrados = Object.values(presupuestosFiltrados);
+  }
 
-    // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
-    if (ultVerMostrar) {
-      presupuestosFiltrados = presupuestosFiltrados.reduce(
-        (acc, presupuesto) => {
-          const { estnumber, estvers } = presupuesto;
-          if (!acc[estnumber] || acc[estnumber].estvers < estvers) {
-            acc[estnumber] = presupuesto;
-          }
-          return acc;
-        },
-        {}
-      );
-      presupuestosFiltrados = Object.values(presupuestosFiltrados);
-    }
+  setRows(presupuestosFiltrados);
+};
 
-    setRows(presupuestosFiltrados);
-    setPage(0);
-  };
+// Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
+React.useEffect(() => {
+  filtrarPresupuestos();
+}, [customers, seleccionPais, ultVerMostrar]);
 
-  // Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
-  React.useEffect(() => {
-    filtrarPresupuestos();
-  }, [
-    customers,
-    seleccionPais,
-    seleccionCarga,
-    seleccionEstado,
-    ultVerMostrar,
-  ]);
-
-  const handleChangePais = (pais) => {
+  const handleChangePais = (pais) =>{
     console.log(pais.id);
-    setSeleccionPais(pais.id);
-  };
-
-  const handleChangeCarga = (carga) => {
-    console.log(carga.id);
-    setSeleccionCarga(carga.id);
-  };
-
-  const handleChangeEstado = (estado) => {
-    console.log(estado.id);
-    setSeleccionEstado(estado.id);
-  };
+    setSeleccionPais(pais.id)
+  }
 
   const handleSearch = (event) => {
     const newString = event?.target.value;
-    setSearch(newString || "");
+      setSearch(newString || "");
 
     if (newString) {
       const newRows = rows.filter((row) => {
         let matches = true;
 
         const properties = [
+          "id",
           "estvers",
-          "project",
           "description",
+          "paisregion_id",
+          "status",
+          "cantidad_contenedores",
+          "gastos_loc_total",
+          "fob_grand_total",
           "own",
           "htimestamp",
         ];
@@ -475,11 +405,11 @@ const CustomerList = () => {
       });
       setRows(newRows);
     } else {
-      // setRows(customers);
+        // setRows(customers);
 
-      if (ultVerMostrar) {
-        setRows(filtrarPresupuestos());
-      } else {
+      if(ultVerMostrar){
+        setRows(filtrarPresupuestos())
+      }else{
         setRows(customers);
       }
     }
@@ -544,55 +474,19 @@ const CustomerList = () => {
   };
 
   const ActualizarPresupuesto = (estnumber, estvers) => {
-    // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`); //presupuesto update anterior
-    navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
+    navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
-
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      textOverflow: "ellipsis", // agrega puntos suspensivos al final
-      padding: "6px 6px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 130,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+  
   return (
-    <MainCard title="Presupuestos Mexico" content={false}>
+    <MainCard title="Presupuestos Argentina" content={false}>
       <CardContent>
         <Grid
           container
-          // justifyContent="space-between"
-          // alignItems="center"
-          justifyContent="flex-start"
+          justifyContent="space-between"
           alignItems="center"
           spacing={2}
         >
-          {/* <SelectPais
-            nameSelect = {'Pais'}
-            datosSelect = {[]}
-            handleChangePais={handleChangePais}
-          /> */}
-
-          <Grid
-            item
-            xs={12}
-            sm
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            spacing={2}
-          >
-            {/* FILTRO DE BUSQUEDA ANULADO POR CRASHEO */}
-            {/* <Grid item xs={12} sm={2}>
+          <Grid item xs={12} sm={2}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -606,37 +500,29 @@ const CustomerList = () => {
               value={search}
               size="small"
             />
-          </Grid> */}
-
-            <SelectCarga
-              nameSelect={"Carga"}
-              datosSelect={[]}
-              handleChangeCarga={handleChangeCarga}
-            />
-            <SelectEstado
-              nameSelect={"Estado"}
-              datosSelect={[]}
-              handleChangeEstado={handleChangeEstado}
-            />
           </Grid>
+          {/* <SelectPais
+            nameSelect = {'Pais'}
+            datosSelect = {[]}
+            handleChangePais={handleChangePais}
+          /> */}
 
-          {/* FILTRO DE ULTIMA VERSION, QUEDA POR DEFECTO EN TRUE */}
-          {/* <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={3}>
                   <Grid container spacing={1}>
                       <Grid item>
-                          {/* <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox defaultChecked />} label="Mostrar Ultima Version" /> 
+                          {/* <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox defaultChecked />} label="Mostrar Ultima Version" /> */}
                           <FormControlLabel onClick={mostrarUltimaVersion} control={<Checkbox />} label="Mostrar Ultima Version" />
 
                       </Grid>
                   </Grid>
-          </Grid> */}
+          </Grid>
 
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             {AddOK && (
               <AnimateButton>
                 <Button
                   variant="contained"
-                  onClick={() => navigate("/estimate/create-estimateMex")}
+                  onClick={() => navigate("/estimate/create-estimateArg")}
                 >
                   Create Estimate
                 </Button>
@@ -727,83 +613,59 @@ const CustomerList = () => {
                                             <Typography variant="caption"> Disponible para data </Typography>
                                         </TableCell> */}
 
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left">
+                      N° -{" "}
                       {row.id !== null && row.id !== undefined
-                        ? `N° ${row.estnumber}`
+                        ? row.estnumber
                         : "Sin data"}
                     </TableCell>
-                    {/* <TableCell align="left">
+                    <TableCell align="left">
+                      Ver N°{" "}
                       {row.estvers !== null && row.estvers !== undefined
                         ? row.estvers
                         : "Sin data"}
-                    </TableCell> */}
-                    <TableCell align="left" className={classes.tableCell}>
-                      {(row.estvers !== null && row.project !== undefined) ||
-                      row.project !== ""
-                        ? row.project
-                        : "Sin data"}
                     </TableCell>
-                    <Tooltip title={row.estvers !== null && row.description !== undefined
-                        ? row.description
-                        : "Sin data"}>
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left">
                       {row.estvers !== null && row.description !== undefined
                         ? row.description
                         : "Sin data"}
                     </TableCell>
-                    </Tooltip>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.paisregion_id !== null &&
-                      row.paisregion_id !== undefined
+                    <TableCell align="left">
+                      {row.paisregion_id !== null && row.paisregion_id !== undefined
                         ? UtilidadesHelper.paisRegionSwitch(row.paisregion_id)
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.estvers !== null && row.carga_id !== undefined ? (
-                        <StatusComp
-                          texto={""}
-                          estadio={UtilidadesHelper.cargaSwitch(row.carga_id)}
-                          colores={"orange"}
-                        />
-                      ) : (
-                        "Sin data"
-                      )}
+                    <TableCell align="left">
+                      {row.estvers !== null && row.status !== undefined
+                        ? <StatusComp 
+                            estadio={row.status}
+                          />
+                        : "Sin data"}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.estvers !== null && row.status !== undefined ? (
-                        <StatusComp
-                          texto={""}
-                          estadio={row.status}
-                          colores={"primary"}
-                        />
-                      ) : (
-                        "Sin data"
-                      )}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
+                    <TableCell align="left">
                       {row.cantidad_contenedores !== null &&
                       row.cantidad_contenedores !== undefined
                         ? row.cantidad_contenedores.toFixed(3)
                         : "Sin data"}
                     </TableCell>
-                    {/* <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left">
                       {row.gastos_loc_total !== null &&
                       row.gastos_loc_total !== undefined
-                        ? `${row.gastos_loc_total.toFixed(2)}`
-                        : "Sin data"}
-                    </TableCell> */}
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.fob_grand_total !== null &&
-                      row.fob_grand_total !== undefined
-                        ? `${row.fob_grand_total.toFixed(2)}`
+                        ? `USD ${row.gastos_loc_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left">
+                      {row.fob_grand_total !== null &&
+                      row.fob_grand_total !== undefined
+                        ? `USD ${row.fob_grand_total.toFixed(2)}`
+                        : "Sin data"}
+                    </TableCell>
+                    <TableCell align="left">
                       {row.own !== null && row.own !== undefined
                         ? row.own
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="right" className={classes.tableCell}>
+                    <TableCell align="right">
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&
                       new Date(row.htimestamp).toLocaleDateString() !==
                         undefined
@@ -815,11 +677,7 @@ const CustomerList = () => {
                                             {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
                                             {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
                                         </TableCell> */}
-                    <TableCell
-                      align="center"
-                      sx={{ pr: 3 }}
-                      className={classes.tableCell}
-                    >
+                    <TableCell align="center" sx={{ pr: 3 }}>
                       <Tooltip title="Ver Detalle">
                         <IconButton
                           color="primary"
@@ -872,7 +730,7 @@ const CustomerList = () => {
 
       {/* table pagination */}
       <TablePagination
-        rowsPerPageOptions={[10, 20, 50]}
+        rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

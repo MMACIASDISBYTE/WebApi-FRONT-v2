@@ -540,12 +540,12 @@ const CustomerList = () => {
 
   const verDetalle = (estnumber, estvers) => {
     console.log(estnumber, estvers);
-    navigate(`/estimate/details/${estnumber}/${estvers}`);
+    navigate(`/simuladorMEX/details/${estnumber}/${estvers}`);
   };
 
   const ActualizarPresupuesto = (estnumber, estvers) => {
     // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`); //presupuesto update anterior
-    navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
+    navigate(`/simuladorMEX/update-simuladorMEX/${estnumber}/${estvers}`);
   };
 
   const useStyles = makeStyles({
@@ -636,9 +636,9 @@ const CustomerList = () => {
               <AnimateButton>
                 <Button
                   variant="contained"
-                  onClick={() => navigate("/estimate/create-estimateMex")}
+                  onClick={() => navigate("/simuladorMEX/CreateSimuMex")}
                 >
-                  Create Estimate
+                  Create Simulacion
                 </Button>
               </AnimateButton>
             )}

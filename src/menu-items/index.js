@@ -1,6 +1,8 @@
 import dashboard from './dashboard';
 import application from './application';
 import masterTables from './masterTables';
+import simulador from './simulador';
+
 import pages from './pages';
 
 // ELEMENTOS SECUNDARIOS
@@ -14,8 +16,9 @@ import other from './other';
 const menuItems = {
     items: [
         dashboard,
+        simulador,
         application,
-        masterTables
+        masterTables,
         //pages,
         // elements,
         // utilities,

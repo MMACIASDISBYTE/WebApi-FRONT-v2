@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // material-ui
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -30,6 +30,11 @@ import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
 import { CircularProgress, Select } from "@material-ui/core";
+import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
+import ReplyAllRoundedIcon from "@mui/icons-material/ReplyAllRounded";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+
 
 // project imports
 import AddItemPage from "../AddItemPage";
@@ -52,8 +57,6 @@ import { TarifasPolizaHelper } from "helpers/TarifasPolizaHelper";
 //importacion para poder opacar el placeholder del dolar
 import { makeStyles } from "@material-ui/core/styles";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { PesajeContenedor } from "../PesajeContenedor";
-import { CustomSelect } from "../CustomSelect";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
 import { TarifasFwdHelper } from "helpers/TarifasFwdHelper";
 import { TarifasFleteHelper } from "helpers/TarifasFleteHelper";
@@ -62,13 +65,18 @@ import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
 import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
-import AddDetailsPage from "../AddDetailsPage";
-import { TarifarioArrBool } from "../TarifarioArrBool";
 import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
 import { TarifonMexHelper } from "helpers/TarifonMexHelper";
 import { Box } from "@mui/system";
 import { ExtraCostoDobleClick } from "../../UpdateVersPresupuesto/ExtraCostoDobleClick";
+import { PesajeContenedor } from "../../CreatePresupuesto/PesajeContenedor";
+import { CustomSelect } from "../../CreatePresupuesto/CustomSelect";
+import AddDetailsPage from "../../CreatePresupuesto/AddDetailsPage";
+import { CustomSelectUpdate } from "../CustomSelectUpdate";
+import UpdateItemPage from "../UpdateItemPage";
 import { ProductosHelper } from "helpers/ProductosHelper";
+import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
+import { ExtraCostoDobleClickUpdate } from "../ExtraCostoDobleClickUpdate";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -174,16 +182,22 @@ function CreateInvoice() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
+  const { estnumber, vers, presupuesto } = useParams();
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
   // console.log(user);
   const [open, setOpen] = useState(false);
   const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
   const [valueIva, setValueIva] = React.useState("false");
   const [dataHelp, setDataHelp] = useState({});
+  const [ProductsDisbyte, setProductsDisbyte] = useState({});
+
   const [loading, setLoading] = useState(true);
   const [loadingEnvio, setLoadingEnvio] = useState(true);
   const [mensaje, setMensaje] = useState("");
   const [ocultar, setOcultar] = useState(false);
+  const [resaltaCambios,setResaltaCambios] = useState([])
+
+
 
   const ordenArrCarga = [
     "LCL",
@@ -201,6 +215,11 @@ function CreateInvoice() {
     const NCM = await NcmHelper.fetchData();
     const NCM_Mex = await NcmHelper.fetchDataMex();
     const presupuesto = await PresupuestoHelper.fetchData();
+    const presupuestoEditable = await PresupuestoHelper.readDataEstVers(
+      estnumber,
+      vers,
+      ""
+    );
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
@@ -215,6 +234,7 @@ function CreateInvoice() {
     const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
     const ProductosDisbyte = await ProductosHelper.fetchData();
 
+
     const carga = await UtilidadesHelper.ordenadorDeArrayByDescription(
       ordenArrCarga,
       cargaAOrdenar
@@ -226,6 +246,7 @@ function CreateInvoice() {
       NCM,
       NCM_Mex,
       presupuesto,
+      presupuestoEditable,
       proximoEstDisponible,
       // tipoCambio,
       Paises,
@@ -238,12 +259,28 @@ function CreateInvoice() {
       TarifasBanco,
       TarifasGestDig,
       ProductosDisbyte,
+
     };
     setDataHelp(objData);
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
-  // console.log(dataHelp);
+  console.log(dataHelp);
+
+  const [producto, setProductos] = useState();
+  useState(()=> {
+
+    if(dataHelp.ProductosDisbyte){
+
+      const opciones = dataHelp?.ProductosDisbyte.map(product => ({
+        title: product.name,
+        ...product
+      }))
+      console.log(opciones);
+    }
+
+  },[dataHelp.ProductosDisbyte])
+
 
   const cellInput = [
     {
@@ -322,6 +359,10 @@ function CreateInvoice() {
       em: "Seleccione una Carga",
       inputLabel: "Carga",
       data: dataHelp.carga,
+      dataType: "objectArray",
+      selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      PaisRegionApply: false,
     },
   ];
 
@@ -378,6 +419,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
+      resaltar: false,
+      nameGastoLocalTarifon: 'gloc_fwd',
     },
     {
       id: "gloc_terminales",
@@ -391,6 +434,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
+      resaltar: false,
+      nameGastoLocalTarifon: 'gasto_terminal',
     },
     {
       id: "gloc_flete",
@@ -404,6 +449,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
+      resaltar: false,
+      nameGastoLocalTarifon: 'flete_interno',
     },
     {
       id: "gloc_descarga",
@@ -417,6 +464,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
+      resaltar: false,
+      nameGastoLocalTarifon: 'gasto_descarga_depo',
     },
     {
       id: "gloc_despachantes",
@@ -430,6 +479,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 2,
+      resaltar: false,
+      nameGastoLocalTarifon: 'gloc_despachantes', //se calcula
     },
     {
       id: "freight_cost",
@@ -443,6 +494,8 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 8,
+      resaltar: false,
+      nameGastoLocalTarifon: 'freight_charge',
     },
     {
       id: "freight_insurance_cost",
@@ -456,17 +509,208 @@ function CreateInvoice() {
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 9,
+      resaltar: false,
+      nameGastoLocalTarifon: 'freight_insurance_cost', // se calcula
+    },
+  ];
+
+  const ExtraCostosSourcing = [
+    {
+      id: "extrag_src1",
+      name: "extrag_src1",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
+      arrPosition: 4,
+      resaltar: false
+    },
+    {
+      id: "extrag_src2",
+      name: "extrag_src2",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_src_notas",
+      name: "extrag_src_notas",
+      em: "Notas",
+      inputLabel: "Notas",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      dataType: "string",
+      Xs_Xd: [12, 6],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      arrPosition: 3,
+      resaltar: false
+    },
+  ];
+
+  const ExtraCostosComex = [
+    {
+      id: "extrag_comex1",
+      name: "extrag_comex1",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
+      arrPosition: 4,
+      resaltar: false
+    },
+    {
+      id: "extrag_comex2",
+      name: "extrag_comex2",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_comex3",
+      name: "extrag_comex3",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
+      dataType: "number",
+      Xs_Xd: [12, 2.66],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_comex_notas",
+      name: "extrag_comex_notas",
+      em: "Notas",
+      inputLabel: "Notas",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
+      dataType: "string",
+      Xs_Xd: [12, 4],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
+      arrPosition: 3,
+      resaltar: false
+    },
+  ];
+
+  const ExtraCostosFinanciero = [
+    {
+      id: "extrag_finan1",
+      name: "extrag_finan1",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
+      arrPosition: 4,
+      resaltar: false
+    },
+    {
+      id: "extrag_finan2",
+      name: "extrag_finan2",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_finan3",
+      name: "extrag_finan3",
+      em: "Valor 3 [USD]",
+      inputLabel: "Valor 3 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_finan4",
+      name: "extrag_finan4",
+      em: "Valor 4 [USD]",
+      inputLabel: "Valor 4 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_finan5",
+      name: "extrag_finan5",
+      em: "Valor 5 [USD]",
+      inputLabel: "Valor 5 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
+      dataType: "number",
+      Xs_Xd: [12, 1.8],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
+      arrPosition: 3,
+      resaltar: false
+    },
+    {
+      id: "extrag_finan_notas",
+      name: "extrag_finan_notas",
+      em: "Notas",
+      inputLabel: "Notas",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
+      dataType: "string",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
+      arrPosition: 3,
+      resaltar: false
     },
   ];
 
   useEffect(() => {
     dataHelpers();
   }, []);
-
-  // const today = new Date();
-  // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;
-  // const isoString = today.toISOString();
-  // console.log(isoString);
 
   const formik = useFormik({
     initialValues: {
@@ -498,7 +742,7 @@ function CreateInvoice() {
       tarifasbancos_id: 0,
       tarifasgestdigdoc_id: 0,
 
-      extrag_src_notas: "Sin notas",
+      extrag_src_notas: "",
 
       pesoTotal: 0,
 
@@ -509,7 +753,7 @@ function CreateInvoice() {
       extrag_comex_notas: "Sin notas",
       extrag_glob_src1: 0, //nuevos
       extrag_glob_src2: 0, //nuevos
-      extrag_src_notas: "Sin notas",
+      extrag_src_notas: "Sin Notas",
       extrag_finanformula1_id: 0,
       extrag_finanformula2_id: 0,
       extrag_finanformula3_id: 0,
@@ -602,7 +846,7 @@ function CreateInvoice() {
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
-            await PresupuestoHelper.createData(postData);
+            await PresupuestoHelper.createNewPresupuesto(postData, estnumber);
             console.log("Creacion exitosa de: ", postData);
             setProductsData([]);
             setLoadingEnvio(false);
@@ -634,6 +878,7 @@ function CreateInvoice() {
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
+    //CABECERA
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue("estnumber", dataHelp.proximoEstDisponible); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
@@ -644,6 +889,160 @@ function CreateInvoice() {
     // }
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue("dolar", 350);
+    }
+
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "status",
+        dataHelp.presupuestoEditable?.estHeader?.status
+      );
+    }
+
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "project",
+        dataHelp.presupuestoEditable?.estHeader?.project == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.project
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "description",
+        dataHelp.presupuestoEditable?.estHeader?.description == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.description
+      );
+    }
+
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "embarque",
+        dataHelp.presupuestoEditable?.estHeader?.embarque == ""
+          ? "Sin Data"
+          : dataHelp.presupuestoEditable?.estHeader?.embarque
+      );
+    }
+
+    //GASTOS LOCALES
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwd",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_flete",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminales",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantes",
+        dataHelp.presupuestoEditable?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_cost",
+        dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
+      );
+    }
+
+    // EXTRA GASTOS
+    // SOURCING
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_src1",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_src1
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_src2",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_src2
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_src_notas",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_src_notas
+      );
+    }
+    // COMEX
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex1",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex1
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex2",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex2
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex3",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex3
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_comex_notas",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_comex_notas
+      );
+    }
+    // FINANCIERO
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan1",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan1
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan2",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan2
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan3",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan3
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan4",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan4
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan5",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan5
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "extrag_finan_notas",
+        dataHelp.presupuestoEditable?.estHeader?.extrag_finan_notas
+      );
     }
   }, [dataHelp]);
 
@@ -657,8 +1056,11 @@ function CreateInvoice() {
   });
 
   const [productsData, setProductsData] = useState([]);
+  const [productsDataAdd, setProductsDataAdd] = useState([]);
   const [valueBasic, setValueBasic] = React.useState(new Date());
   const [addItemClicked, setAddItemClicked] = useState(false);
+
+  const [rowUpdate, SetRowUpdate] = useState([]);
 
   // for calculating cost of all orders
   const getTotalAmounts = () => {
@@ -687,10 +1089,16 @@ function CreateInvoice() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsData]);
 
-  // to delete row in order details
-  const editProductHandler = (id) => {
-    console.log(`El producto seleccionado es el: `, id);
+  // to Update row in order details
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const editProductHandler = (rowUpdate) => {
+    console.log(`El producto seleccionado es el: `, rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));
+    setOpenUpdate(true);
+    SetRowUpdate(rowUpdate);
+  };
+  const handleCloseUpdateDialog = () => {
+    setOpenUpdate(false);
   };
 
   // to delete row in order details
@@ -703,50 +1111,50 @@ function CreateInvoice() {
     setOpen(false);
     if (mensaje == "Presupuesto creado Exitosamante") {
       // navigate("/estimate/estimate-list");
-      navigate(`/estimate/details/${dataHelp.proximoEstDisponible}/1`);
+      navigate(`/simuladorMEX/details/${estnumber}/${Number(vers) + 1}`);
     }
     setMensaje("");
     setLoadingEnvio(true);
   };
 
-  //VECTOR
-  // const [calculo, setCalculo ] = useState([]);
-  // const mapeoProductData = (productsData) => {
-  //   let provisorio = productsData.map((index, valor) => {return(index * 4)  });
-  //   console.log(provisorio);
-  //   setCalculo(...calculo, provisorio);
-  // };
-
-  // useState(()=>{
-  //   mapeoProductData(productsData);
-  //   console.log(productsData);
-  // },[productsData])
-
   // add item handler
-  const handleAddItem = (addingData) => {
-    setProductsData([
-      ...productsData,
-      {
+  const handleAddItem = (addingData, edicion = false) => {
+    if (edicion) {
+      // Encuentra el índice del producto en el arreglo productsData por su id
+      const index = productsData.findIndex(
+        (product) => product.id === addingData.id
+      );
+
+      if (index !== -1) {
+        // Elimina el producto existente de la lista
+        productsData.splice(index, 1);
+      }
+      function formatValue(value) {
+        return value === "0" ? 0 : value;
+      }
+
+      // Añade el producto actualizado a la lista
+      productsData.push({
+        // ... (mismos campos que tienes en el caso else)
         // VALORES DEL DETAILS
         id: addingData.id,
         description: addingData.description,
+        // description: addingData.desc,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
         // total: addingData.totalAmount,
         pcsctn: addingData.pcsctn,
         gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
-        proovedores_name: addingData.proovedores_name
-          ? addingData.proovedores_name
-          : "Proveedor Provisorio",
+        proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
-        proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
 
         productowner: addingData.productowner,
         proforma_invoice: addingData.proforma_invoice,
         comercial_invoice: addingData.comercial_invoice,
         purchaseorder: addingData.purchaseorder,
+        proveedor_prov: addingData.proveedor_prov,
 
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
@@ -766,41 +1174,114 @@ function CreateInvoice() {
         ncm_sp2: addingData.ncm_sp2,
         precio_u: addingData.precio_u,
 
-        extrag_comex1: addingData.extrag_comex1,
-        extrag_comex2: addingData.extrag_comex2,
-        extrag_comex3: addingData.extrag_comex3,
+        extrag_comex1: formatValue(addingData.extrag_comex1),
+        extrag_comex2: formatValue(addingData.extrag_comex2),
+        extrag_comex3: formatValue(addingData.extrag_comex3),
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_src1: addingData.extrag_src1,
-        extrag_src2: addingData.extrag_src2,
+        extrag_src1: formatValue(addingData.extrag_src1),
+        extrag_src2: formatValue(addingData.extrag_src2),
         extrag_src_notas: addingData.extrag_src_notas,
 
-        extrag_finan1: addingData.extrag_finan1,
-        extrag_finan2: addingData.extrag_finan2,
-        extrag_finan3: addingData.extrag_finan3,
+        extrag_finan1: formatValue(addingData.extrag_finan1),
+        extrag_finan2: formatValue(addingData.extrag_finan2),
+        extrag_finan3: formatValue(addingData.extrag_finan3),
         extrag_finan_notas: addingData.extrag_finan_notas,
 
         costo_u_est: addingData.costo_u_est,
         costo_u_prov: addingData.costo_u_prov,
         costo_u: addingData.costo_u,
-
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
         detailorder: addingData.detailorder,
-        // Calculo: calculo,
-      },
-    ]);
-    console.log(addingData);
+      });
 
-    setAddItemClicked(false);
+      // Actualiza el estado
+      setProductsData([...productsData]);
+    } else {
+      setProductsData([
+        ...productsData,
+        {
+          // VALORES DEL DETAILS
+          id: addingData.id,
+          description: addingData.description,
+          ncm_id: addingData.ncm_id,
+          ncm_code: addingData.ncm_code,
+          // total: addingData.totalAmount,
+          pcsctn: addingData.pcsctn,
+          gwctn: addingData.gwctn,
+          ncm_ack: true, //aplicar el RadioGroup,
+          proovedores_name: addingData.proovedores_name
+            ? addingData.proovedores_name
+            : "Proveedor Provisorio",
+          proveedores_id: addingData.proveedores_id,
+          proveedor_prov: addingData.proveedor_prov,
+          sku: addingData.sku,
+
+          productowner: addingData.productowner,
+          proforma_invoice: addingData.proforma_invoice,
+          comercial_invoice: addingData.comercial_invoice,
+          purchaseorder: addingData.purchaseorder,
+
+          imageurl: addingData.imageurl,
+          exw_u: addingData.exw_u,
+          fob_u: addingData.fob_u,
+          qty: addingData.qty,
+          pcsctn: addingData.pcsctn,
+          cbmctn: addingData.cbmctn,
+          gwctn: addingData.gwctn,
+
+          cambios_notas: addingData.cambios_notas,
+          ncm_arancel: addingData.ncm_arancel,
+          ncm_te_dta_otro: addingData.ncm_te_dta_otro,
+          ncm_iva: addingData.ncm_iva,
+          ncm_ivaad: addingData.ncm_ivaad,
+          gcias: addingData.gcias,
+          ncm_sp1: addingData.ncm_sp1,
+          ncm_sp2: addingData.ncm_sp2,
+          precio_u: addingData.precio_u,
+
+          extrag_comex1: addingData.extrag_comex1,
+          extrag_comex2: addingData.extrag_comex2,
+          extrag_comex3: addingData.extrag_comex3,
+          extrag_comex_notas: addingData.extrag_comex_notas,
+
+          extrag_src1: addingData.extrag_src1,
+          extrag_src2: addingData.extrag_src2,
+          extrag_src_notas: addingData.extrag_src_notas,
+
+          extrag_finan1: addingData.extrag_finan1,
+          extrag_finan2: addingData.extrag_finan2,
+          extrag_finan3: addingData.extrag_finan3,
+          extrag_finan_notas: addingData.extrag_finan_notas,
+
+          costo_u_est: addingData.costo_u_est,
+          costo_u_prov: addingData.costo_u_prov,
+          costo_u: addingData.costo_u,
+
+          updated: addingData.updated,
+          htimestamp: addingData.htimestamp,
+          detailorder: addingData.detailorder,
+          // Calculo: calculo,
+        },
+      ]);
+      setAddItemClicked(false);
+    }
+    console.log(addingData);
   };
+
+  useEffect(() => {
+    if (dataHelp.presupuestoEditable) {
+      setProductsData(dataHelp.presupuestoEditable.estDetails);
+      setProductsDataAdd(dataHelp.presupuestoEditable.estDetAddData);
+    }
+  }, [dataHelp]);
 
   //ventana de productos lateral
 
   const [open2, setOpen2] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen2(true);
-    console.log(open2);
   };
   const handleCloseDialog = () => {
     setOpen2(false);
@@ -826,6 +1307,14 @@ function CreateInvoice() {
     );
   };
 
+
+  function actualizaResaltar(id,valor)
+  {
+    const resaltaCambiosTmp=resaltaCambios;
+    resaltaCambios[ExtraCostosLocal.findIndex((el)=>el.id==id)]=valor;
+    setResaltaCambios(resaltaCambiosTmp);
+  }
+
   const tarifonDataFetch = async (id) => {
     const tarifonData = await TarifonMexHelper.readDataByCargaId(id);
     setGastoLocal(tarifonData);
@@ -834,23 +1323,88 @@ function CreateInvoice() {
   useEffect(() => {
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
+
+  useEffect(() => {
+    formik.setFieldValue(
+      "freight_insurance_cost",
+      dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
+    );
+  }, [gastoLocal]);
   console.log(gastoLocal);
 
   useEffect(() => {
-    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
-    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    console.log(formik.values.gloc_descarga);
-    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
-    formik.setFieldValue(
-      "gloc_despachantes",
-      CalculoDespachanteMex(formik?.values?.cif_grand_total)
-    );
+
+    // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
+    if(gastoLocal?.gloc_fwd?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2))
+    {
+        console.log("EQ");
+        formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
+        //setAlerta(false,0);
+        actualizaResaltar("gloc_fwd",false);
+    }
+    else
+    {
+        console.log("NOTEQ");
+        formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
+        actualizaResaltar("gloc_fwd",true);
+    }
+
+    if(gastoLocal?.flete_interno?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
+        //setAlerta(false,1);
+        actualizaResaltar("gloc_flete",false);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_flete",dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2));
+        //setAlerta(false,1);
+        actualizaResaltar("gloc_flete",true);
+    }
+
+    if(gastoLocal?.gasto_descarga_depo?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
+        //setAlerta(false,2);
+        actualizaResaltar("gloc_descarga",false);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_descarga",dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2));
+        //set (true,2);
+        actualizaResaltar("gloc_descarga",true);
+    }
+
+    if(gastoLocal?.gasto_terminal?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
+        //setAlerta(false,3);
+        actualizaResaltar("gloc_terminales",false);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("gloc_terminales",dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2));
+        //setAlerta(true,3);
+        actualizaResaltar("gloc_terminales",true);
+    }
+
+
+    //formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+    //formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
+    //formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
+    //formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+    formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
-
-    console.log(formik.values);
-  }, [gastoLocal, productsData]);
+    console.log(ExtraCostosLocal);
+    //console.log(formik.values);
+  }, [gastoLocal, productsData,dataHelp?.presupuestoEditable]);
 
   function handleTextClick() {
     const inputElement = document.getElementById("carga_id");
@@ -859,9 +1413,11 @@ function CreateInvoice() {
     }
   }
 
+  const [fobGrandTotal, setFobGrandTotal] = useState(0);
   useEffect(() => {
     if (productsData.length > 0) {
       const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
+        setFobGrandTotal(accumulator + currentValue.fob_u * currentValue.qty);
         return accumulator + currentValue.fob_u * currentValue.qty;
       }, 0);
       formik.setFieldValue(
@@ -880,11 +1436,76 @@ function CreateInvoice() {
     },
   }));
 
+  const [showCostosLocal, setShowCostosLocal] = useState(true);
+  const [showCostosSourcing, setShowCostosSourcing] = useState(false);
+  const [showCostosComex, setShowCostosComex] = useState(false);
+  const [showCostosFinan, setShowCostosFinan] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
+
+  const CambioEstado = () => {
+    if (formik.values.status < 3) {
+      formik.setFieldValue("status", formik.values.status + 1);
+    }
+    // console.log(formik.values.status);
+  };
+  const CambioEstadoBack = () => {
+    if (formik.values.status > 0) {
+      formik.setFieldValue("status", formik.values.status - 1);
+    }
+    // console.log(formik.values.status);
+  };
+
+  // PERMISOS
+  //Gestion de permisos
+  const permisos = useAccessTokenJWT();
+  // console.log(permisos);
+  const permiTotal = [
+    "presupuesto:all",
+    "presupuesto:create",
+    "presupuesto:edit",
+  ]; //declaro los permisos que necesita para acceder a este componente
+  const permiIngreso = [
+    "CEO",
+    "Gerencia",
+    "Lider",
+    "Comex",
+    "Finanzas",
+    "Sourcing",
+  ];
+  const permiCreate = ["CEO", "Sourcing"];
+  const permiEdicion = ["CEO", "Gerencia", "Comex", "Finanzas", "Sourcing"];
+  const permiDelele = ["CEO"];
+  const permiRetroceder = ["CEO"];
+  const permiComex = ["Comex"];
+  const permiSourcing = ["Sourcing"];
+  const permiFinanzas = ["Finanzas"];
+
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const ComexOK = permiComex.every((permiso) => permisos.includes(permiso));
+  const SourcingOk = permiSourcing.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  const FinanzasOk = permiFinanzas.every((permiso) =>
+    permisos.includes(permiso)
+  );
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    navigate("/NoAutorizado");
+  }
+
   return (
     <>
       <MainCard
         // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
-        title={`Crear Presupuesto de Mexico:`}
+        title={`Actualizar Simulacion de Mexico:`}
       >
         <div
           style={{
@@ -899,7 +1520,7 @@ function CreateInvoice() {
           <AnimateButton>
             <Button
               variant="contained"
-              onClick={() => navigate("/estimateMex/estimate-list")}
+              onClick={() => navigate("/simuladorMEX/simulador")}
             >
               Ir a la lista
             </Button>
@@ -917,11 +1538,112 @@ function CreateInvoice() {
             <CircularProgress />
           </div>
         ) : (
-          <form onSubmit={formik.handleSubmit}>
+          <form
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+            }
+          }}
+          onSubmit={formik.handleSubmit}>
             <Grid container spacing={gridSpacing}>
               {/* COMPONENTE DE INPUTS que maneja la data de cabeceraPais SELECCIONA PAIS */}
 
               {/* CABECERA DE PRESUPUESTADOR */}
+
+              {/* STATUS */}
+              <Grid
+                item
+                xs={12}
+                md={11}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
+                  position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                  top: "-110px", // Posición desde la parte superior del contenedor
+                  //right: "10px", // Posición desde la derecha del contenedor
+                  marginBottom: "-100px",
+                }}
+              >
+                {/* Flecha de return de estado */}
+                {formik.values.status > 0 && RetroEstadoOK && (
+                  <>
+                    <Tooltip title="Volver">
+                      <ReplyAllRoundedIcon
+                        sx={{
+                          marginTop: 1,
+                          "&:hover": {
+                            color: "red", // Cambia esto por el color que quieras
+                          },
+                        }}
+                        disabled={formik.values.status == 3 ? true : false}
+                        onClick={CambioEstadoBack}
+                      />
+                    </Tooltip>
+                  </>
+                )}
+                <Chip
+                  label={` ${
+                      formik.values.status == 0 ? 'CEO' :
+                      formik.values.status == 1
+                      ? "Estado 1: Sourcing"
+                      : formik.values.status == 2
+                      ? "Estado 2: Comex"
+                      : "Estado 3: Financiero"
+                  }`}
+                  size="string"
+                  chipcolor="orange"
+                />
+                {formik.values.status <= 3 && (
+                  <>
+                    {/* Mostrar Flechas de estado */}
+                    {formik.values.status == 0 && RetroEstadoOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 1 && SourcingOk && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                    {formik.values.status == 2 && ComexOK && (
+                      <Tooltip title="Cambiar Estado">
+                        <DoubleArrowRoundedIcon
+                          sx={{
+                            marginTop: 1,
+                            "&:hover": {
+                              color: "red", // Cambia esto por el color que quieras
+                            },
+                          }}
+                          disabled={formik.values.status == 3 ? true : false}
+                          onClick={CambioEstado}
+                        />
+                      </Tooltip>
+                    )}
+                  </>
+                )}
+              </Grid>
 
               {/* FECHA DE FACTURACION */}
               <Grid item xs={12} md={1.6} align="left">
@@ -1030,7 +1752,7 @@ function CreateInvoice() {
 
               {/* SELECT CARGA CABECERA */}
               {cabeceraCarga.map((field) => (
-                <CustomSelect
+                <CustomSelectUpdate
                   key={field.id}
                   {...field}
                   formik={formik}
@@ -1039,30 +1761,6 @@ function CreateInvoice() {
                   tooltip={"Seleccione Carga"}
                 />
               ))}
-
-              {/* STATUS */}
-              {/* <Grid
-                item
-                xs={12}
-                md={2}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-end",
-                  flexWrap: "wrap", // para que se envuelva en caso de que no haya espacio suficiente
-                }}
-              >
-                <Chip
-                  label={`Status: ${
-                    formik.values.status == 1
-                      ? "Estado inicial"
-                      : "Segundo estadio"
-                  }`}
-                  size="string"
-                  chipcolor="orange"
-                />
-              </Grid> */}
 
               {/* PRJ CABECERA */}
               {cabeceraPRJ.map((field) => (
@@ -1248,43 +1946,22 @@ function CreateInvoice() {
                 <Divider />
               </Grid> */}
 
-              {/* {
-                //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                cellInput.map((field) => (
-                  <TarifarioArrBool
-                    key={field.id}
-                    {...field}
-                    formik={formik}
-                    XS={12}
-                    MD={1.5}
-                    PaisRegion={formik.values.paisregion_id}
-                  />
-                ))
-              } */}
-
               {formik.values.carga_id != null ? (
                 <>
-                  <Grid item xs={12} style={{ position: 'relative' }}>
+                  <Grid item xs={12}>
                     <Divider />
                     <Typography
                       // color={"green"}
-                      variant="h4"
-                      style={{ 
-                        // margin: "8px", 
-                        position: 'absolute', 
-                        transform: 'rotate(-90deg)', 
-                        transformOrigin: 'left bottom', 
-                        whiteSpace: 'nowrap',
-                        bottom: -120, // Ajusta según sea necesario
-                        left: 20 // Ajusta según sea necesario
-                      }}
+                      variant="h3"
+                      style={{ margin: "8px" }}
                     >
                       Gastos Locales
                     </Typography>
                   </Grid>
 
-                  {ExtraCostosLocal.map((input) => (
-                    <ExtraCostoDobleClick
+                  {ExtraCostosLocal.map((input,index) => (
+  
+                    <ExtraCostoDobleClickUpdate
                       key={input.id}
                       id={input.id}
                       name={input.name}
@@ -1302,8 +1979,12 @@ function CreateInvoice() {
                       ValorSwitch={input.ValorSwitch}
                       ValorSwitchBase={input.ValorSwitchBase}
                       arrPosition={input.arrPosition}
+                      resaltar={resaltaCambios[index]}
+                      gastoLocal={gastoLocal}
+                      nameGastoLocalTarifon={input.nameGastoLocalTarifon}
+                      fobGrandTotal={fobGrandTotal}
                     />
-                  ))}
+                    ))}
                 </>
               ) : (
                 <>
@@ -1326,12 +2007,253 @@ function CreateInvoice() {
                 </>
               )}
 
+              {/* DETALLE DE COSTOS Sourcing */}
+              {!(formik.values.status == 2 || formik.values.status == 3) && (
+                <>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    {showCostosSourcing ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosSourcing(!showCostosSourcing)
+                              }
+                            />
+                          </Tooltip>
+                          <Grid item xs={12}>
+                            {/* <Divider /> */}
+                            <Typography
+                              // color={"green"}
+                              variant="h3"
+                              style={{ margin: "8px" }}
+                            >
+                              Extra Gastos Sourcing
+                            </Typography>
+                          </Grid>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosSourcing(!showCostosSourcing)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            // color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Sourcing
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Grid>
+
+                  {dataHelp.presupuestoEditable &&
+                    showCostosSourcing &&
+                    ExtraCostosSourcing.map((input) => (
+                      <ExtraCostoDobleClick
+                        key={input.id}
+                        id={input.id}
+                        name={input.name}
+                        em={input.em}
+                        inputLabel={input.inputLabel}
+                        data={input.data}
+                        dataType={input.dataType}
+                        formik={formik}
+                        Xs_Xd={input.Xs_Xd}
+                        blockDeGastos={input.blockDeGastos}
+                        onSwitchChange={(newState) =>
+                          handleSwitchChangeInIndex(newState, input.arrPosition)
+                        }
+                        handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                        ValorSwitch={input.ValorSwitch}
+                        ValorSwitchBase={input.ValorSwitchBase}
+                        arrPosition={input.arrPosition}
+                      />
+                    ))}
+                </>
+              )}
+
+              {/* DETALLE DE COSTOS COMEX */}
+              {!(formik.values.status == 1 || formik.values.status == 3) && (
+                <>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    {showCostosComex ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosComex(!showCostosComex)
+                              }
+                            />
+                          </Tooltip>
+                          <Grid item xs={12}>
+                            {/* <Divider /> */}
+                            <Typography
+                              // color={"green"}
+                              variant="h3"
+                              style={{ margin: "8px" }}
+                            >
+                              Extra Gastos Comex
+                            </Typography>
+                          </Grid>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosComex(!showCostosComex)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            // color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Comex
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Grid>
+
+                  {dataHelp.presupuestoEditable &&
+                    showCostosComex &&
+                    ExtraCostosComex.map((input) => (
+                      <ExtraCostoDobleClick
+                        key={input.id}
+                        id={input.id}
+                        name={input.name}
+                        em={input.em}
+                        inputLabel={input.inputLabel}
+                        data={input.data}
+                        dataType={input.dataType}
+                        formik={formik}
+                        Xs_Xd={input.Xs_Xd}
+                        blockDeGastos={input.blockDeGastos}
+                        onSwitchChange={(newState) =>
+                          handleSwitchChangeInIndex(newState, input.arrPosition)
+                        }
+                        handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                        ValorSwitch={input.ValorSwitch}
+                        ValorSwitchBase={input.ValorSwitchBase}
+                        arrPosition={input.arrPosition}
+                      />
+                    ))}
+                </>
+              )}
+
+              {/* DETALLE DE COSTOS Financiero */}
+              {!(formik.values.status == 1 || formik.values.status == 2) && (
+                <>
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    {showCostosFinan ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosFinan(!showCostosFinan)
+                              }
+                            />
+                          </Tooltip>
+                          <Grid item xs={12}>
+                            {/* <Divider /> */}
+                            <Typography
+                              // color={"green"}
+                              variant="h3"
+                              style={{ margin: "8px" }}
+                            >
+                              Extra Gastos Financiero
+                            </Typography>
+                          </Grid>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosFinan(!showCostosFinan)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            // color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Financiero
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Grid>
+
+                  {dataHelp.presupuestoEditable &&
+                    showCostosFinan &&
+                    ExtraCostosFinanciero.map((input) => (
+                      <ExtraCostoDobleClick
+                        key={input.id}
+                        id={input.id}
+                        name={input.name}
+                        em={input.em}
+                        inputLabel={input.inputLabel}
+                        data={input.data}
+                        dataType={input.dataType}
+                        formik={formik}
+                        Xs_Xd={input.Xs_Xd}
+                        blockDeGastos={input.blockDeGastos}
+                        onSwitchChange={(newState) =>
+                          handleSwitchChangeInIndex(newState, input.arrPosition)
+                        }
+                        handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                        ValorSwitch={input.ValorSwitch}
+                        ValorSwitchBase={input.ValorSwitchBase}
+                        arrPosition={input.arrPosition}
+                      />
+                    ))}
+                </>
+              )}              
+
               {/* CARGA DE PRODUCTOS */}
               <Grid item xs={12}>
                 <Divider />
               </Grid>
               <ProductsPage
                 productsData={productsData}
+                productsDataAdd={productsDataAdd}
                 deleteProductHandler={deleteProductHandler}
                 editProductHandler={editProductHandler}
                 freightCost={gastoLocal?.freight_charge}
@@ -1369,6 +2291,22 @@ function CreateInvoice() {
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
+                </>
+              ) : (
+                ""
+              )}
+
+              {openUpdate ? (
+                <>
+                  <UpdateItemPage
+                    handleAddItem={handleAddItem}
+                    open={openUpdate}
+                    handleCloseDialog={handleCloseUpdateDialog}
+                    dataHelp={dataHelp}
+                    rowUpdate={rowUpdate}
+                    formik={formik}
+                    ProductsDisbyte={dataHelp?.ProductosDisbyte}
+                  />
                 </>
               ) : (
                 ""
