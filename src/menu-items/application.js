@@ -203,60 +203,7 @@ const application = {
                 }
             ]
         },
-
-        // LISTA DE BANCO
-        {
-            id: 'banco',
-            title: <FormattedMessage id="banco" />,
-            type: 'collapse',
-            icon: AccountBalanceOutlinedIcon,
-            children: [
-                {
-                    id: 'customer-list',
-                    title: <FormattedMessage id="banco-list" />,
-                    type: 'item',
-                    url: '/banco/banco-list',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'order-list',
-                    title: <FormattedMessage id="order-list" />,
-                    type: 'item',
-                    url: '/banco/order-list',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'create-invoice',
-                    title: <FormattedMessage id="create-banco" />,
-                    type: 'item',
-                    url: '/banco/banco-invoice',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'order-details',
-                    title: <FormattedMessage id="banco-details" />,
-                    type: 'item',
-                    url: '/banco/banco-details'
-                },
-                {
-                    id: 'product',
-                    title: <FormattedMessage id="banco" />,
-                    type: 'item',
-                    url: '/banco/banco',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'product-review',
-                    title: <FormattedMessage id="banco-review" />,
-                    type: 'item',
-                    url: '/banco/banco-review',
-                    breadcrumbs: false
-                }
-            ]
-        },*/
-
-
-
+*/
 
         // LISTA DE HERRAMIENTAS DE COMUNICACION: chat, kanban, mail, calendar
         // {
@@ -286,9 +233,9 @@ const application = {
             id: 'ESTIMADOR-MEX',
             title: <FormattedMessage id="ESTIMADOR-MEX" />,
             type: 'item',
-            // url: '/estimateMex/estimate-list',
+            url: '/estimateMex/estimate-list',
             // type: 'collapse',
-            url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
+            // url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,
             breadcrumbs: false,
