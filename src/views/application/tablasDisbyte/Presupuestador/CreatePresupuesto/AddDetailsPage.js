@@ -43,6 +43,7 @@ import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import AutoCompleteTextField from "./AutoCompleteTextField";
 import { SwitchIOS } from "./SwitchIOS";
+import AutoCompleteTextFieldNCM from "./AutoCompleteTextFieldNCM";
 
 // styles
 const ImageWrapper = styled("div")(({ theme }) => ({
@@ -235,7 +236,7 @@ const AddDetailsPage = ({
   // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
   //   console.log(formik.values.paisregion_id);
-
+  const [NCMList2, setNCMList2] = useState();
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
     let paisregion_id = 5; // harcodeado Mexico
@@ -258,6 +259,14 @@ const AddDetailsPage = ({
         ncm_id: item.id,
         ncm_code: item.code,
       }));
+      const opciones = dataHelp?.NCM_Mex.map((item) => ({
+        title:  `Code: ${item.code} - ${item.description}`,
+        ...item,
+      })); 
+      setNCMList2(opciones)
+      console.log('Opciones NCM :', opciones);
+
+      console.log(dataHelp.NCM_Mex);
     }
 
     setNCMList(updatedList);
@@ -628,8 +637,20 @@ const AddDetailsPage = ({
                 </Grid>
               </Tooltip>
 
+              <Grid item xs={12} md={5} fullWidth>
+                  <AutoCompleteTextFieldNCM
+                    handleChange={handleChange}
+                    valorPorDefecto={selectedItem?.ncm_id || ""}
+                    name="ncm_id"
+                    ListaNCM={NCMList2}
+                  />
+                  {errors.NCMError && (
+                    <FormHelperText>{errors.NCMError}</FormHelperText>
+                  )}{" "}
+                </Grid>
+
               {/* SELECCION DE NCM */}
-              <Grid item xs={12} md={5}>
+              {/* <Grid item xs={12} md={5}>
                 <TextField
                   id="ncm_id"
                   name="ncm_id"
@@ -641,7 +662,7 @@ const AddDetailsPage = ({
                   onChange={handleChange}
                   //   helperText="Seleccione Proveedor"
                 >
-                  {/* {categories.map((option) => ( */}
+                  {/* {categories.map((option) => ( 
                   {NCMList.map((option) => (
                     <MenuItem
                       key={option.id}
@@ -659,8 +680,8 @@ const AddDetailsPage = ({
                 </TextField>
                 {/* {errors.ProveedoresError && (
                   <FormHelperText>{errors.ProveedoresError}</FormHelperText>
-                )}{" "} */}
-              </Grid>
+                )}{" "}
+              </Grid> */}
 
               <Grid item xs={12} md={2}>
                 <TextField
