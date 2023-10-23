@@ -286,8 +286,9 @@ const application = {
             id: 'ESTIMADOR-MEX',
             title: <FormattedMessage id="ESTIMADOR-MEX" />,
             type: 'item',
-            url: '/estimateMex/estimate-list',
+            // url: '/estimateMex/estimate-list',
             // type: 'collapse',
+            url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,
             breadcrumbs: false,
@@ -296,7 +297,8 @@ const application = {
                     id: 'estimate-list-CDMX',
                     title: <FormattedMessage id="estimate-list-CDMX" />,
                     type: 'item',
-                    url: '/estimateMex/estimate-list',
+                    url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
+                    // url: '/estimateMex/estimate-list',
                     breadcrumbs: false
                 },
                 // {
@@ -316,7 +318,7 @@ const application = {
             type: 'item',
             // url: '/estimate/estimate-list',
             // url: '/estimateArg_BsAs/estimate-list',  
-            url: '/UnderConstruction',
+            url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
             // type: 'collapse',
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,

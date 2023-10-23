@@ -117,7 +117,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
   const nuevoPresupuesto = (estnumber, estvers) => {
     console.log(estnumber, "de list");
     console.log(estvers, "de list");
-    navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
+    navigate(`/simuladorMEX/update-simuladorMEX/${estnumber}/${estvers}`);
     // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
 
@@ -234,7 +234,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
                 <AnimateButton>
                   <Button
                     variant="contained"
-                    onClick={() => navigate("/estimateMex/estimate-list")}
+                    onClick={() => navigate("/simuladorMEX/simulador")}
                   >
                     Volver a la lista
                   </Button>

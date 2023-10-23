@@ -214,6 +214,15 @@ const UnderContruction = Loadable(lazy(() => import('views/pages/maintenance/Und
 const PagesError = Loadable(lazy(() => import('views/pages/maintenance/Error')));
 const NoAutorizado = Loadable(lazy(() => import('views/pages/maintenance/NoAutorizado')));
 
+// SIMULADOR
+// MEX
+const AppSimuladorMexList = Loadable(lazy(() => import('views/application/tablasDisbyte/Simulador/PresupuestadorList/ListMex')))
+const AppSimuladorMexCreate = Loadable(lazy(() => import('views/application/tablasDisbyte/Simulador/CreatePresupuesto/IndexMex')))
+const AppSimuladorMexUpdate = Loadable(lazy(() => import('views/application/tablasDisbyte/Simulador/UpdateVersPresupuesto/IndexMex')))
+const AppSimuladorOrderDetails = Loadable(lazy(() => import('views/application/tablasDisbyte/Simulador/OrderDetails')))
+
+
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 
@@ -474,7 +483,33 @@ const MainRoutes = {
         {
             path: '/IIBB/IIBB',
             element: <AppIIBB />
-        },                
+        },        
+        
+        // RUTA SIMULADOR
+        {
+            path: '/simuladorMEX/simulador',
+            element: <AppSimuladorMexList />
+        }, 
+        {
+            path: '/simuladorMEX/CreateSimuMex',
+            element: <AppSimuladorMexCreate />
+        },
+        {
+            path: '/simuladorMEX/update-simuladorMEX/:estnumber/:vers',
+            element: <AppSimuladorMexUpdate />
+        },
+        {
+            path: '/simuladorMEX/update-simuladorMEX/:estnumber/:vers',
+            element: <AppSimuladorMexUpdate />
+        },
+        {
+            path: '/simuladorMEX/details',
+            element: <AppSimuladorOrderDetails />
+        },
+        {
+            path: '/simuladorMEX/details/:estnumber/:vers',
+            element: <AppSimuladorOrderDetails />
+        },
 
         // RUTA PRESUPUESTADOR
         {

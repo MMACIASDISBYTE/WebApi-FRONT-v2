@@ -212,7 +212,7 @@ export const UtilidadesHelper = {
         return "Colombia / Medellin";
         break;
       case 5:
-        return "Mexico / CDMX";
+        return "CDMX";
         break;
       case 6:
         return "Mexico / Guadalupe";

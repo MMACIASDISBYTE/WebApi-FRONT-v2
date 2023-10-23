@@ -884,7 +884,7 @@ function CreateInvoice() {
     <>
       <MainCard
         // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
-        title={`Crear Presupuesto de Mexico:`}
+        title={`Crear Simulacion en Mexico:`}
       >
         <div
           style={{
@@ -899,7 +899,7 @@ function CreateInvoice() {
           <AnimateButton>
             <Button
               variant="contained"
-              onClick={() => navigate("/estimateMex/estimate-list")}
+              onClick={() => navigate("/simuladorMEX/simulador")}
             >
               Ir a la lista
             </Button>
@@ -917,7 +917,14 @@ function CreateInvoice() {
             <CircularProgress />
           </div>
         ) : (
-          <form onSubmit={formik.handleSubmit}>
+          <form
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+              }
+            }}
+            onSubmit={formik.handleSubmit}
+          >
             <Grid container spacing={gridSpacing}>
               {/* COMPONENTE DE INPUTS que maneja la data de cabeceraPais SELECCIONA PAIS */}
 
@@ -1088,14 +1095,15 @@ function CreateInvoice() {
 
               {/* NOTA CABECERA Embarque */}
               {cabeceraEmbarque.map((field) => (
-                    <CustomSelect
-                      key={field.id}
-                      {...field}
-                      formik={formik}
-                      XS={12}
-                      MD={1.5}
-                    />
-                  ))}
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={1.5}
+                  desactivado={true}
+                />
+              ))}
 
               {/* ESPACIO DE RELLENO */}
               <Grid item md={0}></Grid>
@@ -1264,19 +1272,19 @@ function CreateInvoice() {
 
               {formik.values.carga_id != null ? (
                 <>
-                  <Grid item xs={12} style={{ position: 'relative' }}>
+                  <Grid item xs={12} style={{ position: "relative" }}>
                     <Divider />
                     <Typography
                       // color={"green"}
                       variant="h4"
-                      style={{ 
-                        // margin: "8px", 
-                        position: 'absolute', 
-                        transform: 'rotate(-90deg)', 
-                        transformOrigin: 'left bottom', 
-                        whiteSpace: 'nowrap',
+                      style={{
+                        // margin: "8px",
+                        position: "absolute",
+                        transform: "rotate(-90deg)",
+                        transformOrigin: "left bottom",
+                        whiteSpace: "nowrap",
                         bottom: -120, // Ajusta según sea necesario
-                        left: 20 // Ajusta según sea necesario
+                        left: 20, // Ajusta según sea necesario
                       }}
                     >
                       Gastos Locales
