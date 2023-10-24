@@ -146,7 +146,7 @@ const headCells = [
   {
     id: "own",
     numeric: true,
-    label: "Emisor",
+    label: "Creador",
     align: "left",
   },
   {

@@ -410,10 +410,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 4,
       resaltar: false,
       nameGastoLocalTarifon: "gloc_fwd",
     },
@@ -425,10 +421,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 7,
       resaltar: false,
       nameGastoLocalTarifon: "gasto_terminal",
     },
@@ -440,10 +432,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_flete,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 3,
       resaltar: false,
       nameGastoLocalTarifon: "flete_interno",
     },
@@ -455,10 +443,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 3,
       resaltar: false,
       nameGastoLocalTarifon: "gasto_descarga_depo",
     },
@@ -470,10 +454,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.gloc_despachantes,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 2,
       resaltar: false,
       nameGastoLocalTarifon: "gloc_despachantes", //se calcula
     },
@@ -485,10 +465,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_cost,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 8,
       resaltar: false,
       nameGastoLocalTarifon: "freight_charge",
     },
@@ -500,10 +476,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
-      arrPosition: 9,
       resaltar: false,
       nameGastoLocalTarifon: "freight_insurance_cost", // se calcula
     },
@@ -518,10 +490,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
       dataType: "number",
       Xs_Xd: [12, 3],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -532,10 +500,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
       dataType: "number",
       Xs_Xd: [12, 3],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -546,11 +510,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
       dataType: "string",
       Xs_Xd: [12, 6],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
-      arrPosition: 3,
       resaltar: false,
     },
   ];
@@ -578,10 +537,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.embarque,
       dataType: "string",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.embarque,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -592,10 +547,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.bl,
       dataType: "string",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.bl,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -606,10 +557,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -620,10 +567,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -634,10 +577,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       dataType: "number",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -648,11 +587,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
       dataType: "string",
       Xs_Xd: [12, 1.7],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
-      arrPosition: 3,
       resaltar: false,
     },
   ];
@@ -666,10 +600,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.pedimiento,
       dataType: "string",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.pedimiento,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -680,10 +610,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
       dataType: "number",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan1,
-      arrPosition: 4,
       resaltar: false,
     },
     {
@@ -694,10 +620,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
       dataType: "number",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan2,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -708,10 +630,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
       dataType: "number",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan3,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -722,10 +640,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
       dataType: "number",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan4,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -736,10 +650,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
       dataType: "number",
       Xs_Xd: [12, 1.4],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan5,
-      arrPosition: 3,
       resaltar: false,
     },
     {
@@ -750,11 +660,6 @@ function CreateInvoice() {
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
       dataType: "string",
       Xs_Xd: [12, 2],
-      blockDeGastos: true,
-      ValorSwitch: null,
-      ValorSwitchBase:
-        dataHelp?.presupuestoEditable?.estHeader?.extrag_finan_notas,
-      arrPosition: 3,
       resaltar: false,
     },
   ];
@@ -1575,18 +1480,41 @@ function CreateInvoice() {
   }
 
   // Logica de gastos locales para habilitar o deshabilitar campos
-  const [checkedSourcing, setCheckedSourcing] = React.useState(true);
-  const [checkedComex, setCheckedComex] = React.useState(true);
-  const [checkedFinan, setCheckedFinan] = React.useState(true);
+  const [checkedSourcing, setCheckedSourcing] = React.useState(false);
+  const [checkedComex, setCheckedComex] = React.useState(false);
+  const [checkedFinan, setCheckedFinan] = React.useState(false);
+  // si la bandera esta en 1 no puede editar los extraGastos
+  const [banderaCheck, setBanderaCheck] = React.useState(0);
+  const [tooltipGastosLocales, setTooltipGastosLocales] = React.useState(
+    "Habilitar/deshabilitar"
+  );
 
   const handleChangeSourcing = (event) => {
-    setCheckedSourcing(event.target.checked);
+    if (banderaCheck === 0) {
+      setCheckedSourcing(event.target.checked);
+      setBanderaCheck(1);
+      setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
+    } else {
+      console.log("no puede modificar");
+    }
   };
   const handleChangeComex = (event) => {
-    setCheckedComex(event.target.checked);
+    if (banderaCheck === 0) {
+      setCheckedComex(event.target.checked);
+      setBanderaCheck(1);
+      setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
+    } else {
+      console.log("no puede modificar");
+    }
   };
   const handleChangeFinan = (event) => {
-    setCheckedFinan(event.target.checked);
+    if (banderaCheck === 0) {
+      setCheckedFinan(event.target.checked);
+      setBanderaCheck(1);
+      setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
+    } else {
+      console.log("no puede modificar");
+    }
   };
 
   return (
@@ -1842,6 +1770,7 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.2}
                   tooltip={"Seleccione Carga"}
+                  deshabilitar={true}
                 />
               ))}
 
@@ -2118,7 +2047,7 @@ function CreateInvoice() {
                         >
                           Sourcing
                         </Typography>
-                        <Tooltip title="Habilitar/deshabilitar">
+                        <Tooltip title={tooltipGastosLocales}>
                           <Checkbox
                             style={{
                               // margin: "8px",
@@ -2162,7 +2091,7 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
-                          habilitacion={checkedSourcing} // habilita o desabilita campos
+                          deshabilitar={!checkedSourcing} // habilita o desabilita campos
                         />
                       ))}
 
@@ -2192,7 +2121,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
-                            habilitacion={checkedSourcing} // habilita o desabilita campos
+                            deshabilitar={!checkedSourcing} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>
@@ -2285,7 +2214,7 @@ function CreateInvoice() {
                         >
                           Comex
                         </Typography>
-                        <Tooltip title="Habilitar/deshabilitar">
+                        <Tooltip title={tooltipGastosLocales}>
                           <Checkbox
                             style={{
                               // margin: "8px",
@@ -2329,14 +2258,14 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
-                          habilitacion={checkedComex} // habilita o desabilita campos
+                          deshabilitar={!checkedComex} // habilita o desabilita campos
                         />
                       ))}
 
                       {/* FECHA DE embarque */}
                       <Grid item xs={12} md={1.7} align="left">
                         <Stack>
-                          <InputLabel required>Fecha de Embarque</InputLabel>
+                          <InputLabel required>Fecha Embarque</InputLabel>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               inputFormat="dd/MM/yyyy"
@@ -2349,7 +2278,7 @@ function CreateInvoice() {
                               onChange={(newValue) => {
                                 setValueBasic(newValue);
                               }}
-                              disabled={checkedComex} // habilita o desabilita campos
+                              disabled={!checkedComex} // habilita o desabilita campos
                             />
                           </LocalizationProvider>
                         </Stack>
@@ -2381,7 +2310,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
-                            habilitacion={checkedComex} // habilita o desabilita campos
+                            deshabilitar={!checkedComex} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>
@@ -2475,7 +2404,7 @@ function CreateInvoice() {
                         >
                           Finan
                         </Typography>
-                        <Tooltip title="Habilitar/deshabilitar">
+                        <Tooltip title={tooltipGastosLocales}>
                           <Checkbox
                             style={{
                               // margin: "8px",
@@ -2519,14 +2448,14 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
-                          habilitacion={checkedFinan} // habilita o desabilita campos
+                          deshabilitar={!checkedFinan} // habilita o desabilita campos
                         />
                       ))}
 
                       {/* FECHA DE pedimento */}
                       <Grid item xs={12} md={1.5} align="left">
                         <Stack>
-                          <InputLabel required>Fecha de Embarque</InputLabel>
+                          <InputLabel required>Fecha Pedimento</InputLabel>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               inputFormat="dd/MM/yyyy"
@@ -2539,7 +2468,7 @@ function CreateInvoice() {
                               onChange={(newValue) => {
                                 setValueBasic(newValue);
                               }}
-                              disabled={checkedFinan} // habilita o desabilita campos
+                              disabled={!checkedFinan} // habilita o desabilita campos
                             />
                           </LocalizationProvider>
                         </Stack>
@@ -2571,7 +2500,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
-                            habilitacion={checkedFinan} // habilita o desabilita campos
+                            deshabilitar={!checkedFinan} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>

@@ -24,6 +24,7 @@ export const CustomSelectUpdate = ({
   MD = null,
   PaisRegionApply=true,
   PaisRegion = null,
+  deshabilitar = false,
 }) => {
   // console.log(PaisRegion);
   // console.log(data, name, formik.values[id]?.id);
@@ -100,6 +101,7 @@ export const CustomSelectUpdate = ({
               error={formik.touched[name] && Boolean(formik.errors[name])}
               helperText={formik.touched[name] && formik.errors[name]}
               onChange={formik.handleChange}
+              disabled={deshabilitar}
               renderValue={(selected) => {
                 if (!selected || Object.keys(selected).length === 0) {
                   selected = defaultValue;

@@ -83,7 +83,7 @@ const headCells = [
   {
     id: "id",
     numeric: true,
-    label: "N° de Presupuesto",
+    label: "#",
     align: "left",
   },
   {
@@ -131,7 +131,7 @@ const headCells = [
   {
     id: "own",
     numeric: true,
-    label: "Emisor",
+    label: "Creador",
     align: "left",
   },
   {
