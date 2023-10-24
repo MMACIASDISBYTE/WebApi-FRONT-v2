@@ -6,12 +6,10 @@ import { format } from "date-fns";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
-  Avatar,
   Button,
   Divider,
   Grid,
   IconButton,
-  Stack,
   Tab,
   Table,
   TableBody,
@@ -25,6 +23,8 @@ import {
 // Importa CircularProgress de Material UI
 import { CircularProgress, makeStyles } from "@material-ui/core";
 import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 // project imports
 import SubCard from "ui-component/cards/SubCard";
@@ -64,9 +64,9 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
   const editarPresu = permisos.includes("presupuesto:edit");
 
-  // console.log(presupuestador);
+  console.log(presupuestador);
   // console.log(usuario);
-  console.log(historico);
+  // console.log(historico);
   const [rows, setRow] = useState([]);
   // Detalles que complementan cada row del detail, son detalles del tipo VISTA, FK que fueron convertidas a texto.
   // No se agregan a la definicion del estDetail, mas es una lista complementaria de igual dimencion.
@@ -98,7 +98,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
     //console.log(presupuestador);
     console.log(presupuestador.estDetails);
 
-    console.log(presupuestador?.estHeader?.status);
+    // console.log(presupuestador?.estHeader?.status);
     // console.log(presupuestador.estHeader.description);
   }, [presupuestador]);
 
@@ -218,6 +218,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
   });
   const classes = useStyles();
   const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
+
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -652,25 +653,26 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               Estado:
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
-                            <Chip
-                              sx={{ minWidth: "80px" }}
-                              label={
-                                presupuestador?.estHeader?.status || presupuestador?.estHeader?.status == 0
-                                  ? `${
-                                    presupuestador.estHeader.status == 0
-                                        ? "Creacion"
-                                        : presupuestador.estHeader.status == 1
-                                        ? "Sourcing"
-                                        : presupuestador.estHeader.status == 2
-                                        ? "Comex"
-                                        : "Finan"
-                                    }`
-                                  : "Sin data"
-                              }
-                              variant="outlined"
-                              size="small"
-                              chipcolor="warning"
-                            />
+                              <Chip
+                                sx={{ minWidth: "80px" }}
+                                label={
+                                  presupuestador?.estHeader?.status ||
+                                  presupuestador?.estHeader?.status == 0
+                                    ? `${
+                                        presupuestador.estHeader.status == 0
+                                          ? "Creacion"
+                                          : presupuestador.estHeader.status == 1
+                                          ? "Sourcing"
+                                          : presupuestador.estHeader.status == 2
+                                          ? "Comex"
+                                          : "Finan"
+                                      }`
+                                    : "Sin data"
+                                }
+                                variant="outlined"
+                                size="small"
+                                chipcolor="warning"
+                              />
                             </TableCell>
                           </TableRow>
 
@@ -712,9 +714,17 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               Emisor :
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
+                              <Stack direction="row" spacing={2}>
+                                <Avatar
+                                  alt={presupuestador.estHeader.own ? presupuestador.estHeader.own : "Sin data"}
+                                  src={presupuestador.estHeader.avatar_url}
+                                />
+                                <typography>
                               {presupuestador.estHeader.own
                                 ? presupuestador.estHeader.own
                                 : "Sin data"}
+                                </typography>
+                              </Stack>
                             </TableCell>
                           </TableRow>
 

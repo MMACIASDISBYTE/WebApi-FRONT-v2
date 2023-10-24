@@ -717,6 +717,8 @@ function CreateInvoice() {
       description: null,
       project: "",
       embarque: "",
+      fecha_embarque: UtilidadesHelper.fechaParaDB(),
+      bl: "",
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -724,6 +726,7 @@ function CreateInvoice() {
       fwdpaisregion_id: 9, // es CHINA  Puede cambiar segun importador
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
+      avatar_url: user.avatar,
       ivaExcento: "true",
       htimestamp: UtilidadesHelper.fechaParaDB(),
 
@@ -764,6 +767,8 @@ function CreateInvoice() {
       extrag_finan3: 0,
       extrag_finan4: 0,
       extrag_finan5: 0,
+      pedimiento: "",
+      fecha_pedimiento: UtilidadesHelper.fechaParaDB(),
       extrag_finan_notas: "Sin notas",
       constantes_id: 1, //harcodeado
       fob_grand_total: 0,

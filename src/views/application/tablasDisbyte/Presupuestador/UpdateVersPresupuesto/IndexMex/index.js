@@ -183,7 +183,7 @@ function CreateInvoice() {
   const theme = useTheme();
   const { estnumber, vers, presupuesto } = useParams();
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
-  console.log(user);
+  // console.log(user);
   const [open, setOpen] = useState(false);
   const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
   const [valueIva, setValueIva] = React.useState("false");
@@ -559,7 +559,7 @@ function CreateInvoice() {
     //   inputLabel: "fecha_embarque",
     //   data: dataHelp?.presupuestoEditable?.estHeader?.fecha_embarque,
     //   dataType: "String",
-    //   Xs_Xd: [12, 2],
+    //   Xs_Xd: [12, 1.7],
     //   blockDeGastos: true,
     //   ValorSwitch: null,
     //   ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.fecha_embarque,
@@ -572,11 +572,25 @@ function CreateInvoice() {
       em: "Embarque",
       inputLabel: "Embarque",
       data: dataHelp?.presupuestoEditable?.estHeader?.embarque,
-      dataType: "String",
-      Xs_Xd: [12, 2],
+      dataType: "string",
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.embarque,
+      arrPosition: 4,
+      resaltar: false,
+    },
+    {
+      id: "bl",
+      name: "bl",
+      em: "Ingrese Bl",
+      inputLabel: "Bl",
+      data: dataHelp?.presupuestoEditable?.estHeader?.bl,
+      dataType: "string",
+      Xs_Xd: [12, 1.7],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.bl,
       arrPosition: 4,
       resaltar: false,
     },
@@ -587,7 +601,7 @@ function CreateInvoice() {
       inputLabel: "Valor 1 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex1,
@@ -601,7 +615,7 @@ function CreateInvoice() {
       inputLabel: "Valor 2 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex2,
@@ -615,7 +629,7 @@ function CreateInvoice() {
       inputLabel: "Valor 3 [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
       dataType: "number",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex3,
@@ -629,7 +643,7 @@ function CreateInvoice() {
       inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_comex_notas,
       dataType: "string",
-      Xs_Xd: [12, 2],
+      Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase:
@@ -646,7 +660,7 @@ function CreateInvoice() {
       em: "N° De Pedimento",
       inputLabel: "N° Pedimento",
       data: dataHelp?.presupuestoEditable?.estHeader?.pedimiento,
-      dataType: "String",
+      dataType: "string",
       Xs_Xd: [12, 1.4],
       blockDeGastos: true,
       ValorSwitch: null,
@@ -751,6 +765,7 @@ function CreateInvoice() {
       project: "",
       embarque: "",
       fecha_embarque: UtilidadesHelper.fechaParaDB(),
+      bl: "",
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -758,7 +773,7 @@ function CreateInvoice() {
       fwdpaisregion_id: 9, // es CHINA  Puede cambiar segun importador
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
-      avatar_url: user.avatar_url,
+      avatar_url: user.avatar,
       ivaExcento: "true",
       htimestamp: UtilidadesHelper.fechaParaDB(),
 
@@ -2002,8 +2017,13 @@ function CreateInvoice() {
                     sx={{
                       borderRadius: "15px", // Esto hará que los bordes sean redondeados
                       border: "5px solid red", // Esto aplica un borde rojo de 2px
-                      padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      // padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      paddingTop: 3,
+                      paddingBottom: 2,
+                      paddingLeft: 8,
+                      paddingRight: 1,
                       marginBottom: "20px", // Espacio exterior debajo del contenedor, ajusta según necesidad
+                      marginTop: -1,
                     }}
                   >
                     <Grid
@@ -2020,6 +2040,52 @@ function CreateInvoice() {
                         {/* <Divider /> */}
                         <Typography
                           // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -100, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Gastos Locales
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -180, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Extra
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
                           variant="h4"
                           style={{
                             // margin: "8px",
@@ -2027,11 +2093,11 @@ function CreateInvoice() {
                             transform: "rotate(-90deg)",
                             transformOrigin: "left bottom",
                             whiteSpace: "nowrap",
-                            bottom: -120, // Ajusta según sea necesario
-                            left: 20, // Ajusta según sea necesario
+                            bottom: -140, // Ajusta según sea necesario
+                            left: -20, // Ajusta según sea necesario
                           }}
                         >
-                          Gastos Locales
+                          Sourcing
                         </Typography>
                       </Grid>
 
@@ -2100,8 +2166,13 @@ function CreateInvoice() {
                     sx={{
                       borderRadius: "15px", // Esto hará que los bordes sean redondeados
                       border: "5px solid yellow", // Esto aplica un borde rojo de 2px
-                      padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      // padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      paddingTop: 3,
+                      paddingBottom: 2,
+                      paddingLeft: 8,
+                      paddingRight: 1,
                       marginBottom: "20px", // Espacio exterior debajo del contenedor, ajusta según necesidad
+                      marginTop: -1,
                     }}
                   >
                     <Grid
@@ -2118,6 +2189,52 @@ function CreateInvoice() {
                         {/* <Divider /> */}
                         <Typography
                           // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -100, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Gastos Locales
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -180, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Extra
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
                           variant="h4"
                           style={{
                             // margin: "8px",
@@ -2125,11 +2242,11 @@ function CreateInvoice() {
                             transform: "rotate(-90deg)",
                             transformOrigin: "left bottom",
                             whiteSpace: "nowrap",
-                            bottom: -120, // Ajusta según sea necesario
-                            left: 20, // Ajusta según sea necesario
+                            bottom: -140, // Ajusta según sea necesario
+                            left: -20, // Ajusta según sea necesario
                           }}
                         >
-                          Gastos Locales
+                          Comex
                         </Typography>
                       </Grid>
 
@@ -2163,7 +2280,7 @@ function CreateInvoice() {
                       ))}
 
                       {/* FECHA DE embarque */}
-                      <Grid item xs={12} md={2} align="left">
+                      <Grid item xs={12} md={1.7} align="left">
                         <Stack>
                           <InputLabel required>Fecha de Embarque</InputLabel>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -2217,10 +2334,16 @@ function CreateInvoice() {
                   {/* FINAN */}
                   <Box
                     sx={{
-                      borderRadius: "15px", // Esto hará que los bordes sean redondeados
+                     borderRadius: "15px", // Esto hará que los bordes sean redondeados
                       border: "5px solid blue", // Esto aplica un borde rojo de 2px
-                      padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      // padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
+                      paddingTop: 3,
+                      paddingBottom: 2,
+                      paddingLeft: 8,
+                      paddingRight: 1,
                       marginBottom: "20px", // Espacio exterior debajo del contenedor, ajusta según necesidad
+                      marginTop: -1,
+                      marginBottom: -2,
                     }}
                   >
                     <Grid
@@ -2237,6 +2360,52 @@ function CreateInvoice() {
                         {/* <Divider /> */}
                         <Typography
                           // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -100, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Gastos Locales
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
+                          variant="h5"
+                          style={{
+                            // margin: "8px",
+                            position: "absolute",
+                            transform: "rotate(-90deg)",
+                            transformOrigin: "left bottom",
+                            whiteSpace: "nowrap",
+                            bottom: -180, // Ajusta según sea necesario
+                            left: 10, // Ajusta según sea necesario
+                          }}
+                        >
+                          Extra
+                        </Typography>
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        style={{ position: "relative", marginTop: -20 }}
+                      >
+                        {/* <Divider /> */}
+                        <Typography
+                          // color={"green"}
                           variant="h4"
                           style={{
                             // margin: "8px",
@@ -2244,11 +2413,11 @@ function CreateInvoice() {
                             transform: "rotate(-90deg)",
                             transformOrigin: "left bottom",
                             whiteSpace: "nowrap",
-                            bottom: -120, // Ajusta según sea necesario
-                            left: 20, // Ajusta según sea necesario
+                            bottom: -130, // Ajusta según sea necesario
+                            left: -20, // Ajusta según sea necesario
                           }}
                         >
-                          Gastos Locales
+                          Finan
                         </Typography>
                       </Grid>
 

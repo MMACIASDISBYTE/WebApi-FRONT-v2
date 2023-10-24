@@ -17,6 +17,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 
 // third-party
 import ReactToPrint from "react-to-print";
@@ -50,7 +52,7 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
   const theme = useTheme();
   const componentRef = useRef(null);
   console.log(presupuestador);
-  // console.log(usuario);
+  console.log(historico);
 
   const useStyles = makeStyles({
     tableCellCabecera: {
@@ -312,13 +314,15 @@ const Invoice = ({ presupuestador, usuario, historico }) => {
                     {historico.map((row, index) => (
                       <TableRow key={index}>
                         <TableCell sx={{ pl: 3 }} className={classes.tableCell}>
-                          <Typography align="left" variant="subtitle1">
-                            {row.own ? row.own : "SIn data"}
-                          </Typography>
-                          {/* SE PUEDE AGREGAR UNA DESCRIPTION */}
-                          {/* <Typography align="left" variant="body2">
-                                                        {row.description}
-                                                    </Typography> */}
+                          <Stack direction="row" spacing={2}>
+                            {/* <Avatar
+                              alt={row.own ? row.own : "Sin data"}
+                              src={row.avatar_url ? row.avatar_url : 'Sin imagen'}
+                              /> */}
+                            <Typography align="left" variant="subtitle1">
+                              {row.own ? row.own : "SIn data"}
+                            </Typography>
+                          </Stack>
                         </TableCell>
                         <TableCell align="right" className={classes.tableCell}>
                           {row.estvers ? row.estvers : "Sin data"}
