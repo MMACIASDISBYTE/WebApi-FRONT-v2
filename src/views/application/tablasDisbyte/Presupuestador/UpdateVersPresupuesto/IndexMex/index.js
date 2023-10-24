@@ -24,6 +24,7 @@ import {
   styled,
 } from "@mui/material";
 import Chip from "ui-component/extended/Chip";
+import Checkbox from "@mui/material/Checkbox";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import "@mui/lab";
 import { useTheme } from "@mui/material/styles";
@@ -217,7 +218,8 @@ function CreateInvoice() {
       vers,
       ""
     );
-    const presuUltimosEstadios = await PresupuestoHelper.fetchDataUltimosEstadios(estnumber);
+    const presuUltimosEstadios =
+      await PresupuestoHelper.fetchDataUltimosEstadios(estnumber);
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
@@ -1572,6 +1574,21 @@ function CreateInvoice() {
     navigate("/NoAutorizado");
   }
 
+  // Logica de gastos locales para habilitar o deshabilitar campos
+  const [checkedSourcing, setCheckedSourcing] = React.useState(true);
+  const [checkedComex, setCheckedComex] = React.useState(true);
+  const [checkedFinan, setCheckedFinan] = React.useState(true);
+
+  const handleChangeSourcing = (event) => {
+    setCheckedSourcing(event.target.checked);
+  };
+  const handleChangeComex = (event) => {
+    setCheckedComex(event.target.checked);
+  };
+  const handleChangeFinan = (event) => {
+    setCheckedFinan(event.target.checked);
+  };
+
   return (
     <>
       <MainCard
@@ -2101,6 +2118,22 @@ function CreateInvoice() {
                         >
                           Sourcing
                         </Typography>
+                        <Tooltip title="Habilitar/deshabilitar">
+                          <Checkbox
+                            style={{
+                              // margin: "8px",
+                              position: "absolute",
+                              // transform: "rotate(-90deg)",
+                              transformOrigin: "left bottom",
+                              whiteSpace: "nowrap",
+                              bottom: -40, // Ajusta según sea necesario
+                              left: -50, // Ajusta según sea necesario
+                            }}
+                            checked={checkedSourcing}
+                            onChange={handleChangeSourcing}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        </Tooltip>
                       </Grid>
 
                       {ExtraCostosLocal.map((input, index) => (
@@ -2129,6 +2162,7 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
+                          habilitacion={checkedSourcing} // habilita o desabilita campos
                         />
                       ))}
 
@@ -2158,6 +2192,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
+                            habilitacion={checkedSourcing} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>
@@ -2250,6 +2285,22 @@ function CreateInvoice() {
                         >
                           Comex
                         </Typography>
+                        <Tooltip title="Habilitar/deshabilitar">
+                          <Checkbox
+                            style={{
+                              // margin: "8px",
+                              position: "absolute",
+                              // transform: "rotate(-90deg)",
+                              transformOrigin: "left bottom",
+                              whiteSpace: "nowrap",
+                              bottom: -40, // Ajusta según sea necesario
+                              left: -50, // Ajusta según sea necesario
+                            }}
+                            checked={checkedComex}
+                            onChange={handleChangeComex}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        </Tooltip>
                       </Grid>
 
                       {ExtraCostosLocal.map((input, index) => (
@@ -2278,6 +2329,7 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
+                          habilitacion={checkedComex} // habilita o desabilita campos
                         />
                       ))}
 
@@ -2297,6 +2349,7 @@ function CreateInvoice() {
                               onChange={(newValue) => {
                                 setValueBasic(newValue);
                               }}
+                              disabled={checkedComex} // habilita o desabilita campos
                             />
                           </LocalizationProvider>
                         </Stack>
@@ -2328,6 +2381,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
+                            habilitacion={checkedComex} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>
@@ -2336,7 +2390,7 @@ function CreateInvoice() {
                   {/* FINAN */}
                   <Box
                     sx={{
-                     borderRadius: "15px", // Esto hará que los bordes sean redondeados
+                      borderRadius: "15px", // Esto hará que los bordes sean redondeados
                       border: "5px solid blue", // Esto aplica un borde rojo de 2px
                       // padding: "30px", // Espacio interior alrededor de tus elementos, ajusta según necesidad
                       paddingTop: 3,
@@ -2421,6 +2475,22 @@ function CreateInvoice() {
                         >
                           Finan
                         </Typography>
+                        <Tooltip title="Habilitar/deshabilitar">
+                          <Checkbox
+                            style={{
+                              // margin: "8px",
+                              position: "absolute",
+                              // transform: "rotate(-90deg)",
+                              transformOrigin: "left bottom",
+                              whiteSpace: "nowrap",
+                              bottom: -40, // Ajusta según sea necesario
+                              left: -50, // Ajusta según sea necesario
+                            }}
+                            checked={checkedFinan}
+                            onChange={handleChangeFinan}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        </Tooltip>
                       </Grid>
 
                       {ExtraCostosLocal.map((input, index) => (
@@ -2449,6 +2519,7 @@ function CreateInvoice() {
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
+                          habilitacion={checkedFinan} // habilita o desabilita campos
                         />
                       ))}
 
@@ -2468,6 +2539,7 @@ function CreateInvoice() {
                               onChange={(newValue) => {
                                 setValueBasic(newValue);
                               }}
+                              disabled={checkedFinan} // habilita o desabilita campos
                             />
                           </LocalizationProvider>
                         </Stack>
@@ -2499,6 +2571,7 @@ function CreateInvoice() {
                             ValorSwitch={input.ValorSwitch}
                             ValorSwitchBase={input.ValorSwitchBase}
                             arrPosition={input.arrPosition}
+                            habilitacion={checkedFinan} // habilita o desabilita campos
                           />
                         ))}
                     </Grid>
