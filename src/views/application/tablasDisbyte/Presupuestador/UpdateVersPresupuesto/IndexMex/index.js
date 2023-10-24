@@ -217,6 +217,7 @@ function CreateInvoice() {
       vers,
       ""
     );
+    const presuUltimosEstadios = await PresupuestoHelper.fetchDataUltimosEstadios(estnumber);
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
@@ -243,6 +244,7 @@ function CreateInvoice() {
       NCM_Mex,
       presupuesto,
       presupuestoEditable,
+      presuUltimosEstadios,
       proximoEstDisponible,
       // tipoCambio,
       Paises,
@@ -1380,7 +1382,7 @@ function CreateInvoice() {
       dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
     );
   }, [gastoLocal]);
-  console.log(gastoLocal);
+  // console.log(gastoLocal);
 
   useEffect(() => {
     // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
@@ -1388,12 +1390,12 @@ function CreateInvoice() {
       gastoLocal?.gloc_fwd?.toFixed(2) ===
       dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
     ) {
-      console.log("EQ");
+      // console.log("EQ");
       formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
       //setAlerta(false,0);
       actualizaResaltar("gloc_fwd", false);
     } else {
-      console.log("NOTEQ");
+      // console.log("NOTEQ");
       formik.setFieldValue(
         "gloc_fwd",
         dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
@@ -1471,7 +1473,7 @@ function CreateInvoice() {
     );
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
-    console.log(ExtraCostosLocal);
+    // console.log(ExtraCostosLocal);
     //console.log(formik.values);
   }, [gastoLocal, productsData, dataHelp?.presupuestoEditable]);
 
@@ -1493,8 +1495,8 @@ function CreateInvoice() {
         "freight_insurance_cost",
         (gastoLocal?.insurance_charge / 100) * fobGrandTotal
       );
-      console.log(fobGrandTotal);
-      console.log(productsData);
+      // console.log(fobGrandTotal);
+      // console.log(productsData);
     }
   }, [productsData]);
 

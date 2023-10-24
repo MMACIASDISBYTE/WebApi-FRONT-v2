@@ -36,7 +36,7 @@ export const ExtraCostoDobleClickUpdate = ({
   fobGrandTotal = 0,
 }) => {
   const theme = useTheme();
-  console.log("Gasto local:", gastoLocal);
+  // console.log("Gasto local:", gastoLocal);
 
   const [dobleClick, setDobleClick] = useState(false);
   const [textDeTooltip, setTextDeTooltip] = useState(
@@ -136,8 +136,8 @@ export const ExtraCostoDobleClickUpdate = ({
       } else if (nameGastoLocalTarifon == "freight_insurance_cost") {
   
         let valorCalculado = (gastoLocal?.insurance_charge / 100) * fobGrandTotal;
-        console.log(gastoLocal?.insurance_charge);
-        console.log(fobGrandTotal);
+        // console.log(gastoLocal?.insurance_charge);
+        // console.log(fobGrandTotal);
         setValorOriginal(valorCalculado.toFixed(2));
       } else {
         setValorOriginal(gastoLocal[nameGastoLocalTarifon].toFixed(2));

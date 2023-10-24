@@ -25,7 +25,7 @@ export const SelectEstado = ({
     useEffect(()=>{
         dataEstado()
     },[])
-    console.log(estado);
+    // console.log(estado);
 
     const handleSelectionChange = (event) => {
         const value = event.target.value;
