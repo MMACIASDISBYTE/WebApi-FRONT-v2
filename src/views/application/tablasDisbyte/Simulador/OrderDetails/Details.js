@@ -64,7 +64,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
   const editarPresu = permisos.includes("presupuesto:edit");
 
-  // console.log(presupuestador);
+  console.log(presupuestador);
   // console.log(usuario);
   console.log(historico);
   const [rows, setRow] = useState([]);
@@ -652,25 +652,26 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               Estado:
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
-                            <Chip
-                              sx={{ minWidth: "80px" }}
-                              label={
-                                presupuestador?.estHeader?.status || presupuestador?.estHeader?.status == 0
-                                  ? `${
-                                    presupuestador.estHeader.status == 0
-                                        ? "Creacion"
-                                        : presupuestador.estHeader.status == 1
-                                        ? "Sourcing"
-                                        : presupuestador.estHeader.status == 2
-                                        ? "Comex"
-                                        : "Finan"
-                                    }`
-                                  : "Sin data"
-                              }
-                              variant="outlined"
-                              size="small"
-                              chipcolor="warning"
-                            />
+                              <Chip
+                                sx={{ minWidth: "80px" }}
+                                label={
+                                  presupuestador?.estHeader?.status ||
+                                  presupuestador?.estHeader?.status == 0
+                                    ? `${
+                                        presupuestador.estHeader.status == 0
+                                          ? "Creacion"
+                                          : presupuestador.estHeader.status == 1
+                                          ? "Sourcing"
+                                          : presupuestador.estHeader.status == 2
+                                          ? "Comex"
+                                          : "Finan"
+                                      }`
+                                    : "Sin data"
+                                }
+                                variant="outlined"
+                                size="small"
+                                chipcolor="warning"
+                              />
                             </TableCell>
                           </TableRow>
 
@@ -712,9 +713,27 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               Emisor :
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.own
-                                ? presupuestador.estHeader.own
-                                : "Sin data"}
+                              <Stack direction="row" spacing={2}>
+                                {
+                                  presupuestador.estHeader.avatar_url != '' && presupuestador.estHeader.avatar_url !== null ?(
+                                    <Avatar
+                                      alt={
+                                        presupuestador.estHeader.own
+                                          ? presupuestador.estHeader.own
+                                          : "Sin data"
+                                      }
+                                      src={presupuestador.estHeader.avatar_url}
+                                    />
+                                  ) : (
+                                    null
+                                  )
+                                }
+                                <typography>
+                                  {presupuestador.estHeader.own
+                                    ? presupuestador.estHeader.own
+                                    : "Sin data"}
+                                </typography>
+                              </Stack>
                             </TableCell>
                           </TableRow>
 

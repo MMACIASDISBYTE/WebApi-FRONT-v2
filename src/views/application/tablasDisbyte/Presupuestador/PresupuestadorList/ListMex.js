@@ -28,6 +28,8 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -183,6 +185,20 @@ function EnhancedTableHead({
       lineHeight: "1", // Ajuste de la altura de línea según necesidad
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 100,
+    },
+    tableCellCenter: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      minWidth: 50,
+      whiteSpace: "nowrap",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      backgroundColor: "#2196f3",
+      padding: "6px 16px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 50,
     },
     lastCell: {
       borderRight: "none",
@@ -350,7 +366,7 @@ const CustomerList = () => {
 
   React.useEffect(() => {
     setRows(customers);
-    console.log(customers);
+    // console.log(customers);
     // console.log(ListaDePresupuestos(customers));
   }, [customers]);
 
@@ -798,10 +814,27 @@ const CustomerList = () => {
                         ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.own !== null && row.own !== undefined
-                        ? row.own
-                        : "Sin data"}
+                    <TableCell className={classes.tableCell}>
+                    {
+                                  row.avatar_url != '' && row.avatar_url !== null ?(
+                                    <Tooltip title={row.own}>
+                                      <Avatar
+                                        alt={
+                                          row.own
+                                            ? row.own
+                                            : "Sin data"
+                                        }
+                                        src={row.avatar_url}
+                                      />
+                                    </Tooltip>
+                                  ) : (
+                                    <>
+                                      {row.own !== null && row.own !== undefined
+                                        ? row.own
+                                        : "Sin data"}
+                                    </>
+                                  )
+                                }
                     </TableCell>
                     <TableCell align="right" className={classes.tableCell}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&

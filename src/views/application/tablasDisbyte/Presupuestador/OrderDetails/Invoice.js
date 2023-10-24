@@ -51,8 +51,8 @@ const rows = [
 const Invoice = ({ presupuestador, usuario, historico }) => {
   const theme = useTheme();
   const componentRef = useRef(null);
-  console.log(presupuestador);
-  console.log(historico);
+  // console.log(presupuestador);
+  // console.log(historico);
 
   const useStyles = makeStyles({
     tableCellCabecera: {

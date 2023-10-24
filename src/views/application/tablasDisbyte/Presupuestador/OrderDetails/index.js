@@ -82,7 +82,7 @@ const OrderDetails = () => {
     }
   };
   const readDataEstVers = async (estnumber, vers, accessToken) => {
-    console.log(estnumber, vers);
+    // console.log(estnumber, vers);
     try {
       const jsonData = await PresupuestoHelper.readDataEstVers(
         estnumber,
@@ -95,7 +95,7 @@ const OrderDetails = () => {
     }
   };
   const traerHistorico = async (estnumber) => {
-    console.log(estnumber, vers);
+    // console.log(estnumber, vers);
     try {
       const jsonData = await PresupuestoHelper.fetchDataHistorico(estnumber);
         

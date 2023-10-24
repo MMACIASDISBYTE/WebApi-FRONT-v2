@@ -64,7 +64,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
   const editarPresu = permisos.includes("presupuesto:edit");
 
-  console.log(presupuestador);
+  // console.log(presupuestador);
   // console.log(usuario);
   // console.log(historico);
   const [rows, setRow] = useState([]);
@@ -96,7 +96,7 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
     fetchData();
     //console.log(presupuestador);
-    console.log(presupuestador.estDetails);
+    // console.log(presupuestador.estDetails);
 
     // console.log(presupuestador?.estHeader?.status);
     // console.log(presupuestador.estHeader.description);
@@ -715,10 +715,20 @@ const Details = ({ presupuestador, usuario, historico }) => {
                             </TableCell>
                             <TableCell className={classes.tableCellCabecera}>
                               <Stack direction="row" spacing={2}>
-                                <Avatar
-                                  alt={presupuestador.estHeader.own ? presupuestador.estHeader.own : "Sin data"}
-                                  src={presupuestador.estHeader.avatar_url}
-                                />
+                              {
+                                  presupuestador.estHeader.avatar_url != '' && presupuestador.estHeader.avatar_url !== null ?(
+                                    <Avatar
+                                      alt={
+                                        presupuestador.estHeader.own
+                                          ? presupuestador.estHeader.own
+                                          : "Sin data"
+                                      }
+                                      src={presupuestador.estHeader.avatar_url}
+                                    />
+                                  ) : (
+                                    null
+                                  )
+                                }
                                 <typography>
                               {presupuestador.estHeader.own
                                 ? presupuestador.estHeader.own
