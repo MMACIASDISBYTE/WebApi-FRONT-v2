@@ -25,16 +25,11 @@ export const ExtraCostoDobleClickUpdate = ({
   dataType,
   formik,
   Xs_Xd,
-  blockDeGastos = false,
-  ValorSwitch = false,
-  ValorSwitchBase,
-  arrPosition = null,
-  handleSwitchChangeInIndex,
   resaltar,
   gastoLocal = null,
   nameGastoLocalTarifon = null,
   fobGrandTotal = 0,
-  habilitacion = false,
+  deshabilitar = false,
 }) => {
   const theme = useTheme();
   // console.log("Gasto local:", gastoLocal);
@@ -171,7 +166,7 @@ export const ExtraCostoDobleClickUpdate = ({
               onChange={formik.handleChange}
               fullWidth
               placeholder={em}
-              disabled={habilitacion}
+              disabled={deshabilitar}
             />
           ) : (
             <Grid item align="left">
@@ -211,7 +206,7 @@ export const ExtraCostoDobleClickUpdate = ({
                     TextTooltip();
                   }}
                   // disabled={dobleClick}
-                  disabled={habilitacion}
+                  disabled={deshabilitar}
                 />
               </Tooltip>
             </Grid>
