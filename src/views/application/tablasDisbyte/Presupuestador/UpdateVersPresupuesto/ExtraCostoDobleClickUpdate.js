@@ -30,6 +30,7 @@ export const ExtraCostoDobleClickUpdate = ({
   nameGastoLocalTarifon = null,
   fobGrandTotal = 0,
   deshabilitar = false,
+  depto = null,
 }) => {
   const theme = useTheme();
   // console.log("Gasto local:", gastoLocal);
@@ -45,7 +46,11 @@ export const ExtraCostoDobleClickUpdate = ({
   };
 
   // console.log(formik.values);
-  // console.log(ValorSwitch);
+  
+  // Concatena depto si existe
+  const formikName = depto ? `${name}${depto}` : name;
+  // console.log(formikName);
+  
   useEffect(() => {}, [formik.values]);
 
   // ESTILO PARA QUITAR FLECHAS NUMERICAS DE TEXTFIELD NUMBER
@@ -84,15 +89,15 @@ export const ExtraCostoDobleClickUpdate = ({
 
   useEffect(() => {
     // Inicializa el valor formateado cuando cambian los valores de formik
-    if (!isNaN(formik.values[name]) && formik.values[name] !== "") {
-      setDisplayValue(Number(formik.values[name]).toFixed(2));
+    if (!isNaN(formik.values[formikName]) && formik.values[formikName] !== "") {
+      setDisplayValue(Number(formik.values[formikName]).toFixed(2));
     } else {
-      setDisplayValue(formik.values[name]);
+      setDisplayValue(formik.values[formikName]);
     }
-  }, [formik.values, name]);
+  }, [formik.values, formikName]);
   const handleBlur = (event) => {
     // Actualiza formik solo cuando el input pierde el foco
-    UtilidadesHelper.handleChangeCustom(event, formik, name);
+    UtilidadesHelper.handleChangeCustom(event, formik, formikName);
     formik.handleBlur(event); // No olvides manejar el evento onBlur original de formik
   };
   const handleChangeDisplayValue = (event) => {
@@ -149,9 +154,9 @@ export const ExtraCostoDobleClickUpdate = ({
           {dataType == "string" ? (
             <TextField
               id={id}
-              name={name}
+              name={formikName}
               type={dataType}
-              value={formik.values[name]}
+              value={formik.values[formikName]}
               InputProps={{
                 //aqui si queremos poner un placeholde
                 startAdornment: (
@@ -161,8 +166,8 @@ export const ExtraCostoDobleClickUpdate = ({
                 // classes: { input: classes.input }, // aplicar la clase al input interno
               }}
               onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.formikName && Boolean(formik.errors.formikName)}
+              helperText={formik.touched.formikName && formik.errors.formikName}
               onChange={formik.handleChange}
               fullWidth
               placeholder={em}
@@ -176,7 +181,7 @@ export const ExtraCostoDobleClickUpdate = ({
               >
                 <TextField
                   id={id}
-                  name={name}
+                  name={formikName}
                   type="string"
                   InputProps={{
                     startAdornment: (
@@ -188,8 +193,8 @@ export const ExtraCostoDobleClickUpdate = ({
                   value={displayValue} // Usamos el valor formateado
                   onBlur={handleBlur} // Actualiza formik en el evento onBlur
                   onChange={handleChangeDisplayValue} // Cambia solo el valor mostrado
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
+                  error={formik.touched.formikName && Boolean(formik.errors.formikName)}
+                  helperText={formik.touched.formikName && formik.errors.formikName}
                   fullWidth
                   placeholder={em}
                   inputProps={{
@@ -202,7 +207,7 @@ export const ExtraCostoDobleClickUpdate = ({
                   }}
                   onDoubleClick={(event) => {
                     // setDobleClick(!dobleClick); //para bloquear el campo
-                    focusElement(name);
+                    focusElement(formikName);
                     TextTooltip();
                   }}
                   // disabled={dobleClick}
@@ -211,8 +216,8 @@ export const ExtraCostoDobleClickUpdate = ({
               </Tooltip>
             </Grid>
           )}
-          {formik.errors[name] && (
-            <FormHelperText error>{formik.errors[name]}</FormHelperText>
+          {formik.errors[formikName] && (
+            <FormHelperText error>{formik.errors[formikName]}</FormHelperText>
           )}
         </Stack>
       </Grid>
