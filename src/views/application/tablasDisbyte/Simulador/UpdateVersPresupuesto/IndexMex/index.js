@@ -361,7 +361,7 @@ function CreateInvoice() {
       data: dataHelp.carga,
       dataType: "objectArray",
       selected_id: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
-      selected_description: dataHelp?.presupuestoEditable?.estHeader?.carga_id,
+      selected_description: dataHelp?.presupuestoEditable?.carga_str,
       PaisRegionApply: false,
     },
   ];
@@ -417,7 +417,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      ValorSwitchBase: "Aguarde ...",//dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 4,
       resaltar: false,
       nameGastoLocalTarifon: 'gloc_fwd',
@@ -432,7 +432,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      ValorSwitchBase: 0,//dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 7,
       resaltar: false,
       nameGastoLocalTarifon: 'gasto_terminal',
@@ -447,7 +447,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      ValorSwitchBase: 0,//dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
       resaltar: false,
       nameGastoLocalTarifon: 'flete_interno',
@@ -462,7 +462,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      ValorSwitchBase: 0,//dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 3,
       resaltar: false,
       nameGastoLocalTarifon: 'gasto_descarga_depo',
@@ -492,7 +492,7 @@ function CreateInvoice() {
       Xs_Xd: [12, 1.7],
       blockDeGastos: true,
       ValorSwitch: null,
-      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
+      ValorSwitchBase: 0,//dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
       arrPosition: 8,
       resaltar: false,
       nameGastoLocalTarifon: 'freight_charge',
@@ -899,7 +899,7 @@ function CreateInvoice() {
     if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue(
         "status",
-        dataHelp.presupuestoEditable?.estHeader?.status
+        /*dataHelp.presupuestoEditable?.estHeader?.status*/1
       );
     }
 
@@ -1277,8 +1277,10 @@ function CreateInvoice() {
 
   useEffect(() => {
     if (dataHelp.presupuestoEditable) {
+
       setProductsData(dataHelp.presupuestoEditable.estDetails);
       setProductsDataAdd(dataHelp.presupuestoEditable.estDetAddData);
+
     }
   }, [dataHelp]);
 
@@ -1326,6 +1328,12 @@ function CreateInvoice() {
   };
 
   useEffect(() => {
+    formik.setFieldValue("gloc_descarga", "");
+    formik.setFieldValue("gloc_terminales", "");
+    formik.setFieldValue("gloc_fwd", "Aguarde ...");
+    formik.setFieldValue("freight_cost", "");
+    formik.setFieldValue("gloc_flete", "");
+    formik.setFieldValue("gloc_despachantes","");
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
 
@@ -1337,21 +1345,28 @@ function CreateInvoice() {
   }, [gastoLocal]);
   console.log(gastoLocal);
 
+
+
+  // Logica para decidir que valores van a los GLOC. Si el valor del JSON difiere del proviniente del tarifon,
+  // el mismo tiene prioridad y entonces se ingresa a fromik. Caso contrario se usan los del tarifon. 
   useEffect(() => {
 
+    console.log("TESTO:", formik?.values?.carga_id?.description)
+
+    
     // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
     if(gastoLocal?.gloc_fwd?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2))
     {
         console.log("EQ");
         formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
         //setAlerta(false,0);
-        actualizaResaltar("gloc_fwd",false);
+        //actualizaResaltar("gloc_fwd",false);
     }
     else
     {
         console.log("NOTEQ");
         formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
-        actualizaResaltar("gloc_fwd",true);
+        //actualizaResaltar("gloc_fwd",true);
     }
 
     if(gastoLocal?.flete_interno?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2))
@@ -1359,14 +1374,14 @@ function CreateInvoice() {
         //console.log("EQ");
         formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
         //setAlerta(false,1);
-        actualizaResaltar("gloc_flete",false);
+        //actualizaResaltar("gloc_flete",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_flete",dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2));
         //setAlerta(false,1);
-        actualizaResaltar("gloc_flete",true);
+        //actualizaResaltar("gloc_flete",true);
     }
 
     if(gastoLocal?.gasto_descarga_depo?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2))
@@ -1374,14 +1389,14 @@ function CreateInvoice() {
         //console.log("EQ");
         formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
         //setAlerta(false,2);
-        actualizaResaltar("gloc_descarga",false);
+        //actualizaResaltar("gloc_descarga",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_descarga",dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2));
         //set (true,2);
-        actualizaResaltar("gloc_descarga",true);
+        //actualizaResaltar("gloc_descarga",true);
     }
 
     if(gastoLocal?.gasto_terminal?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2))
@@ -1389,15 +1404,31 @@ function CreateInvoice() {
         //console.log("EQ");
         formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
         //setAlerta(false,3);
-        actualizaResaltar("gloc_terminales",false);
+        //actualizaResaltar("gloc_terminales",false);
     }
     else
     {
         //console.log("NOTEQ");
         formik.setFieldValue("gloc_terminales",dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2));
         //setAlerta(true,3);
-        actualizaResaltar("gloc_terminales",true);
+        //actualizaResaltar("gloc_terminales",true);
     }
+
+    if(gastoLocal?.freight_charge?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.freight_cost?.toFixed(2))
+    {
+        //console.log("EQ");
+        formik.setFieldValue("freight_cost", gastoLocal?.freight_charge?.toFixed(2));
+        //setAlerta(false,3);
+        //actualizaResaltar("freight_cost",false);
+    }
+    else
+    {
+        //console.log("NOTEQ");
+        formik.setFieldValue("freight_cost",dataHelp?.presupuestoEditable?.estHeader?.freight_cost?.toFixed(2));
+        //setAlerta(true,3);
+        //actualizaResaltar("freight_cost",true);
+    }
+
 
 
     //formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
@@ -1405,7 +1436,21 @@ function CreateInvoice() {
     //formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
     //formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
     formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
-    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+
+    // Este useEffect actualiza cuando editan, o llegan los gastos locales via tarifon. Esto ultimo es mucho mas lento.
+    // 
+    if(gastoLocal?.freight_charge==undefined)
+    {
+      formik.setFieldValue("gloc_descarga", "");
+      formik.setFieldValue("gloc_terminales", "");
+      formik.setFieldValue("gloc_fwd", "Aguarde ...");
+      formik.setFieldValue("freight_cost", "");
+      formik.setFieldValue("gloc_flete", "");
+      formik.setFieldValue("gloc_despachantes","");
+      formik.setFieldValue("gloc_despachantes")
+      formik.setFieldValue("freight_insurance_cost","")
+    }  
+
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
     console.log(ExtraCostosLocal);
     //console.log(formik.values);
@@ -1418,9 +1463,30 @@ function CreateInvoice() {
     }
   }
 
+
+   // Logica para decidir que valores van a los GLOC. Si el valor del JSON difiere del proviniente del tarifon,
+  // el mismo tiene prioridad y entonces se resalta en rojo significando que cambio.
+ /* useEffect(() => {
+
+    console.log("TESTO:", formik?.values?.carga_id?.description)
+
+    
+    // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
+    if(gastoLocal?.gloc_fwd?.toFixed(2)!=parseFloat(formik.values.gloc_fwd)?.toFixed(2))
+    {
+        actualizaResaltar("gloc_fwd",true);
+    }
+    else
+    {
+        actualizaResaltar("gloc_fwd",false);
+    }
+  },[formik]);
+*/
+
+
   const [fobGrandTotal, setFobGrandTotal] = useState(0);
   useEffect(() => {
-    if (productsData.length > 0) {
+    if (productsData.length > 0 && gastoLocal?.freight_charge!=undefined) {
       const fobGrandTotal = productsData.reduce((accumulator, currentValue) => {
         setFobGrandTotal(accumulator + currentValue.fob_u * currentValue.qty);
         return accumulator + currentValue.fob_u * currentValue.qty;
@@ -1510,7 +1576,7 @@ function CreateInvoice() {
     <>
       <MainCard
         // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
-        title={`Actualizar Simulacion de Mexico:`}
+        title={`Actualizando PRJ: ${dataHelp?.presupuestoEditable?.estHeader?.project?dataHelp?.presupuestoEditable?.estHeader?.project:""}`}
       >
         <div
           style={{
@@ -1556,6 +1622,8 @@ function CreateInvoice() {
               {/* CABECERA DE PRESUPUESTADOR */}
 
               {/* STATUS */}
+
+{/*}
               <Grid
                 item
                 xs={12}
@@ -1571,8 +1639,9 @@ function CreateInvoice() {
                   //right: "10px", // Posición desde la derecha del contenedor
                   marginBottom: "-100px",
                 }}
-              >
+              >*/}
                 {/* Flecha de return de estado */}
+                {/*}
                 {formik.values.status > 0 && RetroEstadoOK && (
                   <>
                     <Tooltip title="Volver">
@@ -1603,7 +1672,10 @@ function CreateInvoice() {
                 />
                 {formik.values.status <= 3 && (
                   <>
+                */}                  
                     {/* Mostrar Flechas de estado */}
+                    {/*}
+                    </Grid>
                     {formik.values.status == 0 && RetroEstadoOK && (
                       <Tooltip title="Cambiar Estado">
                         <DoubleArrowRoundedIcon
@@ -1649,6 +1721,7 @@ function CreateInvoice() {
                   </>
                 )}
               </Grid>
+                        */}
 
               {/* FECHA DE FACTURACION */}
               <Grid item xs={12} md={1.6} align="left">

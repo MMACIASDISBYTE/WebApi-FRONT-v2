@@ -837,25 +837,44 @@ function CreateInvoice() {
   };
 
   useEffect(() => {
+
+    formik.setFieldValue("gloc_descarga", "");
+    formik.setFieldValue("gloc_terminales", "");
+    formik.setFieldValue("gloc_fwd", "Aguarde ...");
+    formik.setFieldValue("freight_cost", "");
+    formik.setFieldValue("gloc_flete", "");
+    formik.setFieldValue("gloc_despachantes","");
+    
+
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
   console.log(gastoLocal);
 
   useEffect(() => {
-    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+
+    // Los valores que son 2x cuando la carga es doble y que siquiera existen en el XCEL real y los ingresan a mano.
+    // Si la carga contiene "2*" es por que es una doble. El unico gasto que tiene definicion en cargas dobles es el flete
+    // interno. Lo demas no tiene nada. Los hago con este if.
+   
+      formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
+      formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+      formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+      formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+  
+
     formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
-    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    console.log(formik.values.gloc_descarga);
-    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+    
+    console.log("CAMBIO CARGA:",formik?.values?.carga_id?.description);
+    
     formik.setFieldValue(
       "gloc_despachantes",
       CalculoDespachanteMex(formik?.values?.cif_grand_total)
     );
-    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+    
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
     console.log(formik.values);
-  }, [gastoLocal, productsData]);
+  }, [gastoLocal]);
 
   function handleTextClick() {
     const inputElement = document.getElementById("carga_id");
