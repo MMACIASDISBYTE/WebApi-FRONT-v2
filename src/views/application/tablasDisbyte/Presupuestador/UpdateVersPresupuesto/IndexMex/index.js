@@ -1588,16 +1588,21 @@ function CreateInvoice() {
   const [showDetails, setShowDetails] = useState(true);
 
   const CambioEstado = () => {
-    if (formik.values.status < 3) {
-      formik.setFieldValue("status", formik.values.status + 1);
+    if(banderaCheck === 0)
+    {
+      if (formik.values.status < 3) {
+        formik.setFieldValue("status", formik.values.status + 1);
+      }
+      // console.log(formik.values.status);
     }
-    // console.log(formik.values.status);
   };
   const CambioEstadoBack = () => {
-    if (formik.values.status > 0) {
-      formik.setFieldValue("status", formik.values.status - 1);
+    if(banderaCheck === 0){
+      if (formik.values.status > 0) {
+        formik.setFieldValue("status", formik.values.status - 1);
+      }
+      // console.log(formik.values.status);
     }
-    // console.log(formik.values.status);
   };
 
   // PERMISOS
@@ -1660,6 +1665,7 @@ function CreateInvoice() {
     if (banderaCheck === 0) {
       setCheckedSourcing(event.target.checked);
       setBanderaCheck(1);
+      formik.setFieldValue("status", 1);
       setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
     } else {
       console.log("no puede modificar");
@@ -1669,6 +1675,7 @@ function CreateInvoice() {
     if (banderaCheck === 0) {
       setCheckedComex(event.target.checked);
       setBanderaCheck(2);
+      formik.setFieldValue("status", 2);
       setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
     } else {
       console.log("no puede modificar");
@@ -1678,6 +1685,7 @@ function CreateInvoice() {
     if (banderaCheck === 0) {
       setCheckedFinan(event.target.checked);
       setBanderaCheck(3);
+      formik.setFieldValue("status", 3);
       setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
     } else {
       console.log("no puede modificar");
