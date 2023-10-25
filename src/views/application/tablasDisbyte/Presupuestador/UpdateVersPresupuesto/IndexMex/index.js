@@ -745,6 +745,31 @@ function CreateInvoice() {
       gloc_descarga: 0,
       freight_cost: 0,
       freight_insurance_cost: 0,
+
+      //sourcing
+      gloc_fwdSourcing: 0,
+      gloc_fleteSourcing: 0,
+      gloc_terminalesSourcing: 0,
+      gloc_despachantesSourcing: 0,
+      gloc_descargaSourcing: 0,
+      freight_costSourcing: 0,
+      freight_insurance_costSourcing: 0,
+      //comex
+      gloc_fwdComex: 0,
+      gloc_fleteComex: 0,
+      gloc_terminalesComex: 0,
+      gloc_despachantesComex: 0,
+      gloc_descargaComex: 0,
+      freight_costComex: 0,
+      freight_insurance_costComex: 0,
+      //finan
+      gloc_fwdFinan: 0,
+      gloc_fleteFinan: 0,
+      gloc_terminalesFinan: 0,
+      gloc_despachantesFinan: 0,
+      gloc_descargaFinan: 0,
+      freight_costFinan: 0,
+      freight_insurance_costFinan: 0,
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -754,6 +779,7 @@ function CreateInvoice() {
     onSubmit: async (values) => {
       setOcultar(true);
       try {
+        setValorGastoLocales(banderaCheck);
         const postData = {
           estHeaderDB: {
             ...values, // Incluye los valores del formulario (cabecera)
@@ -769,6 +795,16 @@ function CreateInvoice() {
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
             embarque: values.embarque ? values.embarque : "",
+            
+            // Manejo de gastos locales segun Bandera
+            gloc_fwd: banderaCheck == 1 ? formik.values.gloc_fwdSourcing : banderaCheck == 2 ? formik.values.gloc_fwdComex : banderaCheck == 3 ? formik.values.gloc_fwdFinan : 0,
+            gloc_flete: banderaCheck == 1 ? formik.values.gloc_fleteSourcing : banderaCheck == 2 ? formik.values.gloc_fleteComex : banderaCheck == 3 ? formik.values.gloc_fleteFinan : 0,
+            gloc_terminales: banderaCheck == 1 ? formik.values.gloc_terminalesSourcing : banderaCheck == 2 ? formik.values.gloc_terminalesComex : banderaCheck == 3 ? formik.values.gloc_terminalesFinan : 0,
+            gloc_despachantes: banderaCheck == 1 ? formik.values.gloc_despachantesSourcing : banderaCheck == 2 ? formik.values.gloc_despachantesComex : banderaCheck == 3 ? formik.values.gloc_despachantesFinan : 0,
+            gloc_descarga: banderaCheck == 1 ? formik.values.gloc_descargaSourcing : banderaCheck == 2 ? formik.values.gloc_descargaComex : banderaCheck == 3 ? formik.values.gloc_descargaFinan : 0,
+            freight_cost: banderaCheck == 1 ? formik.values.freight_costSourcing : banderaCheck == 2 ? formik.values.freight_costComex : banderaCheck == 3 ? formik.values.freight_costFinan : 0,
+            freight_insurance_cost: banderaCheck == 1 ? formik.values.freight_insurance_costSourcing : banderaCheck == 2 ? formik.values.freight_insurance_costComex : banderaCheck == 3 ? formik.values.freight_insurance_costFinan : 0,
+
 
             // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             // tarifasflete_id: values.tarifasflete_id
@@ -1003,6 +1039,137 @@ function CreateInvoice() {
       formik.setFieldValue(
         "extrag_finan_notas",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan_notas
+      );
+    }
+
+    //LOCALES POR DEPTO
+    //sourcing
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwdSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fleteSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminalesSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantesSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_costSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_costSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.freight_insurance_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_descargaSourcing",
+        dataHelp.presuUltimosEstadios[0]?.estHeader?.gloc_descarga
+      );
+    }
+    //Locales Comex
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwdComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fleteComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminalesComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantesComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_costComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_costComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.freight_insurance_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_descargaComex",
+        dataHelp.presuUltimosEstadios[1]?.estHeader?.gloc_descarga
+      );
+    }
+    //Locales Finan
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fwdFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.gloc_fwd
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_fleteFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.gloc_flete
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_terminalesFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.gloc_terminales
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_despachantesFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.gloc_despachantes
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_costFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.freight_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "freight_insurance_costFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.freight_insurance_cost
+      );
+    }
+    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+      formik.setFieldValue(
+        "gloc_descargaFinan",
+        dataHelp.presuUltimosEstadios[2]?.estHeader?.gloc_descarga
       );
     }
   }, [dataHelp]);
@@ -1291,100 +1458,100 @@ function CreateInvoice() {
   }, [gastoLocal]);
   // console.log(gastoLocal);
 
-  useEffect(() => {
-    // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
-    if (
-      gastoLocal?.gloc_fwd?.toFixed(2) ===
-      dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
-    ) {
-      // console.log("EQ");
-      formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
-      //setAlerta(false,0);
-      actualizaResaltar("gloc_fwd", false);
-    } else {
-      // console.log("NOTEQ");
-      formik.setFieldValue(
-        "gloc_fwd",
-        dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
-      );
-      actualizaResaltar("gloc_fwd", true);
-    }
+  // useEffect(() => {
+  //   // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
+  //   if (
+  //     gastoLocal?.gloc_fwd?.toFixed(2) ===
+  //     dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
+  //   ) {
+  //     // console.log("EQ");
+  //     formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
+  //     //setAlerta(false,0);
+  //     actualizaResaltar("gloc_fwd", false);
+  //   } else {
+  //     // console.log("NOTEQ");
+  //     formik.setFieldValue(
+  //       "gloc_fwd",
+  //       dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2)
+  //     );
+  //     actualizaResaltar("gloc_fwd", true);
+  //   }
 
-    if (
-      gastoLocal?.flete_interno?.toFixed(2) ===
-      dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2)
-    ) {
-      //console.log("EQ");
-      formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
-      //setAlerta(false,1);
-      actualizaResaltar("gloc_flete", false);
-    } else {
-      //console.log("NOTEQ");
-      formik.setFieldValue(
-        "gloc_flete",
-        dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2)
-      );
-      //setAlerta(false,1);
-      actualizaResaltar("gloc_flete", true);
-    }
+  //   if (
+  //     gastoLocal?.flete_interno?.toFixed(2) ===
+  //     dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2)
+  //   ) {
+  //     //console.log("EQ");
+  //     formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
+  //     //setAlerta(false,1);
+  //     actualizaResaltar("gloc_flete", false);
+  //   } else {
+  //     //console.log("NOTEQ");
+  //     formik.setFieldValue(
+  //       "gloc_flete",
+  //       dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2)
+  //     );
+  //     //setAlerta(false,1);
+  //     actualizaResaltar("gloc_flete", true);
+  //   }
 
-    if (
-      gastoLocal?.gasto_descarga_depo?.toFixed(2) ===
-      dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2)
-    ) {
-      //console.log("EQ");
-      formik.setFieldValue(
-        "gloc_descarga",
-        gastoLocal?.gasto_descarga_depo?.toFixed(2)
-      );
-      //setAlerta(false,2);
-      actualizaResaltar("gloc_descarga", false);
-    } else {
-      //console.log("NOTEQ");
-      formik.setFieldValue(
-        "gloc_descarga",
-        dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2)
-      );
-      //set (true,2);
-      actualizaResaltar("gloc_descarga", true);
-    }
+  //   if (
+  //     gastoLocal?.gasto_descarga_depo?.toFixed(2) ===
+  //     dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2)
+  //   ) {
+  //     //console.log("EQ");
+  //     formik.setFieldValue(
+  //       "gloc_descarga",
+  //       gastoLocal?.gasto_descarga_depo?.toFixed(2)
+  //     );
+  //     //setAlerta(false,2);
+  //     actualizaResaltar("gloc_descarga", false);
+  //   } else {
+  //     //console.log("NOTEQ");
+  //     formik.setFieldValue(
+  //       "gloc_descarga",
+  //       dataHelp?.presupuestoEditable?.estHeader?.gloc_descarga?.toFixed(2)
+  //     );
+  //     //set (true,2);
+  //     actualizaResaltar("gloc_descarga", true);
+  //   }
 
-    if (
-      gastoLocal?.gasto_terminal?.toFixed(2) ===
-      dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2)
-    ) {
-      //console.log("EQ");
-      formik.setFieldValue(
-        "gloc_terminales",
-        gastoLocal?.gasto_terminal?.toFixed(2)
-      );
-      //setAlerta(false,3);
-      actualizaResaltar("gloc_terminales", false);
-    } else {
-      //console.log("NOTEQ");
-      formik.setFieldValue(
-        "gloc_terminales",
-        dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2)
-      );
-      //setAlerta(true,3);
-      actualizaResaltar("gloc_terminales", true);
-    }
+  //   if (
+  //     gastoLocal?.gasto_terminal?.toFixed(2) ===
+  //     dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2)
+  //   ) {
+  //     //console.log("EQ");
+  //     formik.setFieldValue(
+  //       "gloc_terminales",
+  //       gastoLocal?.gasto_terminal?.toFixed(2)
+  //     );
+  //     //setAlerta(false,3);
+  //     actualizaResaltar("gloc_terminales", false);
+  //   } else {
+  //     //console.log("NOTEQ");
+  //     formik.setFieldValue(
+  //       "gloc_terminales",
+  //       dataHelp?.presupuestoEditable?.estHeader?.gloc_terminales?.toFixed(2)
+  //     );
+  //     //setAlerta(true,3);
+  //     actualizaResaltar("gloc_terminales", true);
+  //   }
 
-    //formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-    //formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
-    //formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    //formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
-    formik.setFieldValue(
-      "gloc_despachantes",
-      CalculoDespachanteMex(formik?.values?.cif_grand_total)
-    );
-    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
-    // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
-    // console.log(ExtraCostosLocal);
-    //console.log(formik.values);
-  }, [gastoLocal, productsData, dataHelp?.presupuestoEditable]);
+  //   //formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+  //   //formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
+  //   //formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
+  //   //formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+  //   formik.setFieldValue(
+  //     "gloc_despachantes",
+  //     CalculoDespachanteMex(formik?.values?.cif_grand_total)
+  //   );
+  //   formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+  //   // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
+  //   console.log('Formik :', formik.values);
+  // }, [gastoLocal, productsData, dataHelp?.presupuestoEditable]);
 
   function handleTextClick() {
+    // aca pone foco a la carga
     const inputElement = document.getElementById("carga_id");
     if (inputElement) {
       inputElement.focus();
@@ -1501,7 +1668,7 @@ function CreateInvoice() {
   const handleChangeComex = (event) => {
     if (banderaCheck === 0) {
       setCheckedComex(event.target.checked);
-      setBanderaCheck(1);
+      setBanderaCheck(2);
       setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
     } else {
       console.log("no puede modificar");
@@ -1510,12 +1677,76 @@ function CreateInvoice() {
   const handleChangeFinan = (event) => {
     if (banderaCheck === 0) {
       setCheckedFinan(event.target.checked);
-      setBanderaCheck(1);
+      setBanderaCheck(3);
       setTooltipGastosLocales("Ya no puede modificar tarifa de otro sector");
     } else {
       console.log("no puede modificar");
     }
   };
+
+  function setValorGastoLocales(banderaCheck) {
+    console.log(banderaCheck);
+    console.log("Antes :", formik.values);
+
+    const fieldMap = {
+      1: "Sourcing",
+      2: "Comex",
+      3: "Finan",
+    };
+
+    const suffix = fieldMap[banderaCheck];
+
+    console.log("Antes :", formik.values);
+
+    const fields = [
+      "gloc_fwd",
+      "gloc_flete",
+      "gloc_terminales",
+      "gloc_despachantes",
+      "gloc_descarga",
+      "freight_cost",
+      "freight_insurance_cost",
+    ];
+
+    fields.forEach((field) => {
+      // formik.setFieldValue(field, formik.values[`${field}${suffix}`]);
+      const value = parseFloat(formik.values[`${field}${suffix}`]);
+      formik.setFieldValue(field, isNaN(value) ? 0 : value);
+    });
+
+    // if(banderaCheck === 1){
+    //   formik.setFieldValue("gloc_fwd", parseFloat(formik.values.gloc_fwdSourcing));
+    //   console.log('valor gloc_flete:', formik.values.gloc_fwdSourcing);
+    //   console.log('valor gloc_fleteSourcing:', formik.values.gloc_fwdSourcing);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteSourcing);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesSourcing);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesSourcing);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costSourcing);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costSourcing);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaSourcing);
+    // }
+    // if(banderaCheck === 2){
+    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdComex);
+    //   console.log('valor gloc_flete:', formik.values.gloc_fwd);
+    //   console.log('valor gloc_fleteComex:', formik.values.gloc_fwdComex);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteComex);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesComex);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesComex);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costComex);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costComex);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaComex);
+    // }
+    // if(banderaCheck === 3){
+    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdFinan);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteFinan);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesFinan);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesFinan);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costFinan);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costFinan);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaFinan);
+    // }
+    console.log("Despues :", formik.values);
+  }
 
   return (
     <>
@@ -2076,22 +2307,12 @@ function CreateInvoice() {
                           dataType={input.dataType}
                           formik={formik}
                           Xs_Xd={input.Xs_Xd}
-                          blockDeGastos={input.blockDeGastos}
-                          onSwitchChange={(newState) =>
-                            handleSwitchChangeInIndex(
-                              newState,
-                              input.arrPosition
-                            )
-                          }
-                          handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                          ValorSwitch={input.ValorSwitch}
-                          ValorSwitchBase={input.ValorSwitchBase}
-                          arrPosition={input.arrPosition}
                           resaltar={resaltaCambios[index]}
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedSourcing} // habilita o desabilita campos
+                          depto={"Sourcing"}
                         />
                       ))}
 
@@ -2243,22 +2464,12 @@ function CreateInvoice() {
                           dataType={input.dataType}
                           formik={formik}
                           Xs_Xd={input.Xs_Xd}
-                          blockDeGastos={input.blockDeGastos}
-                          onSwitchChange={(newState) =>
-                            handleSwitchChangeInIndex(
-                              newState,
-                              input.arrPosition
-                            )
-                          }
-                          handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                          ValorSwitch={input.ValorSwitch}
-                          ValorSwitchBase={input.ValorSwitchBase}
-                          arrPosition={input.arrPosition}
                           resaltar={resaltaCambios[index]}
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedComex} // habilita o desabilita campos
+                          depto={"Comex"}
                         />
                       ))}
 
@@ -2433,22 +2644,12 @@ function CreateInvoice() {
                           dataType={input.dataType}
                           formik={formik}
                           Xs_Xd={input.Xs_Xd}
-                          blockDeGastos={input.blockDeGastos}
-                          onSwitchChange={(newState) =>
-                            handleSwitchChangeInIndex(
-                              newState,
-                              input.arrPosition
-                            )
-                          }
-                          handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                          ValorSwitch={input.ValorSwitch}
-                          ValorSwitchBase={input.ValorSwitchBase}
-                          arrPosition={input.arrPosition}
                           resaltar={resaltaCambios[index]}
                           gastoLocal={gastoLocal}
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedFinan} // habilita o desabilita campos
+                          depto={"Finan"}
                         />
                       ))}
 
