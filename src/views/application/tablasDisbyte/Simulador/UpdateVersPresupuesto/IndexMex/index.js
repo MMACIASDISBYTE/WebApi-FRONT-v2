@@ -1870,6 +1870,7 @@ function CreateInvoice() {
                       formik={formik}
                       XS={12}
                       MD={1.5}
+                      desactivado={true}
                     />
                   ))}
 
@@ -2026,12 +2027,20 @@ function CreateInvoice() {
 
               {formik.values.carga_id != null ? (
                 <>
-                  <Grid item xs={12}>
-                    <Divider />
+                  <Grid item xs={12} style={{ position: "relative", marginTop: -50 }}>
+                    {/* <Divider /> */}
                     <Typography
                       // color={"green"}
-                      variant="h3"
-                      style={{ margin: "8px" }}
+                      variant="h4"
+                      style={{
+                        // margin: "8px",
+                        position: "absolute",
+                        transform: "rotate(-90deg)",
+                        transformOrigin: "left bottom",
+                        whiteSpace: "nowrap",
+                        bottom: -120, // Ajusta según sea necesario
+                        left: 20, // Ajusta según sea necesario
+                      }}
                     >
                       Gastos Locales
                     </Typography>
@@ -2415,7 +2424,7 @@ function CreateInvoice() {
                   </Button>
                 ) : (
                   <Button variant="contained" type="submit">
-                    Presupuestar
+                    Simular
                   </Button>
                 )}
               </Grid>

@@ -1296,8 +1296,8 @@ function CreateInvoice() {
 
               {formik.values.carga_id != null ? (
                 <>
-                  <Grid item xs={12} style={{ position: "relative" }}>
-                    <Divider />
+                  <Grid item xs={12} style={{ position: "relative", marginTop: -50 }}>
+                    {/* <Divider /> */}
                     <Typography
                       // color={"green"}
                       variant="h4"
@@ -1431,7 +1431,7 @@ function CreateInvoice() {
                   </Button>
                 ) : (
                   <Button variant="contained" type="submit">
-                    Presupuestar
+                    Simular
                   </Button>
                 )}
               </Grid>

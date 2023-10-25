@@ -280,22 +280,17 @@ const Details = ({ presupuestador, usuario, historico }) => {
               </Grid>
 
               <Grid item xs={12}>
-                <Typography variant="h2" color={"yellowgreen"}>
-                  Presupuesto #00
-                  {presupuestador.estHeader.estnumber
-                    ? presupuestador.estHeader.estnumber
+              <Typography variant="h2" color={"mediumseagreen"}> 
+                  {presupuestador.estHeader.project
+                    ? `#PRJ: ${presupuestador.estHeader.project}`
                     : "Sin data"}{" "}
-                  /00
-                  {presupuestador.estHeader.estvers
-                    ? presupuestador.estHeader.estvers
-                    : "Sin data"}
                 </Typography>
-                <Typography variant="h4">
-                  Fecha Emision:{" "}
-                  {presupuestador.estHeader.htimestamp
-                    ? UtilidadesHelper.formatFecha(
-                        presupuestador.estHeader.htimestamp
-                      )
+
+
+                <Typography variant="h4" color={"dimgrey"}>
+                  OWNER:{" "}
+                  {presupuestador.estHeader.own
+                    ? presupuestador.estHeader.own
                     : "Sin data"}
                 </Typography>
 
