@@ -51,8 +51,6 @@ export const ExtraCostoDobleClickUpdate = ({
   const formikName = depto ? `${name}${depto}` : name;
   // console.log(formikName);
   
-  useEffect(() => {}, [formik.values]);
-
   // ESTILO PARA QUITAR FLECHAS NUMERICAS DE TEXTFIELD NUMBER
   const useStyles = makeStyles({
     hideSpinButton: {

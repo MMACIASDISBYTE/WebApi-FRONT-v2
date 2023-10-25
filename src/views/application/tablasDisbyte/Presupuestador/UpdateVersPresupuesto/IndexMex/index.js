@@ -777,9 +777,9 @@ function CreateInvoice() {
     validateOnChange: false,
     validateOnBlur: true,
     onSubmit: async (values) => {
-      setValorGastoLocales(banderaCheck)
       setOcultar(true);
       try {
+        setValorGastoLocales(banderaCheck);
         const postData = {
           estHeaderDB: {
             ...values, // Incluye los valores del formulario (cabecera)
@@ -795,6 +795,16 @@ function CreateInvoice() {
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
             embarque: values.embarque ? values.embarque : "",
+            
+            // Manejo de gastos locales segun Bandera
+            gloc_fwd: banderaCheck == 1 ? formik.values.gloc_fwdSourcing : banderaCheck == 2 ? formik.values.gloc_fwdComex : banderaCheck == 3 ? formik.values.gloc_fwdFinan : 0,
+            gloc_flete: banderaCheck == 1 ? formik.values.gloc_fleteSourcing : banderaCheck == 2 ? formik.values.gloc_fleteComex : banderaCheck == 3 ? formik.values.gloc_fleteFinan : 0,
+            gloc_terminales: banderaCheck == 1 ? formik.values.gloc_terminalesSourcing : banderaCheck == 2 ? formik.values.gloc_terminalesComex : banderaCheck == 3 ? formik.values.gloc_terminalesFinan : 0,
+            gloc_despachantes: banderaCheck == 1 ? formik.values.gloc_despachantesSourcing : banderaCheck == 2 ? formik.values.gloc_despachantesComex : banderaCheck == 3 ? formik.values.gloc_despachantesFinan : 0,
+            gloc_descarga: banderaCheck == 1 ? formik.values.gloc_descargaSourcing : banderaCheck == 2 ? formik.values.gloc_descargaComex : banderaCheck == 3 ? formik.values.gloc_descargaFinan : 0,
+            freight_cost: banderaCheck == 1 ? formik.values.freight_costSourcing : banderaCheck == 2 ? formik.values.freight_costComex : banderaCheck == 3 ? formik.values.freight_costFinan : 0,
+            freight_insurance_cost: banderaCheck == 1 ? formik.values.freight_insurance_costSourcing : banderaCheck == 2 ? formik.values.freight_insurance_costComex : banderaCheck == 3 ? formik.values.freight_insurance_costFinan : 0,
+
 
             // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             // tarifasflete_id: values.tarifasflete_id
@@ -1540,7 +1550,8 @@ function CreateInvoice() {
   //   console.log('Formik :', formik.values);
   // }, [gastoLocal, productsData, dataHelp?.presupuestoEditable]);
 
-  function handleTextClick() { // aca pone foco a la carga
+  function handleTextClick() {
+    // aca pone foco a la carga
     const inputElement = document.getElementById("carga_id");
     if (inputElement) {
       inputElement.focus();
@@ -1673,38 +1684,68 @@ function CreateInvoice() {
     }
   };
 
-  function setValorGastoLocales (banderaCheck){
+  function setValorGastoLocales(banderaCheck) {
     console.log(banderaCheck);
-    console.log('Antes :',formik.values);
+    console.log("Antes :", formik.values);
 
-    if(banderaCheck === 1){
-      formik.setFieldValue("gloc_fwd", parseFloat(formik.values.gloc_fwdSourcing));
-      formik.setFieldValue("gloc_flete", formik.values.gloc_fleteSourcing);
-      formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesSourcing);
-      formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesSourcing);
-      formik.setFieldValue("freight_cost", formik.values.freight_costSourcing);
-      formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costSourcing);
-      formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaSourcing);
-    }
-    if(banderaCheck === 2){
-      formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdComex);
-      formik.setFieldValue("gloc_flete", formik.values.gloc_fleteComex);
-      formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesComex);
-      formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesComex);
-      formik.setFieldValue("freight_cost", formik.values.freight_costComex);
-      formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costComex);
-      formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaComex);
-    }
-    if(banderaCheck === 3){
-      formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdFinan);
-      formik.setFieldValue("gloc_flete", formik.values.gloc_fleteFinan);
-      formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesFinan);
-      formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesFinan);
-      formik.setFieldValue("freight_cost", formik.values.freight_costFinan);
-      formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costFinan);
-      formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaFinan);
-    }
-    console.log('Despues :',formik.values);
+    const fieldMap = {
+      1: "Sourcing",
+      2: "Comex",
+      3: "Finan",
+    };
+
+    const suffix = fieldMap[banderaCheck];
+
+    console.log("Antes :", formik.values);
+
+    const fields = [
+      "gloc_fwd",
+      "gloc_flete",
+      "gloc_terminales",
+      "gloc_despachantes",
+      "gloc_descarga",
+      "freight_cost",
+      "freight_insurance_cost",
+    ];
+
+    fields.forEach((field) => {
+      // formik.setFieldValue(field, formik.values[`${field}${suffix}`]);
+      const value = parseFloat(formik.values[`${field}${suffix}`]);
+      formik.setFieldValue(field, isNaN(value) ? 0 : value);
+    });
+
+    // if(banderaCheck === 1){
+    //   formik.setFieldValue("gloc_fwd", parseFloat(formik.values.gloc_fwdSourcing));
+    //   console.log('valor gloc_flete:', formik.values.gloc_fwdSourcing);
+    //   console.log('valor gloc_fleteSourcing:', formik.values.gloc_fwdSourcing);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteSourcing);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesSourcing);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesSourcing);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costSourcing);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costSourcing);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaSourcing);
+    // }
+    // if(banderaCheck === 2){
+    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdComex);
+    //   console.log('valor gloc_flete:', formik.values.gloc_fwd);
+    //   console.log('valor gloc_fleteComex:', formik.values.gloc_fwdComex);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteComex);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesComex);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesComex);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costComex);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costComex);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaComex);
+    // }
+    // if(banderaCheck === 3){
+    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdFinan);
+    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteFinan);
+    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesFinan);
+    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesFinan);
+    //   formik.setFieldValue("freight_cost", formik.values.freight_costFinan);
+    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costFinan);
+    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaFinan);
+    // }
+    console.log("Despues :", formik.values);
   }
 
   return (
@@ -2271,7 +2312,7 @@ function CreateInvoice() {
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedSourcing} // habilita o desabilita campos
-                          depto={'Sourcing'}
+                          depto={"Sourcing"}
                         />
                       ))}
 
@@ -2428,7 +2469,7 @@ function CreateInvoice() {
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedComex} // habilita o desabilita campos
-                          depto={'Comex'}
+                          depto={"Comex"}
                         />
                       ))}
 
@@ -2608,7 +2649,7 @@ function CreateInvoice() {
                           nameGastoLocalTarifon={input.nameGastoLocalTarifon}
                           fobGrandTotal={fobGrandTotal}
                           deshabilitar={!checkedFinan} // habilita o desabilita campos
-                          depto={'Finan'}
+                          depto={"Finan"}
                         />
                       ))}
 
