@@ -1508,7 +1508,7 @@ function CreateInvoice() {
   }));
 
   const [showCostosLocal, setShowCostosLocal] = useState(true);
-  const [showCostosSourcing, setShowCostosSourcing] = useState(false);
+  const [showCostosSourcing, setShowCostosSourcing] = useState(true);
   const [showCostosComex, setShowCostosComex] = useState(false);
   const [showCostosFinan, setShowCostosFinan] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
@@ -2118,7 +2118,7 @@ function CreateInvoice() {
                             <Typography
                               // color={"green"}
                               variant="h3"
-                              style={{ margin: "8px" }}
+                              style={{ marginLeft: "8px" }}
                             >
                               Extra Gastos Sourcing
                             </Typography>

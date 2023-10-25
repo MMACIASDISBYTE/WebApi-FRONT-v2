@@ -185,6 +185,7 @@ function EnhancedTableHead({
       lineHeight: "1", // Ajuste de la altura de línea según necesidad
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 100,
+      
     },
     lastCell: {
       borderRight: "none",
@@ -561,6 +562,17 @@ const CustomerList = () => {
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 130,
     },
+    tableCell2: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft:40,
+    },
     lastCell: {
       borderRight: "none",
     },
@@ -638,7 +650,7 @@ const CustomerList = () => {
               <AnimateButton>
                 <Button
                   variant="contained"
-                  onClick={() => navigate("/estimate/create-estimateMex")}
+                  onClick={() => navigate("/simuladorMEX/CreateSimuMex")}
                 >
                   Create Estimate
                 </Button>
@@ -800,11 +812,12 @@ const CustomerList = () => {
                         ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell}>
+                    <TableCell className={classes.tableCell2}>
                     {
                                   row.avatar_url != '' && row.avatar_url !== null ?(
                                     <Tooltip title={row.own}>
                                       <Avatar
+                                      align='center'
                                         alt={
                                           row.own
                                             ? row.own

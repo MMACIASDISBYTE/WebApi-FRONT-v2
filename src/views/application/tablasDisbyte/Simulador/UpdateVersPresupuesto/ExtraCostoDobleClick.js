@@ -34,7 +34,7 @@ export const ExtraCostoDobleClick = ({
   gastoLocal,
 }) => {
   const theme = useTheme();
-  console.log('Gasto local:', gastoLocal);
+  // console.log('Gasto local:', gastoLocal);
 
   const [dobleClick, setDobleClick] = useState(false);
   const [textDeTooltip, setTextDeTooltip] = useState(
