@@ -28,6 +28,8 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -99,37 +101,37 @@ const headCells = [
     id: "project",
     numeric: false,
     label: "Prj",
-    align: "left",
+    align: "center",
   },
   {
     id: "description",
     numeric: false,
     label: "Descripcion",
-    align: "left",
+    align: "center",
   },
   {
     id: "paisregion_id",
     numeric: false,
     label: "Region",
-    align: "left",
+    align: "center",
   },
   {
     id: "carga_id",
     numeric: true,
     label: "Carga",
-    align: "left",
+    align: "center",
   },
   {
     id: "status",
     numeric: false,
     label: "Estado",
-    align: "left",
+    align: "center",
   },
   {
     id: "cantidad_contenedores",
     numeric: true,
     label: "Contenedores",
-    align: "left",
+    align: "center",
   },
   // {
   //   id: "gastos_loc_total",
@@ -141,19 +143,19 @@ const headCells = [
     id: "fob_grand_total",
     numeric: true,
     label: "Fob Total[USD]",
-    align: "left",
+    align: "center",
   },
   {
     id: "own",
     numeric: true,
     label: "Creador",
-    align: "left",
+    align: "center",
   },
   {
     id: "htimestamp",
     numeric: true,
     label: "Fecha",
-    align: "right",
+    align: "center",
   },
 ];
 
@@ -636,9 +638,9 @@ const CustomerList = () => {
               <AnimateButton>
                 <Button
                   variant="contained"
-                  onClick={() => navigate("/simuladorMEX/CreateSimuMex")}
+                  onClick={() => navigate("/estimate/create-estimateMex")}
                 >
-                  Create Simulacion
+                  Create Estimate
                 </Button>
               </AnimateButton>
             )}
@@ -798,10 +800,27 @@ const CustomerList = () => {
                         ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.own !== null && row.own !== undefined
-                        ? row.own
-                        : "Sin data"}
+                    <TableCell className={classes.tableCell}>
+                    {
+                                  row.avatar_url != '' && row.avatar_url !== null ?(
+                                    <Tooltip title={row.own}>
+                                      <Avatar
+                                        alt={
+                                          row.own
+                                            ? row.own
+                                            : "Sin data"
+                                        }
+                                        src={row.avatar_url}
+                                      />
+                                    </Tooltip>
+                                  ) : (
+                                    <>
+                                      {row.own !== null && row.own !== undefined
+                                        ? row.own
+                                        : "Sin data"}
+                                    </>
+                                  )
+                                }
                     </TableCell>
                     <TableCell align="right" className={classes.tableCell}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&
