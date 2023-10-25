@@ -474,6 +474,7 @@ function CreateInvoice() {
       project: "",
       embarque: "Sin Especificar",
       fecha_embarque: UtilidadesHelper.fechaParaDB(),
+      bl: "",
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -481,7 +482,7 @@ function CreateInvoice() {
       fwdpaisregion_id: 9, // es CHINA  Puede cambiar segun importador
       SeleccionPais: "Seleccione un pais", // existe para establecer la region
       own: user.name,
-      avatar_url: user.avatar_url,
+      avatar_url: user.avatar,
       ivaExcento: "true",
       htimestamp: UtilidadesHelper.fechaParaDB(),
 
@@ -544,6 +545,7 @@ function CreateInvoice() {
       gloc_descarga: 0,
       freight_cost: 0,
       freight_insurance_cost: 0,
+
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar

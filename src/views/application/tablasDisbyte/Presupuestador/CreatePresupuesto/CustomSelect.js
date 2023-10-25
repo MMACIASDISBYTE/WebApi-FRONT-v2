@@ -50,7 +50,11 @@ export const CustomSelect = ({
     <Tooltip title={tooltip}>
       <Grid item xs={XS} md={MD}>
         <Stack>
-          <InputLabel required>{`${inputLabel}`}</InputLabel>
+        {inputLabel === "PRJ" ?
+            <InputLabel >{`${inputLabel}`}</InputLabel>
+            :
+            <InputLabel required>{`${inputLabel}`}</InputLabel>
+          }
           {/* Si data existe, mostramos el Select. Si no, mostramos el TextField. */}
           {data !== "String" ? (
             <Tooltip //consulto si trae una fecha valida mostrar la fecha con formato sino no mostrar nada
@@ -114,7 +118,7 @@ export const CustomSelect = ({
               value={formik.values[name] || ""}
               onBlur={formik.handleBlur}
               error={formik.touched[name] && Boolean(formik.errors[name])}
-              helperText={formik.touched[name] && formik.errors[name]}
+              // helperText={formik.touched[name] && formik.errors[name]}
               onChange={formik.handleChange}
               placeholder={em}
               fullWidth

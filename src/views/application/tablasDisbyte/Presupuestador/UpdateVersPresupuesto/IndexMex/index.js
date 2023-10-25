@@ -1693,8 +1693,6 @@ function CreateInvoice() {
   };
 
   function setValorGastoLocales(banderaCheck) {
-    console.log(banderaCheck);
-    console.log("Antes :", formik.values);
 
     const fieldMap = {
       1: "Sourcing",
@@ -1703,9 +1701,6 @@ function CreateInvoice() {
     };
 
     const suffix = fieldMap[banderaCheck];
-
-    console.log("Antes :", formik.values);
-
     const fields = [
       "gloc_fwd",
       "gloc_flete",
@@ -1715,45 +1710,11 @@ function CreateInvoice() {
       "freight_cost",
       "freight_insurance_cost",
     ];
-
     fields.forEach((field) => {
       // formik.setFieldValue(field, formik.values[`${field}${suffix}`]);
       const value = parseFloat(formik.values[`${field}${suffix}`]);
       formik.setFieldValue(field, isNaN(value) ? 0 : value);
     });
-
-    // if(banderaCheck === 1){
-    //   formik.setFieldValue("gloc_fwd", parseFloat(formik.values.gloc_fwdSourcing));
-    //   console.log('valor gloc_flete:', formik.values.gloc_fwdSourcing);
-    //   console.log('valor gloc_fleteSourcing:', formik.values.gloc_fwdSourcing);
-    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteSourcing);
-    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesSourcing);
-    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesSourcing);
-    //   formik.setFieldValue("freight_cost", formik.values.freight_costSourcing);
-    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costSourcing);
-    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaSourcing);
-    // }
-    // if(banderaCheck === 2){
-    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdComex);
-    //   console.log('valor gloc_flete:', formik.values.gloc_fwd);
-    //   console.log('valor gloc_fleteComex:', formik.values.gloc_fwdComex);
-    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteComex);
-    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesComex);
-    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesComex);
-    //   formik.setFieldValue("freight_cost", formik.values.freight_costComex);
-    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costComex);
-    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaComex);
-    // }
-    // if(banderaCheck === 3){
-    //   formik.setFieldValue("gloc_fwd", formik.values.gloc_fwdFinan);
-    //   formik.setFieldValue("gloc_flete", formik.values.gloc_fleteFinan);
-    //   formik.setFieldValue("gloc_terminales", formik.values.gloc_terminalesFinan);
-    //   formik.setFieldValue("gloc_despachantes", formik.values.gloc_despachantesFinan);
-    //   formik.setFieldValue("freight_cost", formik.values.freight_costFinan);
-    //   formik.setFieldValue("freight_insurance_cost", formik.values.freight_insurance_costFinan);
-    //   formik.setFieldValue("gloc_descarga", formik.values.gloc_descargaFinan);
-    // }
-    console.log("Despues :", formik.values);
   }
 
   return (
