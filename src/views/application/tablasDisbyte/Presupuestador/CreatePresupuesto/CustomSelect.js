@@ -50,7 +50,7 @@ export const CustomSelect = ({
     <Tooltip title={tooltip}>
       <Grid item xs={XS} md={MD}>
         <Stack>
-        {inputLabel === "PRJ" ?
+        {inputLabel === "PRJ" || inputLabel === "Destino" || inputLabel === "Origen" ?
             <InputLabel >{`${inputLabel}`}</InputLabel>
             :
             <InputLabel required>{`${inputLabel}`}</InputLabel>

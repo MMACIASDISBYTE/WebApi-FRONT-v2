@@ -1859,7 +1859,7 @@ function CreateInvoice() {
               {/* FECHA DE FACTURACION */}
               <Grid item xs={12} md={1.6} align="left">
                 <Stack>
-                  <InputLabel required>Fecha de Emisión</InputLabel>
+                  <InputLabel >Fecha de Emisión</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       inputFormat="dd/MM/yyyy"
@@ -1879,7 +1879,7 @@ function CreateInvoice() {
               {/* NUM DE ESTIMADO */}
               <Grid item xs={12} md={0.8}>
                 <Stack>
-                  <InputLabel required>#</InputLabel>
+                  <InputLabel >#</InputLabel>
                   <TextField
                     id="estnumber"
                     name="estnumber"

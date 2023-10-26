@@ -30,6 +30,8 @@ import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
 import { CircularProgress, Select } from "@material-ui/core";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 // project imports
 import AddItemPage from "../AddItemPage";
@@ -459,6 +461,52 @@ function CreateInvoice() {
     },
   ];
 
+  const ExtraCostosSourcing = [
+    {
+      id: "extrag_src1",
+      name: "extrag_src1",
+      em: "Valor 1 [USD]",
+      inputLabel: "Valor 1 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src1,
+      arrPosition: 4,
+      resaltar: false,
+    },
+    {
+      id: "extrag_src2",
+      name: "extrag_src2",
+      em: "Valor 2 [USD]",
+      inputLabel: "Valor 2 [USD]",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
+      dataType: "number",
+      Xs_Xd: [12, 3],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.extrag_src2,
+      arrPosition: 3,
+      resaltar: false,
+    },
+    {
+      id: "extrag_src_notas",
+      name: "extrag_src_notas",
+      em: "Notas",
+      inputLabel: "Notas",
+      data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      dataType: "string",
+      Xs_Xd: [12, 6],
+      blockDeGastos: true,
+      ValorSwitch: null,
+      ValorSwitchBase:
+        dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
+      arrPosition: 3,
+      resaltar: false,
+    },
+  ];
+
   useEffect(() => {
     dataHelpers();
   }, []);
@@ -500,9 +548,6 @@ function CreateInvoice() {
       tarifasdespachantes_id: 2,
       tarifasbancos_id: 0,
       tarifasgestdigdoc_id: 0,
-
-      extrag_src_notas: "Sin notas",
-
       pesoTotal: 0,
 
       //gastos
@@ -512,6 +557,8 @@ function CreateInvoice() {
       extrag_comex_notas: "Sin notas",
       extrag_glob_src1: 0, //nuevos
       extrag_glob_src2: 0, //nuevos
+      extrag_src1: 0,
+      extrag_src2: 0,
       extrag_src_notas: "Sin notas",
       extrag_finanformula1_id: 0,
       extrag_finanformula2_id: 0,
@@ -569,6 +616,9 @@ function CreateInvoice() {
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
             embarque: values.embarque ? values.embarque : "",
+
+            extrag_src1: values.extrag_src1 ? parseFloat(values.extrag_src1) : 0,
+            extrag_src2: values.extrag_src2 ? parseFloat(values.extrag_src2) : 0,
 
             // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
             // tarifasflete_id: values.tarifasflete_id
@@ -837,40 +887,36 @@ function CreateInvoice() {
   };
 
   useEffect(() => {
-
     formik.setFieldValue("gloc_descarga", "");
     formik.setFieldValue("gloc_terminales", "");
     formik.setFieldValue("gloc_fwd", "Aguarde ...");
     formik.setFieldValue("freight_cost", "");
     formik.setFieldValue("gloc_flete", "");
-    formik.setFieldValue("gloc_despachantes","");
-    
+    formik.setFieldValue("gloc_despachantes", "");
 
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
   console.log(gastoLocal);
 
   useEffect(() => {
-
     // Los valores que son 2x cuando la carga es doble y que siquiera existen en el XCEL real y los ingresan a mano.
     // Si la carga contiene "2*" es por que es una doble. El unico gasto que tiene definicion en cargas dobles es el flete
     // interno. Lo demas no tiene nada. Los hago con este if.
-   
-      formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-      formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
-      formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-      formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
-  
+
+    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
+    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
+    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
+    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
 
     formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
-    
-    console.log("CAMBIO CARGA:",formik?.values?.carga_id?.description);
-    
+
+    console.log("CAMBIO CARGA:", formik?.values?.carga_id?.description);
+
     formik.setFieldValue(
       "gloc_despachantes",
       CalculoDespachanteMex(formik?.values?.cif_grand_total)
     );
-    
+
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
     console.log(formik.values);
@@ -882,6 +928,8 @@ function CreateInvoice() {
       inputElement.focus();
     }
   }
+
+  const [showCostosSourcing, setShowCostosSourcing] = useState(true);
 
   useEffect(() => {
     if (productsData.length > 0) {
@@ -1296,7 +1344,11 @@ function CreateInvoice() {
 
               {formik.values.carga_id != null ? (
                 <>
-                  <Grid item xs={12} style={{ position: "relative", marginTop: -50 }}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ position: "relative", marginTop: -50 }}
+                  >
                     {/* <Divider /> */}
                     <Typography
                       // color={"green"}
@@ -1357,6 +1409,86 @@ function CreateInvoice() {
                   </Box>
                 </>
               )}
+
+              {/* DETALLE DE COSTOS Sourcing */}
+              <>
+                <Grid item xs={12}>
+                  <Divider />
+                </Grid>
+
+                <Grid item xs={12}>
+                  {formik.values.carga_id ? (
+                    showCostosSourcing ? (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Ocultar Gastos">
+                            <VisibilityOffOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosSourcing(!showCostosSourcing)
+                              }
+                            />
+                          </Tooltip>
+                          <Grid item xs={12}>
+                            {/* <Divider /> */}
+                            <Typography
+                              // color={"green"}
+                              variant="h3"
+                              style={{ marginLeft: "8px" }}
+                            >
+                              Extra Gastos Sourcing
+                            </Typography>
+                          </Grid>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Box display="flex" alignItems="center">
+                          <Tooltip title="Mostrar Gastos">
+                            <VisibilityOutlinedIcon
+                              variant="text"
+                              onClick={() =>
+                                setShowCostosSourcing(!showCostosSourcing)
+                              }
+                            />
+                          </Tooltip>
+                          <Typography
+                            // color={"green"}
+                            variant="h4"
+                            style={{ marginLeft: "8px" }}
+                          >
+                            Extra Gastos Sourcing
+                          </Typography>
+                        </Box>
+                      </>
+                    )
+                  ) : null}
+                </Grid>
+
+                {formik.values.carga_id &&
+                  showCostosSourcing &&
+                  ExtraCostosSourcing.map((input) => (
+                    <ExtraCostoDobleClick
+                      key={input.id}
+                      id={input.id}
+                      name={input.name}
+                      em={input.em}
+                      inputLabel={input.inputLabel}
+                      data={input.data}
+                      dataType={input.dataType}
+                      formik={formik}
+                      Xs_Xd={input.Xs_Xd}
+                      blockDeGastos={input.blockDeGastos}
+                      onSwitchChange={(newState) =>
+                        handleSwitchChangeInIndex(newState, input.arrPosition)
+                      }
+                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
+                      ValorSwitch={input.ValorSwitch}
+                      ValorSwitchBase={input.ValorSwitchBase}
+                      arrPosition={input.arrPosition}
+                    />
+                  ))}
+              </>
 
               {/* CARGA DE PRODUCTOS */}
               <Grid item xs={12}>

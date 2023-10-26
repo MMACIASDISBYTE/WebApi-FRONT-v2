@@ -39,7 +39,7 @@ export const ExtraCostoDobleClickUpdate = ({
   fobGrandTotal = 0,
 }) => {
   const theme = useTheme();
-  //console.log("Gasto local:", gastoLocal);
+
 
   const [dobleClick, setDobleClick] = useState(false);
   const [textDeTooltip, setTextDeTooltip] = useState(
