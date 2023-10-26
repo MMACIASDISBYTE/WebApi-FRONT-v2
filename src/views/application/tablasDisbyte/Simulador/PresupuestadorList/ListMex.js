@@ -617,7 +617,7 @@ const CustomerList = () => {
       paddingLeft:40,
     },
     lastCell: {
-      borderRight: "none",
+      borderRight: "none", 
     },
   });
   const classes = useStyles();
@@ -625,7 +625,7 @@ const CustomerList = () => {
   const {user} = useAuth();
   console.log("owners",ownersList);
   return (
-    <MainCard title="Presupuestos Mexico" content={false}>
+    <MainCard title="Estimaciones Mexico" content={false}>
       <CardContent>
         <Grid
           container
@@ -679,7 +679,7 @@ const CustomerList = () => {
               handleChangeEstado={handleChangeEstado}
             />
             <SelectOwner
-              data={ownersList?ownersList:""} 
+              data={ownersList?ownersList:""}
               defaultSelection={ownersList?.filter(value=>value.own===user.name)}
               handleChangeOwner={handleChangeOwner}
             />
@@ -703,7 +703,7 @@ const CustomerList = () => {
                   variant="contained"
                   onClick={() => navigate("/simuladorMEX/CreateSimuMex")}
                 >
-                  Create Estimate
+                  Nueva Simulacion
                 </Button>
               </AnimateButton>
             )}

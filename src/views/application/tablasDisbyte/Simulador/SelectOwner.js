@@ -19,25 +19,28 @@ export const SelectOwner = ({
       };
     const [firstRun,setFirstRun]=useState(true);
 
+
+  
   // Cuando se carga el dato default que viene en otro momento (cuando concluye el fetch), lanzo un evento 
   // simulando que la seleccion cambio de modo que ya funcione filtre ya al cargar.
   // Default selection es un vector, de un solo elemento, solo cuando su len es 1 significa que le cargaron 
   // data en el padre y entonces ahi ejecuto este use effect x ultima vez con un flag que evita reentrar.  
   useEffect(()=>{
-                  if(defaultSelection.length>0 && firstRun)
+                  if(defaultSelection?.length>0 && firstRun)
                   {     
-                    console.log("SEL",defaultSelection);
+                    
                     handleChangeOwner(defaultSelection[0]);
                     setFirstRun(false);
                   }
                 },[defaultSelection]);
 
-  
+                
+                console.log("SEL",defaultSelection);
   return (
     <>
       <Grid item xs={12} md={2}>
         <Stack>
-            <Tooltip title={'Filtro por Owner'}>
+            <Tooltip title={'OWNER'}>
             <Select
                 id={'ownerSeleccionado'}
                 name={'ownerSeleccionado'}
@@ -47,15 +50,12 @@ export const SelectOwner = ({
                 helperText={'Owner:'}
                 onChange={handleSelectionChange}
                 renderValue={(selected) => {
-                  if (defaultSelection!=undefined && (!selected || Object.keys(selected).length === 0)) {
+                  if (defaultSelection?.length>0 && (!selected || Object.keys(selected).length === 0)) {
                     return `${defaultSelection[0]?.own}`;
                   }
-                  return `${selected.own}`;
+                  return `${selected?selected.own:"Aguarde ..."}`;
                 }}
               >
-                <MenuItem value={{}}>
-                  <em>Filtro por owner</em>
-                </MenuItem>
                 {owners && owners.length > 0 ? (
                   owners.map((item) => (
                     <MenuItem key={item.id} value={item}>
