@@ -220,6 +220,7 @@ function CreateInvoice() {
       vers,
       ""
     );
+    const owners = await PresupuestoHelper.fetchOwnersList();
     //const presupuesto = presupuestoEditable ? presupuestoEditable:null;
 
     
@@ -251,6 +252,7 @@ function CreateInvoice() {
       NCM_Mex,
       //presupuesto,
       presupuestoEditable,
+      owners,
       proximoEstDisponible,
       // tipoCambio,
       Paises,

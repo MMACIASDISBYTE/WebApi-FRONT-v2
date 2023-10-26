@@ -30,6 +30,9 @@ import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import useAuth from "hooks/useAuth";
+
+
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -50,6 +53,8 @@ import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
 import { SelectPais } from "../SelectPais";
 import { SelectCarga } from "../SelectCarga";
 import { SelectEstado } from "../SelectEstado";
+import { SelectOwner } from "../SelectOwner";
+import { PresupuestoHelper } from "helpers/PresupuestoHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -170,6 +175,10 @@ function EnhancedTableHead({
   onRequestSort,
   selected,
 }) {
+
+  
+  
+
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -192,6 +201,7 @@ function EnhancedTableHead({
     },
   });
   const classes = useStyles();
+
 
   return (
     <TableHead>
@@ -346,6 +356,19 @@ const CustomerList = () => {
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
   const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da carga
+  const [seleccionOwner,setSeleccionOwner] = React.useState(null);
+  const [ownersList,setOwnersList] = React.useState([{}]); //se da carga
+
+  const owners = async ()=>
+  {
+      const ownersListTmp=await PresupuestoHelper.fetchOwnersList()
+      setOwnersList(ownersListTmp);
+  };
+
+  React.useEffect(() =>{
+                    owners();
+                    console.log("OWN",ownersList);  
+                  }, []);
 
   React.useEffect(() => {
     dispatch(getCustomers());
@@ -397,6 +420,20 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.status === seleccionEstado
       );
     }
+    console.log(seleccionOwner);
+    // Si hay un carga seleccionado, filtrar por país
+    if (seleccionOwner !== null && seleccionOwner !== undefined) {
+      presupuestosFiltrados = presupuestosFiltrados.filter(
+        (presupuesto) => presupuesto.own === seleccionOwner.own
+      );
+    }
+    // Si hay un carga seleccionado, filtrar por país
+    if (seleccionEstado !== null && seleccionEstado !== undefined) {
+      presupuestosFiltrados = presupuestosFiltrados.filter(
+        (presupuesto) => presupuesto.status === seleccionEstado
+      );
+    }
+
 
     // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
     if (ultVerMostrar) {
@@ -425,6 +462,7 @@ const CustomerList = () => {
     seleccionPais,
     seleccionCarga,
     seleccionEstado,
+    seleccionOwner,
     ultVerMostrar,
   ]);
 
@@ -436,6 +474,11 @@ const CustomerList = () => {
   const handleChangeCarga = (carga) => {
     console.log(carga.id);
     setSeleccionCarga(carga.id);
+  };
+
+  const handleChangeOwner = (owner) => {
+    console.log(owner);
+    setSeleccionOwner(owner);
   };
 
   const handleChangeEstado = (estado) => {
@@ -578,6 +621,9 @@ const CustomerList = () => {
     },
   });
   const classes = useStyles();
+
+  const {user} = useAuth();
+  console.log("owners",ownersList);
   return (
     <MainCard title="Presupuestos Mexico" content={false}>
       <CardContent>
@@ -631,6 +677,11 @@ const CustomerList = () => {
               nameSelect={"Estado"}
               datosSelect={[]}
               handleChangeEstado={handleChangeEstado}
+            />
+            <SelectOwner
+              data={ownersList?ownersList:""} 
+              defaultSelection={ownersList?.filter(value=>value.own===user.name)}
+              handleChangeOwner={handleChangeOwner}
             />
           </Grid>
 
