@@ -16,13 +16,19 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import HoverSocialCard from "ui-component/cards/HoverSocialCard";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 
+// import img1 from "../../../assets/images/Test/drupi.png";
+// import img2 from "../../../assets/images/Test/suckGorrito.png";
+// import img3 from "../../../assets/images/Test/sucktion.png";
+import LogoDisbyteBlanco from '../../../assets/images/disbyte/LogoDisbyte_blanco.png';
+import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png'
+
 // ==============================|| HOME DASHBOARD ||============================== //
 const Inicio = () => {
   const theme = useTheme();
   const { user } = useAuth();
   const permisos = useAccessTokenJWT();
 
-  // console.log(permisosAuth);
+  console.log(permisos);  // IT-Test-PA
   const autorizado = permisos.includes("presupuesto:edit"); // || permisosAuth.includes('tarifas:read')
 
   const dev = "dev-7qwkde4r318nfwz7/roles";
@@ -74,6 +80,58 @@ const Inicio = () => {
   }, []);
 
   // console.log(cotizacionDate);
+
+  // const usuarioRollViewMouse = true;
+  const cursorImages = [LogoDisbyteBlanco, LogoDisbyteAzul];
+  const usuarioRollViewMouse = permisos.includes('IT-Test-PA');
+  const movementThreshold = 50; // Cantidad mínima de píxeles que el mouse debe moverse para cambiar el cursor
+  useEffect(() => {
+    let lastX = 0;
+    let lastY = 0;
+    const changeCursor = (event) => {
+      const deltaX = Math.abs(event.clientX - lastX);
+      const deltaY = Math.abs(event.clientY - lastY);
+
+      if (deltaX + deltaY < movementThreshold) {
+        return; // No hacer nada si el mouse no se ha movido lo suficiente
+      }
+
+      lastX = event.clientX;
+      lastY = event.clientY;
+
+      const randomIndex = Math.floor(Math.random() * cursorImages.length);
+      const randomSize = Math.floor(Math.random() * 100) + 50; // Tamaño entre 20 y 50
+      const randomRotation = Math.floor(Math.random() * 360); // Rotación de 0 a 360 grados
+
+      const imageUrl = cursorImages[randomIndex];
+      const cursorStyle = `url('${imageUrl}') ${randomSize} ${randomSize}, auto`;
+
+      const cursorElement = document.createElement("div");
+      cursorElement.style.position = "absolute";
+      cursorElement.style.left = `${event.clientX}px`;
+      cursorElement.style.top = `${event.clientY}px`;
+      cursorElement.style.width = `${randomSize}px`;
+      cursorElement.style.height = `${randomSize}px`;
+      cursorElement.style.backgroundImage = `url('${imageUrl}')`;
+      cursorElement.style.backgroundSize = "cover";
+      cursorElement.style.transform = `rotate(${randomRotation}deg)`;
+      cursorElement.style.pointerEvents = "none"; // Para evitar que el elemento interfiera con el clic
+
+      document.body.appendChild(cursorElement);
+
+      setTimeout(() => {
+        document.body.removeChild(cursorElement);
+      }, 1000); // Elimina el elemento después de un breve período para evitar el desorden en el DOM
+    };
+
+    if (usuarioRollViewMouse) {
+      window.addEventListener("mousemove", changeCursor);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", changeCursor);
+    };
+  }, [usuarioRollViewMouse, cursorImages]);
 
   return (
     <>
