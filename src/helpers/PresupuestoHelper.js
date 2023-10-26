@@ -24,6 +24,26 @@ export const PresupuestoHelper = {
       return null;
     }
   },
+
+  fetchOwnersList: async function (accessToken) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/owners`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Incluye el token en la cabecera de la solicitud.
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const jsonData = await response.json();
+      // console.log('Res Presupuesto: ', jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error("Error", error);
+      return null;
+    }
+  },
+
   fetchDataUltimosEstadios: async function ( estnumber, accessToken) {
     try {
       const response = await fetch(`${this.baseUrl}/recentlist/${estnumber}`, {
