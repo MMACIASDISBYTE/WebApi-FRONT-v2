@@ -212,26 +212,30 @@ function CreateInvoice() {
   const dataHelpers = async () => {
     const cargaAOrdenar = await CargaHelper.fetchData();
     const proveedoresOem = await ProveedoresOemHelper.fetchData();
-    const NCM = await NcmHelper.fetchData();
+    //const NCM = await NcmHelper.fetchData();
     const NCM_Mex = await NcmHelper.fetchDataMex();
-    const presupuesto = await PresupuestoHelper.fetchData();
+    //const presupuesto = await PresupuestoHelper.fetchData();
     const presupuestoEditable = await PresupuestoHelper.readDataEstVers(
       estnumber,
       vers,
       ""
     );
+    //const presupuesto = presupuestoEditable ? presupuestoEditable:null;
+
+    
+
     const proximoEstDisponible =
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
-    const Paises = await PaisRegionHelper.fetchData();
-    const TarifasFwd = await TarifasFwdHelper.fetchData();
-    const TarifasFlete = await TarifasFleteHelper.fetchData();
-    const TarifasTerminal = await TarifasTerminalHelper.fetchData();
-    const TarifasPoliza = await TarifasPolizaHelper.fetchData();
-    const TarifasDepositos = await TarifasDepositoHelper.fetchData();
-    const TarifasDespachantes = await TarifasDespachanteHelper.fetchData();
-    const TarifasBanco = await TarifasBancosHelper.fetchDataFecha();
-    const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
+    const Paises = 0;//await PaisRegionHelper.fetchData();
+    const TarifasFwd = 0;//await TarifasFwdHelper.fetchData();
+    const TarifasFlete = 0;//await TarifasFleteHelper.fetchData();
+    const TarifasTerminal = 0;//await TarifasTerminalHelper.fetchData();
+    const TarifasPoliza = 0;//await TarifasPolizaHelper.fetchData();
+    const TarifasDepositos = 0;//await TarifasDepositoHelper.fetchData();
+    const TarifasDespachantes = 0;//await TarifasDespachanteHelper.fetchData();
+    const TarifasBanco = 0;//await TarifasBancosHelper.fetchDataFecha();
+    const TarifasGestDig = 0;//await TarifasGestDigDocHelper.fetchData();
     const ProductosDisbyte = await ProductosHelper.fetchData();
 
 
@@ -243,9 +247,9 @@ function CreateInvoice() {
     const objData = {
       carga,
       proveedoresOem,
-      NCM,
+      //NCM,
       NCM_Mex,
-      presupuesto,
+      //presupuesto,
       presupuestoEditable,
       proximoEstDisponible,
       // tipoCambio,
@@ -265,6 +269,11 @@ function CreateInvoice() {
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
+
+
+
+
+
   console.log(dataHelp);
 
   const [producto, setProductos] = useState();
@@ -884,7 +893,7 @@ function CreateInvoice() {
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
     //CABECERA
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp?.proximoEstDisponible) {
       formik.setFieldValue("estnumber", dataHelp.proximoEstDisponible); //traemos el numEstimate disponible
       // formik.setFieldValue('estnumber', dataHelp.presupuesto[dataHelp.presupuesto.length - 1].estnumber + 1);
     }
@@ -892,18 +901,18 @@ function CreateInvoice() {
     // if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
     //   formik.setFieldValue("dolar", dataHelp.tipoCambio.quotes.USDARS);
     // }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    //if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue("dolar", 350);
-    }
+    //}
 
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    //if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
       formik.setFieldValue(
         "status",
         /*dataHelp.presupuestoEditable?.estHeader?.status*/1
       );
-    }
+    //}
 
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.project) {
       formik.setFieldValue(
         "project",
         dataHelp.presupuestoEditable?.estHeader?.project == ""
@@ -911,7 +920,7 @@ function CreateInvoice() {
           : dataHelp.presupuestoEditable?.estHeader?.project
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if ( dataHelp.presupuestoEditable?.estHeader?.description) {
       formik.setFieldValue(
         "description",
         dataHelp.presupuestoEditable?.estHeader?.description == ""
@@ -920,7 +929,7 @@ function CreateInvoice() {
       );
     }
 
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.embarque) {
       formik.setFieldValue(
         "embarque",
         dataHelp.presupuestoEditable?.estHeader?.embarque == ""
@@ -930,37 +939,37 @@ function CreateInvoice() {
     }
 
     //GASTOS LOCALES
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.gloc_fwd) {
       formik.setFieldValue(
         "gloc_fwd",
         dataHelp.presupuestoEditable?.estHeader?.gloc_fwd
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.gloc_flete) {
       formik.setFieldValue(
         "gloc_flete",
         dataHelp.presupuestoEditable?.estHeader?.gloc_flete
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.gloc_terminales) {
       formik.setFieldValue(
         "gloc_terminales",
         dataHelp.presupuestoEditable?.estHeader?.gloc_terminales
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.gloc_despachantes) {
       formik.setFieldValue(
         "gloc_despachantes",
         dataHelp.presupuestoEditable?.estHeader?.gloc_despachantes
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.freight_cost) {
       formik.setFieldValue(
         "freight_cost",
         dataHelp.presupuestoEditable?.estHeader?.freight_cost
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost) {
       formik.setFieldValue(
         "freight_insurance_cost",
         dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
@@ -969,81 +978,81 @@ function CreateInvoice() {
 
     // EXTRA GASTOS
     // SOURCING
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_src1) {
       formik.setFieldValue(
         "extrag_src1",
         dataHelp.presupuestoEditable?.estHeader?.extrag_src1
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_src2) {
       formik.setFieldValue(
         "extrag_src2",
         dataHelp.presupuestoEditable?.estHeader?.extrag_src2
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_src_notas) {
       formik.setFieldValue(
         "extrag_src_notas",
         dataHelp.presupuestoEditable?.estHeader?.extrag_src_notas
       );
     }
     // COMEX
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_comex1) {
       formik.setFieldValue(
         "extrag_comex1",
         dataHelp.presupuestoEditable?.estHeader?.extrag_comex1
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_comex2) {
       formik.setFieldValue(
         "extrag_comex2",
         dataHelp.presupuestoEditable?.estHeader?.extrag_comex2
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_comex3) {
       formik.setFieldValue(
         "extrag_comex3",
         dataHelp.presupuestoEditable?.estHeader?.extrag_comex3
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_comex_notas) {
       formik.setFieldValue(
         "extrag_comex_notas",
         dataHelp.presupuestoEditable?.estHeader?.extrag_comex_notas
       );
     }
     // FINANCIERO
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan1) {
       formik.setFieldValue(
         "extrag_finan1",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan1
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan2) {
       formik.setFieldValue(
         "extrag_finan2",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan2
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan3) {
       formik.setFieldValue(
         "extrag_finan3",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan3
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan4) {
       formik.setFieldValue(
         "extrag_finan4",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan4
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan5) {
       formik.setFieldValue(
         "extrag_finan5",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan5
       );
     }
-    if (dataHelp.presupuesto && dataHelp.presupuesto.length > 0) {
+    if (dataHelp.presupuestoEditable?.estHeader?.extrag_finan_notas) {
       formik.setFieldValue(
         "extrag_finan_notas",
         dataHelp.presupuestoEditable?.estHeader?.extrag_finan_notas
