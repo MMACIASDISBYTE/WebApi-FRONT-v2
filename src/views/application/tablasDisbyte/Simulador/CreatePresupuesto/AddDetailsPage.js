@@ -138,17 +138,15 @@ const AddDetailsPage = ({
   // console.log(dataHelp);
   const theme = useTheme();
 
-  
   const [producto, setProductos] = useState();
   useState(() => {
     if (dataHelp.ProductosDisbyte) {
       const opciones = dataHelp?.ProductosDisbyte.map((product) => ({
-        title:  `${product.codigo} - ${product.name}`,
+        title: `${product.codigo} - ${product.name}`,
         ...product,
       }));
       setProductos(opciones);
-      console.log('productos :', opciones);
-
+      console.log("productos :", opciones);
     }
   }, [ProductsDisbyte]);
 
@@ -260,11 +258,11 @@ const AddDetailsPage = ({
         ncm_code: item.code,
       }));
       const opciones = dataHelp?.NCM_Mex.map((item) => ({
-        title:  `Code: ${item.code} - ${item.description}`,
+        title: `Code: ${item.code} - ${item.description}`,
         ...item,
-      })); 
-      setNCMList2(opciones)
-      console.log('Opciones NCM :', opciones);
+      }));
+      setNCMList2(opciones);
+      console.log("Opciones NCM :", opciones);
 
       console.log(dataHelp.NCM_Mex);
     }
@@ -356,7 +354,7 @@ const AddDetailsPage = ({
 
     // // Validacion Descripcion
     if (!selectedItem?.description || !selectedItem?.description.trim()) {
-      errors.descriptionError = "Description Name is required";
+      errors.descriptionError = "Description is required";
     }
 
     // // Validacion exw_u
@@ -466,6 +464,11 @@ const AddDetailsPage = ({
     alignedLeft: {
       textAlign: "left", // Asegura que el texto esté alineado a la izquierda
     },
+    errorText: {
+      color: "red", // Cambia el color a rojo
+      fontWeight: "bold", // Hace la letra más fuerte
+      // Puedes agregar más estilos si es necesario
+    },
   });
 
   const classes = useStyles();
@@ -507,7 +510,7 @@ const AddDetailsPage = ({
           "&>div": {
             m: 0,
             borderRadius: "0px",
-            maxWidth: 1200,
+            maxWidth: 800,
             height: "100%",
             maxHeight: "100%",
           },
@@ -521,7 +524,7 @@ const AddDetailsPage = ({
             <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
               {textFieldProveedor ? (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={5}>
                   <TextField
                     id="proveedores_id"
                     name="proveedores_id"
@@ -547,11 +550,13 @@ const AddDetailsPage = ({
                     )}
                   </TextField>
                   {errors.ProveedoresError && (
-                    <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>
+                      {errors.ProveedoresError}
+                    </FormHelperText>
                   )}{" "}
                 </Grid>
               ) : (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={5}>
                   <TextField
                     id="proveedor_prov"
                     name="proveedor_prov"
@@ -561,7 +566,7 @@ const AddDetailsPage = ({
                     //   defaultValue="Iphone 11 Pro Max"
                   />
                   {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
                 </Grid>
               )}
@@ -582,7 +587,7 @@ const AddDetailsPage = ({
                 </Grid>
               </Tooltip>
 
-              <Grid item xs={12} md={5}>
+              {/* <Grid item xs={12} md={5}>
                 <TextField
                   id="productowner"
                   name="productowner"
@@ -593,24 +598,26 @@ const AddDetailsPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
-                )}{" "} */}
-              </Grid>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
+                )}{" "} 
+              </Grid>*/}
 
               {/* AUTOCOMPLETE DE SKU */}
               {textFieldSKU ? (
-                <Grid item xs={12} md={6} fullWidth>
+                <Grid item xs={12} md={5} fullWidth>
                   <AutoCompleteTextField
                     handleChange={handleChange}
                     name="sku"
                     ProductsDisbyte={producto}
                   />
                   {errors.skuError && (
-                    <FormHelperText>{errors.skuError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>
+                      {errors.skuError}
+                    </FormHelperText>
                   )}{" "}
                 </Grid>
               ) : (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={5}>
                   <TextField
                     id="sku"
                     name="sku"
@@ -620,7 +627,7 @@ const AddDetailsPage = ({
                     //   defaultValue="Iphone 11 Pro Max"
                   />
                   {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
                 </Grid>
               )}
@@ -637,17 +644,19 @@ const AddDetailsPage = ({
                 </Grid>
               </Tooltip>
 
-              <Grid item xs={12} md={5} fullWidth>
-                  <AutoCompleteTextFieldNCM
-                    handleChange={handleChange}
-                    valorPorDefecto={selectedItem?.ncm_id || ""}
-                    name="ncm_id"
-                    ListaNCM={NCMList2}
-                  />
-                  {errors.NCMError && (
-                    <FormHelperText>{errors.NCMError}</FormHelperText>
-                  )}{" "}
-                </Grid>
+              <Grid item xs={12} md={6} fullWidth>
+                <AutoCompleteTextFieldNCM
+                  handleChange={handleChange}
+                  valorPorDefecto={selectedItem?.ncm_id || ""}
+                  name="ncm_id"
+                  ListaNCM={NCMList2}
+                />
+                {errors.NCMError && (
+                  <FormHelperText className={classes.errorText}>
+                    {errors.NCMError}
+                  </FormHelperText>
+                )}{" "}
+              </Grid>
 
               {/* SELECCION DE NCM */}
               {/* <Grid item xs={12} md={5}>
@@ -679,7 +688,7 @@ const AddDetailsPage = ({
                   ))}
                 </TextField>
                 {/* {errors.ProveedoresError && (
-                  <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.ProveedoresError}</FormHelperText>
                 )}{" "}
               </Grid> */}
 
@@ -694,7 +703,7 @@ const AddDetailsPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -709,7 +718,7 @@ const AddDetailsPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -724,7 +733,7 @@ const AddDetailsPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -738,23 +747,25 @@ const AddDetailsPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.skuError}</FormHelperText>
                 )}{" "}
               </Grid> */}
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   id="description"
                   name="description"
                   fullWidth
                   multiline
-                  // rows={3}
+                  rows={2.5}
                   label="Especificacion"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
                 />
                 {errors.descriptionError && (
-                  <FormHelperText>{errors.descriptionError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.descriptionError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -781,7 +792,7 @@ const AddDetailsPage = ({
               {/* DATOS VARIOS (CANTIDAD, PRECIO, PESO, NUMBER, DESCUENTO, EXTRA) */}
 
               {/* VALOR exw_u */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="exw_u"
@@ -801,12 +812,14 @@ const AddDetailsPage = ({
                   //   defaultValue="0"
                 />
                 {errors.exw_uError && (
-                  <FormHelperText>{errors.exw_uError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.exw_uError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
               {/* VALOR fob_u */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="fob_u"
@@ -826,12 +839,14 @@ const AddDetailsPage = ({
                   //   defaultValue="Samsung"
                 />
                 {errors.fob_uError && (
-                  <FormHelperText>{errors.fob_uError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.fob_uError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
               {/* VALOR qty */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="qty"
@@ -850,12 +865,14 @@ const AddDetailsPage = ({
                   label="QTY*"
                 />
                 {errors.qtyError && (
-                  <FormHelperText>{errors.qtyError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.qtyError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
               {/* VALOR pcsctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="pcsctn"
@@ -874,12 +891,14 @@ const AddDetailsPage = ({
                   label="PCSCTN*"
                 />
                 {errors.pcsctnError && (
-                  <FormHelperText>{errors.pcsctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.pcsctnError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
               {/* VALOR cbmctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="cbmctn"
@@ -898,12 +917,14 @@ const AddDetailsPage = ({
                   label="CBMCTN*"
                 />
                 {errors.cbmctnError && (
-                  <FormHelperText>{errors.cbmctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.cbmctnError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
               {/* VALOR gwctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="gwctn"
@@ -922,7 +943,9 @@ const AddDetailsPage = ({
                   }}
                 />
                 {errors.gwctnError && (
-                  <FormHelperText>{errors.gwctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.gwctnError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -949,7 +972,9 @@ const AddDetailsPage = ({
                   onChange={handleChange}
                 />
                 {errors.imageurlError && (
-                  <FormHelperText>{errors.imageurlError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>
+                    {errors.imageurlError}
+                  </FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1016,10 +1041,10 @@ const AddDetailsPage = ({
                       <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "140px",
-                            height: "140px",
-                            marginLeft: "40px",
-                            marginTop: "-80px",
+                            width: "150px",
+                            height: "150px",
+                            // marginLeft: "30px",
+                            marginTop: "-15px",
                           }}
                         >
                           <CardMedia
@@ -1047,10 +1072,10 @@ const AddDetailsPage = ({
                       <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "160px",
-                            height: "160px",
-                            marginLeft: "40px",
-                            marginTop: "-80px",
+                            width: "150px",
+                            height: "150px",
+                            // marginLeft: "30px",
+                            marginTop: "-15px",
                           }}
                         >
                           <CardMedia

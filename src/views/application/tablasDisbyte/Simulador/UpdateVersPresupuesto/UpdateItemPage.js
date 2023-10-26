@@ -378,7 +378,7 @@ const UpdateItemPage = ({
 
     // // Validacion Descripcion
     if (!selectedItem?.description || !selectedItem?.description.trim()) {
-      errors.descriptionError = "Description Name is required";
+      errors.descriptionError = "Description is required";
     }
 
     // // Validacion exw_u
@@ -488,6 +488,11 @@ const UpdateItemPage = ({
     alignedLeft: {
       textAlign: "left", // Asegura que el texto esté alineado a la izquierda
     },
+    errorText: {
+      color: "red", // Cambia el color a rojo
+      fontWeight: "bold", // Hace la letra más fuerte
+      // Puedes agregar más estilos si es necesario
+    },
   });
 
   const classes = useStyles();
@@ -518,7 +523,7 @@ const UpdateItemPage = ({
   };
 
   //ESTRA GASTOS
-  const [showExtraGastos, setShowExtraGastos] = useState(false);
+  const [showExtraGastos, setShowExtraGastos] = useState(true);
   const [showCostosSourcing, setShowCostosSourcing] = useState(false);
   const [showCostosComex, setShowCostosComex] = useState(false);
   const [showCostosFinan, setShowCostosFinan] = useState(false);
@@ -684,7 +689,7 @@ const UpdateItemPage = ({
                     )}
                   </TextField>
                   {errors.ProveedoresError && (
-                    <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>{errors.ProveedoresError}</FormHelperText>
                   )}{" "}
                 </Grid>
               ) : (
@@ -698,7 +703,7 @@ const UpdateItemPage = ({
                     //   defaultValue="Iphone 11 Pro Max"
                   />
                   {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
                 </Grid>
               )}
@@ -727,10 +732,11 @@ const UpdateItemPage = ({
                   fullWidth
                   label="Product Owner*"
                   onChange={handleChange}
+                  disabled={true}
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -744,7 +750,7 @@ const UpdateItemPage = ({
                     ProductsDisbyte={producto}
                   />
                   {errors.skuError && (
-                    <FormHelperText>{errors.skuError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>{errors.skuError}</FormHelperText>
                   )}{" "}
                 </Grid>
               ) : (
@@ -759,7 +765,7 @@ const UpdateItemPage = ({
                     //   defaultValue="Iphone 11 Pro Max"
                   />
                   {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
                 </Grid>
               )}
@@ -784,7 +790,7 @@ const UpdateItemPage = ({
                     ListaNCM={NCMList2}
                   />
                   {errors.NCMError && (
-                    <FormHelperText>{errors.NCMError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>{errors.NCMError}</FormHelperText>
                   )}{" "}
                 </Grid>
 
@@ -818,7 +824,7 @@ const UpdateItemPage = ({
                   ))}
                 </TextField>
                 {/* {errors.ProveedoresError && (
-                  <FormHelperText>{errors.ProveedoresError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.ProveedoresError}</FormHelperText>
                 )}{" "} 
               </Grid> */}
 
@@ -833,7 +839,7 @@ const UpdateItemPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -848,7 +854,7 @@ const UpdateItemPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -863,7 +869,7 @@ const UpdateItemPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {/* {errors.productownerError && (
-                  <FormHelperText>{errors.productownerError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
                 )}{" "} */}
               </Grid>
 
@@ -877,7 +883,7 @@ const UpdateItemPage = ({
                   //   defaultValue="Iphone 11 Pro Max"
                 />
                 {errors.skuError && (
-                  <FormHelperText>{errors.skuError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.skuError}</FormHelperText>
                 )}{" "}
               </Grid> */}
 
@@ -894,7 +900,7 @@ const UpdateItemPage = ({
                   onChange={handleChange}
                 />
                 {errors.descriptionError && (
-                  <FormHelperText>{errors.descriptionError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.descriptionError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -941,7 +947,7 @@ const UpdateItemPage = ({
                   //   defaultValue="0"
                 />
                 {errors.exw_uError && (
-                  <FormHelperText>{errors.exw_uError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.exw_uError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -966,7 +972,7 @@ const UpdateItemPage = ({
                   //   defaultValue="Samsung"
                 />
                 {errors.fob_uError && (
-                  <FormHelperText>{errors.fob_uError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.fob_uError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -990,7 +996,7 @@ const UpdateItemPage = ({
                   label="QTY*"
                 />
                 {errors.qtyError && (
-                  <FormHelperText>{errors.qtyError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.qtyError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1014,7 +1020,7 @@ const UpdateItemPage = ({
                   label="PCSCTN*"
                 />
                 {errors.pcsctnError && (
-                  <FormHelperText>{errors.pcsctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.pcsctnError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1038,7 +1044,7 @@ const UpdateItemPage = ({
                   label="CBMCTN*"
                 />
                 {errors.cbmctnError && (
-                  <FormHelperText>{errors.cbmctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.cbmctnError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1062,7 +1068,7 @@ const UpdateItemPage = ({
                   }}
                 />
                 {errors.gwctnError && (
-                  <FormHelperText>{errors.gwctnError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.gwctnError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1090,7 +1096,7 @@ const UpdateItemPage = ({
                   onChange={handleChange}
                 />
                 {errors.imageurlError && (
-                  <FormHelperText>{errors.imageurlError}</FormHelperText>
+                  <FormHelperText className={classes.errorText}>{errors.imageurlError}</FormHelperText>
                 )}{" "}
               </Grid>
 
@@ -1300,7 +1306,7 @@ const UpdateItemPage = ({
                       />
                       {/* 
         {errors.fob_uError && (
-          <FormHelperText>{errors.fob_uError}</FormHelperText>
+          <FormHelperText className={classes.errorText}>{errors.fob_uError}</FormHelperText>
         )} 
         */}
                     </Grid>
@@ -1352,7 +1358,7 @@ const UpdateItemPage = ({
                         //   defaultValue="Samsung"
                       />
                       {/* {errors.fob_uError && (
-                    <FormHelperText>{errors.fob_uError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>{errors.fob_uError}</FormHelperText>
                   )}{" "} */}
                     </Grid>
                   ))}
@@ -1403,7 +1409,7 @@ const UpdateItemPage = ({
                         //   defaultValue="Samsung"
                       />
                       {/* {errors.fob_uError && (
-                    <FormHelperText>{errors.fob_uError}</FormHelperText>
+                    <FormHelperText className={classes.errorText}>{errors.fob_uError}</FormHelperText>
                   )}{" "} */}
                     </Grid>
                   ))}

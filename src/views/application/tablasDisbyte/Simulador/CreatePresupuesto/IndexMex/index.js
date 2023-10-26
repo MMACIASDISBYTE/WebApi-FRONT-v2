@@ -798,7 +798,7 @@ function CreateInvoice() {
         proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
 
-        productowner: addingData.productowner,
+        productowner: user.name,
         proforma_invoice: addingData.proforma_invoice,
         comercial_invoice: addingData.comercial_invoice,
         purchaseorder: addingData.purchaseorder,
