@@ -20,7 +20,7 @@ import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 // import img2 from "../../../assets/images/Test/suckGorrito.png";
 // import img3 from "../../../assets/images/Test/sucktion.png";
 import LogoDisbyteBlanco from '../../../assets/images/disbyte/LogoDisbyte_blanco.png';
-import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png'
+import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png';
 
 // ==============================|| HOME DASHBOARD ||============================== //
 const Inicio = () => {
@@ -100,7 +100,7 @@ const Inicio = () => {
       lastY = event.clientY;
 
       const randomIndex = Math.floor(Math.random() * cursorImages.length);
-      const randomSize = Math.floor(Math.random() * 100) + 50; // Tamaño entre 20 y 50
+      const randomSize = Math.floor(Math.random() * 150) + 50; // Tamaño entre 20 y 50
       const randomRotation = Math.floor(Math.random() * 360); // Rotación de 0 a 360 grados
 
       const imageUrl = cursorImages[randomIndex];
