@@ -12,12 +12,16 @@ import { Stack } from "@mui/system";
 
 export const SelectOwner = ({ data, defaultSelection, handleChangeOwner }) => {
   let owners = data;
-  const [selectedOwner, setSelectedOwner] = useState(); // Estado para el valor seleccionado
+  const [selectedOwner, setSelectedOwner] = useState(''); // Estado para el valor seleccionado
 
   const handleSelectionChange = (event) => {
     const value = event.target.value;
-    setSelectedOwner(Object.keys(value).length === 0 ? null : value);
-    handleChangeOwner(Object.keys(value).length === 0 ? null : value);
+    // setSelectedOwner(value);
+    // handleChangeOwner(value);
+    // setSelectedOwner(Object.keys(value).length === 0 ? null : value);
+    // handleChangeOwner(Object.keys(value).length === 0 ? null : value);
+    setSelectedOwner(value === "all" ? null : value);
+    handleChangeOwner(value === "all" ? null : value);
   };
   const [firstRun, setFirstRun] = useState(true);
 
@@ -46,15 +50,15 @@ export const SelectOwner = ({ data, defaultSelection, handleChangeOwner }) => {
               helperText={"Owner:"}
               onChange={handleSelectionChange}
               renderValue={(selected) => {
-                if (
-                  defaultSelection?.length > 0 &&
-                  (!selected || Object.keys(selected).length === 0)
-                ) {
-                  return `${defaultSelection[0]?.own}`;
+                if (!selected || Object.keys(selected).length === 0) {
+                  return <em>Filtro por Owner</em>;
                 }
-                return `${selected ? selected.own : "Aguarde ..."}`;
+                return `${selected.own}`;
               }}
             >
+              <MenuItem value="all">  {/*para restaurar el filtro */}
+                <em>Restaurar Filtro</em>
+              </MenuItem>
               {owners && owners.length > 0 ? (
                 owners.map((item) => (
                   <MenuItem key={item.id} value={item}>

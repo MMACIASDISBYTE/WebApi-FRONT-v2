@@ -410,7 +410,12 @@ const CustomerList = () => {
     }
     console.log(seleccionOwner);
     // Si hay un carga seleccionado, filtrar por país
-    if (seleccionOwner !== null && seleccionOwner !== undefined) {
+    // if (seleccionOwner !== null && seleccionOwner !== undefined) {
+    //   presupuestosFiltrados = presupuestosFiltrados.filter(
+    //     (presupuesto) => presupuesto.own === seleccionOwner.own
+    //   );
+    // }
+    if (seleccionOwner !== null) {  // Restaura el filtro y muestra todos en el callo que devuelva null el componente hijo
       presupuestosFiltrados = presupuestosFiltrados.filter(
         (presupuesto) => presupuesto.own === seleccionOwner.own
       );
