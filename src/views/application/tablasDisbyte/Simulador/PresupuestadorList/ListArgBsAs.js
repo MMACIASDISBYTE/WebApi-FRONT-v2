@@ -310,8 +310,6 @@ const CustomerList = () => {
 
   React.useEffect(() => {
     setRows(customers);
-    console.log(customers);
-    // console.log(ListaDePresupuestos(customers));
   }, [customers]);
 
   // React.useEffect(() => {
@@ -469,7 +467,6 @@ React.useEffect(() => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const verDetalle = (estnumber, estvers) => {
-    console.log(estnumber, estvers);
     navigate(`/estimate/details/${estnumber}/${estvers}`);
   };
 

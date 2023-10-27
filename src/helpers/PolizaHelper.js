@@ -38,7 +38,7 @@ export const PolizaHelper = {
   fetchDataPais: async function () {
     try {
       const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-      console.log("FleteHelper.fetchData::response", response);
+      // console.log("FleteHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

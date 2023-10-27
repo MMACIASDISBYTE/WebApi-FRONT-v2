@@ -21,7 +21,6 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
             // const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
             const contenedorDetalle = async (ContenedorConcatenado) => {
                 const ContenedorData = await CargaHelper.DetalleContenedor(ContenedorConcatenado);
-                console.log(ContenedorData);
                 setContenedor(ContenedorData);
             };
             contenedorDetalle(ContenedorConcatenado);
@@ -57,13 +56,13 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
             if ((parseFloat(pesoTotal / (contenedor.weight))) > parseFloat(CMB_grandTotal / contenedor.volume)) {
                 setContenedores(parseFloat(pesoTotal / contenedor.weight))
             } else {
-                console.log(CMB_grandTotal / contenedor.volume);
+                // console.log(CMB_grandTotal / contenedor.volume);
                 setContenedores(parseFloat(CMB_grandTotal / contenedor.volume));
             };
 
-            console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
+            // console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
-        console.log(productsData);
+        // console.log(productsData);
     }, [productsData, tipoContenedor]);
 
     return (

@@ -69,8 +69,6 @@ export const NcmHelper = {
                 },
                 body: JSON.stringify(updatedData),
             });
-            console.log("LEER");
-            console.log(code);
             console.log(updatedData);
             const jsonData = await response.json();
             return jsonData;
@@ -155,8 +153,6 @@ export const NcmHelper = {
                 },
                 body: JSON.stringify(updatedData),
             });
-            console.log("LEER");
-            console.log(code);
             console.log(updatedData);
             const jsonData = await response.json();
             return jsonData;

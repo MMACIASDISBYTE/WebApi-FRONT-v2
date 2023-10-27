@@ -15,8 +15,6 @@ import SubCard from 'ui-component/cards/SubCard';
 function TotalCard({ productsData, allAmounts }) {
     const theme = useTheme();
 
-    console.log(productsData);
-    console.log(allAmounts);
     return (
         <>
             {productsData.length ? (

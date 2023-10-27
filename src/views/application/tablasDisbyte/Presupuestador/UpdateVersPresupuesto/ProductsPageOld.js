@@ -127,7 +127,6 @@ function ProductsPage({
                     <TableCell align="right">
                       USD {row.totalcif ? row.totalcif.toFixed(2) : "0"}
                     </TableCell>
-                    {/*console.log(rows)*/}
 
                     <TableCell align="right">
                       USD {row.costo_u ? row.costo_u.toFixed(3) : ""}

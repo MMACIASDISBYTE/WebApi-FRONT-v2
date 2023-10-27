@@ -14,7 +14,7 @@ const CustomCursor = ({ usuarioRollViewMouse }) => {
         // Aplicar el estilo del cursor directamente al documento
         document.body.style.cursor = `url(${cursorImages[randomIndex]}), auto`;
       }
-      console.log('hola');
+
     };
 
     window.addEventListener('mousemove', changeCursor);

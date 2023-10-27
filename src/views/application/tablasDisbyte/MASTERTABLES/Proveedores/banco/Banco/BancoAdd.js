@@ -143,8 +143,6 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             .then((response) => {
                 // Actualizar el estado con la nueva lista de elementos
                 setDataList([...dataList, response]);
-                console.log(dataName);
-                console.log(newData);
             })
             .catch((error) => {
                 console.error('Error', error);

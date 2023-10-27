@@ -294,14 +294,12 @@ const ProductList = () => {
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    console.log("onactfetch");
   }, [actualizacion]);
 
   const fetchData = async (accessToken) => {
     try {
       const jsonData = await TerminalHelper.fetchDataPais();
       // const {data, status} = await TarifasFwdContHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
-      console.log(jsonData);
       setRows(jsonData);
     } catch (error) {
       console.log("TerminalIndex.fetchData::erro: ".error);

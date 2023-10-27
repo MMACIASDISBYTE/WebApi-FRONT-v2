@@ -118,7 +118,7 @@ export const PresupuestoHelper = {
       return jsonData;
     } catch (error) {
       console.error("Error", error);
-      console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
+      // console.log(`${this.baseUrl}/${this.rutaTabla}/${estnumber}/${vers}`);
       return null;
     }
   },

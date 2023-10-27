@@ -21,7 +21,6 @@ export const SelectCarga = ({
     useEffect(()=>{
         dataCarga()
     },[])
-    console.log(carga);
 
     const handleSelectionChange = (event) => {
         const value = event.target.value;

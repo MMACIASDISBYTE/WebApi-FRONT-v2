@@ -477,7 +477,6 @@ const ProductList = () => {
       try {
         const dataCarga = await CargaHelper.fetchData();
         setCarga(dataCarga);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -488,7 +487,6 @@ const ProductList = () => {
       try {
         const dataPoliza = await PolizaHelper.fetchData();
         setPoliza(dataPoliza);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -499,7 +497,6 @@ const ProductList = () => {
       try {
         const dataPoliza = await FwdtteHelper.fetchData();
         setFwd(dataPoliza);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -549,7 +546,7 @@ const ProductList = () => {
         }
         return matches;
       });
-      console.log(newRows);
+      // console.log(newRows);
       setRows(newRows);
     } else {
       setRows(rows);

@@ -353,7 +353,6 @@ const UpdateItemPage = ({
   };
 
   const handleOk = () => {
-    console.log("hola");
     let errors = {}; // creo objeto de errores
     // validación de campos
     if (!selectedItem?.proveedores_id) {
@@ -457,7 +456,6 @@ const UpdateItemPage = ({
       selectedQuantity,
     };
 
-    console.log(data);
     handleAddItem(data, true);
     handleCloseDialog();
   };

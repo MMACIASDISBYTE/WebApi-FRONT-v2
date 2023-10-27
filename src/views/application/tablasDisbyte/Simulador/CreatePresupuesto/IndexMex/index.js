@@ -177,7 +177,7 @@ function CreateInvoice() {
   const navigate = useNavigate();
   const theme = useTheme();
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
-  // console.log(user);
+
   const [open, setOpen] = useState(false);
   const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
   const [valueIva, setValueIva] = React.useState("false");
@@ -651,8 +651,6 @@ function CreateInvoice() {
         }
 
         console.log(postData);
-        // console.log(productsData);
-        // console.log(postData);
 
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
@@ -855,7 +853,6 @@ function CreateInvoice() {
   const [open2, setOpen2] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen2(true);
-    console.log(open2);
   };
   const handleCloseDialog = () => {
     setOpen2(false);
@@ -896,7 +893,6 @@ function CreateInvoice() {
 
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
-  console.log(gastoLocal);
 
   useEffect(() => {
     // Los valores que son 2x cuando la carga es doble y que siquiera existen en el XCEL real y los ingresan a mano.
@@ -919,7 +915,6 @@ function CreateInvoice() {
 
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
-    console.log(formik.values);
   }, [gastoLocal]);
 
   function handleTextClick() {
@@ -940,8 +935,8 @@ function CreateInvoice() {
         "freight_insurance_cost",
         (gastoLocal?.insurance_charge / 100) * fobGrandTotal
       );
-      console.log(fobGrandTotal);
-      console.log(productsData);
+      // console.log(fobGrandTotal);
+      // console.log(productsData);
     }
   }, [productsData]);
 

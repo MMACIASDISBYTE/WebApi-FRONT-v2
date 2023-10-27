@@ -278,7 +278,7 @@ const ProductList = () => {
       }
     } catch (error) {
       console.log(error);
-      console.log("Prueba");
+      // console.log("Prueba");
       navigate("/pages/error");
     }
   };

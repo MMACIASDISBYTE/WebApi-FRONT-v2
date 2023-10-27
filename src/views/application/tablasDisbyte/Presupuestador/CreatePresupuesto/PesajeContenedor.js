@@ -21,7 +21,7 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
             // const ContenedorConcatenado = tipoContenedor.description.replace(/\s+/g, ''); //quiero los espacios del tipoContenedor para hacer consulta a la api
             const contenedorDetalle = async (ContenedorConcatenado) => {
                 const ContenedorData = await CargaHelper.DetalleContenedor(ContenedorConcatenado);
-                console.log(ContenedorData);
+                // console.log(ContenedorData);
                 setContenedor(ContenedorData);
             };
             contenedorDetalle(ContenedorConcatenado);

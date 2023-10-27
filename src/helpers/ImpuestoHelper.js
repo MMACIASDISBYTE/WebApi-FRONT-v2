@@ -23,7 +23,7 @@ export const ImpuestoHelper = {
     fetchData: async function () {
         try {
             const response = await FetchService.Get(this.rutaTabla);
-            console.log('TarifasTerminarHelper.fetchData::response', response);
+            // console.log('TarifasTerminarHelper.fetchData::response', response);
     
             return response;
         } catch (error) {
