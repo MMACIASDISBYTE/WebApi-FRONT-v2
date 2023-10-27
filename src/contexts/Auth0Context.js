@@ -35,7 +35,8 @@ export const Auth0Provider = ({ children }) => {
                     domain: process.env.REACT_APP_AUTH0_DOMAIN,
                     authorizationParams: {
                         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        redirect_uri: window.location.origin
+                        redirect_uri: process.env.REACT_APP_AUTH0_CALLBACK_URL // PARA PRODUCCION
+                        // redirect_uri: window.location.origin   // PARA TRABAJAR LOCAL
                     }
                 });
 
