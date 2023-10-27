@@ -272,10 +272,6 @@ function CreateInvoice() {
     setDataHelp(objData);
   };
 
-
-
-
-
   console.log(dataHelp);
 
   const [producto, setProductos] = useState();
@@ -287,7 +283,7 @@ function CreateInvoice() {
         title: product.name,
         ...product
       }))
-      console.log(opciones);
+
     }
 
   },[dataHelp.ProductosDisbyte])
@@ -1354,42 +1350,38 @@ function CreateInvoice() {
       dataHelp.presupuestoEditable?.estHeader?.freight_insurance_cost
     );
   }, [gastoLocal]);
-  console.log(gastoLocal);
 
+  
 
 
   // Logica para decidir que valores van a los GLOC. Si el valor del JSON difiere del proviniente del tarifon,
   // el mismo tiene prioridad y entonces se ingresa a fromik. Caso contrario se usan los del tarifon. 
   useEffect(() => {
 
-    console.log("TESTO:", formik?.values?.carga_id?.description)
+    // console.log("TESTO:", formik?.values?.carga_id?.description)
 
     
     // El valor que viene del Tarifon es el mismo que viene desde el JSON ?
     if(gastoLocal?.gloc_fwd?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2))
     {
-        console.log("EQ");
         formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2));
         //setAlerta(false,0);
         //actualizaResaltar("gloc_fwd",false);
     }
     else
     {
-        console.log("NOTEQ");
         formik.setFieldValue("gloc_fwd",dataHelp?.presupuestoEditable?.estHeader?.gloc_fwd?.toFixed(2));
         //actualizaResaltar("gloc_fwd",true);
     }
 
     if(gastoLocal?.flete_interno?.toFixed(2)===dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2))
     {
-        //console.log("EQ");
         formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
         //setAlerta(false,1);
         //actualizaResaltar("gloc_flete",false);
     }
     else
     {
-        //console.log("NOTEQ");
         formik.setFieldValue("gloc_flete",dataHelp?.presupuestoEditable?.estHeader?.gloc_flete?.toFixed(2));
         //setAlerta(false,1);
         //actualizaResaltar("gloc_flete",true);
@@ -1463,7 +1455,7 @@ function CreateInvoice() {
     }  
 
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
-    console.log(ExtraCostosLocal);
+
     //console.log(formik.values);
   }, [gastoLocal, productsData,dataHelp?.presupuestoEditable]);
 
@@ -1506,8 +1498,7 @@ function CreateInvoice() {
         "freight_insurance_cost",
         (gastoLocal?.insurance_charge / 100) * fobGrandTotal
       );
-      console.log(fobGrandTotal);
-      console.log(productsData);
+      
     }
   }, [productsData]);
 

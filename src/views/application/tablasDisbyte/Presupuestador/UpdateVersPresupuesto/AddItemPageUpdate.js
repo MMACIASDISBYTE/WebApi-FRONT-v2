@@ -752,7 +752,6 @@ function AddItemPageUpdate({
       selectedQuantity,
     };
 
-    console.log(data);
     handleAddItem(data, true);
   };
 

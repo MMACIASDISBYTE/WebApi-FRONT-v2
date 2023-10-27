@@ -36,7 +36,7 @@ export const TarifasGestDigDocHelper = {
     fetchDataPais: async function () {
         try {
             const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-            console.log('TarifasGestDigDocHelper.fetchData::response', response);
+            // console.log('TarifasGestDigDocHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

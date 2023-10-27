@@ -8,7 +8,7 @@ const filter = createFilterOptions();
 
 export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorDefecto= null, ListaNCM = null }) {
   const [value, setValue] = React.useState(valorPorDefecto);
-  console.log('valor por defecto :', valorPorDefecto);
+  // console.log('valor por defecto :', valorPorDefecto);
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
   
@@ -16,7 +16,7 @@ export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorD
 
   React.useEffect(() => {
     setProductosSelect(ListaNCM);
-    console.log('NCM DESDE AUTOCOMPLETE :', ListaNCM);
+    // console.log('NCM DESDE AUTOCOMPLETE :', ListaNCM);
   },[ListaNCM])
 
   React.useEffect(() => {
@@ -37,13 +37,11 @@ export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorD
         if (typeof newValue === "string") {
           setIsInputValue(true); // Si es un string, fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue;
           setValue({ title: newValue });
         } else if (newValue && newValue.inputValue) {
           setIsInputValue(true); // Si tiene inputValue, también fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue.inputValue;
           setValue({ title: newValue.inputValue, ncm_id: newValue.id, ncm_code: newValue.code });
         } else {

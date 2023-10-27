@@ -432,7 +432,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  console.log(dataHelp.proveedoresOem);
   //   console.log(dataHelp.NCM);
 
   // const NCMList = dataHelp.NCM.map((item) => ({
@@ -445,9 +444,8 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
   //   pcsctn: item.pcsctn,
   // }));
 
-  console.log(dataHelp);
+  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
-  console.log(formik.values.paisregion_id);
 
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;

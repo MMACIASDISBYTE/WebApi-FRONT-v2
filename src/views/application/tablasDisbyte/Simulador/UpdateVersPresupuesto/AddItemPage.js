@@ -431,7 +431,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik }) {
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  console.log(dataHelp.proveedoresOem);
+  // console.log(dataHelp.proveedoresOem);
   //   console.log(dataHelp.NCM);
 
 
@@ -445,14 +445,11 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik }) {
   //   pcsctn: item.pcsctn,
   // }));
 
-  console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
-  console.log(formik.values.paisregion_id);
 
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
     let paisregion_id = formik?.values?.paisregion_id?.id;
-    console.log(paisregion_id);
     // console.log(formik.values.paisregion_id.id);
 
     let updatedList = [];
@@ -670,7 +667,6 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik }) {
       selectedQuantity,
     };
 
-    console.log(data);
     handleAddItem(data);
   };
 

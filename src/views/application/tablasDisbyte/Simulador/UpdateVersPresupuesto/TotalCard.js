@@ -37,9 +37,6 @@ function TotalCard({ productsData, allAmounts }) {
         });
     }, [productsData, allAmounts]);
     
-
-    console.log(productsData);
-    console.log(allAmounts);
     return (
         <>
             {productsData.length ? (

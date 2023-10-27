@@ -20,7 +20,6 @@ export const SelectPais = ({
     useEffect(()=>{
         dataPais()
     },[])
-    console.log(pais);
 
     const handleSelectionChange = (event) => {
         const value = event.target.value;

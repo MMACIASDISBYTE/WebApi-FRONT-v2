@@ -570,7 +570,7 @@ const ProductList = () => {
       const jsonData = await TarifonMexHelper.fetchData();
       // const jsonData = await BancoHelper.fetchData(accessToken);
 
-      console.log(jsonData);
+      // console.log(jsonData);
       //console.log(jsonDataStatus.status);
       setRow(jsonData);
       // console.log(accessToken);
@@ -578,7 +578,6 @@ const ProductList = () => {
       //setRows(jsonData);
     } catch (error) {
       console.log(error);
-      console.log("Prueba");
       navigate("/pages/error");
     }
   };

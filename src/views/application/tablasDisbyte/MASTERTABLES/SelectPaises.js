@@ -14,7 +14,7 @@ export const SelectPaises = ({
 
   const[done,setDone]=useState(true);
   useEffect(()=>{},[done]);
-  console.log(done);
+  // console.log(done);
   return (
     <>
       <Grid item xs={12}>

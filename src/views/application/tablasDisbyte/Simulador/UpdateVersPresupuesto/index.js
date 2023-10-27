@@ -260,7 +260,6 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  console.log(dataHelp);
 
   const cellInput = [
     {
@@ -1088,7 +1087,6 @@ function CreateInvoice() {
     console.log(
       `El ID producto del es: ${rowUpdate.id}, su Data es  ${rowUpdate.description}`
     );
-    console.log(rowUpdate);
     setAddItemClickedUpdate(true);
     SetRowUpdate(rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));

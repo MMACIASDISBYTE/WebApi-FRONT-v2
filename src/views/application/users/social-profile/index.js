@@ -100,7 +100,6 @@ const SocialProfile = () => {
     const { user } = useAuth();
     const { borderRadius } = useConfig();
     const { tab } = useParams();
-    console.log(user)
 
     let selectedTab = 0;
     switch (tab) {

@@ -264,7 +264,6 @@ function CreateInvoice() {
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
     setDataHelp(objData);
   };
-  console.log(dataHelp);
 
   const [producto, setProductos] = useState();
   useState(() => {
@@ -273,7 +272,7 @@ function CreateInvoice() {
         title: product.name,
         ...product,
       }));
-      console.log(opciones);
+
     }
   }, [dataHelp.ProductosDisbyte]);
 
@@ -836,7 +835,6 @@ function CreateInvoice() {
           setOpen(true);
         }
 
-        console.log(postData);
         // console.log(productsData);
         // console.log(postData);
 

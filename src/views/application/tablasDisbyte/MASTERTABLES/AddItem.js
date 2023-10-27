@@ -126,7 +126,7 @@ const AddItem = ({
       return acc;
     }, {});
 
-    console.log(newData);
+    // console.log(newData);
 
     handleCreateAPI(newData)
       .then((response) => {

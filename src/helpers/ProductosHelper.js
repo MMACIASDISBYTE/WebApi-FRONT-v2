@@ -36,7 +36,7 @@ export const ProductosHelper = {
     fetchDataPais: async function () {
         try {
             const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-            console.log('ProductoHelper.fetchData::response', response);
+            // console.log('ProductoHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

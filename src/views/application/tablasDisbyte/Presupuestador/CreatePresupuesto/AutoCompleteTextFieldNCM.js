@@ -37,13 +37,11 @@ export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorD
         if (typeof newValue === "string") {
           setIsInputValue(true); // Si es un string, fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue;
           setValue({ title: newValue });
         } else if (newValue && newValue.inputValue) {
           setIsInputValue(true); // Si tiene inputValue, también fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue.inputValue;
           setValue({ title: newValue.inputValue, ncm_id: newValue.id, ncm_code: newValue.code });
         } else {

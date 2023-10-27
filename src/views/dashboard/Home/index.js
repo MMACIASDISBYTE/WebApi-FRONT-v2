@@ -20,7 +20,7 @@ import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 // import img2 from "../../../assets/images/Test/suckGorrito.png";
 // import img3 from "../../../assets/images/Test/sucktion.png";
 import LogoDisbyteBlanco from '../../../assets/images/disbyte/LogoDisbyte_blanco.png';
-import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png'
+import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png';
 
 // ==============================|| HOME DASHBOARD ||============================== //
 const Inicio = () => {
@@ -28,7 +28,7 @@ const Inicio = () => {
   const { user } = useAuth();
   const permisos = useAccessTokenJWT();
 
-  console.log(permisos);  // IT-Test-PA
+  // console.log(permisos);  // IT-Test-PA
   const autorizado = permisos.includes("presupuesto:edit"); // || permisosAuth.includes('tarifas:read')
 
   const dev = "dev-7qwkde4r318nfwz7/roles";
@@ -56,7 +56,7 @@ const Inicio = () => {
     const dataPerDate = await PresupuestoHelper.AmountDate();
     setData(data);
     setDistinctEstNumberCount(distinctEstNumberCount);
-    console.log(distinctEstNumberCount);
+    // console.log(distinctEstNumberCount);
     setCountPerDate(dataPerDate);
   };
 
@@ -65,7 +65,7 @@ const Inicio = () => {
 
     setCotizacionDate(Paises);
   };
-  console.log(cotizacionDate.quotes);
+  // console.log(cotizacionDate.quotes);
 
   const [isLoading, setLoading] = useState(true);
 
@@ -83,6 +83,7 @@ const Inicio = () => {
 
   // const usuarioRollViewMouse = true;
   const cursorImages = [LogoDisbyteBlanco, LogoDisbyteAzul];
+  // const cursorImages = [img1, img2, img3];
   const usuarioRollViewMouse = permisos.includes('IT-Test-PA');
   const movementThreshold = 50; // Cantidad mínima de píxeles que el mouse debe moverse para cambiar el cursor
   useEffect(() => {
@@ -100,7 +101,7 @@ const Inicio = () => {
       lastY = event.clientY;
 
       const randomIndex = Math.floor(Math.random() * cursorImages.length);
-      const randomSize = Math.floor(Math.random() * 100) + 50; // Tamaño entre 20 y 50
+      const randomSize = Math.floor(Math.random() * 150) + 50; // Tamaño entre 20 y 50
       const randomRotation = Math.floor(Math.random() * 360); // Rotación de 0 a 360 grados
 
       const imageUrl = cursorImages[randomIndex];

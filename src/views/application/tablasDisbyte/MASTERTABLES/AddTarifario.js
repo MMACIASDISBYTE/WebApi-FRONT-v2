@@ -65,7 +65,7 @@ const AddTarifario = ({
   const [row, setRow] = useState(dataRow);
   useEffect(()=>{
     setRow(dataRow)
-    console.log(row);
+    // console.log(row);
     
   },[dataRow]);
 
@@ -130,7 +130,7 @@ const AddTarifario = ({
       ...prevDataValues,
       [name]: value,
     }));
-    console.log(dataValues);
+    // console.log(dataValues);
   };
 
   const handleRadioChange = (event) => {
@@ -159,13 +159,13 @@ const AddTarifario = ({
       return acc;
     }, {});
 
-    console.log(newData);
+    // console.log(newData);
 
     handleCreateAPI(newData)
       .then((response) => {
         // Actualizar el estado con la nueva lista de elementos
         setDataList([...dataList, response]);
-        console.log(newData);
+        // console.log(newData);
       })
       .catch((error) => {
         console.error("Error", error);

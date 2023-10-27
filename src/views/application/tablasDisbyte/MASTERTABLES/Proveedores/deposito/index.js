@@ -239,7 +239,6 @@ EnhancedTableToolbar.propTypes = {
 const ProductList = () => {
   const navigate = useNavigate();
   // const { accessToken } = useAuth();
-  // console.log(accessToken);
   const theme = useTheme();
   const TableName = "Deposito";
 

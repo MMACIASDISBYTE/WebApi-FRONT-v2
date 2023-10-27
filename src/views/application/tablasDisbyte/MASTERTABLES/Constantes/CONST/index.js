@@ -362,7 +362,7 @@ const ProductList = () => {
         }
         return matches;
       });
-      console.log(newRows);
+      // console.log(newRows);
       setRows(newRows);
     } else {
       setRows(rows);

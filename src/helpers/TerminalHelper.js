@@ -39,7 +39,7 @@ export const TerminalHelper = {
   fetchDataPais: async function () {
     try {
       const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-      console.log("FwdtteHelper.fetchData::response", response);
+      // console.log("FwdtteHelper.fetchData::response", response);
 
       return response;
     } catch (error) {

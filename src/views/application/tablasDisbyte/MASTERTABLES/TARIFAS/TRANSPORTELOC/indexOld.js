@@ -314,7 +314,6 @@ const ProductList = () => {
             //setRows(jsonData);
         } catch (error) {
             console.log(error);
-            console.log('Prueba')
             navigate('/pages/error');
         }
     };
@@ -338,14 +337,12 @@ const ProductList = () => {
     const handleEdit = async (id) => {
 
         setOneEditing(true);
-        console.log(editMode);
 
         setEditMode((prevEditMode) => ({
             ...prevEditMode,
             [id]: true,
         }));
 
-        console.log(editMode);
         console.log(`Tarifa Transporte Local con ID ${id}, ha sido Editada`)
     };
 
@@ -359,7 +356,6 @@ const ProductList = () => {
         setRowsOrig(rowsOrig.map((myRow) => id === myRow.id ? registro : myRow));
         // Llamar a la función del helper para modificar el registro
         await TarifasTteLocalHelper.updateDataById(id, registro);
-        console.log(registro)
         //para cuando se actualice el componente
         // SetActualizacion(true);
         setEditMode((prevEditMode) => ({

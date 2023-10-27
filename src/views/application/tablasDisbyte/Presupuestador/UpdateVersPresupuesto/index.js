@@ -260,7 +260,6 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  console.log(dataHelp);
 
   const cellInput = [
     {
@@ -800,8 +799,6 @@ function CreateInvoice() {
           setOpen(true);
         }
 
-        console.log(postData);
-
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
@@ -1088,7 +1085,6 @@ function CreateInvoice() {
     console.log(
       `El ID producto del es: ${rowUpdate.id}, su Data es  ${rowUpdate.description}`
     );
-    console.log(rowUpdate);
     setAddItemClickedUpdate(true);
     SetRowUpdate(rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));

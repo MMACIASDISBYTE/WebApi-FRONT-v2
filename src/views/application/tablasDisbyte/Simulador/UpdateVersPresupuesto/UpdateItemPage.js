@@ -288,11 +288,9 @@ const UpdateItemPage = ({
       setNCMList2(opciones)
       console.log('Opciones NCM :', opciones);
 
-      console.log(dataHelp.NCM_Mex);
     }
 
     setNCMList(updatedList);
-    console.log(NCMList);
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
@@ -364,12 +362,12 @@ const UpdateItemPage = ({
   };
 
   const handleOk = () => {
-    console.log("hola");
+
     let errors = {}; // creo objeto de errores
     // validación de campos
     if (!selectedItem?.proveedores_id) {
       errors.ProveedoresError = "Proveedor is required";
-      console.log(selectedItem?.proveedores_id);
+      // console.log(selectedItem?.proveedores_id);
     }
     // // Validacion NCM
     if (!selectedItem?.ncm_id) {
@@ -555,7 +553,7 @@ const UpdateItemPage = ({
       inputLabel: "Notas",
       data: dataHelp?.presupuestoEditable?.estHeader?.extrag_src_notas,
       dataType: "String",
-      Xs_Xd: [12, 6],
+      Xs_Xd: [12, 5],
     },
   ];
 
@@ -649,7 +647,7 @@ const UpdateItemPage = ({
           "&>div": {
             m: 0,
             borderRadius: "0px",
-            maxWidth: 1200,
+            maxWidth: 900,
             height: "100%",
             maxHeight: "100%",
           },
@@ -663,7 +661,7 @@ const UpdateItemPage = ({
             <Grid container spacing={gridSpacing} sx={{ mt: 0.5 }}>
               {/* SELECCION DE Proveedor de Select */}
               {textFieldProveedor ? (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={5}>
                   <TextField
                     id="proveedores_id"
                     name="proveedores_id"
@@ -724,7 +722,7 @@ const UpdateItemPage = ({
                 </Grid>
               </Tooltip>
 
-              <Grid item xs={12} md={5}>
+              {/* <Grid item xs={12} md={5}>
                 <TextField
                   id="productowner"
                   name="productowner"
@@ -737,12 +735,12 @@ const UpdateItemPage = ({
                 />
                 {/* {errors.productownerError && (
                   <FormHelperText className={classes.errorText}>{errors.productownerError}</FormHelperText>
-                )}{" "} */}
-              </Grid>
+                )}{" "} 
+              </Grid>*/}
 
               {/* AUTOCOMPLETE DE SKU */}
               {textFieldSKU ? (
-                <Grid item xs={12} md={6} fullWidth>
+                <Grid item xs={12} md={5} fullWidth>
                   <AutoCompleteTextField
                     handleChange={handleChange}
                     name="sku*"
@@ -754,7 +752,7 @@ const UpdateItemPage = ({
                   )}{" "}
                 </Grid>
               ) : (
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={5}>
                   <TextField
                     id="sku"
                     name="sku"
@@ -782,7 +780,7 @@ const UpdateItemPage = ({
                 </Grid>
               </Tooltip>
 
-              <Grid item xs={12} md={5} fullWidth>
+              <Grid item xs={12} md={6} fullWidth>
                   <AutoCompleteTextFieldNCM
                     handleChange={handleChange}
                     valorPorDefecto={selectedItem?.ncm_id}
@@ -887,14 +885,14 @@ const UpdateItemPage = ({
                 )}{" "}
               </Grid> */}
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   id="description"
                   name="description"
                   value={selectedItem?.description}
                   fullWidth
                   multiline
-                  // rows={3}
+                  rows={2.5}
                   label="Especificacion*"
                   //   defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
                   onChange={handleChange}
@@ -927,7 +925,7 @@ const UpdateItemPage = ({
               {/* DATOS VARIOS (CANTIDAD, PRECIO, PESO, NUMBER, DESCUENTO, EXTRA) */}
 
               {/* VALOR exw_u */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="exw_u"
@@ -952,7 +950,7 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* VALOR fob_u */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="fob_u"
@@ -977,7 +975,7 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* VALOR qty */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="qty"
@@ -1001,7 +999,7 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* VALOR pcsctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="pcsctn"
@@ -1025,7 +1023,7 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* VALOR cbmctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="cbmctn"
@@ -1049,7 +1047,7 @@ const UpdateItemPage = ({
               </Grid>
 
               {/* VALOR gwctn */}
-              <Grid item md={1.5} xs={12}>
+              <Grid item md={2} xs={12}>
                 <TextField
                   type="number"
                   id="gwctn"
@@ -1163,10 +1161,10 @@ const UpdateItemPage = ({
                       <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "140px",
-                            height: "140px",
-                            marginLeft: "40px",
-                            marginTop: "-80px",
+                            width: "150px",
+                            height: "150px",
+                            // marginLeft: "30px",
+                            marginTop: "-15px",
                           }}
                         >
                           <CardMedia
@@ -1194,10 +1192,10 @@ const UpdateItemPage = ({
                       <Grid item xs={1}>
                         <ImageWrapper
                           style={{
-                            width: "160px",
-                            height: "160px",
-                            marginLeft: "40px",
-                            marginTop: "-80px",
+                            width: "150px",
+                            height: "150px",
+                            // marginLeft: "30px",
+                            marginTop: "-15px",
                           }}
                         >
                           <CardMedia
@@ -1232,7 +1230,7 @@ const UpdateItemPage = ({
                 }}
               >
                 <Grid item xs={12}>
-                  <Divider />
+                  <Divider style={{ marginTop: "20px", marginBottom: "10px" }} />
                 </Grid>
                 <Box display="flex" alignItems="center">
                   <Tooltip

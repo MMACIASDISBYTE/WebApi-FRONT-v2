@@ -291,7 +291,7 @@ const ProductList = () => {
     React.useEffect(() => {
       fetchData();
       SetActualizacion(false);
-      console.log("onactfetch");
+      // console.log("onactfetch");
     }, [actualizacion]);
   
     const fetchData = async (accessToken) => {
@@ -299,7 +299,7 @@ const ProductList = () => {
         const jsonData = await PaisRegionHelper.fetchData();
         // const {data, status} = await TarifasFwdContHelper.fetchData(); // PARA CUANDO QUERRAMOS TRAER EL ESTADO
         setRows(jsonData);
-        console.log(jsonData);
+        // console.log(jsonData);
       } catch (error) {
         console.log("fleteIndex.fetchDataPais::erro: ".error);
         navigate("/pages/error");

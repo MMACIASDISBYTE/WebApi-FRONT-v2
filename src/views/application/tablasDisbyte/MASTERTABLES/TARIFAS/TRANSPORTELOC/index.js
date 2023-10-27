@@ -788,7 +788,7 @@ const ProductList = () => {
     }  
   
     React.useEffect(()=>{
-        console.log(paisSelect);
+        // console.log(paisSelect);
         console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
         setPage(0);
     },[paisSelect])
