@@ -445,7 +445,7 @@ function CreateInvoice() {
           setOpen(true);
         }
 
-        console.log(postData);
+        // console.log(postData);
         // console.log(productsData);
         // console.log(postData);
 

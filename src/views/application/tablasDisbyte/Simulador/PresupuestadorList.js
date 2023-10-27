@@ -316,7 +316,6 @@ const CustomerList = () => {
 
   React.useEffect(() => {
     setRows(customers);
-    console.log(customers);
     // console.log(ListaDePresupuestos(customers));
   }, [customers]);
 
@@ -367,7 +366,6 @@ React.useEffect(() => {
 }, [customers, seleccionPais, ultVerMostrar]);
 
   const handleChangePais = (pais) =>{
-    console.log(pais.id);
     setSeleccionPais(pais.id)
   }
 
@@ -476,7 +474,6 @@ React.useEffect(() => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const verDetalle = (estnumber, estvers) => {
-    console.log(estnumber, estvers);
     navigate(`/simuladorMEX/details/${estnumber}/${estvers}`);
   };
 

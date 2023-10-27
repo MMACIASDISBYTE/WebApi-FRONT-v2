@@ -288,11 +288,9 @@ const UpdateItemPage = ({
       setNCMList2(opciones)
       console.log('Opciones NCM :', opciones);
 
-      console.log(dataHelp.NCM_Mex);
     }
 
     setNCMList(updatedList);
-    console.log(NCMList);
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
@@ -364,12 +362,12 @@ const UpdateItemPage = ({
   };
 
   const handleOk = () => {
-    console.log("hola");
+
     let errors = {}; // creo objeto de errores
     // validación de campos
     if (!selectedItem?.proveedores_id) {
       errors.ProveedoresError = "Proveedor is required";
-      console.log(selectedItem?.proveedores_id);
+      // console.log(selectedItem?.proveedores_id);
     }
     // // Validacion NCM
     if (!selectedItem?.ncm_id) {

@@ -358,7 +358,6 @@ const CustomerList = () => {
 
   React.useEffect(() => {
     owners();
-    console.log("OWN", ownersList);
   }, []);
 
   React.useEffect(() => {
@@ -367,8 +366,6 @@ const CustomerList = () => {
 
   React.useEffect(() => {
     setRows(customers);
-    console.log(customers);
-    // console.log(ListaDePresupuestos(customers));
   }, [customers]);
 
   // React.useEffect(() => {
@@ -457,7 +454,6 @@ const CustomerList = () => {
   ]);
 
   const handleChangePais = (pais) => {
-    console.log(pais.id);
     setSeleccionPais(pais.id);
   };
 
@@ -467,12 +463,11 @@ const CustomerList = () => {
   };
 
   const handleChangeOwner = (owner) => {
-    console.log(owner);
+    // console.log(owner);
     setSeleccionOwner(owner);
   };
 
   const handleChangeEstado = (estado) => {
-    console.log(estado.id);
     setSeleccionEstado(estado.id);
   };
 
@@ -575,7 +570,6 @@ const CustomerList = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const verDetalle = (estnumber, estvers) => {
-    console.log(estnumber, estvers);
     navigate(`/simuladorMEX/details/${estnumber}/${estvers}`);
   };
 
@@ -613,7 +607,8 @@ const CustomerList = () => {
   const classes = useStyles();
 
   const { user } = useAuth();
-  console.log("owners", ownersList);
+  // console.log("owners", ownersList);
+  
   return (
     <MainCard title="Estimaciones Mexico" content={false}>
       <CardContent>

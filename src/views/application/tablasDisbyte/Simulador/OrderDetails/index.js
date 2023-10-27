@@ -82,7 +82,6 @@ const OrderDetails = () => {
     }
   };
   const readDataEstVers = async (estnumber, vers, accessToken) => {
-    console.log(estnumber, vers);
     try {
       const jsonData = await PresupuestoHelper.readDataEstVers(
         estnumber,
@@ -95,7 +94,6 @@ const OrderDetails = () => {
     }
   };
   const traerHistorico = async (estnumber) => {
-    console.log(estnumber, vers);
     try {
       const jsonData = await PresupuestoHelper.fetchDataHistorico(estnumber);
         
@@ -112,10 +110,6 @@ const OrderDetails = () => {
   }, []); // este useEffect se ejecutará solo una vez, al montar el componente
 
   useEffect(() => {
-    // console.log(rows);
-    // console.log('Mostraremos el doble entrada')
-    // console.log(rowsDoble)
-    // console.log(historico);
 
   }, [rows, rowsDoble, historico]); // este useEffect se ejecutará cada vez que 'rows' cambie
 

@@ -64,9 +64,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
 
   const editarPresu = permisos.includes("presupuesto:edit");
 
-  console.log(presupuestador);
-  // console.log(usuario);
-  console.log(historico);
   const [rows, setRow] = useState([]);
   // Detalles que complementan cada row del detail, son detalles del tipo VISTA, FK que fueron convertidas a texto.
   // No se agregan a la definicion del estDetail, mas es una lista complementaria de igual dimencion.
@@ -95,11 +92,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
     };
 
     fetchData();
-    //console.log(presupuestador);
-    console.log(presupuestador.estDetails);
-
-    console.log(presupuestador?.estHeader?.status);
-    // console.log(presupuestador.estHeader.description);
   }, [presupuestador]);
 
   useEffect(() => {
@@ -115,8 +107,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
   };
 
   const nuevoPresupuesto = (estnumber, estvers) => {
-    console.log(estnumber, "de list");
-    console.log(estvers, "de list");
     navigate(`/simuladorMEX/update-simuladorMEX/${estnumber}/${estvers}`);
     // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
@@ -2057,8 +2047,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               }}
                             >
                               {row.description ? row.description : ""}
-                              {/* {row.description} */}
-                              {/* {console.log(row)} */}
                             </Typography>
                           </TableCell>
                           <TableCell
@@ -2141,7 +2129,6 @@ const Details = ({ presupuestador, usuario, historico }) => {
                               >
                                 {row.totalcif ? row.totalcif.toFixed(2) : "0"}
                               </TableCell>
-                              {/*console.log(rows)*/}
                               <TableCell
                                 align="right"
                                 className={classes.tableCell}

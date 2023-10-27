@@ -806,7 +806,6 @@ function CreateInvoice() {
   const [open2, setOpen2] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen2(true);
-    console.log(open2);
   };
   const handleCloseDialog = () => {
     setOpen2(false);
@@ -840,13 +839,11 @@ function CreateInvoice() {
   useEffect(() => {
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
-  console.log(gastoLocal);
 
   useEffect(() => {
     formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
     formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
     formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    console.log(formik.values.gloc_descarga);
     formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
     formik.setFieldValue(
       "gloc_despachantes",
@@ -855,7 +852,6 @@ function CreateInvoice() {
     formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
-    console.log(formik.values);
   }, [gastoLocal, productsData]);
 
   function handleTextClick() {
@@ -874,8 +870,8 @@ function CreateInvoice() {
         "freight_insurance_cost",
         (gastoLocal?.insurance_charge / 100) * fobGrandTotal
       );
-      console.log(fobGrandTotal);
-      console.log(productsData);
+      // console.log(fobGrandTotal);
+      // console.log(productsData);
     }
   }, [productsData]);
 

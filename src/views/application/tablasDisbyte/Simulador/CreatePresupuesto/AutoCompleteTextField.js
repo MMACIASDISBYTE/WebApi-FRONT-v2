@@ -25,13 +25,11 @@ export default function AutoCompleteTextField({ handleChange, name, valorPorDefe
         if (typeof newValue === "string") {
           setIsInputValue(true); // Si es un string, fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue;
           setValue({ title: newValue });
         } else if (newValue && newValue.inputValue) {
           setIsInputValue(true); // Si tiene inputValue, también fue ingresado directamente
           setToolIngresoManual(`Ingreso Manualmente ${newValue.inputValue}`)
-          console.log(newValue);
           newEventValue = newValue.inputValue;
           setValue({ title: newValue.inputValue });
         } else {

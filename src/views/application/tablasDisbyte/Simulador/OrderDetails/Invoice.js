@@ -49,7 +49,6 @@ const rows = [
 const Invoice = ({ presupuestador, usuario, historico }) => {
   const theme = useTheme();
   const componentRef = useRef(null);
-  console.log(presupuestador);
   // console.log(usuario);
 
   const useStyles = makeStyles({

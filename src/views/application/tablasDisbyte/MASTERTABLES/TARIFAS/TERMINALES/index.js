@@ -426,7 +426,6 @@ const ProductList = () => {
       setRows(jsonData);
     } catch (error) {
       console.log(error);
-      console.log("Prueba");
       navigate("/pages/error");
     }
   };
@@ -517,7 +516,6 @@ const ProductList = () => {
       try {
         const dataCarga = await CargaHelper.fetchData();
         setCarga(dataCarga);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -528,7 +526,6 @@ const ProductList = () => {
       try {
         const dataCarga = await PolizaHelper.fetchData();
         setPoliza(dataCarga);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -580,7 +577,7 @@ const ProductList = () => {
         }
         return matches;
       });
-      console.log(newRows);
+      // console.log(newRows);
       setRows(newRows);
     } else {
       setRows(rows);
@@ -625,7 +622,7 @@ const ProductList = () => {
   }  
 
   React.useEffect(()=>{
-      console.log(paisSelect);
+      // console.log(paisSelect);
       console.log(rows.filter(myRow=>myRow.pais==paisSelect?.description))
       setPage(0);
   },[paisSelect])

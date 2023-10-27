@@ -47,7 +47,7 @@ export const TarifasBancosHelper = {
     fetchDataPais: async function () {
         try {
             const response = await FetchService.Get(`${this.rutaTabla}/vista`);
-            console.log('TarifasBancosHelper.fetchData::response', response);
+            // console.log('TarifasBancosHelper.fetchData::response', response);
 
             return response;
         } catch (error) {

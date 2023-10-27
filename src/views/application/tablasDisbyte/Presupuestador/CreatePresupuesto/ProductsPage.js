@@ -29,7 +29,7 @@ function ProductsPage({
   freightCost,
   insurancePorct,
 }) {
-  console.log(productsData);
+  // console.log(productsData);
 
   const useStyles = makeStyles({
     tableCell: {

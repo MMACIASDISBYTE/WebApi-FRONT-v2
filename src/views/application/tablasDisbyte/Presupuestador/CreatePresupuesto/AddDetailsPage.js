@@ -270,7 +270,7 @@ const AddDetailsPage = ({
     }
 
     setNCMList(updatedList);
-    console.log(NCMList);
+    // console.log(NCMList);
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
@@ -342,7 +342,6 @@ const AddDetailsPage = ({
   };
 
   const handleOk = () => {
-    console.log("hola");
     let errors = {}; // creo objeto de errores
     // validación de campos
     if (!selectedItem?.proveedores_id) {

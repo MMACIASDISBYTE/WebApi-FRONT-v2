@@ -442,17 +442,14 @@ const CustomerList = () => {
   ]);
 
   const handleChangePais = (pais) => {
-    console.log(pais.id);
     setSeleccionPais(pais.id);
   };
 
   const handleChangeCarga = (carga) => {
-    console.log(carga.id);
     setSeleccionCarga(carga.id);
   };
 
   const handleChangeEstado = (estado) => {
-    console.log(estado.id);
     setSeleccionEstado(estado.id);
   };
 
@@ -555,7 +552,6 @@ const CustomerList = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const verDetalle = (estnumber, estvers) => {
-    console.log(estnumber, estvers);
     navigate(`/estimate/details/${estnumber}/${estvers}`);
   };
 

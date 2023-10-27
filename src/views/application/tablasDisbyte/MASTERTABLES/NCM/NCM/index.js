@@ -397,7 +397,7 @@ const ProductList = () => {
 
   // uso metodo Update (que trabaja en el componente hijo)
   const handleEdit = async (row) => {
-    console.log('hola');
+    // console.log('hola');
     setSelectedRow(row);
     setOpenUpdate(true);
   };
@@ -451,7 +451,7 @@ const ProductList = () => {
         }
         return matches;
       });
-      console.log(newRows);
+      // console.log(newRows);
       setRows(newRows);
     } else {
       setRows(rows);

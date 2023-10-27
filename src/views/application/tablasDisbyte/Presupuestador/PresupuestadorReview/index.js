@@ -244,11 +244,9 @@ const ProductReviewList = () => {
     const { productreviews } = useSelector((state) => state.customer);
     React.useEffect(() => {
         dispatch(getProductReviews());
-        console.log('prueba');
     }, [dispatch]);
     React.useEffect(() => {
         setRows(productreviews);
-        console.log(rows)
     }, [productreviews]);
 
 

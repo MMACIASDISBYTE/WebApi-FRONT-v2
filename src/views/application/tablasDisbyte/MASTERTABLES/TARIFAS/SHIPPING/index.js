@@ -450,7 +450,6 @@ const ProductList = () => {
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    console.log("onactfetch");
   }, [actualizacion]);
 
   const fetchData = async (accessToken) => {
@@ -642,7 +641,7 @@ const ProductList = () => {
         }
         return matches;
       });
-      console.log(newRows);
+      // console.log(newRows);
       setRows(newRows);
     } else {
       setRows(rows);
@@ -688,7 +687,6 @@ const ProductList = () => {
   }  
 
   React.useEffect(()=>{
-      console.log(paisSelect);
       console.log(rows.filter(myRow=>myRow.pais_dest==paisSelect?.description))
       setPage(0);
   },[paisSelect])

@@ -289,7 +289,7 @@ const ProductList = () => {
     const fetchData = async () => {
         const jsonData = await NcmHelper.fetchData();
         setRows(jsonData);
-        console.log(rows);
+        // console.log(rows);
     };
 
     //IDENTIFICA LOS ATRIBUTOS DEL OBJETO PARA LISTAR EN LA TABLA
