@@ -28,11 +28,9 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import useAuth from "hooks/useAuth";
-
-
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -175,10 +173,6 @@ function EnhancedTableHead({
   onRequestSort,
   selected,
 }) {
-
-  
-  
-
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -194,14 +188,12 @@ function EnhancedTableHead({
       lineHeight: "1", // Ajuste de la altura de línea según necesidad
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 100,
-      
     },
     lastCell: {
       borderRight: "none",
     },
   });
   const classes = useStyles();
-
 
   return (
     <TableHead>
@@ -355,20 +347,19 @@ const CustomerList = () => {
   const [ultVerMostrar, setUltVerMostrar] = React.useState(true);
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
-  const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da carga
-  const [seleccionOwner,setSeleccionOwner] = React.useState(null);
-  const [ownersList,setOwnersList] = React.useState([{}]); //se da carga
+  const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da Estado
+  const [seleccionOwner, setSeleccionOwner] = React.useState(null);
+  const [ownersList, setOwnersList] = React.useState([{}]); //se da Owner
 
-  const owners = async ()=>
-  {
-      const ownersListTmp=await PresupuestoHelper.fetchOwnersList()
-      setOwnersList(ownersListTmp);
+  const owners = async () => {
+    const ownersListTmp = await PresupuestoHelper.fetchOwnersList();
+    setOwnersList(ownersListTmp);
   };
 
-  React.useEffect(() =>{
-                    owners();
-                    console.log("OWN",ownersList);  
-                  }, []);
+  React.useEffect(() => {
+    owners();
+    console.log("OWN", ownersList);
+  }, []);
 
   React.useEffect(() => {
     dispatch(getCustomers());
@@ -434,7 +425,6 @@ const CustomerList = () => {
       );
     }
 
-
     // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
     if (ultVerMostrar) {
       presupuestosFiltrados = presupuestosFiltrados.reduce(
@@ -472,7 +462,7 @@ const CustomerList = () => {
   };
 
   const handleChangeCarga = (carga) => {
-    console.log(carga.id);
+    // console.log(carga.id);
     setSeleccionCarga(carga.id);
   };
 
@@ -614,16 +604,16 @@ const CustomerList = () => {
       lineHeight: "1", // Ajuste de la altura de línea según necesidad
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 80,
-      paddingLeft:40,
+      paddingLeft: 40,
     },
     lastCell: {
-      borderRight: "none", 
+      borderRight: "none",
     },
   });
   const classes = useStyles();
 
-  const {user} = useAuth();
-  console.log("owners",ownersList);
+  const { user } = useAuth();
+  console.log("owners", ownersList);
   return (
     <MainCard title="Estimaciones Mexico" content={false}>
       <CardContent>
@@ -679,8 +669,10 @@ const CustomerList = () => {
               handleChangeEstado={handleChangeEstado}
             />
             <SelectOwner
-              data={ownersList?ownersList:""}
-              defaultSelection={ownersList?.filter(value=>value.own===user.name)}
+              data={ownersList ? ownersList : ""}
+              defaultSelection={ownersList?.filter(
+                (value) => value.own === user.name
+              )}
               handleChangeOwner={handleChangeOwner}
             />
           </Grid>
@@ -808,14 +800,18 @@ const CustomerList = () => {
                         ? row.project
                         : "Sin data"}
                     </TableCell>
-                    <Tooltip title={row.estvers !== null && row.description !== undefined
-                        ? row.description
-                        : "Sin data"}>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.estvers !== null && row.description !== undefined
-                        ? row.description
-                        : "Sin data"}
-                    </TableCell>
+                    <Tooltip
+                      title={
+                        row.estvers !== null && row.description !== undefined
+                          ? row.description
+                          : "Sin data"
+                      }
+                    >
+                      <TableCell align="left" className={classes.tableCell}>
+                        {row.estvers !== null && row.description !== undefined
+                          ? row.description
+                          : "Sin data"}
+                      </TableCell>
                     </Tooltip>
                     <TableCell align="left" className={classes.tableCell}>
                       {row.paisregion_id !== null &&
@@ -864,27 +860,21 @@ const CustomerList = () => {
                         : "Sin data"}
                     </TableCell>
                     <TableCell className={classes.tableCell2}>
-                    {
-                                  row.avatar_url != '' && row.avatar_url !== null ?(
-                                    <Tooltip title={row.own}>
-                                      <Avatar
-                                      align='center'
-                                        alt={
-                                          row.own
-                                            ? row.own
-                                            : "Sin data"
-                                        }
-                                        src={row.avatar_url}
-                                      />
-                                    </Tooltip>
-                                  ) : (
-                                    <>
-                                      {row.own !== null && row.own !== undefined
-                                        ? row.own
-                                        : "Sin data"}
-                                    </>
-                                  )
-                                }
+                      {row.avatar_url != "" && row.avatar_url !== null ? (
+                        <Tooltip title={row.own}>
+                          <Avatar
+                            align="center"
+                            alt={row.own ? row.own : "Sin data"}
+                            src={row.avatar_url}
+                          />
+                        </Tooltip>
+                      ) : (
+                        <>
+                          {row.own !== null && row.own !== undefined
+                            ? row.own
+                            : "Sin data"}
+                        </>
+                      )}
                     </TableCell>
                     <TableCell align="right" className={classes.tableCell}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&
