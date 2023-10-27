@@ -209,5 +209,6 @@
 
     "SIMULADOR" : "Simulador",
     "simuladorMex" : "Mexico",
-    "MASTERTABLES" : "Master Tables"
+    "MASTERTABLES" : "Master Tables",
+    "ESTIMADOR-ARG" : "Estimador Arg"
 }
