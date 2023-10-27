@@ -658,55 +658,7 @@ const ProductList = () => {
     setOpenUpdate(true);
   };
 
-  // almacena data para los SELECT de paisRegion, Poliza, terminales y carga
-  const [paisRegion, setPaisRegion] = React.useState([]);
-  const [Carga, setCarga] = React.useState([]);
-  const [Poliza, setPoliza] = React.useState([]);
-  const [Terminales, setTerminales] = React.useState([]);
-  React.useEffect(() => {
-    //consulta tabla pais para enviar al componente
-    const fetchDataPais = async () => {
-      try {
-        const dataPais = await PaisRegionHelper.fetchData();
-        setPaisRegion(dataPais);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchDataPais();
-
-    const FetchDataTerminales = async () => {
-      try {
-        const dataTerminal = await TerminalHelper.fetchData();
-        setTerminales(dataTerminal);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataTerminales();
-
-    const FetchDataCarga = async () => {
-      try {
-        const dataCarga = await CargaHelper.fetchData();
-        setCarga(dataCarga);
-        console.log(Carga);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataCarga();
-
-    const FetchDataPoliza = async () => {
-      try {
-        const dataCarga = await PolizaHelper.fetchData();
-        setPoliza(dataCarga);
-        console.log(Carga);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataPoliza();
-  }, []);
+  
 
   /*const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -871,10 +823,10 @@ const ProductList = () => {
                       handleCreateAPI={handleCreateAPI}
                       TableName={TableName}
                       headCells={headCells}
-                      dataSelectPais={paisRegion}
-                      dataTerminales={Terminales}
-                      dataCarga={Carga}
-                      dataPoliza={Poliza}
+                      dataSelectPais={""}
+                      dataTerminales={""}
+                      dataCarga={""}
+                      dataPoliza={""}
                     />
                   </>
                 )}

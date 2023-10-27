@@ -590,7 +590,10 @@ const CustomerList = () => {
       paddingLeft: 40,
     },
     lastCell: {
+
+
       borderRight: "none",
+
     },
   });
   const classes = useStyles();
