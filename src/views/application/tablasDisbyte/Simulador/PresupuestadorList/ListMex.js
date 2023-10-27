@@ -415,7 +415,8 @@ const CustomerList = () => {
     //     (presupuesto) => presupuesto.own === seleccionOwner.own
     //   );
     // }
-    if (seleccionOwner !== null) {  // Restaura el filtro y muestra todos en el callo que devuelva null el componente hijo
+    if (seleccionOwner !== null) {
+      // Restaura el filtro y muestra todos en el callo que devuelva null el componente hijo
       presupuestosFiltrados = presupuestosFiltrados.filter(
         (presupuesto) => presupuesto.own === seleccionOwner.own
       );
@@ -425,6 +426,28 @@ const CustomerList = () => {
       presupuestosFiltrados = presupuestosFiltrados.filter(
         (presupuesto) => presupuesto.status === seleccionEstado
       );
+    }
+
+    // Filtrar según la búsqueda
+    if (search) {
+      presupuestosFiltrados = presupuestosFiltrados.filter((row) => {
+        const properties = [
+          "estvers",
+          "project",
+          "description",
+          "own",
+          "htimestamp",
+        ];
+        return properties.some((property) => {
+          return (
+            row[property] &&
+            row[property]
+              .toString()
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          );
+        });
+      });
     }
 
     // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
@@ -477,48 +500,9 @@ const CustomerList = () => {
   };
 
   const handleSearch = (event) => {
-    const newString = event?.target.value;
-    setSearch(newString || "");
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true;
-
-        const properties = [
-          "estvers",
-          "project",
-          "description",
-          "own",
-          "htimestamp",
-        ];
-        let containsQuery = false;
-
-        properties.forEach((property) => {
-          if (
-            row[property]
-              .toString()
-              .toLowerCase()
-              .includes(newString.toString().toLowerCase())
-          ) {
-            containsQuery = true;
-          }
-        });
-
-        if (!containsQuery) {
-          matches = false;
-        }
-        return matches;
-      });
-      setRows(newRows);
-    } else {
-      // setRows(customers);
-
-      if (ultVerMostrar) {
-        setRows(filtrarPresupuestos());
-      } else {
-        setRows(customers);
-      }
-    }
+    const newString = event?.target.value || "";
+    setSearch(newString);
+    filtrarPresupuestos(); //lamado a la funcion de filtrado
   };
 
   const handleRequestSort = (event, property) => {
@@ -613,7 +597,7 @@ const CustomerList = () => {
 
   const { user } = useAuth();
   // console.log("owners", ownersList);
-  
+
   return (
     <MainCard title="Estimaciones Mexico" content={false}>
       <CardContent>
@@ -642,21 +626,22 @@ const CustomerList = () => {
             spacing={2}
           >
             {/* FILTRO DE BUSQUEDA ANULADO POR CRASHEO */}
-            {/* <Grid item xs={12} sm={2}>
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-              placeholder="Search Estimate"
-              value={search}
-              size="small"
-            />
-          </Grid> */}
+            <Grid item xs={12} sm={2}>
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  style: { height: '53px' }
+                }}
+                onChange={handleSearch}
+                placeholder="Search Estimate"
+                value={search}
+                size="small"
+              />
+            </Grid>
 
             <SelectCarga
               nameSelect={"Carga"}
