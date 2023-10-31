@@ -6,10 +6,10 @@ import { Link, Typography, Stack } from '@mui/material';
 const AuthFooter = () => (
     <Stack direction="row" justifyContent="space-between">
         <Typography variant="subtitle2" component={Link} href="https://www.disbyte.com/" target="_blank" underline="hover">
-            &copy; disbyte.com
+            &copy; www.disbyte.com
         </Typography>
-        <Typography variant="subtitle2" component={Link} href="https://www.disbyte.com/empresa/" target="_blank" underline="hover">
-            About us
+        <Typography variant="subtitle2" component={Link} href="https://www.linkedin.com/company/disbyte-s-a/?originalSubdomain=ar" target="_blank" underline="hover">
+            Sobre Nosotros
         </Typography>
     </Stack>
 );

@@ -28,8 +28,8 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
@@ -50,6 +50,9 @@ import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
 import { SelectPais } from "../SelectPais";
 import { SelectCarga } from "../SelectCarga";
 import { SelectEstado } from "../SelectEstado";
+import { SelectOwner } from "../../Simulador/SelectOwner";
+import useAuth from "hooks/useAuth";
+import { PresupuestoHelper } from "helpers/PresupuestoHelper";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -185,20 +188,6 @@ function EnhancedTableHead({
       lineHeight: "1", // Ajuste de la altura de línea según necesidad
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 100,
-    },
-    tableCellCenter: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      minWidth: 50,
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      backgroundColor: "#2196f3",
-      padding: "6px 16px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 50,
     },
     lastCell: {
       borderRight: "none",
@@ -359,6 +348,17 @@ const CustomerList = () => {
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
   const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da carga
+  const [seleccionOwner, setSeleccionOwner] = React.useState(null);
+  const [ownersList, setOwnersList] = React.useState([{}]); //se da Owner
+
+  const owners = async () => {
+    const ownersListTmp = await PresupuestoHelper.fetchOwnersList();
+    setOwnersList(ownersListTmp);
+  };
+
+  React.useEffect(() => {
+    owners();
+  }, []);
 
   React.useEffect(() => {
     dispatch(getCustomers());
@@ -410,6 +410,47 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.status === seleccionEstado
       );
     }
+    console.log(seleccionOwner);
+    // Si hay un carga seleccionado, filtrar por país
+    // if (seleccionOwner !== null && seleccionOwner !== undefined) {
+    //   presupuestosFiltrados = presupuestosFiltrados.filter(
+    //     (presupuesto) => presupuesto.own === seleccionOwner.own
+    //   );
+    // }
+    if (seleccionOwner !== null) {
+      // Restaura el filtro y muestra todos en el callo que devuelva null el componente hijo
+      presupuestosFiltrados = presupuestosFiltrados.filter(
+        (presupuesto) => presupuesto.own === seleccionOwner.own
+      );
+    }
+    // Si hay un carga seleccionado, filtrar por país
+    if (seleccionEstado !== null && seleccionEstado !== undefined) {
+      presupuestosFiltrados = presupuestosFiltrados.filter(
+        (presupuesto) => presupuesto.status === seleccionEstado
+      );
+    }
+
+    // Filtrar según la búsqueda
+    if (search) {
+      presupuestosFiltrados = presupuestosFiltrados.filter((row) => {
+        const properties = [
+          "estvers",
+          "project",
+          "description",
+          "own",
+          "htimestamp",
+        ];
+        return properties.some((property) => {
+          return (
+            row[property] &&
+            row[property]
+              .toString()
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          );
+        });
+      });
+    }
 
     // Si ultVerMostrar es true, filtrar para mostrar solo la última versión de cada estnumber
     if (ultVerMostrar) {
@@ -438,6 +479,7 @@ const CustomerList = () => {
     seleccionPais,
     seleccionCarga,
     seleccionEstado,
+    seleccionOwner,
     ultVerMostrar,
   ]);
 
@@ -449,53 +491,19 @@ const CustomerList = () => {
     setSeleccionCarga(carga.id);
   };
 
+  const handleChangeOwner = (owner) => {
+    // console.log(owner);
+    setSeleccionOwner(owner);
+  };
+
   const handleChangeEstado = (estado) => {
     setSeleccionEstado(estado.id);
   };
 
   const handleSearch = (event) => {
-    const newString = event?.target.value;
-    setSearch(newString || "");
-
-    if (newString) {
-      const newRows = rows.filter((row) => {
-        let matches = true;
-
-        const properties = [
-          "estvers",
-          "project",
-          "description",
-          "own",
-          "htimestamp",
-        ];
-        let containsQuery = false;
-
-        properties.forEach((property) => {
-          if (
-            row[property]
-              .toString()
-              .toLowerCase()
-              .includes(newString.toString().toLowerCase())
-          ) {
-            containsQuery = true;
-          }
-        });
-
-        if (!containsQuery) {
-          matches = false;
-        }
-        return matches;
-      });
-      setRows(newRows);
-    } else {
-      // setRows(customers);
-
-      if (ultVerMostrar) {
-        setRows(filtrarPresupuestos());
-      } else {
-        setRows(customers);
-      }
-    }
+    const newString = event?.target.value || "";
+    setSearch(newString);
+    filtrarPresupuestos(); //lamado a la funcion de filtrado
   };
 
   const handleRequestSort = (event, property) => {
@@ -571,11 +579,25 @@ const CustomerList = () => {
       fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
       maxWidth: 130,
     },
+    tableCell2: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft: 40,
+    },
     lastCell: {
       borderRight: "none",
     },
   });
   const classes = useStyles();
+  const { user } = useAuth();
+  // console.log("owners", ownersList);
+
   return (
     <MainCard title="Presupuestos Mexico" content={false}>
       <CardContent>
@@ -604,21 +626,22 @@ const CustomerList = () => {
             spacing={2}
           >
             {/* FILTRO DE BUSQUEDA ANULADO POR CRASHEO */}
-            {/* <Grid item xs={12} sm={2}>
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-              placeholder="Search Estimate"
-              value={search}
-              size="small"
-            />
-          </Grid> */}
+            <Grid item xs={12} sm={2}>
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  style: { height: "53px" },
+                }}
+                onChange={handleSearch}
+                placeholder="Search Estimate"
+                value={search}
+                size="small"
+              />
+            </Grid>
 
             <SelectCarga
               nameSelect={"Carga"}
@@ -629,6 +652,13 @@ const CustomerList = () => {
               nameSelect={"Estado"}
               datosSelect={[]}
               handleChangeEstado={handleChangeEstado}
+            />
+            <SelectOwner
+              data={ownersList ? ownersList : ""}
+              defaultSelection={ownersList?.filter(
+                (value) => value.own === user.name
+              )}
+              handleChangeOwner={handleChangeOwner}
             />
           </Grid>
 
@@ -755,14 +785,18 @@ const CustomerList = () => {
                         ? row.project
                         : "Sin data"}
                     </TableCell>
-                    <Tooltip title={row.estvers !== null && row.description !== undefined
-                        ? row.description
-                        : "Sin data"}>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.estvers !== null && row.description !== undefined
-                        ? row.description
-                        : "Sin data"}
-                    </TableCell>
+                    <Tooltip
+                      title={
+                        row.estvers !== null && row.description !== undefined
+                          ? row.description
+                          : "Sin data"
+                      }
+                    >
+                      <TableCell align="left" className={classes.tableCell}>
+                        {row.estvers !== null && row.description !== undefined
+                          ? row.description
+                          : "Sin data"}
+                      </TableCell>
                     </Tooltip>
                     <TableCell align="left" className={classes.tableCell}>
                       {row.paisregion_id !== null &&
@@ -810,27 +844,22 @@ const CustomerList = () => {
                         ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell}>
-                    {
-                                  row.avatar_url != '' && row.avatar_url !== null ?(
-                                    <Tooltip title={row.own}>
-                                      <Avatar
-                                        alt={
-                                          row.own
-                                            ? row.own
-                                            : "Sin data"
-                                        }
-                                        src={row.avatar_url}
-                                      />
-                                    </Tooltip>
-                                  ) : (
-                                    <>
-                                      {row.own !== null && row.own !== undefined
-                                        ? row.own
-                                        : "Sin data"}
-                                    </>
-                                  )
-                                }
+                    <TableCell className={classes.tableCell2}>
+                      {row.avatar_url != "" && row.avatar_url !== null ? (
+                        <Tooltip title={row.own}>
+                          <Avatar
+                            align="center"
+                            alt={row.own ? row.own : "Sin data"}
+                            src={row.avatar_url}
+                          />
+                        </Tooltip>
+                      ) : (
+                        <>
+                          {row.own !== null && row.own !== undefined
+                            ? row.own
+                            : "Sin data"}
+                        </>
+                      )}
                     </TableCell>
                     <TableCell align="right" className={classes.tableCell}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&

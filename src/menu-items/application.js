@@ -233,9 +233,9 @@ const application = {
             id: 'ESTIMADOR-MEX',
             title: <FormattedMessage id="ESTIMADOR-MEX" />,
             type: 'item',
-            // url: '/estimateMex/estimate-list',
+            url: '/estimateMex/estimate-list',
             // type: 'collapse',
-            url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
+            // url: '/UnderConstruction',  // RUTA QUE DESVIA PARA MOSTRAR ALERTA DE CONSTRUCCION
             // url: '/app/calendar',
             icon: SummarizeOutlinedIcon,
             breadcrumbs: false,

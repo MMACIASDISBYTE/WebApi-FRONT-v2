@@ -40,7 +40,7 @@ const Auth0Login = ({ ...others }) => {
                 <Grid item xs={12}>
                     <AnimateButton>
                         <Button onClick={loginHandler} variant="contained" fullWidth color="secondary">
-                            <LockIcon fontSize="small" sx={{ mr: 1, fontSize: '1rem' }} /> Log in with Auth0
+                            <LockIcon fontSize="small" sx={{ mr: 1, fontSize: '1rem' }} /> Acceso a WebApp
                         </Button>
                     </AnimateButton>
                 </Grid>
