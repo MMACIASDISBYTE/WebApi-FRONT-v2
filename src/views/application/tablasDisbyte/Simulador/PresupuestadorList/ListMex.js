@@ -301,7 +301,14 @@ const CustomerList = () => {
 
   // PERMISOS
   //Gestion de permisos
-  const permisos = useAccessTokenJWT();
+  // const permisos = useAccessTokenJWT();
+  const permisosIniciales = JSON.parse(localStorage.getItem("DisbyteRoll")) || [];
+  const [permisos, setPermisos] = React.useState(permisosIniciales);
+
+  React.useEffect(() => {
+    setPermisos(JSON.parse(localStorage.getItem("DisbyteRoll")))
+  },[])
+
   // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
@@ -321,20 +328,35 @@ const CustomerList = () => {
   const permiDelele = ["CEO"];
   const permiRetroceder = ["CEO"];
 
-  const ingresoAutorizado = permiIngreso.some((permiso) =>
-    permisos.includes(permiso)
-  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
-  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
-  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
-  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
-  const RetroEstadoOK = permiRetroceder.every((permiso) =>
-    permisos.includes(permiso)
-  );
+  const [ingresoAutorizado, setIngresoAutorizado] = React.useState(true);
+  const [AddOK, setAddOK] = React.useState(true);
+  const [EditOK, setEditOK] = React.useState(true);
+  const [DeleleOK, setDeleleOK] = React.useState(true);
+  const [RetroEstadoOK, setRetroEstadoOK] = React.useState(true);  
+  
+  React.useEffect(() =>{
+    const autorizado = permiIngreso.some((permiso) => permisos.includes(permiso)); //para ingresar a la pagina
+    setIngresoAutorizado(autorizado); 
+    const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+    setAddOK(AddOK);
+    const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+    setEditOK(EditOK);
+    const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+    setDeleleOK(DeleleOK);
+    const RetroEstadoOK = permiRetroceder.every((permiso) => permisos.includes(permiso) );
+    setRetroEstadoOK(RetroEstadoOK);
+  }, [permisos])
 
-  if (!ingresoAutorizado) {
-    //rebote si no tiene autorizacion
-    Navigate("/NoAutorizado");
-  }
+  React.useEffect(() => {
+    // console.log('Estado de ingreso: ', ingresoAutorizado);
+    if(permisos){
+      if (!ingresoAutorizado) {
+        //rebote si no tiene autorizacion
+        navigate("/NoAutorizado");
+      }
+    }
+  },[permisos, ingresoAutorizado])
+  //-------------- FIN LOGICA PERMISOS --------------------
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
@@ -408,7 +430,9 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.status === seleccionEstado
       );
     }
-    console.log(seleccionOwner);
+
+    // console.log(seleccionOwner);
+
     // Si hay un carga seleccionado, filtrar por país
     // if (seleccionOwner !== null && seleccionOwner !== undefined) {
     //   presupuestosFiltrados = presupuestosFiltrados.filter(

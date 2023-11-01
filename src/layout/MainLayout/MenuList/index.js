@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -18,7 +18,13 @@ import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
 
 const MenuList = () => {
 
-    const permisos = useAccessTokenJWT()
+    // const permisos = useAccessTokenJWT();
+    const permisosIniciales = JSON.parse(localStorage.getItem("DisbyteRoll")) || [];
+    const [permisos, setPermisos] = useState(permisosIniciales);
+
+    useEffect(() => {
+    setPermisos(JSON.parse(localStorage.getItem("DisbyteRoll")))
+  },[])
     // console.log(permisos);
     // console.log(menuItem);
     let excludedIds = ['application', 'masterTables']; //aca se almacen el listado que NO mostrar el menu principal(solo se mostrara el home luego depende usuario se vera lo demas)

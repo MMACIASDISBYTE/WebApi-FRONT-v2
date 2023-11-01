@@ -247,7 +247,6 @@ const ProductList = () => {
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
-  console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
     "presupuesto:create",

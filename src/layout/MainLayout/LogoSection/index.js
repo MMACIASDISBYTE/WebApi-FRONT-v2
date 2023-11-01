@@ -5,7 +5,9 @@ import { Link } from '@mui/material';
 
 // project imports
 import { DASHBOARD_PATH } from 'config';
-import LogoDisbyte from '../../../assets/images/disbyte/LogoDisbyte.png'
+import LogoDisbyte from '../../../assets/images/disbyte/LogoDisbyte.png';
+import DOSLogo from '../../../assets/images/disbyte/DOS-AZUL-amarillo.png';
+
 // import Logo from 'ui-component/Logo';
 
 // ==============================|| MAIN LOGO ||============================== //
@@ -13,7 +15,7 @@ import LogoDisbyte from '../../../assets/images/disbyte/LogoDisbyte.png'
 const LogoSection = () => (
     <Link component={RouterLink} to={DASHBOARD_PATH} aria-label="berry logo">
         {/* <Logo /> */}
-        <img width="140" height="52" viewBox="0 0 92 32" fill="none" src={LogoDisbyte}/>
+        <img width="140" height="52" viewBox="0 0 92 32" fill="none" src={DOSLogo}/>
     </Link>
 );
 

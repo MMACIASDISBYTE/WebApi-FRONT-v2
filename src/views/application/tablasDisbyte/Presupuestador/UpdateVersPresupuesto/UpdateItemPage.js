@@ -281,7 +281,6 @@ const UpdateItemPage = ({
     }
 
     setNCMList(updatedList);
-    console.log(NCMList);
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
@@ -331,7 +330,6 @@ const UpdateItemPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
-      console.log("selectedOption :", selectedOption);
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso

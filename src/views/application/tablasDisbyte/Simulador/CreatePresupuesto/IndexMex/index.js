@@ -906,7 +906,7 @@ function CreateInvoice() {
 
     formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
 
-    console.log("CAMBIO CARGA:", formik?.values?.carga_id?.description);
+    // console.log("CAMBIO CARGA:", formik?.values?.carga_id?.description);
 
     formik.setFieldValue(
       "gloc_despachantes",

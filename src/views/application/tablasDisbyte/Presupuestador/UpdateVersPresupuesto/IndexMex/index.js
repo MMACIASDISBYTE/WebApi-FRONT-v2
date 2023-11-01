@@ -1218,7 +1218,7 @@ function CreateInvoice() {
   // to Update row in order details
   const [openUpdate, setOpenUpdate] = useState(false);
   const editProductHandler = (rowUpdate) => {
-    console.log(`El producto seleccionado es el: `, rowUpdate);
+    // console.log(`El producto seleccionado es el: `, rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));
     setOpenUpdate(true);
     SetRowUpdate(rowUpdate);

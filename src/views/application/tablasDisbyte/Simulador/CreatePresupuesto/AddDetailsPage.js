@@ -146,7 +146,7 @@ const AddDetailsPage = ({
         ...product,
       }));
       setProductos(opciones);
-      console.log("productos :", opciones);
+      // console.log("productos :", opciones);
     }
   }, [ProductsDisbyte]);
 
@@ -262,7 +262,7 @@ const AddDetailsPage = ({
         ...item,
       }));
       setNCMList2(opciones);
-      console.log("Opciones NCM :", opciones);
+      // console.log("Opciones NCM :", opciones);
 
     }
 
@@ -316,7 +316,6 @@ const AddDetailsPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
-      console.log("selectedOption :", selectedOption);
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso

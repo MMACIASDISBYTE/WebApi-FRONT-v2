@@ -410,7 +410,7 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.status === seleccionEstado
       );
     }
-    console.log(seleccionOwner);
+    // console.log(seleccionOwner);
     // Si hay un carga seleccionado, filtrar por país
     // if (seleccionOwner !== null && seleccionOwner !== undefined) {
     //   presupuestosFiltrados = presupuestosFiltrados.filter(

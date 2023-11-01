@@ -689,7 +689,6 @@ const ProductList = () => {
       try {
         const dataCarga = await CargaHelper.fetchData();
         setCarga(dataCarga);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }
@@ -700,7 +699,6 @@ const ProductList = () => {
       try {
         const dataCarga = await PolizaHelper.fetchData();
         setPoliza(dataCarga);
-        console.log(Carga);
       } catch (error) {
         console.log("Error en traer data terminal: ", error);
       }

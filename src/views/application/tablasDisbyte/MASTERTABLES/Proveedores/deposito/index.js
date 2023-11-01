@@ -296,7 +296,6 @@ const ProductList = () => {
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    console.log("onactfetch");
   }, [actualizacion]);
 
   const fetchData = async (accessToken) => {

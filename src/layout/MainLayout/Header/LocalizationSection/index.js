@@ -139,6 +139,7 @@ const LocalizationSection = () => {
                                             }
                                         }}
                                     >
+
                                         <ListItemButton selected={language === 'en'} onClick={(event) => handleListItemClick(event, 'en')}>
                                             <ListItemText
                                                 primary={
@@ -151,6 +152,7 @@ const LocalizationSection = () => {
                                                 }
                                             />
                                         </ListItemButton>
+
                                         <ListItemButton selected={language === 'es'} onClick={(event) => handleListItemClick(event, 'es')}>
                                             <ListItemText
                                                 primary={
@@ -163,7 +165,8 @@ const LocalizationSection = () => {
                                                 }
                                             />
                                         </ListItemButton>
-                                        <ListItemButton selected={language === 'fr'} onClick={(event) => handleListItemClick(event, 'fr')}>
+
+                                        {/* <ListItemButton selected={language === 'fr'} onClick={(event) => handleListItemClick(event, 'fr')}>
                                             <ListItemText
                                                 primary={
                                                     <Grid container>
@@ -174,8 +177,9 @@ const LocalizationSection = () => {
                                                     </Grid>
                                                 }
                                             />
-                                        </ListItemButton>
-                                        <ListItemButton selected={language === 'ro'} onClick={(event) => handleListItemClick(event, 'ro')}>
+                                        </ListItemButton> */}
+
+                                        {/* <ListItemButton selected={language === 'ro'} onClick={(event) => handleListItemClick(event, 'ro')}>
                                             <ListItemText
                                                 primary={
                                                     <Grid container>
@@ -186,8 +190,9 @@ const LocalizationSection = () => {
                                                     </Grid>
                                                 }
                                             />
-                                        </ListItemButton>
-                                        <ListItemButton selected={language === 'zh'} onClick={(event) => handleListItemClick(event, 'zh')}>
+                                        </ListItemButton> */}
+
+                                        {/* <ListItemButton selected={language === 'zh'} onClick={(event) => handleListItemClick(event, 'zh')}>
                                             <ListItemText
                                                 primary={
                                                     <Grid container>
@@ -198,7 +203,8 @@ const LocalizationSection = () => {
                                                     </Grid>
                                                 }
                                             />
-                                        </ListItemButton>
+                                        </ListItemButton> */}
+
                                     </List>
                                 )}
                             </Paper>
