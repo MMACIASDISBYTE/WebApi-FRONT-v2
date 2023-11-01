@@ -47,8 +47,7 @@ import AddIcon from "@mui/icons-material/AddTwoTone";
 import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 //importacion del helper fwette
-import { TarifasTerminalHelper } from "../../../../../../helpers/TarifasTerminalHelper";
-import { TarifonMexHelper } from "../../../../../../helpers/TarifonMexHelper";
+import { TarifasMexHelper } from "../../../../../../helpers/TarifasMexHelper";
 import AddTarifario from "../../AddTarifario";
 import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
@@ -57,6 +56,7 @@ import { TerminalHelper } from "helpers/TerminalHelper";
 import { CargaHelper } from "helpers/CargaHelper";
 import { PolizaHelper } from "helpers/PolizaHelper";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
+import { lightBlue, lightGreen } from "@mui/material/colors";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -135,7 +135,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "htimestamp",
+    id: "fecha",
     numeric: 'fecha',
     select: null,
     isRequired: false,
@@ -145,7 +145,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_internacional_40sthq",
+    id: "flete_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -155,7 +155,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_internacional_20ft",
+    id: "flete_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -175,7 +175,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gastosLocales_40sthq",
+    id: "gloc_fwd_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -185,7 +185,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gastosLocales_20ft",
+    id: "gloc_fwd_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -195,7 +195,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal_40sthq",
+    id: "terminal_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -205,7 +205,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal_20ft",
+    id: "terminal_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -215,7 +215,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p40sthq_guad",
+    id: "fleteint_1p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -225,7 +225,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p20ft_guad",
+    id: "fleteint_1p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -235,27 +235,27 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p40sthq_cdmx",
+    id: "fleteint_1p40sthq_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 1*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_1p20ft_cdmx",
+    id: "fleteint_1p20ft_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 1*20FT CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_2p40sthq_guad",
+    id: "fleteint_2p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -265,7 +265,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_2p20ft_guad",
+    id: "fleteint_2p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -275,27 +275,27 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_2p40sthq_cdmx",
+    id: "fleteint_2p40sthq_cdmx",
     numeric: true,
     select: null,
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 2*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_2p20ft_cdmx",
+    id: "fleteint_2p20ft_cdmx",
     numeric: true,
     select: null,
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 2*20FT CDMX",
     align: "Left",
   },
   {
-    id: "descarga_meli_40sthq_guad",
+    id: "descarga_meli_1p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -305,7 +305,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "descarga_meli_20ft_guad",
+    id: "descarga_meli_1p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -315,22 +315,22 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "descarga_meli_40sthq_cdmx",
+    id: "descarga_meli_1p40sthq_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
-    isDisabled: true,
+    isDisabled: false,
     ocultar: false,
     label: "Descarga 40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "descarga_meli_20ft_cdmx",
+    id: "descarga_meli_1p20ft_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Descarga 20FT CDMX",
     align: "Left",
   },
@@ -355,7 +355,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "despa_clasific_oper",
+    id: "despa_clasific",
     numeric: true,
     select: null,
     isRequired: true,
@@ -365,7 +365,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "despa_consult_compl",
+    id: "despa_consult",
     numeric: true,
     select: null,
     isRequired: true,
@@ -552,14 +552,14 @@ const ProductList = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
   const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
-  const [row, setRow] = React.useState(); //estoy almacenando la data fwette
+  const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
   const [actualizacion, SetActualizacion] = React.useState(false);
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    //console.log(rows);
+    console.log(rows);
   }, [actualizacion]);
 
   // traigo data de fwette Y LO ALMACENO EN EL STATE DE setRows
@@ -567,12 +567,12 @@ const ProductList = () => {
   const fetchData = async (accessToken) => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const jsonData = await TarifonMexHelper.fetchData();
+      const jsonData = await TarifasMexHelper.fetchData();
       // const jsonData = await BancoHelper.fetchData(accessToken);
 
       // console.log(jsonData);
       //console.log(jsonDataStatus.status);
-      setRow(jsonData);
+      setRows(jsonData);
       // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
       //setRows(jsonData);
@@ -595,61 +595,42 @@ const ProductList = () => {
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await TarifasTerminalHelper.deleteDataById(id);
+    await TarifasMexHelper.deleteDataById(id);
     // para actualizar el componente
     SetActualizacion(true);
-    console.log(`Tarifa TERMINAL con ID ${id} se ha sido eliminada`);
   };
 
   const handleCreateAPI = async (newData) => {
+
+    console.log(newData)
     
     if(newData.id==undefined)
     {
       newData.id=0;
     }
-    if(newData.description==undefined)
+    if(newData.fleteint_1p40sthq_cdmx==undefined)
     {
-      newData.description="Sin notas";
+      newData.fleteint_1p40sthq_cdmx=0.0; 
     }
-    if(newData.notas==undefined)
+    if(newData.fleteint_1p20ft_cdmx==undefined)
     {
-      newData.notas="Sin notas";
+      newData.fleteint_1p20ft_cdmx=0.0; 
     }
-    if(newData.htimestamp==undefined)
+    if(newData.descarga_meli_1p40sthq_cdmx==undefined)
     {
-      newData.htimestamp= UtilidadesHelper.fechaParaDB();
+      newData.descarga_meli_1p40sthq_cdmx=0.0;
     }
-    if(newData.flete_interno_2p20ft_cdmx==undefined)
+    if(newData.descarga_meli_1p20ft_cdmx==undefined)
     {
-      newData.flete_interno_2p20ft_cdmx=0.0;
-    }
-    if(newData.flete_interno_2p40sthq_cdmx==undefined)
-    {
-      newData.flete_interno_2p40sthq_cdmx=0.0;
-    }
-    if(newData.flete_interno_1p40sthq_cdmx==undefined)
-    {
-      newData.flete_interno_1p40sthq_cdmx=0.0; 
-    }
-    if(newData.flete_interno_1p20ft_cdmx==undefined)
-    {
-      newData.flete_interno_1p20ft_cdmx=0.0; 
-    }
-    if(newData.descarga_meli_20ft_cdmx==undefined)
-    {
-      newData.descarga_meli_20ft_cdmx=0.0;
-    }
-    if(newData.descarga_meli_40sthq_cdmx==undefined)
-    {
-      newData.descarga_meli_40sthq_cdmx=0.0;
+      newData.descarga_meli_1p20ft_cdmx=0.0;
     }
 
-    await TarifonMexHelper.createData(newData);
+    await TarifasMexHelper.createData(newData);
   };
 
   // Función para actualizar la API utilizando
   const handleUpdateAPI = async (id, data) => {
-    await TarifasTerminalHelper.updateDataById(id, data);
+    await TarifasMexHelper.updateDataById(id, data);
   };
 
   // uso metodo Update (que trabaja en el componente hijo)
@@ -767,7 +748,7 @@ const ProductList = () => {
   const classes = useStyles();
 
 
-
+  console.log(rows);  
   return (
     <>
       {
@@ -817,7 +798,7 @@ const ProductList = () => {
                       </Fab>
                     </Tooltip>
                     <AddTarifario
-                      dataRow={row}
+                      dataRow={rows[0]}
                       open={open}
                       handleCloseDialog={handleCloseDialog}
                       handleCreateAPI={handleCreateAPI}
@@ -932,35 +913,29 @@ const ProductList = () => {
                           </TableCell>
                           <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
                             Consultoria Compliance por Oper.
-                          </TableCell>                          
+                          </TableCell>   
+                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
+                            Accion
+                          </TableCell>                      
                         </>
 
                       <TableCell align="right" sx={{ pr: 3 }} />
                     </TableRow>
                   </TableHead>
-                  <TableBody>
-                    {row==undefined? (
-                      <TableRow>
-                        <TableCell>Cargando...</TableCell>
-                      </TableRow>
-                    ) : (
+
+                  
+                    <TableBody>
+                    {rows.map((row, index) => {
+                           return (
+                                                                                   
                         <TableRow
-                          //key={index}
-                          hover
-                          role="checkbox"
-                          sx={{
-                            fontSize: 20,
-                            "&:hover": {
-                              fontStyle: "italic",
-                            },
-                          }}
-                          className={classes.tableCell}
+                         sx={index==0?{backgroundColor:"lightGreen"}:{backgroundColor:"lightgray"}}
                         >
                           <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
                             <Typography align="left" variant="subtitle1">
-                            {row.htimestamp
+                            {row.fecha
                                   ? UtilidadesHelper.formatFecha(
-                                    row.htimestamp
+                                    row.fecha
                                                                 )
                                   : "Sin data"}
                               {/* {row.description} */}
@@ -968,53 +943,52 @@ const ProductList = () => {
                             </Typography>
                           </TableCell>
                           {/* DATOS DE LA VISTA ABREVIADA */}
-                          {
-                            <>
+                          
                               
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_internacional_40sthq.toFixed(2)}
+                                {row.flete_1p40sthq.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_internacional_20ft.toFixed(2)}
+                                {row.flete_1p20ft.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
                                 {row.seguro.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.gastosLocales_40sthq.toFixed(2)}
+                                {row.gloc_fwd_1p40sthq.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.gastosLocales_20ft.toFixed(2)}
+                                {row.gloc_fwd_1p20ft.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_40sthq.toFixed(2)}
+                                {row.terminal_1p40sthq.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_20ft.toFixed(2)}
+                                {row.terminal_1p20ft.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_1p40sthq_guad.toFixed(2)}
+                                {row.fleteint_1p40sthq_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_1p20ft_guad.toFixed(2)}
+                                {row.fleteint_1p20ft_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p40sthq_guad.toFixed(2)}
+                                {row.fleteint_2p40sthq_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p20ft_guad.toFixed(2)}
+                                {row.fleteint_2p20ft_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p40sthq_cdmx.toFixed(2)}
+                                {row.fleteint_2p40sthq_cdmx.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p20ft_cdmx.toFixed(2)}
+                                {row.fleteint_2p20ft_cdmx.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_40sthq_guad.toFixed(2)}
+                                {row.descarga_meli_1p40sthq_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_20ft_guad.toFixed(2)}
+                                {row.descarga_meli_1p20ft_guad.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
                                 {row.despa_fijo.toFixed(2)}
@@ -1023,29 +997,28 @@ const ProductList = () => {
                                 {row.despa_var.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_clasific_oper.toFixed(2)}
+                                {row.despa_clasific.toFixed(2)}
                               </TableCell>
                               <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_consult_compl.toFixed(2)}
+                                {row.despa_consult.toFixed(2)}
                               </TableCell>
-                            </>
-}
 
-                          {/* ICONO DE BORRADO por ahora innecesario */}
-                          {/* <TableCell sx={{ pr: 3 }} align="right">
-                                                        <IconButton
-                                                            color="primary"
-                                                            size="large"
-                                                            aria-label="product delete"
-                                                            onClick={() => deteleDetails(row.id)}
-                                                        >
-                                                            <DeleteTwoToneIcon />
-                                                        </IconButton>
-                                                    </TableCell> */}
-                        </TableRow>
-
-                    )}
-                  </TableBody>
+                              <TableCell align="center">
+                         
+                                <Tooltip title="Delete">
+                                  <IconButton size="large">
+                                    <DeleteIcon
+                                      fontSize="small"
+                                      onClick={() => handleDelete(row.id)}
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              </TableCell>
+                            </TableRow>       
+                    );})}
+                    </TableBody>
+                   
+                 
                 </Table>
               </TableContainer>
             </Grid>

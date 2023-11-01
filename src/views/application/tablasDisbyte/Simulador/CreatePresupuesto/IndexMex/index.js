@@ -894,28 +894,40 @@ function CreateInvoice() {
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
 
+
+
+  // Logica para decidir que valores van a los GLOC. Si el valor del JSON difiere del proviniente del tarifon,
+  // el mismo tiene prioridad y entonces se ingresa a fromik. Caso contrario se usan los del tarifon. 
   useEffect(() => {
-    // Los valores que son 2x cuando la carga es doble y que siquiera existen en el XCEL real y los ingresan a mano.
-    // Si la carga contiene "2*" es por que es una doble. El unico gasto que tiene definicion en cargas dobles es el flete
-    // interno. Lo demas no tiene nada. Los hago con este if.
 
-    formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo);
-    formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal);
-    formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd);
-    formik.setFieldValue("freight_cost", gastoLocal?.freight_charge);
+    formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
 
-    formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno);
 
-    console.log("CAMBIO CARGA:", formik?.values?.carga_id?.description);
-
-    formik.setFieldValue(
-      "gloc_despachantes",
-      CalculoDespachanteMex(formik?.values?.cif_grand_total)
-    );
+    if(gastoLocal?.freight_charge==undefined)
+    {
+      formik.setFieldValue("gloc_descarga", "");
+      formik.setFieldValue("gloc_terminales", "");
+      formik.setFieldValue("gloc_fwd", "Aguarde ...");
+      formik.setFieldValue("freight_cost", "");
+      formik.setFieldValue("gloc_flete", "");
+      formik.setFieldValue("gloc_despachantes","");
+      formik.setFieldValue("gloc_despachantes")
+      formik.setFieldValue("freight_insurance_cost","")
+    }
+    else
+    {
+      formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2)); 
+      formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
+      formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
+      formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
+      formik.setFieldValue("freight_cost", gastoLocal?.freight_charge?.toFixed(2));
+    }  
 
     // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
 
+    //console.log(formik.values);
   }, [gastoLocal]);
+
 
   function handleTextClick() {
     const inputElement = document.getElementById("carga_id");
@@ -1372,6 +1384,7 @@ function CreateInvoice() {
                       data={input.data}
                       dataType={input.dataType}
                       formik={formik}
+
                       Xs_Xd={input.Xs_Xd}
                       blockDeGastos={input.blockDeGastos}
                       onSwitchChange={(newState) =>
@@ -1381,6 +1394,7 @@ function CreateInvoice() {
                       ValorSwitch={input.ValorSwitch}
                       ValorSwitchBase={input.ValorSwitchBase}
                       arrPosition={input.arrPosition}
+                      gastoLocal={gastoLocal}
                     />
                   ))}
                 </>
