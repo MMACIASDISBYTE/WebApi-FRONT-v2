@@ -2,18 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Grid,
   Stack,
-  Select,
-  MenuItem,
   FormHelperText,
   TextField,
-  Switch,
   InputAdornment,
-  Tooltip,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import { useTheme } from "@mui/material/styles";
-import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 export const ExtraCostoDobleClick = ({
@@ -21,16 +16,9 @@ export const ExtraCostoDobleClick = ({
   name,
   em,
   inputLabel,
-  data = 0,
   dataType,
   formik,
   Xs_Xd,
-  blockDeGastos = false,
-  ValorSwitch = false,
-  ValorSwitchBase,
-  arrPosition = null,
-  handleSwitchChangeInIndex,
-  resaltar,
   gastoLocal,
 }) => {
   const theme = useTheme();
@@ -67,21 +55,52 @@ export const ExtraCostoDobleClick = ({
     },
   });
 
-  let colorEnabled ="" 
-  let colorDisabled=""
-  
-  // Configuro el color del texto activo e inactivo segun el valor del flag resaltar
-  if(resaltar)
+  let colorEnabled = "";
+  let colorDisabled = "";
+
+  // Logica de resaltado de valor diferente
+  // El componente recibe tanto los gastos locales (desde el tarifon) como los de Formik.
+  // Cuando llega el JSON, los gastos locales del mismo se comparan contra los procedentes del tarifon.
+  // Si hay diferencia, dicho valor tiene prioridad y se guarda en el formik. Si no hay diferencia, se deja como esta
+  // Dado que el componente analiza la diferencia entre formik y tarifon simplifica la logica de resaltado a un solo lugar
+  /*if ( id == "gloc_fwd" && parseFloat(formik?.values?.gloc_fwd).toFixed(2) != gastoLocal?.gloc_fwd?.toFixed(2)) 
   {
-    colorEnabled="red";
-    colorDisabled="darksalmon";
-  }
-  else
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } 
+  else if
+  (
+    id == "gloc_terminales" &&
+    parseFloat(formik?.values?.gloc_terminales).toFixed(2) !=
+    gastoLocal?.gasto_terminal?.toFixed(2)
+  ) 
   {
-    colorEnabled="black";
-    colorDisabled="grey";
-  }
-  
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } 
+  else if (id == "gloc_descarga" && parseFloat(formik?.values?.gloc_descarga).toFixed(2) != gastoLocal?.gasto_descarga_depo?.toFixed(2)) 
+  {
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } 
+  else if ( id == "gloc_flete" && parseFloat(formik?.values?.gloc_flete).toFixed(2) != gastoLocal?.flete_interno?.toFixed(2)) 
+  {
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } 
+  else if ( id == "freight_cost" && parseFloat(formik?.values?.freight_cost).toFixed(2) != gastoLocal?.freight_charge?.toFixed(2)) 
+  {
+    colorEnabled = "red";
+    colorDisabled = "darksalmon";
+  } 
+  else 
+  {
+    colorEnabled = "black";
+    colorDisabled = "grey";
+  }*/
+
+  let myid = id;
+
   const classes = useStyles();
 
   // Estado local para el valor formateado mostrado en el INPUT NUMERICO CON TOFIXED
@@ -110,11 +129,10 @@ export const ExtraCostoDobleClick = ({
     }
   };
 
-
   const transformarValor = (event) => {
-    let valor = parseFloat(event)
+    let valor = parseFloat(event);
     return valor;
-  }
+  };
   // console.log("Resaltar",id,resaltar,colorEnabled,colorDisabled);
 
   const focusElement = (inputField) => {
@@ -122,13 +140,32 @@ export const ExtraCostoDobleClick = ({
     if (inputElement) {
       inputElement.focus();
     }
-  }
+  };
+
+  //declaro las no obligatorias
+  const NoObligatorias = [
+    'project',
+    'extrag_src1',
+    'extrag_src2',
+    'extrag_src_notas',
+    'extrag_comex1',
+    'extrag_comex2',
+    'extrag_comex3',
+    'extrag_comex_notas',
+    'extrag_finan1',
+    'extrag_finan2',
+    'extrag_finan3',
+    'extrag_finan4',
+    'extrag_finan5',
+    'extrag_finan_notas',
+    'embarque',
+  ];
 
   return (
     <>
       <Grid item xs={Xs_Xd[0]} md={Xs_Xd[1]} align="left">
         <Stack>
-          <InputLabel required>{inputLabel}</InputLabel>
+          <InputLabel required={!NoObligatorias.includes(name)}>{inputLabel}</InputLabel>
           {dataType == "string" ? (
             <TextField
               id={id}
@@ -149,45 +186,52 @@ export const ExtraCostoDobleClick = ({
               onChange={formik.handleChange}
               fullWidth
               placeholder={em}
+              inputProps={{
+                style: { textAlign: "right", color: colorEnabled },
+              }}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: colorDisabled,
+                },
+              }}
             />
           ) : (
             <Grid item align="left">
               {/* <Tooltip title={textDeTooltip}> */}
-                <TextField
-                  id={id}
-                  name={name}
-                  type="string"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    ),
-                    style: { textAlign: "right" },
-                    // classes: { input: classes.input }, // aplicar la clase al input interno
-                  }}
-                  value={displayValue} // Usamos el valor formateado
-                  onBlur={handleBlur} // Actualiza formik en el evento onBlur
-                  onChange={handleChangeDisplayValue} // Cambia solo el valor mostrado
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                  fullWidth
-                  placeholder={em}
-                 
-                  inputProps={{
-                    style: { textAlign: "right", color: colorEnabled},
-                  }}
 
-                  sx={{
-                    "& .MuiInputBase-input.Mui-disabled": {
-                      WebkitTextFillColor: colorDisabled,
-                    },
-                  }}
-                  onDoubleClick={(event) => {
-                    // setDobleClick(!dobleClick); //para bloquear el campo
-                    focusElement(name);
-                    TextTooltip();
-                  }}
-                  disabled={dobleClick}
-                />
+              <TextField
+                id={id}
+                name={name}
+                type="string"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                  style: { textAlign: "right" },
+                  // classes: { input: classes.input }, // aplicar la clase al input interno
+                }}
+                value={displayValue} // Usamos el valor formateado
+                onBlur={handleBlur} // Actualiza formik en el evento onBlur
+                onChange={handleChangeDisplayValue} // Cambia solo el valor mostrado
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+                fullWidth
+                placeholder={em}
+                inputProps={{
+                  style: { textAlign: "right", color: colorEnabled },
+                }}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: colorDisabled,
+                  },
+                }}
+                onDoubleClick={(event) => {
+                  // setDobleClick(!dobleClick); //para bloquear el campo
+                  focusElement(name);
+                  TextTooltip();
+                }}
+                disabled={dobleClick}
+              />
               {/* </Tooltip> */}
             </Grid>
           )}

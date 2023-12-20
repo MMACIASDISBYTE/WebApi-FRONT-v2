@@ -557,7 +557,7 @@ function AddItemPage({ handleAddItem, setAddItemClicked, dataHelp, formik = null
     }
 
     // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku.trim()) {
+    if (!selectedItem?.exw_u || !selectedItem?.exw_u.trim()) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }

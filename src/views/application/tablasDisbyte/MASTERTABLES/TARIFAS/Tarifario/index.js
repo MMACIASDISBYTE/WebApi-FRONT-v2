@@ -1,20 +1,15 @@
-// LISTED 5_10_2023 17:51PM 
+// LISTED 5_10_2023 17:51PM
 import PropTypes from "prop-types";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import {MenuItem,Divider} from "@mui/material";
 import * as React from "react";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
+  Button,
   CardContent,
-  Fab,
   Grid,
   IconButton,
-  InputAdornment,
   Table,
   TableBody,
   TableCell,
@@ -23,7 +18,6 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -32,31 +26,20 @@ import { visuallyHidden } from "@mui/utils";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
-import { CircularProgress, makeStyles } from "@material-ui/core";
-import SubCard from "ui-component/cards/SubCard";
+import { makeStyles } from "@material-ui/core";
 
 //importamos el useNavigate para manejar navegaciones y redireccciones
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // assets
-import SaveIcon from "@mui/icons-material/Save"; // SE IMPORTA ICONO DE SAVE
-import EditIcon from "@mui/icons-material/Edit"; // SE IMPORTA ICONO DE EDIT
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/AddTwoTone";
-import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 //importacion del helper fwette
-import { TarifasTerminalHelper } from "../../../../../../helpers/TarifasTerminalHelper";
-import { TarifonMexHelper } from "../../../../../../helpers/TarifonMexHelper";
+import { TarifasMexHelper } from "../../../../../../helpers/TarifasMexHelper";
 import AddTarifario from "../../AddTarifario";
-import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import { PaisRegionHelper } from "helpers/PaisRegionHelper";
-import { TerminalHelper } from "helpers/TerminalHelper";
-import { CargaHelper } from "helpers/CargaHelper";
-import { PolizaHelper } from "helpers/PolizaHelper";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
+import AnimateButton from "ui-component/extended/AnimateButton";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -83,10 +66,6 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
-
-
-
-
 
 /*public class TarifonMex
 {
@@ -118,10 +97,6 @@ function stableSort(array, comparator) {
     public DateTime htimestamp{get;set;}
 }*/
 
-
-
-
-
 // table header options/ATRIBUTOS DEL MODELO, tambien este arr le da la caracteristica al formulario tanto de AddIetm como CompUpdate
 const headCells = [
   {
@@ -135,8 +110,8 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "htimestamp",
-    numeric: 'fecha',
+    id: "fecha",
+    numeric: "fecha",
     select: null,
     isRequired: false,
     isDisabled: true,
@@ -145,7 +120,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_internacional_40sthq",
+    id: "flete_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -155,7 +130,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_internacional_20ft",
+    id: "flete_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -175,7 +150,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gastosLocales_40sthq",
+    id: "gloc_fwd_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -185,7 +160,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "gastosLocales_20ft",
+    id: "gloc_fwd_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -195,7 +170,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal_40sthq",
+    id: "terminal_1p40sthq",
     numeric: true,
     select: null,
     isRequired: true,
@@ -205,7 +180,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "terminal_20ft",
+    id: "terminal_1p20ft",
     numeric: true,
     select: null,
     isRequired: true,
@@ -215,7 +190,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p40sthq_guad",
+    id: "fleteint_1p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -225,7 +200,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p20ft_guad",
+    id: "fleteint_1p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -235,27 +210,27 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_1p40sthq_cdmx",
+    id: "fleteint_1p40sthq_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 1*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_1p20ft_cdmx",
+    id: "fleteint_1p20ft_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 1*20FT CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_2p40sthq_guad",
+    id: "fleteint_2p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -265,7 +240,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_2p20ft_guad",
+    id: "fleteint_2p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -275,27 +250,27 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "flete_interno_2p40sthq_cdmx",
+    id: "fleteint_2p40sthq_cdmx",
     numeric: true,
     select: null,
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 2*40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "flete_interno_2p20ft_cdmx",
+    id: "fleteint_2p20ft_cdmx",
     numeric: true,
     select: null,
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Flete Interno 2*20FT CDMX",
     align: "Left",
   },
   {
-    id: "descarga_meli_40sthq_guad",
+    id: "descarga_meli_1p40sthq_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -305,7 +280,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "descarga_meli_20ft_guad",
+    id: "descarga_meli_1p20ft_guad",
     numeric: true,
     select: null,
     isRequired: true,
@@ -315,22 +290,22 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "descarga_meli_40sthq_cdmx",
+    id: "descarga_meli_1p40sthq_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
-    isDisabled: true,
+    isDisabled: false,
     ocultar: false,
     label: "Descarga 40HQ/STD CDMX",
     align: "Left",
   },
   {
-    id: "descarga_meli_20ft_cdmx",
+    id: "descarga_meli_1p20ft_cdmx",
     numeric: true,
     select: null,
     isRequired: false,
     isDisabled: false,
-    ocultar: true,
+    ocultar: false,
     label: "Descarga 20FT CDMX",
     align: "Left",
   },
@@ -355,7 +330,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "despa_clasific_oper",
+    id: "despa_clasific",
     numeric: true,
     select: null,
     isRequired: true,
@@ -365,7 +340,7 @@ const headCells = [
     align: "Left",
   },
   {
-    id: "despa_consult_compl",
+    id: "despa_consult",
     numeric: true,
     select: null,
     isRequired: true,
@@ -389,22 +364,18 @@ const headCells = [
 // ==============================|| TABLE HEADER ||============================== //
 
 function EnhancedTableHead({
-  onSelectAllClick,
   order,
   orderBy,
   numSelected,
-  rowCount,
   onRequestSort,
   theme,
-  selected,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id","terminal_id","carga_id","paisregion_id"];;
-
+  const excludedColumns = ["id", "terminal_id", "carga_id", "paisregion_id"];
   return (
     <TableHead>
       <TableRow>
@@ -503,11 +474,12 @@ EnhancedTableToolbar.propTypes = {
 
 const ProductList = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
+  // const theme = useTheme();
   const TableName = "Tarifas Mexico";
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
+  // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
     "presupuesto:create",
@@ -531,7 +503,7 @@ const ProductList = () => {
 
   // show a right sidebar when clicked on new product
   const [open, setOpen] = React.useState(false);
-  const [openUpdate, setOpenUpdate] = React.useState(false);
+  // const [openUpdate, setOpenUpdate] = React.useState(false);
 
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -540,26 +512,25 @@ const ProductList = () => {
     setOpen(false);
     SetActualizacion(true);
   };
-  const handleCloseDialogUpdate = () => {
-    setOpenUpdate(false);
-    SetActualizacion(true);
-  };
+  // const handleCloseDialogUpdate = () => {
+  //   setOpenUpdate(false);
+  //   SetActualizacion(true);
+  // };
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [search, setSearch] = React.useState("");
-  const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
-  const [row, setRow] = React.useState(); //estoy almacenando la data fwette
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  // const [search, setSearch] = React.useState("");
+  // const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
+  const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
   const [actualizacion, SetActualizacion] = React.useState(false);
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    //console.log(rows);
   }, [actualizacion]);
 
   // traigo data de fwette Y LO ALMACENO EN EL STATE DE setRows
@@ -567,12 +538,12 @@ const ProductList = () => {
   const fetchData = async (accessToken) => {
     try {
       //traigo 2 parametros del helper, uno es la data y el otro es el response crudo de la api para manejar los redirect
-      const jsonData = await TarifonMexHelper.fetchData();
+      const jsonData = await TarifasMexHelper.fetchData();
       // const jsonData = await BancoHelper.fetchData(accessToken);
 
       // console.log(jsonData);
       //console.log(jsonDataStatus.status);
-      setRow(jsonData);
+      setRows(jsonData);
       // console.log(accessToken);
       // console.log('Data del json: ', jsonData)
       //setRows(jsonData);
@@ -595,116 +566,43 @@ const ProductList = () => {
   // AQUI ELEMINO ELEMENTOS
   const handleDelete = async (id) => {
     // Aquí debes implementar la lógica para eliminar los productos seleccionados
-    await TarifasTerminalHelper.deleteDataById(id);
+    await TarifasMexHelper.deleteDataById(id);
     // para actualizar el componente
     SetActualizacion(true);
-    console.log(`Tarifa TERMINAL con ID ${id} se ha sido eliminada`);
   };
 
   const handleCreateAPI = async (newData) => {
-    
-    if(newData.id==undefined)
-    {
-      newData.id=0;
+    console.log(newData);
+
+    if (newData.id == undefined) {
+      newData.id = 0;
     }
-    if(newData.description==undefined)
-    {
-      newData.description="Sin notas";
+    if (newData.fleteint_1p40sthq_cdmx == undefined) {
+      newData.fleteint_1p40sthq_cdmx = 0.0;
     }
-    if(newData.notas==undefined)
-    {
-      newData.notas="Sin notas";
+    if (newData.fleteint_1p20ft_cdmx == undefined) {
+      newData.fleteint_1p20ft_cdmx = 0.0;
     }
-    if(newData.htimestamp==undefined)
-    {
-      newData.htimestamp= UtilidadesHelper.fechaParaDB();
+    if (newData.descarga_meli_1p40sthq_cdmx == undefined) {
+      newData.descarga_meli_1p40sthq_cdmx = 0.0;
     }
-    if(newData.flete_interno_2p20ft_cdmx==undefined)
-    {
-      newData.flete_interno_2p20ft_cdmx=0.0;
-    }
-    if(newData.flete_interno_2p40sthq_cdmx==undefined)
-    {
-      newData.flete_interno_2p40sthq_cdmx=0.0;
-    }
-    if(newData.flete_interno_1p40sthq_cdmx==undefined)
-    {
-      newData.flete_interno_1p40sthq_cdmx=0.0; 
-    }
-    if(newData.flete_interno_1p20ft_cdmx==undefined)
-    {
-      newData.flete_interno_1p20ft_cdmx=0.0; 
-    }
-    if(newData.descarga_meli_20ft_cdmx==undefined)
-    {
-      newData.descarga_meli_20ft_cdmx=0.0;
-    }
-    if(newData.descarga_meli_40sthq_cdmx==undefined)
-    {
-      newData.descarga_meli_40sthq_cdmx=0.0;
+    if (newData.descarga_meli_1p20ft_cdmx == undefined) {
+      newData.descarga_meli_1p20ft_cdmx = 0.0;
     }
 
-    await TarifonMexHelper.createData(newData);
+    await TarifasMexHelper.createData(newData);
   };
 
   // Función para actualizar la API utilizando
-  const handleUpdateAPI = async (id, data) => {
-    await TarifasTerminalHelper.updateDataById(id, data);
-  };
+  // const handleUpdateAPI = async (id, data) => {
+  //   await TarifasMexHelper.updateDataById(id, data);
+  // };
 
   // uso metodo Update (que trabaja en el componente hijo)
-  const handleEdit = async (row) => {
-    setSelectedRow(row);
-    setOpenUpdate(true);
-  };
-
-  // almacena data para los SELECT de paisRegion, Poliza, terminales y carga
-  const [paisRegion, setPaisRegion] = React.useState([]);
-  const [Carga, setCarga] = React.useState([]);
-  const [Poliza, setPoliza] = React.useState([]);
-  const [Terminales, setTerminales] = React.useState([]);
-  React.useEffect(() => {
-    //consulta tabla pais para enviar al componente
-    const fetchDataPais = async () => {
-      try {
-        const dataPais = await PaisRegionHelper.fetchData();
-        setPaisRegion(dataPais);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchDataPais();
-
-    const FetchDataTerminales = async () => {
-      try {
-        const dataTerminal = await TerminalHelper.fetchData();
-        setTerminales(dataTerminal);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataTerminales();
-
-    const FetchDataCarga = async () => {
-      try {
-        const dataCarga = await CargaHelper.fetchData();
-        setCarga(dataCarga);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataCarga();
-
-    const FetchDataPoliza = async () => {
-      try {
-        const dataCarga = await PolizaHelper.fetchData();
-        setPoliza(dataCarga);
-      } catch (error) {
-        console.log("Error en traer data terminal: ", error);
-      }
-    };
-    FetchDataPoliza();
-  }, []);
+  // const handleEdit = async (row) => {
+  //   setSelectedRow(row);
+  //   setOpenUpdate(true);
+  // };
 
   /*const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -785,12 +683,12 @@ const ProductList = () => {
     setPage(0);
   };
 
-  /*const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    //estado inicial de pais a filtrar
-    const [paisSelect,setPaisSelect]=React.useState({
+  //estado inicial de pais a filtrar
+  /* const [paisSelect,setPaisSelect]=React.useState({
       "id": 5,
       "description": "MEXICO",
       "region": "CDMX",
@@ -798,26 +696,175 @@ const ProductList = () => {
       "puerto": "DF"
   }); */
 
-
-
   const useStyles = makeStyles({
     tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)",  // Color y grosor del borde 
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
       //whiteSpace: 'nowrap',
     },
+    tableCell2: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      padding: "1px 1px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      // fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 120,
+      // paddingLeft: 40,
+      margin: "-5px",
+    },
+    tableCellCabecera: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "#2196f3",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      padding: "5px 5px", // Ajuste del padding según necesidad
+      lineHeight: "2", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 100,
+      maxHeight: 3,
+    },
+    tableCellUltimaTarifa: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "lightGreen",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft: 40,
+    },
+    tableCellTarifaAnterior: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "lightgray",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft: 40,
+    },
     lastCell: {
-      borderRight: "none"
+      borderRight: "none",
     },
   });
 
   const classes = useStyles();
+  const headCellsCabecera = [
+    {
+      aling: "center",
+      Label: "Fecha",
+      atributoRow: 'fecha',
+    },
+    {
+      aling: "left",
+      Label: "Flete 4HQ/STD",
+      atributoRow: 'flete_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Flete 20FT",
+      atributoRow: 'flete_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Seguro Var. (segun FOB)",
+      atributoRow: 'seguro',
+    },
+    {
+      aling: "left",
+      Label: "Gastos Locales FWD 40HQ/STD",
+      atributoRow: 'gloc_fwd_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Gastos Locales FWD 20FT",
+      atributoRow: 'gloc_fwd_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Terminal 40HQ/STD",
+      atributoRow: 'terminal_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Terminal 20FT",
+      atributoRow: 'terminal_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 1*40HQ/STD GUAD",
+      atributoRow: 'fleteint_1p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 1*20FT GUAD",
+      atributoRow: 'fleteint_1p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*40HQ/STD GUAD",
+      atributoRow: 'fleteint_2p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*20FT GUAD",
+      atributoRow: 'fleteint_2p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*40HQ/STD CDMX",
+      atributoRow: 'fleteint_2p40sthq_cdmx',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*20FT/STD CDMX",
+      atributoRow: 'fleteint_2p20ft_cdmx',
+    },
+    {
+      aling: "left",
+      Label: "Descarga MELI GUAD 40HQ/STD",
+      atributoRow: 'descarga_meli_1p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Descarga MELI GUAD 20FT",
+      atributoRow: 'descarga_meli_1p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Despachante Cargo Fijo por Oper.",
+      atributoRow: 'despa_fijo',
+    },
+    {
+      aling: "left",
+      Label: "Despachante Variable Segun CIF",
+      atributoRow: 'despa_var',
+    },
+    {
+      aling: "left",
+      Label: "Clasificacion por Oper.",
+      atributoRow: 'despa_clasific',
+    },
+    {
+      aling: "left",
+      Label: "Consultoria Compliance por Oper.",
+      atributoRow: 'despa_consult',
+    },
+    {
+      aling: "left",
+      Label: "Accion",
+      atributoRow: null,
+    },
+  ];
 
-
-
+  // console.log(rows);
   return (
     <>
       {
-        <MainCard title={`Maestro ${TableName} - [USD]`}content={false}>
+        <MainCard title={`Maestro ${TableName} - [USD]`} content={false}>
           <CardContent>
             <Grid
               container
@@ -827,7 +874,7 @@ const ProductList = () => {
             >
               {/* BOTON DE SEARCH */}
               <Grid item xs={12} sm={6}>
-                <TextField
+                {/* <TextField
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -839,14 +886,32 @@ const ProductList = () => {
                   placeholder={`Buscar en ${TableName}`}
                   value={search}
                   size="small"
-                />
+                /> */}
               </Grid>
 
               <Grid item xs={12} sm={6} sx={{ textAlign: "right" }}>
                 {/* add & dialog */}
                 {AddOK && (
                   <>
-                    <Tooltip title="Add item">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                        top: "-55px", // Posición desde la parte superior del contenedor
+                        right: "50px", // Posición desde la derecha del contenedor
+                        margin: "-25px",
+                      }}
+                    >
+                      <AnimateButton>
+                        <Button
+                          variant="contained"
+                          onClick={handleClickOpenDialog}
+                        >
+                          Agregar Nueva Tarifa
+                        </Button>
+                      </AnimateButton>
+                      {/* <Tooltip title="Add item">
                       <Fab
                         color="primary"
                         size="small"
@@ -861,26 +926,24 @@ const ProductList = () => {
                       >
                         <AddIcon fontSize="small" />
                       </Fab>
-                    </Tooltip>
-                    <AddTarifario
-                      dataRow={row}
-                      open={open}
-                      handleCloseDialog={handleCloseDialog}
-                      handleCreateAPI={handleCreateAPI}
-                      TableName={TableName}
-                      headCells={headCells}
-                      dataSelectPais={paisRegion}
-                      dataTerminales={Terminales}
-                      dataCarga={Carga}
-                      dataPoliza={Poliza}
-                    />
+                    </Tooltip> */}
+                      <AddTarifario
+                        dataRow={rows[0]}
+                        open={open}
+                        handleCloseDialog={handleCloseDialog}
+                        handleCreateAPI={handleCreateAPI}
+                        TableName={TableName}
+                        headCells={headCells}
+                        dataSelectPais={""}
+                        dataTerminales={""}
+                        dataCarga={""}
+                        dataPoliza={""}
+                      />
+                    </div>
                   </>
                 )}
               </Grid>
             </Grid>
-            <Typography>
-                <br/>
-            </Typography>
 
             {/* SELECT REGION */}
             {/* <Box sx={{ minWidth: 120} }>
@@ -905,198 +968,98 @@ const ProductList = () => {
                           </Select>
                     </FormControl>
                   </Box> */}
-
           </CardContent>
 
           {/* table */}
-          <Grid container spacing={3}>
+          <Grid container spacing={3} sx={{margin:'2px', marginTop:'-20px'}}>
             <Grid item xs={12}>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      {/*VISTA ABREVIADA*/}
-                      
-                        <>
-                          <TableCell align="center"
-                            sx={{ minWidth: 120, backgroundColor: '#2196f3' }}
-                          className={classes.tableCell}>
-                            Fecha
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/  backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete 4HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Seguro Var. (segun FOB)
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Gastos Locales FWD 40HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Gastos Locales FWD 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minwidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Terminal 40HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:110,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Terminal 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 1*40HQ/STD GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 1*20FT GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*40HQ/STD GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*20FT GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*40HQ/STD CDMX
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*20FT/STD CDMX
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Descarga MELI GUAD 40HQ/STD
-                          </TableCell><TableCell align="right" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Descarga MELI GUAD 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:120,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Despachante Cargo Fijo por Oper. 
-                          </TableCell>
-                          <TableCell align="center" sx={{ mindWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Despachante Variable Segun CIF
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Clasificacion por Oper.
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Consultoria Compliance por Oper.
-                          </TableCell>                          
-                        </>
+                      {/* ITEMS DE CABECERA */}
+                      <>
+                        {headCellsCabecera.map((item) => (
+                          <Tooltip title={item.Label}>
+                            <TableCell
+                              align="center"
+                              className={classes.tableCellCabecera}
+                            >
+                              {item.Label}
+                            </TableCell>
+                          </Tooltip>
+                        ))}
+                      </>
 
                       <TableCell align="right" sx={{ pr: 3 }} />
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
-                    {row==undefined? (
-                      <TableRow>
-                        <TableCell>Cargando...</TableCell>
-                      </TableRow>
-                    ) : (
-                        <TableRow
-                          //key={index}
-                          hover
-                          role="checkbox"
-                          sx={{
-                            fontSize: 20,
-                            "&:hover": {
-                              fontStyle: "italic",
-                            },
-                          }}
-                          className={classes.tableCell}
-                        >
-                          <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
-                            <Typography align="left" variant="subtitle1">
-                            {row.htimestamp
-                                  ? UtilidadesHelper.formatFecha(
-                                    row.htimestamp
-                                                                )
+                    {rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        return (
+                          <TableRow
+                            className={
+                              index === 0
+                                ? classes.tableCellUltimaTarifa
+                                : classes.tableCellTarifaAnterior
+                            } //maneja indice
+                          >
+                            <TableCell className={classes.tableCell2}>
+                              <Typography align="center" variant="subtitle1">
+                                {row.fecha
+                                  ? UtilidadesHelper.formatFecha(row.fecha)
                                   : "Sin data"}
-                              {/* {row.description} */}
-                              {/* {console.log(row)} */}
-                            </Typography>
-                          </TableCell>
-                          {/* DATOS DE LA VISTA ABREVIADA */}
-                          {
-                            <>
-                              
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_internacional_40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_internacional_20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.seguro.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.gastosLocales_40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.gastosLocales_20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_1p40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_1p20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p40sthq_cdmx.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_interno_2p20ft_cdmx.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_fijo.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_var.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_clasific_oper.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_consult_compl.toFixed(2)}
-                              </TableCell>
-                            </>
-}
+                                {/* {row.description} */}
+                                {/* {console.log(row)} */}
+                              </Typography>
+                            </TableCell>
+                            {/* DATOS DE LA VISTA ABREVIADA */}
 
-                          {/* ICONO DE BORRADO por ahora innecesario */}
-                          {/* <TableCell sx={{ pr: 3 }} align="right">
-                                                        <IconButton
-                                                            color="primary"
-                                                            size="large"
-                                                            aria-label="product delete"
-                                                            onClick={() => deteleDetails(row.id)}
-                                                        >
-                                                            <DeleteTwoToneIcon />
-                                                        </IconButton>
-                                                    </TableCell> */}
-                        </TableRow>
+                              {/* MAPEO DE LOS ELEMENTOS DEL BODY DE LA TABLA */}
+                            {
+                              headCellsCabecera
+                              .filter(item => item.atributoRow !== 'fecha' && item.atributoRow !== null)
+                              .map( (item) => (
+                                <TableCell
+                                  align="right"
+                                  className={classes.tableCell2}
+                                >
+                                  {row[item.atributoRow] ? row[item.atributoRow].toFixed(2) : (0).toFixed(2)}
+                                </TableCell>
+                              ))
+                            }
 
-                    )}
+                            <TableCell
+                              align="center"
+                              className={classes.tableCell2}
+                            >
+                              {index === 0 && EditOK ? (
+                                <Tooltip title="Delete">
+                                  <IconButton size="large">
+                                    <DeleteIcon
+                                      fontSize="small"
+                                      onClick={() => handleDelete(row.id)}
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              ) : null}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </TableBody>
+                  
                 </Table>
               </TableContainer>
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <SubCard
                 sx={{
                   mx: 3,
@@ -1106,13 +1069,19 @@ const ProductList = () => {
                       ? theme.palette.dark.main
                       : theme.palette.primary.light,
                 }}
-              >
-                
-              </SubCard>
-            </Grid>
+              ></SubCard>
+            </Grid> */}
+            {/* table pagination */}
           </Grid>
-
-          
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </MainCard>
       }
     </>

@@ -497,7 +497,6 @@ function AddItemPageUpdate({
   //   pcsctn: item.pcsctn,
   // }));
 
-  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
 
   useEffect(() => {
@@ -599,7 +598,7 @@ function AddItemPageUpdate({
     }
 
     // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku.trim()) {
+    if (!selectedItem?.exw_u || !selectedItem?.exw_u.trim()) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }

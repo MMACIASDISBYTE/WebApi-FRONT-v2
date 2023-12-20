@@ -18,29 +18,30 @@ import { useAccessTokenJWT } from 'helpers/useAccessTokenJWT';
 
 const MenuList = () => {
 
-    // const permisos = useAccessTokenJWT();
-    const permisosIniciales = JSON.parse(localStorage.getItem("DisbyteRoll")) || [];
-    const [permisos, setPermisos] = useState(permisosIniciales);
-
+    // const permisos = useAccessTokenJWT() || 'Operario';
+    const permisosAuth = useAccessTokenJWT();
+    const [permisos, setPermisos] = useState('Operario');
     useEffect(() => {
-    setPermisos(JSON.parse(localStorage.getItem("DisbyteRoll")))
-  },[])
-    // console.log(permisos);
+        setPermisos(permisosAuth);
+    }, [])
+    
     // console.log(menuItem);
-    let excludedIds = ['application', 'masterTables']; //aca se almacen el listado que NO mostrar el menu principal(solo se mostrara el home luego depende usuario se vera lo demas)
+    // let excludedIds = ['application', 'masterTables']; //aca se almacen el listado que NO mostrar el menu principal(solo se mostrara el home luego depende usuario se vera lo demas)
+    let excludedIds = ['', '']; //aca se almacen el listado que NO mostrar el menu principal(solo se mostrara el home luego depende usuario se vera lo demas)
+
     let cargoJerarquico = ["CEO", "Gerencia", "Lider"];
 
     //LOGICA DE PERMISOS EN RAMA PRINCIPAL DE NAVEGACION 
-    if(permisos.includes('presupuesto:read')){ //aqui consultamos por permisos si tiene X permiso entonces se hace la excepcion del ARR de excluidos para podes mostrarlo
-        const itemsToRemove = ["application"];
-        excludedIds = excludedIds.filter(item => !itemsToRemove.includes(item));
-        // console.log(excludedIds)
-    }
-    if(cargoJerarquico.some(permiso => permisos.includes(permiso))){ //aqui cunsulto si tiene roll o persmiso de cargo gerarquico para ver las tablas maestras
-        const itemsToRemove = ["masterTables"];
-        excludedIds = excludedIds.filter(item => !itemsToRemove.includes(item));
-        // console.log(excludedIds)
-    }
+    // if(permisos.includes('presupuesto:read')){ //aqui consultamos por permisos si tiene X permiso entonces se hace la excepcion del ARR de excluidos para podes mostrarlo
+    //     const itemsToRemove = ["application"];
+    //     excludedIds = excludedIds.filter(item => !itemsToRemove.includes(item));
+    //     // console.log(excludedIds)
+    // }
+    // if(cargoJerarquico.some(permiso => permisos.includes(permiso))){ //aqui cunsulto si tiene roll o persmiso de cargo gerarquico para ver las tablas maestras
+    //     const itemsToRemove = ["masterTables"];
+    //     excludedIds = excludedIds.filter(item => !itemsToRemove.includes(item));
+    //     // console.log(excludedIds)
+    // }
 
     menuItem.items = menuItem.items.filter( item => !excludedIds.includes(item.id)); //AQUI RECORRO EL MENUITEM y muestro los q quedan disponibles segun permisos
     // console.log(menuItem);

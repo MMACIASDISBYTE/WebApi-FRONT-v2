@@ -12,7 +12,7 @@ import { gridSpacing } from 'store/constant';
 // assets
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
 
-import image from 'assets/images/maintenance/img-build.svg';
+// import image from 'assets/images/maintenance/img-build.svg';
 import imageBackground from 'assets/images/maintenance/img-bg-grid.svg';
 import imageDarkBackground from 'assets/images/maintenance/img-bg-grid-dark.svg';
 import imageParts from 'assets/images/maintenance/img-bg-parts.svg';

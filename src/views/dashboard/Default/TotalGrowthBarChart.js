@@ -3,7 +3,7 @@ import React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Grid, MenuItem, TextField, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 // third-party
 import ApexCharts from 'apexcharts';
@@ -18,27 +18,28 @@ import { gridSpacing } from 'store/constant';
 // chart data
 import chartData from './chart-data/total-growth-bar-chart';
 
-const status = [
-    {
-        value: 'today',
-        label: 'Today'
-    },
-    {
-        value: 'month',
-        label: 'This Month'
-    },
-    {
-        value: 'year',
-        label: 'This Year'
-    }
-];
+// const status = [
+//     {
+//         value: 'today',
+//         label: 'Today'
+//     },
+//     {
+//         value: 'month',
+//         label: 'This Month'
+//     },
+//     {
+//         value: 'year',
+//         label: 'This Year'
+//     }
+// ];
 
 // ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading, countPerDate }) => {
-    const [value, setValue] = React.useState('today');
+    // const [value, setValue] = React.useState('today');
     const theme = useTheme();
     const { navType, rtlLayout } = useConfig();
+    // console.log('countPerDate', countPerDate);
 
     const { primary } = theme.palette.text;
     const darkLight = theme.palette.dark.light;

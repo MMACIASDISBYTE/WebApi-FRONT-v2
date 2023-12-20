@@ -63,7 +63,7 @@ export const PesajeContenedor = ({ productsData = null, tipoContenedor = null })
 
             console.log('Peso: ', pesoTotal, ' Volumen: ', CMB_grandTotal);
         }
-        // console.log(productsData);
+
     }, [productsData, tipoContenedor]);
 
     return (

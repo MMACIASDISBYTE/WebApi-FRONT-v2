@@ -5,9 +5,7 @@ import { Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // project imports
-import TotalGrowthBarChart from "../Default/TotalGrowthBarChart";
 import { gridSpacing } from "store/constant";
-import useAuth from "hooks/useAuth";
 import { CircularProgress } from "@material-ui/core";
 import RevenueCard from "ui-component/cards/RevenueCard";
 import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
@@ -16,66 +14,72 @@ import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import HoverSocialCard from "ui-component/cards/HoverSocialCard";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 
-// import img1 from "../../../assets/images/Test/drupi.png";
-// import img2 from "../../../assets/images/Test/suckGorrito.png";
-// import img3 from "../../../assets/images/Test/sucktion.png";
-import LogoDisbyteBlanco from "../../../assets/images/disbyte/LogoDisbyte_blanco.png";
-import LogoDisbyteAzul from "../../../assets/images/disbyte/LogoDisbyte.png";
-import DOSAmarillo from "../../../assets/images/disbyte/DOS-Amarillo.png";
-import DOSnegro from "../../../assets/images/disbyte/DOS-negro.png";
-import DOSrojo from "../../../assets/images/disbyte/DOS-rojo.png";
-// import DOSSiglas from "../../../assets/images/disbyte/DOS-siglas.png"
+import img1 from "../../../assets/images/disbyte/DOS-negro.png";
+import img2 from "../../../assets/images/disbyte/DOS-rojo.png";
+import img3 from "../../../assets/images/disbyte/DOS-Amarillo.png";
+import SubCard from "ui-component/cards/SubCard";
+import UserDetailsCard from "ui-component/cards/UserDetailsCard";
+import useAuth from "hooks/useAuth";
+import HomePieChart from "./HomePieChart";
+import MainCard from "ui-component/cards/MainCard";
 
+import { useDispatch, useSelector } from "store";
+import { getInbound, getSourcing } from "store/slices/customer";
+import HomeReialChart from "./HomeReialChart";
+import TotalGrowthBarChart from "../Default/TotalGrowthBarChart";
+// import LogoDisbyteBlanco from '../../../assets/images/disbyte/LogoDisbyte_blanco.png';
+// import LogoDisbyteAzul from '../../../assets/images/disbyte/LogoDisbyte.png';
 
 // ==============================|| HOME DASHBOARD ||============================== //
 const Inicio = () => {
   const theme = useTheme();
-  const { user } = useAuth();
-  const permisosAuth = useAccessTokenJWT();
-  const [permisos, setPermisos] = useState([]);
+  // const { user } = useAuth();
+  const permisos = useAccessTokenJWT();
+
+  //consulta a axios
+  const dispatch = useDispatch(); //para usar axios
+  const inboundData = useSelector((state) => state.customer.inbound);
+  const sourcingData = useSelector((state) => state.customer.sourcing);
 
   useEffect(() => {
-    // Verificar si el ítem 'permisos' existe en localStorage
-    const permisosAlmacenados = JSON.parse(localStorage.getItem('DisbyteRoll'));
-    if (
-      permisosAuth &&
-      Array.isArray(permisosAuth) &&
-      permisosAuth.length > 0 &&
-      (!permisosAlmacenados ||
-        JSON.stringify(permisosAlmacenados) !== JSON.stringify(permisosAuth))
-    ) {
-      // Si no existe, almacenar permisosAuth en localStorage
-      localStorage.setItem("DisbyteRoll", JSON.stringify(permisosAuth));
-      setPermisos(permisosAuth);
-    } else {
-      setPermisos(JSON.parse(localStorage.getItem("DisbyteRoll")));
-    }
-  }, []);
+    // Dispatch the actions
+    dispatch(getSourcing());
+    dispatch(getInbound());
+  }, [dispatch])
+  
 
   // console.log(permisos);  // IT-Test-PA
   const autorizado = permisos.includes("presupuesto:edit"); // || permisosAuth.includes('tarifas:read')
 
-  const dev = "dev-7qwkde4r318nfwz7/roles";
-  const userDetails = {
-    id: user?.id || "#1Card_Phoebe",
-    avatar: user.avatar || "avatar-2.png",
-    name: user?.name || "Gaetano",
-    role: user?.roll[dev] || "Investor Division Strategist",
-    about:
-      "Try to connect the SAS transmitter, maybe it will index the optical hard drive!",
-    email: user?.email,
-    contact: "253-418-5940",
-    location: "Herminahaven",
-  };
+  // const dev = "dev-7qwkde4r318nfwz7/roles";
+
+  // const userDetails = {
+  //   id: user?.id || "#1Card_Phoebe",
+  //   avatar: user.avatar || "avatar-2.png",
+  //   name: user?.name || "Gaetano",
+  //   role: user?.roll[dev] || "Investor Division Strategist",
+  //   about:
+  //     "Try to connect the SAS transmitter, maybe it will index the optical hard drive!",
+  //   email: user?.email,
+  //   contact: "253-418-5940",
+  //   location: "Herminahaven",
+  // };
 
   const [data, setData] = useState([]);
   const [distinctEstNumberCount, setDistinctEstNumberCount] = useState();
   const [countPerDate, setCountPerDate] = useState([]);
   const [cotizacionDate, setCotizacionDate] = useState({});
 
+  useEffect(()=>{
+
+  },[countPerDate])
+
   const presupuesto = async () => {
     let data = await PresupuestoHelper.fetchData();
-    const { distinctEstNumberCount, totalEstVersCount } =
+    const {
+      distinctEstNumberCount,
+      // totalEstVersCount
+    } =
       await PresupuestoHelper.amountDataFetch();
     const dataPerDate = await PresupuestoHelper.AmountDate();
     setData(data);
@@ -91,13 +95,13 @@ const Inicio = () => {
   };
   // console.log(cotizacionDate.quotes);
 
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       await presupuesto();
       await cotizaciones();
-      setLoading(false);
+      // setLoading(false);
     };
 
     fetchData();
@@ -105,11 +109,10 @@ const Inicio = () => {
 
   // console.log(cotizacionDate);
 
-  // const usuarioRollViewMouse = true; 
-  const cursorImages = [DOSrojo, DOSnegro, DOSAmarillo];
-  
-  // const cursorImages = [img1, img2, img3];
-  const usuarioRollViewMouse = permisos.includes("IT-Test-PA");
+  // const usuarioRollViewMouse = true;
+  // const cursorImages = [LogoDisbyteBlanco, LogoDisbyteAzul];
+  const cursorImages = [img1, img2, img3];
+  const usuarioRollViewMouse = false; //permisos.includes('IT-Test-PA'); // aca habilito o no el efecto cursor
   const movementThreshold = 50; // Cantidad mínima de píxeles que el mouse debe moverse para cambiar el cursor
   useEffect(() => {
     let lastX = 0;
@@ -126,11 +129,11 @@ const Inicio = () => {
       lastY = event.clientY;
 
       const randomIndex = Math.floor(Math.random() * cursorImages.length);
-      const randomSize = Math.floor(Math.random() * 50) + 20; // Tamaño entre 20 y 50
+      const randomSize = Math.floor(Math.random() * 25) + 5; // Tamaño entre 20 y 50
       const randomRotation = Math.floor(Math.random() * 360); // Rotación de 0 a 360 grados
 
       const imageUrl = cursorImages[randomIndex];
-      const cursorStyle = `url('${imageUrl}') ${randomSize} ${randomSize}, auto`;
+      // const cursorStyle = `url('${imageUrl}') ${randomSize} ${randomSize}, auto`;
 
       const cursorElement = document.createElement("div");
       cursorElement.style.position = "absolute";
@@ -157,14 +160,14 @@ const Inicio = () => {
     return () => {
       window.removeEventListener("mousemove", changeCursor);
     };
-  }, [usuarioRollViewMouse, cursorImages]);
+  }, [usuarioRollViewMouse]);
 
   return (
     <>
       {/* <h2>Componente Home</h2> */}
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12}>
-          {countPerDate.length == 0 ? (
+          {/* {countPerDate.length === 0 ? ( //CIRCULAR PROGRES EN DESUSO
             <>
               <div
                 style={{ margin: "auto", display: "block", paddingTop: "25px" }}
@@ -180,14 +183,15 @@ const Inicio = () => {
                   <CircularProgress />
                 </div>
               </div>
-            </>
-          ) : (
+            </> 
+          ) : ( */}
+
             <>
               <Grid container spacing={gridSpacing}>
                 <Grid item xs={12} lg={6}>
                   <RevenueCard
                     primary="Presupuestos Realizados"
-                    secondary={distinctEstNumberCount}
+                    secondary={countPerDate.length === 0 ? 'Calculando...' : distinctEstNumberCount}
                     content="Presupuestos Realizados"
                     iconPrimary={MonetizationOnTwoToneIcon}
                     color={theme.palette.secondary.main}
@@ -196,7 +200,7 @@ const Inicio = () => {
                 <Grid item xs={12} lg={6}>
                   <RevenueCard
                     primary="Versiones Realizadas"
-                    secondary={data.length}
+                    secondary={countPerDate.length === 0 ? 'Calculando...' : data.length}
                     content="Versiones realizadas"
                     iconPrimary={MonetizationOnTwoToneIcon}
                     color={theme.palette.primary.main}
@@ -294,9 +298,29 @@ const Inicio = () => {
                     />
                   )}
                 </Grid>
-              </Grid>
 
-              {/* {autorizado && (
+
+                <Grid item xs={12} xl={0.5}>
+                  {/* ESTACIO DE RELLENO */}
+                </Grid>
+                <Grid item xs={12} md={6} xl={6}>
+                  <MainCard title="Inbound Chart">
+                      <HomePieChart
+                        inboundData={inboundData}
+                      />
+                  </MainCard>
+                </Grid>
+
+                <Grid item xs={12} md={6} xl={5}>
+                  <MainCard title="Sourcing Chart">
+                      <HomeReialChart
+                        sourcingData={sourcingData}
+                      />
+                  </MainCard>
+                </Grid>
+
+                {/* GRAFICO DE BARRAS, SE QUITO PROVISORIAMENTE */}
+              {countPerDate.length !== 0 ? (
                 <Grid item xs={12}>
                   <Grid container spacing={gridSpacing}>
                     <Grid item xs={12} md={12}>
@@ -307,16 +331,29 @@ const Inicio = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-              )} */}
+              ) : (
+                <Grid item xs={12}>
+                  <Grid container spacing={gridSpacing}>
+                    <Grid item xs={12} md={12}>
+                      Cargando....
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )}
 
-              {/* GRAFICOS DE PRESUPUESTOS */}
-              {/* <Grid item xs={12} lg={4}>
+              </Grid>
+
+
+              {/* TARJETA DE USUARIO */}
+               {/* <Grid item xs={12} lg={4}>
                     <SubCard title="Basic Card Style 1">
                         <UserDetailsCard {...userDetails} />
                     </SubCard>
                 </Grid> */}
             </>
-          )}
+
+          {/* // )} */}
+
         </Grid>
       </Grid>
     </>

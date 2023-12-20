@@ -13,7 +13,6 @@ import {
 import { makeStyles } from "@material-ui/core";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import { useTheme } from "@mui/material/styles";
-import { SwitchGastos } from "./SwitchGastos";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 
 
@@ -27,6 +26,7 @@ export const ExtraCostoDobleClickUpdate = ({
   data = 0,
   dataType,
   formik,
+  origData,
   Xs_Xd,
   blockDeGastos = false,
   ValorSwitch = false,
@@ -75,29 +75,33 @@ export const ExtraCostoDobleClickUpdate = ({
   let colorEnabled = "";
   let colorDisabled = "";
 
-  // Logica de resaltado de valor diferente
-  // El componente recibe tanto los gastos locales (desde el tarifon) como los de Formik.
-  // Cuando llega el JSON, los gastos locales del mismo se comparan contra los procedentes del tarifon.
-  // Si hay diferencia, dicho valor tiene prioridad y se guarda en el formik. Si no hay diferencia, se deja como esta
-  // Dado que el componente analiza la diferencia entre formik y tarifon simplifica la logica de resaltado a un solo lugar
-  if (id=="gloc_fwd" && parseFloat(formik?.values?.gloc_fwd).toFixed(2)!=gastoLocal?.gloc_fwd?.toFixed(2)) {
+//
+// En update comparo los datos de presupuesto editable(origData) contra formik para marcar cuando hay cambios
+// 
+
+  if (id=="gloc_fwd" && parseFloat(formik?.values?.gloc_fwd).toFixed(2)!=origData?.gloc_fwd?.toFixed(2)) {
     colorEnabled = "red";
     colorDisabled = "darksalmon";
-  } else if (id=="gloc_terminales" && parseFloat(formik?.values?.gloc_terminales).toFixed(2)!=gastoLocal?.gasto_terminal?.toFixed(2)) {
+  } else if (id=="gloc_terminales" && parseFloat(formik?.values?.gloc_terminales).toFixed(2)!=origData?.gloc_terminales?.toFixed(2)) {
       colorEnabled = "red";
       colorDisabled = "darksalmon";
-  } else if (id=="gloc_descarga" && parseFloat(formik?.values?.gloc_descarga).toFixed(2)!=gastoLocal?.gasto_descarga_depo?.toFixed(2)) {
+  } else if (id=="gloc_descarga" && parseFloat(formik?.values?.gloc_descarga).toFixed(2)!=origData?.gloc_descarga?.toFixed(2)) {
         colorEnabled = "red";
         colorDisabled = "darksalmon";
-    } else if (id=="gloc_flete" && parseFloat(formik?.values?.gloc_flete).toFixed(2)!=gastoLocal?.flete_interno?.toFixed(2)) {
+    } else if (id=="gloc_flete" && parseFloat(formik?.values?.gloc_flete).toFixed(2)!=origData?.gloc_flete?.toFixed(2)) {
           colorEnabled = "red";
           colorDisabled = "darksalmon";
-      } else if (id=="freight_cost" && parseFloat(formik?.values?.freight_cost).toFixed(2)!=gastoLocal?.freight_charge?.toFixed(2)) {
+      } else if (id=="freight_cost" && parseFloat(formik?.values?.freight_cost).toFixed(2)!=origData?.freight_cost?.toFixed(2)) {
           colorEnabled = "red";
           colorDisabled = "darksalmon";
-        } else {
-            colorEnabled = "black";
-            colorDisabled = "grey";
+        } 
+          else if (id=="gloc_despachantes" && parseFloat(formik?.values?.gloc_despachantes).toFixed(2)!=origData?.gloc_despachantes?.toFixed(2)) {
+            colorEnabled = "red";
+            colorDisabled = "darksalmon";
+          }
+          else {
+              colorEnabled = "black";
+              colorDisabled = "grey";
               }
 
   const classes = useStyles();

@@ -4,8 +4,8 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 // material-ui
 import { useTheme, styled } from "@mui/material/styles";
 import {
+  Avatar,
   Button,
-  CardMedia,
   Checkbox,
   Chip,
   CircularProgress,
@@ -26,6 +26,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
 import { makeStyles } from "@material-ui/core";
 
 // project imports
@@ -135,19 +136,17 @@ const AddDetailsPage = ({
   formik = null,
   ProductsDisbyte = null,
 }) => {
-  // console.log(dataHelp);
+
   const theme = useTheme();
 
-  
   const [producto, setProductos] = useState();
   useState(() => {
     if (dataHelp.ProductosDisbyte) {
       const opciones = dataHelp?.ProductosDisbyte.map((product) => ({
-        title:  `${product.codigo} - ${product.name}`,
+        title: `${product.codigo} - ${product.name}`,
         ...product,
       }));
       setProductos(opciones);
-      // console.log('productos :', opciones);
 
     }
   }, [ProductsDisbyte]);
@@ -231,9 +230,7 @@ const AddDetailsPage = ({
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  //   console.log(dataHelp.proveedoresOem);
 
-  // console.log(dataHelp);
   const [NCMList, setNCMList] = useState([]);
   //   console.log(formik.values.paisregion_id);
   const [NCMList2, setNCMList2] = useState();
@@ -260,10 +257,11 @@ const AddDetailsPage = ({
         ncm_code: item.code,
       }));
       const opciones = dataHelp?.NCM_Mex.map((item) => ({
-        title:  `Code: ${item.code} - ${item.description}`,
+        title: `Code: ${item.code} - ${item.description}`,
         ...item,
-      })); 
-      setNCMList2(opciones)
+      }));
+      setNCMList2(opciones);
+
     }
 
     setNCMList(updatedList);
@@ -287,16 +285,14 @@ const AddDetailsPage = ({
 
   const handleChange = (event, type) => {
     const { name, value } = event.target;
-    // console.log("EVENT ", event);
-    // console.log("Type ", type);
-    // console.log(event.target.name);
+
     if (event.target.name === "quantity") {
       setErrors({
         ...errors,
         quantityError: "negative values not allowed",
       });
       setSelectedQuantity(event.target.value);
-      //   console.log(value);
+
     } else {
       let selectedList;
       let selectedData = {};
@@ -329,7 +325,12 @@ const AddDetailsPage = ({
         if (type === "Number") {
           updatedSelectedItem[name] = parseFloat(value) || value;
         } else {
-          updatedSelectedItem[name] = value.toUpperCase();
+          // Si el campo es 'imageurl', no convertir a mayúsculas
+          if (name === "imageurl") {
+            updatedSelectedItem[name] = value;
+          } else {
+            updatedSelectedItem[name] = value.toUpperCase();
+          }
         }
       }
       setSelectedQuantity(event.target.value);
@@ -342,7 +343,7 @@ const AddDetailsPage = ({
     // validación de campos
     if (!selectedItem?.proveedores_id) {
       errors.ProveedoresError = "Proveedor is required";
-      console.log(selectedItem?.proveedores_id);
+      // console.log(selectedItem?.proveedores_id);
     }
     // // Validacion NCM
     if (!selectedItem?.ncm_id) {
@@ -355,7 +356,7 @@ const AddDetailsPage = ({
     }
 
     // // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku) {
+    if (!selectedItem?.exw_u || !selectedItem?.exw_u) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }
@@ -424,7 +425,7 @@ const AddDetailsPage = ({
     }
 
     // // Validacion Imagen
-    if (!selectedItem?.imageurl || !selectedItem?.description.trim()) {
+    if (!selectedItem?.imageurl || !selectedItem?.imageurl.trim()) {
       errors.imageurlError = "Imagen is required";
     }
 
@@ -441,7 +442,6 @@ const AddDetailsPage = ({
       selectedQuantity,
     };
 
-    console.log(data);
     handleAddItem(data);
     handleCloseDialog();
   };
@@ -1075,6 +1075,7 @@ const AddDetailsPage = ({
                             marginTop: "-15px",
                           }}
                         >
+                          {/* <Avatar> */}
                           <CardMedia
                             component="img"
                             image={selectedItem?.imageurl}

@@ -8,8 +8,6 @@ import {
   Box,
   Button,
   CardContent,
-  Checkbox,
-  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -27,15 +25,14 @@ import {
   Typography,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { makeStyles } from "@material-ui/core";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 import useAuth from "hooks/useAuth";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
 import { useDispatch, useSelector } from "store";
-import customer, { getCustomers } from "store/slices/customer";
+// import customer, { getCustomers, getCustomersSourcing } from "store/slices/customer";
+import { getSourcing } from "store/slices/sourcingFetch";
 
 // assets
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -44,15 +41,17 @@ import VisibilityTwoToneIcon from "@mui/icons-material/VisibilityTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import { StatusComp } from "../StatusComp";
+import { StatusComp } from "../../../../Components/StatusComp";
 import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
-import { SelectPais } from "../SelectPais";
-import { SelectCarga } from "../SelectCarga";
-import { SelectEstado } from "../SelectEstado";
-import { SelectOwner } from "../SelectOwner";
+import { SelectPais } from "../../../../Components/Formularios/Selects/SelectPais";
+import { SelectCarga } from "../../../../Components/Formularios/Selects/SelectCarga";
+import { SelectEstado } from "../../../../Components/Formularios/Selects/SelectEstado";
+import { SelectOwner } from "../../../../Components/Formularios/Selects/SelectOwner";
 import { PresupuestoHelper } from "helpers/PresupuestoHelper";
+import { useCommonStyles } from "helpers/CommonStyles";
+import AguardandoInfo from "views/Components/AguardandoInfo";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -125,12 +124,6 @@ const headCells = [
     align: "center",
   },
   {
-    id: "status",
-    numeric: false,
-    label: "Estado",
-    align: "center",
-  },
-  {
     id: "cantidad_contenedores",
     numeric: true,
     label: "Contenedores",
@@ -177,29 +170,13 @@ function EnhancedTableHead({
     onRequestSort(event, property);
   };
 
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      minWidth: 100,
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      backgroundColor: "#2196f3",
-      padding: "6px 16px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 100,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+  const classes = useCommonStyles();
 
   return (
     <TableHead>
       <TableRow>
         {numSelected > 0 && (
-          <TableCell padding="none" colSpan={6} className={classes.tableCell}>
+          <TableCell padding="none" colSpan={6} className={classes.tableCellCabecera3}>
             <EnhancedTableToolbar numSelected={selected.length} />
           </TableCell>
         )}
@@ -211,7 +188,7 @@ function EnhancedTableHead({
                 align={headCell.align}
                 padding={headCell.disablePadding ? "none" : "normal"}
                 sortDirection={orderBy === headCell.id ? order : false}
-                className={classes.tableCell}
+                className={classes.tableCellCabecera3}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -235,7 +212,7 @@ function EnhancedTableHead({
             sortDirection={false}
             align="center"
             sx={{ pr: 3 }}
-            className={classes.tableCell}
+            className={classes.tableCellCabecera3}
           >
             Action
           </TableCell>
@@ -301,14 +278,7 @@ const CustomerList = () => {
 
   // PERMISOS
   //Gestion de permisos
-  // const permisos = useAccessTokenJWT();
-  const permisosIniciales = JSON.parse(localStorage.getItem("DisbyteRoll")) || [];
-  const [permisos, setPermisos] = React.useState(permisosIniciales);
-
-  React.useEffect(() => {
-    setPermisos(JSON.parse(localStorage.getItem("DisbyteRoll")))
-  },[])
-
+  const permisos = useAccessTokenJWT();
   // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
@@ -328,35 +298,20 @@ const CustomerList = () => {
   const permiDelele = ["CEO"];
   const permiRetroceder = ["CEO"];
 
-  const [ingresoAutorizado, setIngresoAutorizado] = React.useState(true);
-  const [AddOK, setAddOK] = React.useState(true);
-  const [EditOK, setEditOK] = React.useState(true);
-  const [DeleleOK, setDeleleOK] = React.useState(true);
-  const [RetroEstadoOK, setRetroEstadoOK] = React.useState(true);  
-  
-  React.useEffect(() =>{
-    const autorizado = permiIngreso.some((permiso) => permisos.includes(permiso)); //para ingresar a la pagina
-    setIngresoAutorizado(autorizado); 
-    const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
-    setAddOK(AddOK);
-    const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
-    setEditOK(EditOK);
-    const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
-    setDeleleOK(DeleleOK);
-    const RetroEstadoOK = permiRetroceder.every((permiso) => permisos.includes(permiso) );
-    setRetroEstadoOK(RetroEstadoOK);
-  }, [permisos])
+  const ingresoAutorizado = permiIngreso.some((permiso) =>
+    permisos.includes(permiso)
+  ); //recorro el array de permisos necesarios y los que me devuelve auth0 del user
+  const AddOK = permiCreate.some((permiso) => permisos.includes(permiso));
+  const EditOK = permiEdicion.some((permiso) => permisos.includes(permiso));
+  const DeleleOK = permiDelele.every((permiso) => permisos.includes(permiso));
+  const RetroEstadoOK = permiRetroceder.every((permiso) =>
+    permisos.includes(permiso)
+  );
 
-  React.useEffect(() => {
-    // console.log('Estado de ingreso: ', ingresoAutorizado);
-    if(permisos){
-      if (!ingresoAutorizado) {
-        //rebote si no tiene autorizacion
-        navigate("/NoAutorizado");
-      }
-    }
-  },[permisos, ingresoAutorizado])
-  //-------------- FIN LOGICA PERMISOS --------------------
+  if (!ingresoAutorizado) {
+    //rebote si no tiene autorizacion
+    Navigate("/NoAutorizado");
+  }
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
@@ -365,13 +320,15 @@ const CustomerList = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [search, setSearch] = React.useState("");
   const [rows, setRows] = React.useState([]);
-  const { customers } = useSelector((state) => state.customer);
+  const { sourcing } = useSelector((state) => state.sourcing);
   const [ultVerMostrar, setUltVerMostrar] = React.useState(true);
   const [seleccionPais, setSeleccionPais] = React.useState(5); //se da el pais de origen
   const [seleccionCarga, setSeleccionCarga] = React.useState(null); //se da carga
   const [seleccionEstado, setSeleccionEstado] = React.useState(null); //se da Estado
   const [seleccionOwner, setSeleccionOwner] = React.useState(null);
   const [ownersList, setOwnersList] = React.useState([{}]); //se da Owner
+  const [infoOk, setInfoOk] = React.useState(false); //si esta todo okey muestra la data y quita el componente de carga
+
 
   const owners = async () => {
     const ownersListTmp = await PresupuestoHelper.fetchOwnersList();
@@ -383,12 +340,12 @@ const CustomerList = () => {
   }, []);
 
   React.useEffect(() => {
-    dispatch(getCustomers());
+    dispatch(getSourcing());
   }, [dispatch]);
 
   React.useEffect(() => {
-    setRows(customers);
-  }, [customers]);
+    setRows(sourcing);
+  }, [sourcing]);
 
   // React.useEffect(() => {
   //   if(seleccionPais !== null && !ultVerMostrar){
@@ -409,7 +366,7 @@ const CustomerList = () => {
 
   // Función para filtrar presupuestos
   const filtrarPresupuestos = () => {
-    let presupuestosFiltrados = [...customers];
+    let presupuestosFiltrados = [...sourcing];
 
     // Si hay un país seleccionado, filtrar por país
     if (seleccionPais !== null && seleccionPais !== 15) {
@@ -427,12 +384,9 @@ const CustomerList = () => {
     // Si hay un carga seleccionado, filtrar por país
     if (seleccionEstado !== null && seleccionEstado !== undefined) {
       presupuestosFiltrados = presupuestosFiltrados.filter(
-        (presupuesto) => presupuesto.status === seleccionEstado
+        (presupuesto) => presupuesto.status === seleccionEstado 
       );
     }
-
-    // console.log(seleccionOwner);
-
     // Si hay un carga seleccionado, filtrar por país
     // if (seleccionOwner !== null && seleccionOwner !== undefined) {
     //   presupuestosFiltrados = presupuestosFiltrados.filter(
@@ -445,12 +399,7 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.own === seleccionOwner.own
       );
     }
-    // Si hay un carga seleccionado, filtrar por país
-    if (seleccionEstado !== null && seleccionEstado !== undefined) {
-      presupuestosFiltrados = presupuestosFiltrados.filter(
-        (presupuesto) => presupuesto.status === seleccionEstado
-      );
-    }
+
 
     // Filtrar según la búsqueda
     if (search) {
@@ -491,13 +440,16 @@ const CustomerList = () => {
 
     setRows(presupuestosFiltrados);
     setPage(0);
+    if(sourcing.length > 0){
+      setInfoOk(true);  //quita cartel de carga si llega la data
+    }
   };
 
   // Efecto para actualizar los presupuestos mostrados cuando cambia customers, seleccionPais o ultVerMostrar
   React.useEffect(() => {
     filtrarPresupuestos();
   }, [
-    customers,
+    sourcing,
     seleccionPais,
     seleccionCarga,
     seleccionEstado,
@@ -591,33 +543,7 @@ const CustomerList = () => {
     navigate(`/simuladorMEX/update-simuladorMEX/${estnumber}/${estvers}`);
   };
 
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      textOverflow: "ellipsis", // agrega puntos suspensivos al final
-      padding: "6px 6px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 130,
-    },
-    tableCell2: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      textOverflow: "ellipsis", // agrega puntos suspensivos al final
-      padding: "6px 6px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 80,
-      paddingLeft: 40,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+  const classes = useCommonStyles();
 
   const { user } = useAuth();
   // console.log("owners", ownersList);
@@ -672,11 +598,7 @@ const CustomerList = () => {
               datosSelect={[]}
               handleChangeCarga={handleChangeCarga}
             />
-            <SelectEstado
-              nameSelect={"Estado"}
-              datosSelect={[]}
-              handleChangeEstado={handleChangeEstado}
-            />
+            
             <SelectOwner
               data={ownersList ? ownersList : ""}
               defaultSelection={ownersList?.filter(
@@ -733,6 +655,15 @@ const CustomerList = () => {
 
       {/* table */}
       <TableContainer>
+
+      { !infoOk ?
+          
+          <AguardandoInfo
+            XS={12}
+            MD={12}
+            LG={12}
+          /> : 
+
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
           <EnhancedTableHead
             theme={theme}
@@ -793,7 +724,7 @@ const CustomerList = () => {
                                             <Typography variant="caption"> Disponible para data </Typography>
                                         </TableCell> */}
 
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left" className={classes.tableCellBodyListaDetalle}>
                       {row.id !== null && row.id !== undefined
                         ? `N° ${row.estnumber}`
                         : "Sin data"}
@@ -803,11 +734,10 @@ const CustomerList = () => {
                         ? row.estvers
                         : "Sin data"}
                     </TableCell> */}
-                    <TableCell align="left" className={classes.tableCell}>
-                      {(row.estvers !== null && row.project !== undefined) ||
-                      row.project !== ""
-                        ? row.project
-                        : "Sin data"}
+                    <TableCell align="left" className={classes.tableCellBodyListaDetalle}>
+                      {row.project !== null && row.project !== undefined && row.project !== "" 
+                        ? row.project 
+                        : "Prj Sin especificar"}
                     </TableCell>
                     <Tooltip
                       title={
@@ -816,19 +746,19 @@ const CustomerList = () => {
                           : "Sin data"
                       }
                     >
-                      <TableCell align="left" className={classes.tableCell}>
+                      <TableCell align="left" className={classes.tableCellBodyListaDetalle}>
                         {row.estvers !== null && row.description !== undefined
                           ? row.description
                           : "Sin data"}
                       </TableCell>
                     </Tooltip>
-                    <TableCell align="left" className={classes.tableCell}>
+                    <TableCell align="left" className={classes.tableCellBodyListaDetalle}>
                       {row.paisregion_id !== null &&
                       row.paisregion_id !== undefined
                         ? UtilidadesHelper.paisRegionSwitch(row.paisregion_id)
                         : "Sin data"}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCellBodyListaDetalle}>
                       {row.estvers !== null && row.carga_id !== undefined ? (
                         <StatusComp
                           texto={""}
@@ -839,36 +769,25 @@ const CustomerList = () => {
                         "Sin data"
                       )}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.estvers !== null && row.status !== undefined ? (
-                        <StatusComp
-                          texto={""}
-                          estadio={row.status}
-                          colores={"primary"}
-                        />
-                      ) : (
-                        "Sin data"
-                      )}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCellBodyListaDetalle}>
                       {row.cantidad_contenedores !== null &&
                       row.cantidad_contenedores !== undefined
                         ? row.cantidad_contenedores.toFixed(3)
                         : "Sin data"}
                     </TableCell>
-                    {/* <TableCell align="left" className={classes.tableCell}>
+                    {/* <TableCell align="left" className={classes.tableCellBodyListaDetalle}>
                       {row.gastos_loc_total !== null &&
                       row.gastos_loc_total !== undefined
                         ? `${row.gastos_loc_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell> */}
-                    <TableCell align="center" className={classes.tableCell}>
+                    <TableCell align="center" className={classes.tableCellBodyListaDetalle}>
                       {row.fob_grand_total !== null &&
                       row.fob_grand_total !== undefined
                         ? `${row.fob_grand_total.toFixed(2)}`
                         : "Sin data"}
                     </TableCell>
-                    <TableCell className={classes.tableCell2}>
+                    <TableCell className={classes.tableCellBodyListaDetalleAVATAR}>
                       {row.avatar_url != "" && row.avatar_url !== null ? (
                         <Tooltip title={row.own}>
                           <Avatar
@@ -885,22 +804,17 @@ const CustomerList = () => {
                         </>
                       )}
                     </TableCell>
-                    <TableCell align="right" className={classes.tableCell}>
+                    <TableCell align="right" className={classes.tableCellBodyListaDetalle}>
                       {new Date(row.htimestamp).toLocaleDateString() !== null &&
                       new Date(row.htimestamp).toLocaleDateString() !==
                         undefined
                         ? new Date(row.htimestamp).toLocaleDateString()
                         : "Sin data"}
                     </TableCell>
-                    {/* <TableCell align="center">
-                                            {row.status === 1 && <Chip label="Complete" size="small" chipcolor="success" />}
-                                            {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
-                                            {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
-                                        </TableCell> */}
                     <TableCell
                       align="center"
                       sx={{ pr: 3 }}
-                      className={classes.tableCell}
+                      className={classes.tableCellBodyListaDetalle}
                     >
                       <Tooltip title="Ver Detalle">
                         <IconButton
@@ -950,6 +864,8 @@ const CustomerList = () => {
             )}
           </TableBody>
         </Table>
+        }
+
       </TableContainer>
 
       {/* table pagination */}

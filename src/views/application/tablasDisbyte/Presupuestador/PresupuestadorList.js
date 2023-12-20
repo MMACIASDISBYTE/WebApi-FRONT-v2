@@ -31,7 +31,7 @@ import { visuallyHidden } from "@mui/utils";
 // project imports
 import MainCard from "ui-component/cards/MainCard";
 import { useDispatch, useSelector } from "store";
-import customer, { getCustomers } from "store/slices/customer";
+import customer, { getCustomers, getCustomersInbound } from "store/slices/customer";
 
 // assets
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -311,7 +311,7 @@ const CustomerList = () => {
 
 
   React.useEffect(() => {
-    dispatch(getCustomers());
+    dispatch(getCustomersInbound());
   }, [dispatch]);
 
   React.useEffect(() => {

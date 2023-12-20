@@ -322,7 +322,6 @@ function CreateInvoice() {
   useEffect(() => {
     dataHelpers();
   }, []);
-  //   console.log(dataHelp);
 
   // const today = new Date();
   // const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1 ).padStart(2, "0")}-${(today.getFullYear())}`;

@@ -71,6 +71,11 @@
     "Cargas de presupuestador" : "INICIAN AQUI CARGAS PRESPUESTADOR",
     "Presupuesto": "Budget",
     "ESTIMADOR": "Estimate",
+    "ESTIMADOR-ARG" : "Argentina",
+    "ESTIMADOR-MEX": "Mexico",
+    "estimate-list-BSAS": "Buenos Aires", 
+    "estimate-list-CDMX": "Ciudad de Mexico CDMX",
+    "estimate-list-GUADALUPE": "Ciudad de Guadalupe",
 
     "Cargas de Tarifas" : "DESDE ACA TARIFAS",
 
@@ -81,6 +86,7 @@
     "TERMINALES" : " Ports",
     "TRANSPORTE LOCAL" : " Freight Local",
     "APLICACIONES": " Applications",
+    "PRESUPUESTADOR" : " Inbound",
     "BANCOS": " Banks",
     "GestDig": " GestDig",
     "Despachantes": " Broker",
@@ -207,8 +213,7 @@
 
     "more-items": "More Items",
 
-    "SIMULADOR" : "Simulador",
+    "SIMULADOR" : "Sourcing",
     "simuladorMex" : "Mexico",
-    "MASTERTABLES" : "Master Tables",
-    "ESTIMADOR-ARG" : "Estimador Arg"
+    "MASTERTABLES" : "Master Tables"
 }

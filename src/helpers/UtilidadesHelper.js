@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Formik, swap } from "formik";
 
 export const UtilidadesHelper = {
   baseUrl: "https://api.apilayer.com/exchangerates_data/convert?to=",
@@ -338,4 +338,33 @@ export const UtilidadesHelper = {
     });
     return ArrAOrdenar; // <-- Devuelve el array ordenado
   },
+  BusquedaDeEstadoDeEmbarque: (estado) =>{
+    switch (estado) {
+      case 0:
+        return 'Creacion'
+      break;
+      case 1:
+        return 'Sourcing'
+      break;
+      case 2:
+        return 'Pend. de Embarque'
+      break;
+      case 3:
+        return 'Embarcado'
+      break;
+      case 4:
+        return 'Arribado'
+      break;
+      case 5:
+        return 'Despachado'
+      break;
+      case 6:
+        return 'Cerrado'
+      break;
+      default:
+        return 'Sin especificar'
+      break;
+    }
+  },
+
 };

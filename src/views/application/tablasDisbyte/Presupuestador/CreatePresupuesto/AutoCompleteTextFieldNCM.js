@@ -8,6 +8,7 @@ const filter = createFilterOptions();
 
 export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorDefecto= null, ListaNCM = null }) {
   const [value, setValue] = React.useState(valorPorDefecto);
+
   const [isInputValue, setIsInputValue] = React.useState(false); // Nuevo estado para rastrear si el valor es un inputValue
   const [toolIngresoManual, setToolIngresoManual ] = React.useState('');
   
@@ -15,7 +16,7 @@ export default function AutoCompleteTextFieldNCM({ handleChange, name, valorPorD
 
   React.useEffect(() => {
     setProductosSelect(ListaNCM);
-    // console.log('NCM DESDE AUTOCOMPLETE :', ListaNCM);
+
   },[ListaNCM])
 
   React.useEffect(() => {

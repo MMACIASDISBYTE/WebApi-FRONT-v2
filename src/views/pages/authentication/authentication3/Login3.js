@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import AuthWrapper1 from '../AuthWrapper1';
@@ -12,7 +12,6 @@ import LogoDisbyteBlanco from '../../../../assets/images/disbyte/LogoDisbyte_bla
 import LogoDisbyteAzul from '../../../../assets/images/disbyte/LogoDisbyte.png'
 // import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
-import useAuth from 'hooks/useAuth';
 
 // assets
 
@@ -20,7 +19,7 @@ import useAuth from 'hooks/useAuth';
 
 const Login = () => {
     const theme = useTheme();
-    const { isLoggedIn } = useAuth();
+    // const { isLoggedIn } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -35,9 +34,9 @@ const Login = () => {
                                         <Link to="#" aria-label="theme-logo">
                                             {
                                             theme.palette.mode === 'light' ?
-                                                <img width="380" height="180" viewBox="0 0 92 32" fill="none" src={LogoDisbyteAzul}/>
+                                                <img alt='Disbyte' width="380" height="180" viewBox="0 0 92 32" fill="none" src={LogoDisbyteAzul}/>
                                                 :
-                                                <img width="380" height="180" viewBox="0 0 92 32" fill="none" src={LogoDisbyteBlanco}/>
+                                                <img alt='Disbyte' width="380" height="180" viewBox="0 0 92 32" fill="none" src={LogoDisbyteBlanco}/>
                                             }
                                             {/* <Logo /> */}
                                         </Link>

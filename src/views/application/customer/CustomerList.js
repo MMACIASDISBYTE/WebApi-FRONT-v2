@@ -29,7 +29,7 @@ import { visuallyHidden } from '@mui/utils';
 import Chip from 'ui-component/extended/Chip';
 import MainCard from 'ui-component/cards/MainCard';
 import { useDispatch, useSelector } from 'store';
-import { getCustomers } from 'store/slices/customer';
+import { getCustomers, getCustomersInbound, getCustomersSourcing } from 'store/slices/customer';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -220,7 +220,7 @@ const CustomerList = () => {
     const [rows, setRows] = React.useState([]);
     const { customers } = useSelector((state) => state.customer);
     React.useEffect(() => {
-        dispatch(getCustomers());
+        dispatch(getCustomersSourcing());
     }, [dispatch]);
     React.useEffect(() => {
         setRows(customers);

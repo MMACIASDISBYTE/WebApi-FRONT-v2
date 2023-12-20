@@ -13,11 +13,15 @@ const initialState = {
     customers: [],
     orders: [],
     products: [],
-    productreviews: []
+    productreviews: [],
+
+    //hay que declarar el estado inicial
+    sourcing: [],
+    inbound: [],
 };
 
 const slice = createSlice({
-    name: 'customer',
+    name: 'customer',  //como se llama al metodo para luego ingresar a la respuesta ej customer.inbound
     initialState,
     reducers: {
         // HAS ERROR
@@ -28,6 +32,16 @@ const slice = createSlice({
         // GET CUSTOMERS
         getCustomersSuccess(state, action) {
             state.customers = action.payload;
+        },
+
+        // GET Sourcing
+        getSourcingSuccess(state, action) {
+            state.sourcing = action.payload;
+        },
+
+        // GET Inbound
+        getInboundSuccess(state, action) {
+            state.inbound = action.payload;
         },
 
         // GET ORDERS
@@ -52,16 +66,54 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getCustomers() {
+export function getCustomersSourcing() {
     return async () => {
         try {
-            const response = await PresupuestoHelper.fetchData('tuTokenDeAcceso'); // Recuerda cambiar 'tuTokenDeAcceso' por tu token real
+            const response = await PresupuestoHelper.fetchDataSourcing('tuTokenDeAcceso'); // Recuerda cambiar 'tuTokenDeAcceso' por tu token real
             dispatch(slice.actions.getCustomersSuccess(response));
+            console.log('Get Sourcing');
         } catch (error) {
             dispatch(slice.actions.hasError(error));
         }
     };
 }
+
+export function getCustomersInbound() {
+    return async () => {
+        try {
+            const response = await PresupuestoHelper.fetchDataInbound('tuTokenDeAcceso'); // Recuerda cambiar 'tuTokenDeAcceso' por tu token real
+            dispatch(slice.actions.getCustomersSuccess(response));
+            console.log('Get Customers');
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+}
+
+
+//REALIZADOS PARA EL HOME tanto Sourcing y Inbound
+export function getSourcing() {
+    return async () => {
+        try {
+            const response = await PresupuestoHelper.fetchDataSourcing('tuTokenDeAcceso'); 
+            dispatch(slice.actions.getSourcingSuccess(response));
+            console.log('Get Sourcing');
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+};
+export function getInbound() {
+    return async () => {
+        try {
+            const response = await PresupuestoHelper.fetchDataInbound('tuTokenDeAcceso'); 
+            dispatch(slice.actions.getInboundSuccess(response));
+            console.log('Get Inbound');
+        } catch (error) {
+            dispatch(slice.actions.hasError(error));
+        }
+    };
+};
 
 export function getOrders() {
     return async () => {
