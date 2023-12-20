@@ -6,23 +6,17 @@ import { useTheme, styled } from "@mui/material/styles";
 import {
   Button,
   CardMedia,
-  Checkbox,
-  Chip,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
-  Fab,
   FormHelperText,
   Grid,
   IconButton,
-  Input,
   InputAdornment,
-  InputLabel,
   MenuItem,
-  Select,
   Slide,
   TextField,
   Tooltip,
@@ -35,12 +29,9 @@ import { gridSpacing } from "store/constant";
 import AnimateButton from "ui-component/extended/AnimateButton";
 
 // assets
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+// import CloseIcon from "@mui/icons-material/Close";
 
-import Product1 from "assets/images/widget/prod1.jpg";
-import Product2 from "assets/images/widget/prod2.jpg";
-import Product3 from "assets/images/widget/prod3.jpg";
 import Product4 from "assets/images/widget/prod4.jpg";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SwitchIOS } from "../CreatePresupuesto/SwitchIOS";
@@ -141,22 +132,19 @@ const UpdateItemPage = ({
   formik = null,
   ProductsDisbyte = null,
 }) => {
-  // console.log(dataHelp);
+
   const theme = useTheme();
 
   const [producto, setProductos] = useState();
-  useState(()=> {
-
-    if(dataHelp.ProductosDisbyte){
-
-      const opciones = dataHelp?.ProductosDisbyte.map(product => ({
+  useState(() => {
+    if (dataHelp.ProductosDisbyte) {
+      const opciones = dataHelp?.ProductosDisbyte.map((product) => ({
         title: product.name,
-        ...product
-      }))
-      setProductos(opciones)
+        ...product,
+      }));
+      setProductos(opciones);
     }
-
-  },[ProductsDisbyte])
+  }, [ProductsDisbyte]);
 
   let ordenProveedor = ["Sin Proveedor"];
 
@@ -172,7 +160,6 @@ const UpdateItemPage = ({
       }
     };
   });
-
 
   // handle tag select
   const [personName, setPersonName] = useState([]);
@@ -250,17 +237,15 @@ const UpdateItemPage = ({
   const [errors, setErrors] = useState({
     quantityError: "",
   });
-  //   console.log(dataHelp.proveedoresOem);
 
-  // console.log(dataHelp);
+  
+
   const [NCMList, setNCMList] = useState([]);
-  //   console.log(formik.values.paisregion_id);
 
+  
   useEffect(() => {
     // let paisregion_id = dataHelp?.presupuestoEditable?.estHeader?.paisregion_id;
     let paisregion_id = 5; // harcodeado Mexico
-    // console.log(paisregion_id);
-    // console.log(formik.values.paisregion_id.id);
 
     let updatedList = [];
 
@@ -281,7 +266,7 @@ const UpdateItemPage = ({
     }
 
     setNCMList(updatedList);
-    console.log(NCMList);
+
   }, [dataHelp, formik]);
 
   const ProveedoresList = dataHelp.proveedoresOem.map((item) => ({
@@ -302,16 +287,14 @@ const UpdateItemPage = ({
 
   const handleChange = (event, type) => {
     const { name, value } = event.target;
-    // console.log("EVENT ", event);
-    // console.log("Type ", type);
-    // console.log(event.target.name);
+    
     if (event.target.name === "quantity") {
       setErrors({
         ...errors,
         quantityError: "negative values not allowed",
       });
       setSelectedQuantity(event.target.value);
-      //   console.log(value);
+
     } else {
       let selectedList;
       let selectedData = {};
@@ -331,7 +314,7 @@ const UpdateItemPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
-      console.log("selectedOption :", selectedOption);
+
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso
@@ -344,7 +327,12 @@ const UpdateItemPage = ({
         if (type === "Number") {
           updatedSelectedItem[name] = parseFloat(value) || value;
         } else {
-          updatedSelectedItem[name] = value.toUpperCase();
+          // Si el campo es 'imageurl', no convertir a mayúsculas
+          if (name === "imageurl") {
+            updatedSelectedItem[name] = value;
+          } else {
+            updatedSelectedItem[name] = value.toUpperCase();
+          }
         }
       }
       setSelectedQuantity(event.target.value);
@@ -357,7 +345,7 @@ const UpdateItemPage = ({
     // validación de campos
     if (!selectedItem?.proveedores_id) {
       errors.ProveedoresError = "Proveedor is required";
-      console.log(selectedItem?.proveedores_id);
+
     }
     // // Validacion NCM
     if (!selectedItem?.ncm_id) {
@@ -370,7 +358,7 @@ const UpdateItemPage = ({
     }
 
     // // Validacion exw_u
-    if (!selectedItem?.exw_u || !selectedItem?.sku) {
+    if (!selectedItem?.exw_u || !selectedItem?.exw_u) {
       // AL INCIAR CON UN VALOR SER NUMERICO SE DEBE DE SACAR EL TRIM
       errors.exw_uError = "Valor exw_u is required";
     }

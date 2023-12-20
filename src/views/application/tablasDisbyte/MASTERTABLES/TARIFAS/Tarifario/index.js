@@ -1,20 +1,15 @@
-// LISTED 5_10_2023 17:51PM 
+// LISTED 5_10_2023 17:51PM
 import PropTypes from "prop-types";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import {MenuItem,Divider} from "@mui/material";
 import * as React from "react";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
+  Button,
   CardContent,
-  Fab,
   Grid,
   IconButton,
-  InputAdornment,
   Table,
   TableBody,
   TableCell,
@@ -23,7 +18,6 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -32,31 +26,20 @@ import { visuallyHidden } from "@mui/utils";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
-import { CircularProgress, makeStyles } from "@material-ui/core";
-import SubCard from "ui-component/cards/SubCard";
+import { makeStyles } from "@material-ui/core";
 
 //importamos el useNavigate para manejar navegaciones y redireccciones
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // assets
-import SaveIcon from "@mui/icons-material/Save"; // SE IMPORTA ICONO DE SAVE
-import EditIcon from "@mui/icons-material/Edit"; // SE IMPORTA ICONO DE EDIT
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/AddTwoTone";
-import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 //importacion del helper fwette
 import { TarifasMexHelper } from "../../../../../../helpers/TarifasMexHelper";
 import AddTarifario from "../../AddTarifario";
-import CompUpdate from "../../CompUpdate";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import { PaisRegionHelper } from "helpers/PaisRegionHelper";
-import { TerminalHelper } from "helpers/TerminalHelper";
-import { CargaHelper } from "helpers/CargaHelper";
-import { PolizaHelper } from "helpers/PolizaHelper";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { lightBlue, lightGreen } from "@mui/material/colors";
+import AnimateButton from "ui-component/extended/AnimateButton";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -83,10 +66,6 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
-
-
-
-
 
 /*public class TarifonMex
 {
@@ -118,10 +97,6 @@ function stableSort(array, comparator) {
     public DateTime htimestamp{get;set;}
 }*/
 
-
-
-
-
 // table header options/ATRIBUTOS DEL MODELO, tambien este arr le da la caracteristica al formulario tanto de AddIetm como CompUpdate
 const headCells = [
   {
@@ -136,7 +111,7 @@ const headCells = [
   },
   {
     id: "fecha",
-    numeric: 'fecha',
+    numeric: "fecha",
     select: null,
     isRequired: false,
     isDisabled: true,
@@ -389,22 +364,18 @@ const headCells = [
 // ==============================|| TABLE HEADER ||============================== //
 
 function EnhancedTableHead({
-  onSelectAllClick,
   order,
   orderBy,
   numSelected,
-  rowCount,
   onRequestSort,
   theme,
-  selected,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
   //manejo excepciones de cabecera del listado
-  const excludedColumns = ["id","terminal_id","carga_id","paisregion_id"];;
-
+  const excludedColumns = ["id", "terminal_id", "carga_id", "paisregion_id"];
   return (
     <TableHead>
       <TableRow>
@@ -503,11 +474,12 @@ EnhancedTableToolbar.propTypes = {
 
 const ProductList = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
+  // const theme = useTheme();
   const TableName = "Tarifas Mexico";
 
   //Gestion de permisos
   const permisos = useAccessTokenJWT();
+  // console.log(permisos);
   const permiTotal = [
     "presupuesto:all",
     "presupuesto:create",
@@ -531,7 +503,7 @@ const ProductList = () => {
 
   // show a right sidebar when clicked on new product
   const [open, setOpen] = React.useState(false);
-  const [openUpdate, setOpenUpdate] = React.useState(false);
+  // const [openUpdate, setOpenUpdate] = React.useState(false);
 
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -540,18 +512,18 @@ const ProductList = () => {
     setOpen(false);
     SetActualizacion(true);
   };
-  const handleCloseDialogUpdate = () => {
-    setOpenUpdate(false);
-    SetActualizacion(true);
-  };
+  // const handleCloseDialogUpdate = () => {
+  //   setOpenUpdate(false);
+  //   SetActualizacion(true);
+  // };
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("id");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [search, setSearch] = React.useState("");
-  const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  // const [search, setSearch] = React.useState("");
+  // const [selectedRow, setSelectedRow] = React.useState(null); // lo que seleccionamos para editar
   const [rows, setRows] = React.useState([]); //estoy almacenando la data fwette
 
   // logica para que actuallizar / renderizar el componente a la hora de eliminar
@@ -559,7 +531,6 @@ const ProductList = () => {
   React.useEffect(() => {
     fetchData();
     SetActualizacion(false);
-    console.log(rows);
   }, [actualizacion]);
 
   // traigo data de fwette Y LO ALMACENO EN EL STATE DE setRows
@@ -601,45 +572,37 @@ const ProductList = () => {
   };
 
   const handleCreateAPI = async (newData) => {
+    console.log(newData);
 
-    console.log(newData)
-    
-    if(newData.id==undefined)
-    {
-      newData.id=0;
+    if (newData.id == undefined) {
+      newData.id = 0;
     }
-    if(newData.fleteint_1p40sthq_cdmx==undefined)
-    {
-      newData.fleteint_1p40sthq_cdmx=0.0; 
+    if (newData.fleteint_1p40sthq_cdmx == undefined) {
+      newData.fleteint_1p40sthq_cdmx = 0.0;
     }
-    if(newData.fleteint_1p20ft_cdmx==undefined)
-    {
-      newData.fleteint_1p20ft_cdmx=0.0; 
+    if (newData.fleteint_1p20ft_cdmx == undefined) {
+      newData.fleteint_1p20ft_cdmx = 0.0;
     }
-    if(newData.descarga_meli_1p40sthq_cdmx==undefined)
-    {
-      newData.descarga_meli_1p40sthq_cdmx=0.0;
+    if (newData.descarga_meli_1p40sthq_cdmx == undefined) {
+      newData.descarga_meli_1p40sthq_cdmx = 0.0;
     }
-    if(newData.descarga_meli_1p20ft_cdmx==undefined)
-    {
-      newData.descarga_meli_1p20ft_cdmx=0.0;
+    if (newData.descarga_meli_1p20ft_cdmx == undefined) {
+      newData.descarga_meli_1p20ft_cdmx = 0.0;
     }
 
     await TarifasMexHelper.createData(newData);
   };
 
   // Función para actualizar la API utilizando
-  const handleUpdateAPI = async (id, data) => {
-    await TarifasMexHelper.updateDataById(id, data);
-  };
+  // const handleUpdateAPI = async (id, data) => {
+  //   await TarifasMexHelper.updateDataById(id, data);
+  // };
 
   // uso metodo Update (que trabaja en el componente hijo)
-  const handleEdit = async (row) => {
-    setSelectedRow(row);
-    setOpenUpdate(true);
-  };
-
-  
+  // const handleEdit = async (row) => {
+  //   setSelectedRow(row);
+  //   setOpenUpdate(true);
+  // };
 
   /*const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -720,12 +683,12 @@ const ProductList = () => {
     setPage(0);
   };
 
-  /*const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    //estado inicial de pais a filtrar
-    const [paisSelect,setPaisSelect]=React.useState({
+  //estado inicial de pais a filtrar
+  /* const [paisSelect,setPaisSelect]=React.useState({
       "id": 5,
       "description": "MEXICO",
       "region": "CDMX",
@@ -733,26 +696,175 @@ const ProductList = () => {
       "puerto": "DF"
   }); */
 
-
-
   const useStyles = makeStyles({
     tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)",  // Color y grosor del borde 
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
       //whiteSpace: 'nowrap',
     },
+    tableCell2: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      padding: "1px 1px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      // fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 120,
+      // paddingLeft: 40,
+      margin: "-5px",
+    },
+    tableCellCabecera: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "#2196f3",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      padding: "5px 5px", // Ajuste del padding según necesidad
+      lineHeight: "2", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 100,
+      maxHeight: 3,
+    },
+    tableCellUltimaTarifa: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "lightGreen",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft: 40,
+    },
+    tableCellTarifaAnterior: {
+      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
+      whiteSpace: "nowrap",
+      backgroundColor: "lightgray",
+      overflow: "hidden", // asegura que el contenido extra esté oculto
+      textOverflow: "ellipsis", // agrega puntos suspensivos al final
+      padding: "6px 6px", // Ajuste del padding según necesidad
+      lineHeight: "1", // Ajuste de la altura de línea según necesidad
+      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
+      maxWidth: 80,
+      paddingLeft: 40,
+    },
     lastCell: {
-      borderRight: "none"
+      borderRight: "none",
     },
   });
 
   const classes = useStyles();
+  const headCellsCabecera = [
+    {
+      aling: "center",
+      Label: "Fecha",
+      atributoRow: 'fecha',
+    },
+    {
+      aling: "left",
+      Label: "Flete 4HQ/STD",
+      atributoRow: 'flete_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Flete 20FT",
+      atributoRow: 'flete_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Seguro Var. (segun FOB)",
+      atributoRow: 'seguro',
+    },
+    {
+      aling: "left",
+      Label: "Gastos Locales FWD 40HQ/STD",
+      atributoRow: 'gloc_fwd_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Gastos Locales FWD 20FT",
+      atributoRow: 'gloc_fwd_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Terminal 40HQ/STD",
+      atributoRow: 'terminal_1p40sthq',
+    },
+    {
+      aling: "left",
+      Label: "Terminal 20FT",
+      atributoRow: 'terminal_1p20ft',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 1*40HQ/STD GUAD",
+      atributoRow: 'fleteint_1p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 1*20FT GUAD",
+      atributoRow: 'fleteint_1p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*40HQ/STD GUAD",
+      atributoRow: 'fleteint_2p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*20FT GUAD",
+      atributoRow: 'fleteint_2p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*40HQ/STD CDMX",
+      atributoRow: 'fleteint_2p40sthq_cdmx',
+    },
+    {
+      aling: "left",
+      Label: "Flete Interno 2*20FT/STD CDMX",
+      atributoRow: 'fleteint_2p20ft_cdmx',
+    },
+    {
+      aling: "left",
+      Label: "Descarga MELI GUAD 40HQ/STD",
+      atributoRow: 'descarga_meli_1p40sthq_guad',
+    },
+    {
+      aling: "left",
+      Label: "Descarga MELI GUAD 20FT",
+      atributoRow: 'descarga_meli_1p20ft_guad',
+    },
+    {
+      aling: "left",
+      Label: "Despachante Cargo Fijo por Oper.",
+      atributoRow: 'despa_fijo',
+    },
+    {
+      aling: "left",
+      Label: "Despachante Variable Segun CIF",
+      atributoRow: 'despa_var',
+    },
+    {
+      aling: "left",
+      Label: "Clasificacion por Oper.",
+      atributoRow: 'despa_clasific',
+    },
+    {
+      aling: "left",
+      Label: "Consultoria Compliance por Oper.",
+      atributoRow: 'despa_consult',
+    },
+    {
+      aling: "left",
+      Label: "Accion",
+      atributoRow: null,
+    },
+  ];
 
-
-  console.log(rows);  
+  // console.log(rows);
   return (
     <>
       {
-        <MainCard title={`Maestro ${TableName} - [USD]`}content={false}>
+        <MainCard title={`Maestro ${TableName} - [USD]`} content={false}>
           <CardContent>
             <Grid
               container
@@ -762,7 +874,7 @@ const ProductList = () => {
             >
               {/* BOTON DE SEARCH */}
               <Grid item xs={12} sm={6}>
-                <TextField
+                {/* <TextField
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -774,14 +886,32 @@ const ProductList = () => {
                   placeholder={`Buscar en ${TableName}`}
                   value={search}
                   size="small"
-                />
+                /> */}
               </Grid>
 
               <Grid item xs={12} sm={6} sx={{ textAlign: "right" }}>
                 {/* add & dialog */}
                 {AddOK && (
                   <>
-                    <Tooltip title="Add item">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                        top: "-55px", // Posición desde la parte superior del contenedor
+                        right: "50px", // Posición desde la derecha del contenedor
+                        margin: "-25px",
+                      }}
+                    >
+                      <AnimateButton>
+                        <Button
+                          variant="contained"
+                          onClick={handleClickOpenDialog}
+                        >
+                          Agregar Nueva Tarifa
+                        </Button>
+                      </AnimateButton>
+                      {/* <Tooltip title="Add item">
                       <Fab
                         color="primary"
                         size="small"
@@ -796,26 +926,24 @@ const ProductList = () => {
                       >
                         <AddIcon fontSize="small" />
                       </Fab>
-                    </Tooltip>
-                    <AddTarifario
-                      dataRow={rows[0]}
-                      open={open}
-                      handleCloseDialog={handleCloseDialog}
-                      handleCreateAPI={handleCreateAPI}
-                      TableName={TableName}
-                      headCells={headCells}
-                      dataSelectPais={""}
-                      dataTerminales={""}
-                      dataCarga={""}
-                      dataPoliza={""}
-                    />
+                    </Tooltip> */}
+                      <AddTarifario
+                        dataRow={rows[0]}
+                        open={open}
+                        handleCloseDialog={handleCloseDialog}
+                        handleCreateAPI={handleCreateAPI}
+                        TableName={TableName}
+                        headCells={headCells}
+                        dataSelectPais={""}
+                        dataTerminales={""}
+                        dataCarga={""}
+                        dataPoliza={""}
+                      />
+                    </div>
                   </>
                 )}
               </Grid>
             </Grid>
-            <Typography>
-                <br/>
-            </Typography>
 
             {/* SELECT REGION */}
             {/* <Box sx={{ minWidth: 120} }>
@@ -840,171 +968,78 @@ const ProductList = () => {
                           </Select>
                     </FormControl>
                   </Box> */}
-
           </CardContent>
 
           {/* table */}
-          <Grid container spacing={3}>
+          <Grid container spacing={3} sx={{margin:'2px', marginTop:'-20px'}}>
             <Grid item xs={12}>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      {/*VISTA ABREVIADA*/}
-                      
-                        <>
-                          <TableCell align="center"
-                            sx={{ minWidth: 120, backgroundColor: '#2196f3' }}
-                          className={classes.tableCell}>
-                            Fecha
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/  backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete 4HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:80,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Seguro Var. (segun FOB)
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Gastos Locales FWD 40HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Gastos Locales FWD 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minwidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Terminal 40HQ/STD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:110,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Terminal 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 1*40HQ/STD GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 1*20FT GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*40HQ/STD GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*20FT GUAD
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*40HQ/STD CDMX
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Flete Interno 2*20FT/STD CDMX
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Descarga MELI GUAD 40HQ/STD
-                          </TableCell><TableCell align="right" sx={{ minWidth:130,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Descarga MELI GUAD 20FT
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:120,/*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Despachante Cargo Fijo por Oper. 
-                          </TableCell>
-                          <TableCell align="center" sx={{ mindWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Despachante Variable Segun CIF
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Clasificacion por Oper.
-                          </TableCell>
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Consultoria Compliance por Oper.
-                          </TableCell>   
-                          <TableCell align="center" sx={{ minWidth:130, /*whiteSpace: 'nowrap',*/ backgroundColor: '#2196f3' }} className={classes.tableCell}>
-                            Accion
-                          </TableCell>                      
-                        </>
+                      {/* ITEMS DE CABECERA */}
+                      <>
+                        {headCellsCabecera.map((item) => (
+                          <Tooltip title={item.Label}>
+                            <TableCell
+                              align="center"
+                              className={classes.tableCellCabecera}
+                            >
+                              {item.Label}
+                            </TableCell>
+                          </Tooltip>
+                        ))}
+                      </>
 
                       <TableCell align="right" sx={{ pr: 3 }} />
                     </TableRow>
                   </TableHead>
 
-                  
-                    <TableBody>
-                    {rows.map((row, index) => {
-                           return (
-                                                                                   
-                        <TableRow
-                         sx={index==0?{backgroundColor:"lightGreen"}:{backgroundColor:"lightgray"}}
-                        >
-                          <TableCell sx={{ pl: 3, maxWidth: 350 }} className={classes.tableCell}>
-                            <Typography align="left" variant="subtitle1">
-                            {row.fecha
-                                  ? UtilidadesHelper.formatFecha(
-                                    row.fecha
-                                                                )
+                  <TableBody>
+                    {rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        return (
+                          <TableRow
+                            className={
+                              index === 0
+                                ? classes.tableCellUltimaTarifa
+                                : classes.tableCellTarifaAnterior
+                            } //maneja indice
+                          >
+                            <TableCell className={classes.tableCell2}>
+                              <Typography align="center" variant="subtitle1">
+                                {row.fecha
+                                  ? UtilidadesHelper.formatFecha(row.fecha)
                                   : "Sin data"}
-                              {/* {row.description} */}
-                              {/* {console.log(row)} */}
-                            </Typography>
-                          </TableCell>
-                          {/* DATOS DE LA VISTA ABREVIADA */}
-                          
-                              
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_1p40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.flete_1p20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.seguro.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.gloc_fwd_1p40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.gloc_fwd_1p20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_1p40sthq.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.terminal_1p20ft.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_1p40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_1p20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_2p40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_2p20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_2p40sthq_cdmx.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.fleteint_2p20ft_cdmx.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_1p40sthq_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.descarga_meli_1p20ft_guad.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_fijo.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_var.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_clasific.toFixed(2)}
-                              </TableCell>
-                              <TableCell align="right" className={classes.tableCell}>
-                                {row.despa_consult.toFixed(2)}
-                              </TableCell>
+                                {/* {row.description} */}
+                                {/* {console.log(row)} */}
+                              </Typography>
+                            </TableCell>
+                            {/* DATOS DE LA VISTA ABREVIADA */}
 
-                              <TableCell align="center">
-                         
+                              {/* MAPEO DE LOS ELEMENTOS DEL BODY DE LA TABLA */}
+                            {
+                              headCellsCabecera
+                              .filter(item => item.atributoRow !== 'fecha' && item.atributoRow !== null)
+                              .map( (item) => (
+                                <TableCell
+                                  align="right"
+                                  className={classes.tableCell2}
+                                >
+                                  {row[item.atributoRow] ? row[item.atributoRow].toFixed(2) : (0).toFixed(2)}
+                                </TableCell>
+                              ))
+                            }
+
+                            <TableCell
+                              align="center"
+                              className={classes.tableCell2}
+                            >
+                              {index === 0 && EditOK ? (
                                 <Tooltip title="Delete">
                                   <IconButton size="large">
                                     <DeleteIcon
@@ -1013,17 +1048,18 @@ const ProductList = () => {
                                     />
                                   </IconButton>
                                 </Tooltip>
-                              </TableCell>
-                            </TableRow>       
-                    );})}
-                    </TableBody>
-                   
-                 
+                              ) : null}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                  
                 </Table>
               </TableContainer>
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <SubCard
                 sx={{
                   mx: 3,
@@ -1033,13 +1069,19 @@ const ProductList = () => {
                       ? theme.palette.dark.main
                       : theme.palette.primary.light,
                 }}
-              >
-                
-              </SubCard>
-            </Grid>
+              ></SubCard>
+            </Grid> */}
+            {/* table pagination */}
           </Grid>
-
-          
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </MainCard>
       }
     </>

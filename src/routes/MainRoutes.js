@@ -222,6 +222,14 @@ const AppSimuladorMexUpdate = Loadable(lazy(() => import('views/application/tabl
 const AppSimuladorOrderDetails = Loadable(lazy(() => import('views/application/tablasDisbyte/Simulador/OrderDetails')))
 
 
+//Inbound
+//MEX
+const AppInboundMexList = Loadable(lazy(() => import('views/application/tablasDisbyte/Inbound/PresupuestadorList/ListMex')))
+const AppInboundMexCreate = Loadable(lazy(() => import('views/application/tablasDisbyte/Inbound/CreatePresupuesto/IndexMex')))
+const AppInboundMexUpdate = Loadable(lazy(() => import('views/application/tablasDisbyte/Inbound/UpdateVersPresupuesto/IndexMex')))
+const AppInboundOrderDetails = Loadable(lazy(() => import('views/application/tablasDisbyte/Inbound/OrderDetails')))
+
+
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -499,16 +507,34 @@ const MainRoutes = {
             element: <AppSimuladorMexUpdate />
         },
         {
-            path: '/simuladorMEX/update-simuladorMEX/:estnumber/:vers',
-            element: <AppSimuladorMexUpdate />
-        },
-        {
             path: '/simuladorMEX/details',
             element: <AppSimuladorOrderDetails />
         },
         {
             path: '/simuladorMEX/details/:estnumber/:vers',
             element: <AppSimuladorOrderDetails />
+        },
+
+        // RUTA INBOUND
+         {
+            path: '/inboundMEX/inbound',
+            element: <AppInboundMexList />
+        }, 
+        {
+            path: '/inboundMEX/CreateInboundMex',
+            element: <AppInboundMexCreate />
+        },
+        {
+            path: '/inboundMEX/update-inboudMEX/:estnumber/:vers',
+            element: <AppInboundMexUpdate />
+        },
+        {
+            path: '/inboundMEX/details',
+            element: <AppInboundOrderDetails />
+        },
+        {
+            path: '/inboundMEX/details/:estnumber/:vers',
+            element: <AppInboundOrderDetails />
         },
 
         // RUTA PRESUPUESTADOR

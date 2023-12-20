@@ -40,11 +40,11 @@ import VisibilityTwoToneIcon from "@mui/icons-material/VisibilityTwoTone";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import { StatusComp } from "./StatusComp";
+import { StatusComp } from "../../../Components/StatusComp";
 import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { SelectPaises } from "../MASTERTABLES/SelectPaises";
-import { SelectPais } from "./SelectPais";
+import { SelectPais } from "../../../Components/Formularios/Selects/SelectPais";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -311,7 +311,7 @@ const CustomerList = () => {
 
 
   React.useEffect(() => {
-    dispatch(getCustomers());
+    dispatch(getCustomersSourcing());
   }, [dispatch]);
 
   React.useEffect(() => {

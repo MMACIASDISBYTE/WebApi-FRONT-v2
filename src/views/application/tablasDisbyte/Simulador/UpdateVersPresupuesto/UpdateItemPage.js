@@ -286,7 +286,7 @@ const UpdateItemPage = ({
         ...item,
       })); 
       setNCMList2(opciones)
-      console.log('Opciones NCM :', opciones);
+      // console.log('Opciones NCM :', opciones);
 
     }
 
@@ -340,7 +340,6 @@ const UpdateItemPage = ({
         };
       }
       const selectedOption = selectedList?.find((item) => item.id === value);
-      console.log("selectedOption :", selectedOption);
       let updatedSelectedItem = { ...selectedItem };
 
       // Si hay un selectedList y un selectedData, actualiza según eso

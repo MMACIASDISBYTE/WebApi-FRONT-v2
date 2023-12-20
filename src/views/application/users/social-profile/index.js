@@ -24,7 +24,7 @@ import { gridSpacing } from 'store/constant';
 import { IconFriends, IconInbox, IconPhoto, IconUserPlus, IconUsers } from '@tabler/icons';
 import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
 
-import User1 from 'assets/images/users/img-user.png';
+// import User1 from 'assets/images/users/img-user.png';
 import Cover from 'assets/images/profile/img-profile-bg.png';
 // import Cover from 'assets/images/disbyte/contenedores.jpeg'
 

@@ -8,8 +8,6 @@ import {
   Box,
   Button,
   CardContent,
-  Checkbox,
-  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -29,12 +27,11 @@ import {
 import { visuallyHidden } from "@mui/utils";
 import { makeStyles } from "@material-ui/core";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 
 // project imports
 import MainCard from "ui-component/cards/MainCard";
 import { useDispatch, useSelector } from "store";
-import customer, { getCustomers } from "store/slices/customer";
+import customer, { getCustomers, getCustomersInbound } from "store/slices/customer";
 
 // assets
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -44,15 +41,13 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
 import { StatusComp } from "../StatusComp";
-import SubCard from "ui-component/cards/SubCard";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { SelectPaises } from "../../MASTERTABLES/SelectPaises";
-import { SelectPais } from "../SelectPais";
 import { SelectCarga } from "../SelectCarga";
 import { SelectEstado } from "../SelectEstado";
-import { SelectOwner } from "../../Simulador/SelectOwner";
+import { SelectOwner } from "../../../../Components/Formularios/Selects/SelectOwner";
 import useAuth from "hooks/useAuth";
 import { PresupuestoHelper } from "helpers/PresupuestoHelper";
+import { useCommonStyles } from "helpers/CommonStyles";
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -177,23 +172,8 @@ function EnhancedTableHead({
     onRequestSort(event, property);
   };
 
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      minWidth: 100,
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      backgroundColor: "#2196f3",
-      padding: "6px 16px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 100,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+  // uso de estilos globales importados
+  const classes = useCommonStyles();
 
   return (
     <TableHead>
@@ -361,7 +341,7 @@ const CustomerList = () => {
   }, []);
 
   React.useEffect(() => {
-    dispatch(getCustomers());
+    dispatch(getCustomersInbound()); // llama a la lista de inboun de comex
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -410,7 +390,7 @@ const CustomerList = () => {
         (presupuesto) => presupuesto.status === seleccionEstado
       );
     }
-    console.log(seleccionOwner);
+
     // Si hay un carga seleccionado, filtrar por país
     // if (seleccionOwner !== null && seleccionOwner !== undefined) {
     //   presupuestosFiltrados = presupuestosFiltrados.filter(
@@ -568,33 +548,8 @@ const CustomerList = () => {
     navigate(`/estimate/update-estimateMEX/${estnumber}/${estvers}`);
   };
 
-  const useStyles = makeStyles({
-    tableCell: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      textOverflow: "ellipsis", // agrega puntos suspensivos al final
-      padding: "6px 6px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 130,
-    },
-    tableCell2: {
-      borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      overflow: "hidden", // asegura que el contenido extra esté oculto
-      textOverflow: "ellipsis", // agrega puntos suspensivos al final
-      padding: "6px 6px", // Ajuste del padding según necesidad
-      lineHeight: "1", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-      maxWidth: 80,
-      paddingLeft: 40,
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+  
+  const classes = useCommonStyles();
   const { user } = useAuth();
   // console.log("owners", ownersList);
 

@@ -2,17 +2,13 @@
 // Se normiliza la vista del detalle, tal y como apacere en el XLS con una vista abreviada y una FULL.
 
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
   Avatar,
   Button,
-  Divider,
   Grid,
-  IconButton,
   Stack,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -24,25 +20,22 @@ import {
 } from "@mui/material";
 // Importa CircularProgress de Material UI
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
 
 // project imports
 import SubCard from "ui-component/cards/SubCard";
 import Chip from "ui-component/extended/Chip";
 import { gridSpacing } from "store/constant";
 // assets
-import CalendarTodayTwoToneIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import EmailTwoToneIcon from "@mui/icons-material/EmailTwoTone";
-import PhoneAndroidTwoToneIcon from "@mui/icons-material/PhoneAndroidTwoTone";
 import { useEffect, useState } from "react";
 import AnimateButton from "ui-component/extended/AnimateButton";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { Box } from "@mui/system";
-import { ImagenAvatar } from "../CreatePresupuesto/ImagenAvatar";
+import { Box, ThemeProvider, display } from "@mui/system";
+import { ImagenAvatar } from "../../../../Components/ImagenAvatar";
+import { BarraContenedores } from "views/Components/Contenedores/BarraContenedores";
+import { TablaContenedores } from "views/Components/Contenedores/TablaContenedores";
+import { useCommonStyles } from "helpers/CommonStyles";
+import { CargaHelper } from "helpers/CargaHelper";
 
 const sxDivider = {
   borderColor: "primary.light",
@@ -56,11 +49,10 @@ const detailsIconSX = {
   mt: 0.25,
 };
 
-const Details = ({ presupuestador, usuario, historico }) => {
+const Details = ({ presupuestador, usuario, historico, estados }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const permisos = useAccessTokenJWT();
-  // console.log(permisos);
 
   const editarPresu = permisos.includes("presupuesto:edit");
 
@@ -74,7 +66,8 @@ const Details = ({ presupuestador, usuario, historico }) => {
   const [verMas, setVerMas] = useState(true);
   const [pais, setPais] = useState(0);
   const [showHistorico, setShowHistorico] = useState(false);
-  //console.log(rows);
+  const [selRow, setSelRow] = useState(0);
+
   //console.log(pais);
 
   useEffect(() => {
@@ -110,6 +103,29 @@ const Details = ({ presupuestador, usuario, historico }) => {
     navigate(`/simuladorMEX/update-simuladorMEX/${estnumber}/${estvers}`);
     // navigate(`/estimate/update-estimate/${estnumber}/${estvers}`);
   };
+
+
+  const[cargas,setCargas]=useState();
+  const[carga,setCarga]=useState();
+
+  const dataHelpers = async () => {
+    const cargas = await CargaHelper.fetchData();
+    setCargas(cargas);
+  }
+
+
+  useEffect(()=>{
+    dataHelpers();
+  },[])
+  useEffect(()=>{
+                  
+    if(cargas!=undefined)
+    {
+        setCarga(cargas.filter((miCarga)=>miCarga?.description===presupuestador?.carga_str)[0])
+        // console.log(cargas,carga);
+    }
+
+  },[cargas,presupuestador])
 
   // totales de los que no dispone el json o no estan operativos a la fecha
   // Suma de los extrag
@@ -190,24 +206,605 @@ const Details = ({ presupuestador, usuario, historico }) => {
     }
     setVerMas(false);
   };
-  const useStyles = makeStyles({
-    tableCellCabecera: {
-      border: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-      padding: "6px 16px", // Ajuste del padding según necesidad
-      lineHeight: "1.4", // Ajuste de la altura de línea según necesidad
-      fontSize: "0.875rem", // Opcional: ajuste del tamaño de la fuente si es necesario
-    },
-    tableCell: {
-      border: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde
-      whiteSpace: "nowrap",
-    },
-    lastCell: {
-      borderRight: "none",
-    },
-  });
-  const classes = useStyles();
+
+
+  
+  // const classes = useStyles();
+  const classes = useCommonStyles(); //importo estilos propios
   const [isHovered, setIsHovered] = useState(false); //maneja el evento de la imagen
+
+  const handleSelectRow = (selectedRow) => {
+    setSelRow(selectedRow);
+  };
+
+  // alineado: el tipo de alineacion en la tabla
+  // nombre: el nombre que tendra a la vista en la tabla
+  // atributo: nombre del atributo que llega del JSON
+  // tipoDeVista: determina a dnd pertenece su visualizacion
+  //tipoDato: se agrega al string su tipo si es Kg, m3, u., etc.
+  const DatosPackaging = [
+    {
+      alineado: "center",
+      nombre: "Art.",
+      atributo: "index",
+      tipoDato: "index",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "center",
+      nombre: "SKU",
+      atributo: "sku",
+      tipoDato: "string",
+      tipoDeVista: 'todo',
+      claseStyle: 'tableCellMediumSuspensivos',
+    },
+    {
+      alineado: "center",
+      nombre: "Commodity",
+      atributo: "description",
+      tipoDato: "string",
+      tipoDeVista: 'todo',
+      claseStyle: 'tableCellMediumSuspensivos',
+    },
+    {
+      alineado: "center",
+      nombre: "Proveedor",
+      atributo: "proveedor",
+      tipoDato: "busquedaProveedor",
+      tipoDeVista: 'todo',
+      claseStyle: 'tableCellMediumSuspensivos',
+    },
+    {
+      alineado: "center",
+      nombre: "Imagen URL",
+      atributo: "imageurl",
+      tipoDato: "imagen",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "center",
+      nombre: "NCM",
+      atributo: "ncm_str",
+      tipoDato: "busquedaNCM",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "ARANC.[%]",
+      atributo: "ncm_arancel",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "DTA[%]",
+      atributo: "ncm_te_dta_otro",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "IVA[%]",
+      atributo: "ncm_iva",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "Qty[PCS]",
+      atributo: "qty",
+      tipoDato: "unitario",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "PCS/CTN",
+      atributo: "pcsctn",
+      tipoDato: "unitario",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "CBM/CTN[m3]",
+      atributo: "cbmctn",
+      tipoDato: "metraje",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "GW CTN[kg]",
+      atributo: "gwctn",
+      tipoDato: "peso",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "Total CBM[m3]",
+      atributo: "totalcbm",
+      tipoDato: "metraje",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "Total GW[kg]",
+      atributo: "totalgw",
+      tipoDato: "peso",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+    {
+      alineado: "right",
+      nombre: "FP[%]",
+      atributo: "factorproducto",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+    },
+  ];
+
+  //en este caso se agrega el atributo orden el cual dependiendo si es vista ampliada o no se respetara
+  //si es vista reducida verMas = TRUE se muestran los tipoDeVista = reducida y si es FALSE se muestra
+  //se muestra absolutamente todos los elementos de ARR respetando el orden
+  const DatosArancelarios = [
+    //vista reducida
+    {
+      alineado: "center",
+      nombre: "Art.",
+      atributo: "index",
+      tipoDato: "index",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 1,
+    },
+    {
+      alineado: "center",
+      nombre: "SKU",
+      atributo: "sku",
+      tipoDato: "string",
+      tipoDeVista: 'reducida',
+      claseStyle: 'tableCellMediumSuspensivosSmall',
+      orden: 2,
+    },
+    {
+      alineado: "right",
+      nombre: "EXW u.[USD]",
+      atributo: "exw_u",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 5,
+    },
+    {
+      alineado: "right",
+      nombre: "FOB u.[USD]",
+      atributo: "fob_u",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 6,
+    },
+    {
+      alineado: "right",
+      nombre: "Tot.FOB[USD]",
+      atributo: "totalfob",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 7,
+    },
+    {
+      alineado: "right",
+      nombre: "FP[%]",
+      atributo: "factorproducto",
+      tipoDato: "porciento",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 8,
+    },
+    {
+      alineado: "right",
+      nombre: "Freight[USD]",
+      atributo: "freightCharge",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 9,
+    },
+    {
+      alineado: "right",
+      nombre: "Ins[USD]",
+      atributo: "insuranceCharge",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 10,
+    },
+    {
+      alineado: "right",
+      nombre: "CIF TOT[USD]",
+      atributo: "totalcif",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 11,
+    },
+    {
+      alineado: "right",
+      nombre: "ARANC.[USD]",
+      atributo: "arancelgrav_cif",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 14,
+    },
+    {
+      alineado: "right",
+      nombre: "DTA[%]",
+      atributo: "ncm_te_dta_otro",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 14.5,
+    },
+    {
+      alineado: "right",
+      nombre: "DTA[USD]",
+      atributo: "te_dta_otro_cif",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 15,
+    },
+    {
+      alineado: "right",
+      nombre: "BASE IVA[USD]",
+      atributo: "baseiva",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 16,
+    },
+    {
+      alineado: "right",
+      nombre: "IVA[USD]	",
+      atributo: "iva_cif",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 18,
+    },
+    {
+      alineado: "right",
+      nombre: "IMP TOT[USD]",
+      atributo: "sumImpuestosPais",
+      tipoDato: "funcion_sumImpuestosPais",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 19,
+    },
+    {
+      alineado: "right",
+      nombre: "Tot.GLOC[USD]",
+      atributo: "sumGlocPais",
+      tipoDato: "funcion_sumGlocPais",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 46,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. TOT.",
+      atributo: "sumExtrag",
+      tipoDato: "funcion_sumExtrag",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 47,
+    },
+    {
+      alineado: "right",
+      nombre: "COSTO u.[USD]",
+      atributo: "costo_u",
+      tipoDato: "number",
+      tipoDeVista: 'reducida',
+      claseStyle: '',
+      orden: 48,
+    },
+
+    //vista completa
+    {
+      alineado: "center",
+      nombre: "Proveedor",
+      atributo: "proveedor",
+      tipoDato: "busquedaProveedor",
+      tipoDeVista: 'todo',
+      claseStyle: 'tableCellMediumSuspensivos',
+      orden: 3,
+    },
+    {
+      alineado: "center",
+      nombre: "NCM",
+      atributo: "ncm_str",
+      tipoDato: "busquedaNCM",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 4,
+    },
+    {
+      alineado: "right",
+      nombre: "FOB/CIF[%]",
+      atributo: "totalcif/totalfob",
+      tipoDato: "totalcif/totalfob",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 12,
+    },
+    {
+      alineado: "right",
+      nombre: "ARANC.[%]",
+      atributo: "ncm_arancel",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 13,
+    },
+    {
+      alineado: "right",
+      nombre: "IVA[%]",
+      atributo: "ncm_iva",
+      tipoDato: "porciento",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 17,
+    },
+    //Gastos locales
+    {
+      alineado: "right",
+      nombre: "Gasto Terminal[USD]",
+      atributo: "gloc_terminales",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 20,
+    },
+    {
+      alineado: "right",
+      nombre: "Flete Interno[USD]",
+      atributo: "gloc_flete",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 21,
+    },
+    {
+      alineado: "right",
+      nombre: "Gasto Loc. FWD[USD]",
+      atributo: "gloc_fwd",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 22,
+    },
+    {
+      alineado: "right",
+      nombre: "Gasto DESPA[USD]",
+      atributo: "gloc_despachantes",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 23,
+    },
+    {
+      alineado: "right",
+      nombre: "Total Gast Dest[USD]",
+      atributo: "funcion_sumGlocPais",
+      tipoDato: "funcion_sumGlocPais",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 24,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. SRC1[USD]",
+      atributo: "extrag_src1",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 25,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. SRC2[USD]",
+      atributo: "extrag_src2",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 26,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. SRC NOTAS",
+      atributo: "extrag_src_notas",
+      tipoDato: "string",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 27,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. CMX1[USD]",
+      atributo: "extrag_comex1",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 28,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. CMX2[USD]",
+      atributo: "extrag_comex2",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 29,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. CMX3[USD]",
+      atributo: "extrag_comex3",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 30,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. CMX NOTAS",
+      atributo: "extrag_comex_notas",
+      tipoDato: "string",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 31,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. FIN1[USD]",
+      atributo: "extrag_finan1",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 32,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. FIN2[USD]",
+      atributo: "extrag_finan2",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 33,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. FIN3[USD]",
+      atributo: "extrag_finan3",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 34,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. FIN NOTAS",
+      atributo: "extrag_finan_notas",
+      tipoDato: "string",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 35,
+    },
+    //extra Gastos Globales
+    {
+      alineado: "right",
+      nombre: "Extrg. gCMX1 [USD]",
+      atributo: "extrag_glob_comex1",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 36,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gCMX2 [USD]",
+      atributo: "extrag_glob_comex2",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 37,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gCMX3 [USD]",
+      atributo: "extrag_glob_comex3",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 38,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gCMX4 [USD]",
+      atributo: "extrag_glob_comex4",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 39,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gCMX5 [USD]",
+      atributo: "extrag_glob_comex5",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 40,
+    },
+
+    {
+      alineado: "right",
+      nombre: "Extrg. gFIN1 [USD]",
+      atributo: "extrag_glob_finan1",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 41,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gFIN2 [USD]",
+      atributo: "extrag_glob_finan2",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 42,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gFIN3 [USD]",
+      atributo: "extrag_glob_finan3",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 43,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gFIN4 [USD]",
+      atributo: "extrag_glob_finan4",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 44,
+    },
+    {
+      alineado: "right",
+      nombre: "Extrg. gFIN5 [USD]",
+      atributo: "extrag_glob_finan5",
+      tipoDato: "number",
+      tipoDeVista: 'todo',
+      claseStyle: '',
+      orden: 45,
+    },
+  ];
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -217,2634 +814,692 @@ const Details = ({ presupuestador, usuario, historico }) => {
         </div>
       ) : (
         <Grid item xs={12}>
-          <SubCard
-            title="Presupuesto"
-            secondary={
-              <Typography variant="subtitle1">
+          <Grid container spacing={gridSpacing}>
+            <Grid item xs={11}>
+              <Typography
+                variant="h3"
+                color={theme.palette.mode === "dark" ? "white" : "black"}
+                display={"inline"}
+              >
+                {"SOURCING >>>> PRJ: "}
+              </Typography>
+              <Typography
+                variant="h3"
+                color={theme.palette.mode === "dark" ? "LightSkyBLue" : "grey"}
+                display={"inline"}
+                sx={{ fontStyle: "italic" }}
+              >
+                {presupuestador.estHeader.project
+                  ? `${presupuestador.estHeader.project}`
+                  : "Sin data"}{" "}
+              </Typography>
+
+              <Typography
+                variant="h3"
+                color={theme.palette.mode === "dark" ? "white" : "black"}
+                display={"inline"}
+              >
+                {" / EMISOR: "}
+              </Typography>
+              <Typography
+                variant="h3"
+                color={theme.palette.mode === "dark" ? "LightSkyBLue" : "grey"}
+                display={"inline"}
+                sx={{ fontStyle: "italic" }}
+              >
+                {presupuestador.estHeader.own
+                  ? `${presupuestador.estHeader.own}`
+                  : "Sin data"}{" "}
+              </Typography>
+
+              <Grid container justifyContent="flex-end">
                 <AnimateButton>
                   <Button
                     variant="contained"
+                    sx={{
+                      background: "#2196f3",
+                      position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                      top: "-30px", // Posición desde la parte superior del contenedor
+                      spacing: "25px",
+                      right: "-205px", // Posición desde la derecha del contenedor
+                      //margin: "-25px",
+                      "&:hover": { background: "#2554C7" },
+                    }}
                     onClick={() => navigate("/simuladorMEX/simulador")}
                   >
                     Volver a la lista
                   </Button>
                 </AnimateButton>
-              </Typography>
-            }
-          >
-            <Grid container spacing={gridSpacing}>
-              <Grid item xs={12}>
-                <Grid container spacing={3}>
-                  <Grid item>
-                    <Avatar
-                      src={usuario.avatar}
-                      sx={{
-                        ...theme.typography.mediumAvatar,
-                        margin: "0px 0 8px 8px !important",
-                        width: "50px",
-                        height: "50px",
-                      }}
-                      aria-haspopup="true"
-                      color="inherit"
-                      alt="user-account"
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2">
-                      <CalendarTodayTwoToneIcon sx={detailsIconSX} />{" "}
-                      {usuario.name}
-                    </Typography>
-                  </Grid>
-
-                  <Grid item>
-                    <Typography variant="body2">
-                      <EmailTwoToneIcon sx={detailsIconSX} />
-                      {usuario.email}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider sx={sxDivider} />
-              </Grid>
-
-              <Grid item xs={12}>
-                {/*
-                <Typography variant="h2" color={"yellowgreen"}>
-                  Presupuesto #00
-                  {presupuestador.estHeader.estnumber
-                    ? presupuestador.estHeader.estnumber
-                    : "Sin data"}{" "}
-                  /00
-                  {presupuestador.estHeader.estvers
-                    ? presupuestador.estHeader.estvers
-                    : "Sin data"}
-                </Typography>
-*/}
-                <Typography variant="h2" color={"mediumseagreen"}> 
-                  {presupuestador.estHeader.project
-                    ? `#PRJ: ${presupuestador.estHeader.project}`
-                    : "Sin data"}{" "}
-                </Typography>
-
-
-                <Typography variant="h4" color={"dimgrey"}>
-                  OWNER:{" "}
-                  {presupuestador.estHeader.own
-                    ? presupuestador.estHeader.own
-                    : "Sin data"}
-                </Typography>
-
                 {editarPresu && (
-                  <Grid container justifyContent="flex-end">
-                    <AnimateButton>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          background: theme.palette.error.main,
-                          position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
-                          top: "-55px", // Posición desde la parte superior del contenedor
-                          //right: "10px", // Posición desde la derecha del contenedor
-                          //margin: "-25px",
-                          "&:hover": { background: theme.palette.error.dark },
-                        }}
-                        onClick={() =>
-                          nuevoPresupuesto(
-                            presupuestador.estHeader.estnumber,
-                            presupuestador.estHeader.estvers
-                          )
-                        }
-                      >
-                        Modificar
-                      </Button>
-                    </AnimateButton>
-                  </Grid>
+                  <AnimateButton>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background: theme.palette.error.main,
+                        position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                        top: "-30px", // Posición desde la parte superior del contenedor
+                        right: "45px", // Posición desde la derecha del contenedor
+                        //margin: "-25px",
+                        "&:hover": { background: theme.palette.error.dark },
+                      }}
+                      onClick={() =>
+                        nuevoPresupuesto(
+                          presupuestador.estHeader.estnumber,
+                          presupuestador.estHeader.estvers
+                        )
+                      }
+                    >
+                      Modificar
+                    </Button>
+                  </AnimateButton>
                 )}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
 
-                <Grid container spacing={gridSpacing}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell
-                              colSpan={2}
-                              className={classes.tableCell}
-                              sx={{ backgroundColor: "#2196f3" }}
-                            >
-                              <Typography variant="h4">
-                                Detalle Carga
-                              </Typography>
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
+      <Grid container spacing={gridSpacing}>
+        <Grid item xs={12} sm={3} md={3} sx={{ marginLeft: "50px" }}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    colSpan={2}
+                    className={classes.tableCellCabecera3}
+                    sx={{ backgroundColor: "coral" }}
+                  >
+                    <Typography variant="h4">Detalle Carga</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
 
-                        <TableBody>
-                          <TableCell className={classes.tableCellCabecera}>
-                            Tipo:
-                          </TableCell>
-                          <TableCell className={classes.tableCellCabecera}>
-                            {presupuestador.carga_str
-                              ? presupuestador.carga_str
-                              : 0}
-                          </TableCell>
+              <TableBody>
+                <TableCell className={classes.tableCell}>Tipo:</TableCell>
+                <TableCell className={classes.tableCell}>
+                  {presupuestador.carga_str ? presupuestador.carga_str : 0}
+                </TableCell>
 
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Cant Contenedores:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.cantidad_contenedores
-                                ? presupuestador.estHeader.cantidad_contenedores.toFixed(
-                                    3
-                                  )
-                                : 0.0}
-                            </TableCell>
-                          </TableRow>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Cant Contenedores:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.cantidad_contenedores
+                      ? presupuestador.estHeader.cantidad_contenedores.toFixed(
+                          3
+                        )
+                      : 0.0}
+                  </TableCell>
+                </TableRow>
 
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Total CBM[m3]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.cbm_grand_total || 0
-                                ? presupuestador.estHeader.cbm_grand_total.toFixed(
-                                    2
-                                  )
-                                : 0.0}
-                            </TableCell>
-                          </TableRow>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Total CBM[m3]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.cbm_grand_total || 0
+                      ? presupuestador.estHeader.cbm_grand_total.toFixed(2)
+                      : 0.0}
+                  </TableCell>
+                </TableRow>
 
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Pais ORIG {" -> "} DEST :
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {/*ADVERTENCIA !!!!:. En el presupuesto hay datos sueltos que son complementarios al header.
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Pais ORIG {" -> "} DEST :
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {/*ADVERTENCIA !!!!:. En el presupuesto hay datos sueltos que son complementarios al header.
                                  No se incluyen en el header para no modificar el tipo de datos en todo el back. Se envian como datos sueltos
                                  (no so ni del detail ni del header) en le JSON. Esto se hizo para eliminar los IDs y tener las descripciones
                                  en un solo query, evitando varias fetch*/}
-                              {presupuestador.paisorig
-                                ? presupuestador.paisorig
-                                : ""}
-                              {" -> "}
-                              {presupuestador.paisdest
-                                ? presupuestador.paisdest
-                                : ""}
-                            </TableCell>
-                          </TableRow>
+                    {presupuestador.paisorig ? presupuestador.paisorig : ""}
+                    {" -> "}
+                    {presupuestador.paisdest ? presupuestador.paisdest : ""}
+                  </TableCell>
+                </TableRow>
 
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Flete[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.gloc_flete ||
-                              presupuestador.estHeader.gloc_flete == 0
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.gloc_flete.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Freight Cost[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.freight_cost ||
-                              presupuestador.estHeader.freight_cost == 0
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.freight_cost.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Freight Insurance Cost[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader
-                                .freight_insurance_cost ||
-                              presupuestador.estHeader.freight_insurance_cost ==
-                                0
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.freight_insurance_cost.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Total CIF[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.cif_grand_total
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.cif_grand_total.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Impuestos[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.impuestos_total
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.impuestos_total.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-
-                  {/* <Grid item xs={12} sm={6} md={4}>
-                    <Stack spacing={2}>
-                      <Typography variant="h4">Detalle Carga</Typography>
-                      <Stack spacing={0}>
-                        {/* <Typography variant="h6" sx={{ mb: 1 }}>
-                                                Credit Card
-                                            </Typography>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Tipo :
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.carga_str
-                              ? presupuestador.carga_str
-                              : 0}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Cant Contenedores:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.cantidad_contenedores
-                              ? presupuestador.estHeader.cantidad_contenedores.toFixed(
-                                  3
-                                )
-                              : 0.0}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Total CBM[m3]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.cbm_grand_total || 0
-                              ? presupuestador.estHeader.cbm_grand_total.toFixed(
-                                  2
-                                )
-                              : 0.0}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Pais ORIG {" -> "} DEST :
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.paisorig
-                              ? presupuestador.paisorig
-                              : ""}
-                            {" -> "}
-                            {presupuestador.paisdest
-                              ? presupuestador.paisdest
-                              : ""}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Flete[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.gloc_flete ||
-                            presupuestador.estHeader.gloc_flete == 0
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.gloc_flete.toFixed(2)
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Freight Cost[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.freight_cost ||
-                            presupuestador.estHeader.freight_cost == 0
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.freight_cost.toFixed(
-                                    2
-                                  )
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Freight Insurance Cost[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.freight_insurance_cost ||
-                            presupuestador.estHeader.freight_insurance_cost == 0
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.freight_insurance_cost.toFixed(
-                                    2
-                                  )
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Total CIF[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.cif_grand_total
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.cif_grand_total.toFixed(
-                                    2
-                                  )
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Impuestos[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.impuestos_total
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.impuestos_total.toFixed(
-                                    2
-                                  )
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid> */}
-
-                  {/* <Grid container spacing={gridSpacing}> */}
-
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell
-                              colSpan={2}
-                              className={classes.tableCell}
-                              sx={{ backgroundColor: "#2196f3" }}
-                            >
-                              <Typography variant="h4">
-                                Detalle Presupuesto
-                              </Typography>
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                          {/* <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Version:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              #00
-                              {presupuestador.estHeader.estnumber
-                                ? presupuestador.estHeader.estnumber
-                                : "#"}{" "}
-                              / V0
-                              {presupuestador.estHeader.estvers
-                                ? presupuestador.estHeader.estvers
-                                : "#"}
-                            </TableCell>
-                          </TableRow> */}
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Estado:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              <Chip
-                                sx={{ minWidth: "80px" }}
-                                label={
-                                  presupuestador?.estHeader?.status ||
-                                  presupuestador?.estHeader?.status == 0
-                                    ? `${
-                                        presupuestador.estHeader.status == 0
-                                          ? "Creacion"
-                                          : presupuestador.estHeader.status == 1
-                                          ? "Sourcing"
-                                          : presupuestador.estHeader.status == 2
-                                          ? "Comex"
-                                          : "Finan"
-                                      }`
-                                    : "Sin data"
-                                }
-                                variant="outlined"
-                                size="small"
-                                chipcolor="warning"
-                              />
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              PRJ:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.project
-                                ? presupuestador.estHeader.project
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Detalle:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.description
-                                ? presupuestador.estHeader.description
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Embarque:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.embarque
-                                ? presupuestador.estHeader.embarque
-                                : "#"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Emisor :
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              <Stack direction="row" spacing={2}>
-                                {
-                                  presupuestador.estHeader.avatar_url != '' && presupuestador.estHeader.avatar_url !== null ?(
-                                    <Avatar
-                                      alt={
-                                        presupuestador.estHeader.own
-                                          ? presupuestador.estHeader.own
-                                          : "Sin data"
-                                      }
-                                      src={presupuestador.estHeader.avatar_url}
-                                    />
-                                  ) : (
-                                    null
-                                  )
-                                }
-                                <typography>
-                                  {presupuestador.estHeader.own
-                                    ? presupuestador.estHeader.own
-                                    : "Sin data"}
-                                </typography>
-                              </Stack>
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Total Gastos loc.[USD]:
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {presupuestador.estHeader.gastos_loc_total ||
-                              presupuestador.estHeader.gastos_loc_total == 0
-                                ? UtilidadesHelper.formatNumber(
-                                    presupuestador.estHeader.gastos_loc_total.toFixed(
-                                      2
-                                    )
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-
-                          <TableRow>
-                            <TableCell className={classes.tableCellCabecera}>
-                              Ult. Modificacion :
-                            </TableCell>
-                            <TableCell className={classes.tableCellCabecera}>
-                              {/* Para formato de fecha importar date-fns */}
-                              {presupuestador.estHeader.htimestamp
-                                ? UtilidadesHelper.formatFechaYhora(
-                                    presupuestador.estHeader.htimestamp
-                                  )
-                                : "Sin data"}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-
-                  {/* <Grid item xs={12} sm={6} md={4}>
-                    <Stack spacing={2}>
-                      <Typography variant="h4">Detalle Presupuesto</Typography>
-                      <Stack spacing={0}>
-                        {/* <Typography variant="h6" sx={{ mb: 1 }}>
-                                                Carrier
-                                            </Typography>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            #00
-                            {presupuestador.estHeader.estnumber
-                              ? presupuestador.estHeader.estnumber
-                              : "#"}
-                          </Typography>
-                          <Typography variant="subtitle1" color={"green"}>
-                            / V0
-                            {presupuestador.estHeader.estvers
-                              ? presupuestador.estHeader.estvers
-                              : "#"}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            paddingLeft={3}
-                            color={"green"}
-                          >
-                            id:
-                            {presupuestador.estHeader.id
-                              ? presupuestador.estHeader.id
-                              : "#"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Detalle:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.description
-                              ? presupuestador.estHeader.description
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Prj:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.project
-                              ? presupuestador.estHeader.project
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Emisor :
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.own
-                              ? presupuestador.estHeader.own
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-
-                        {/* ESTIMADO NUMERO Y VERSION */}
-                  {/* <Stack direction="row" spacing={1}>
-                                                    <Typography variant="subtitle1">Numero :</Typography>
-                                                    <Typography variant="body2">{presupuestador.estnumber}</Typography>
-                                                </Stack>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Typography variant="subtitle1">Version :</Typography>
-                                                    <Typography variant="body2">{presupuestador.estvers}</Typography>
-                                                </Stack> */}
-
-                  {/* <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Dolar Billete :
-                          </Typography>
-                          <Typography variant="body2">
-                            ARS${" "}
-                            {presupuestador.estHeader.dolar
-                              ? presupuestador.estHeader.dolar.toFixed(2)
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Total Gastos loc.[USD]:
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.estHeader.gastos_loc_total ||
-                            presupuestador.estHeader.gastos_loc_total == 0
-                              ? UtilidadesHelper.formatNumber(
-                                  presupuestador.estHeader.gastos_loc_total.toFixed(
-                                    2
-                                  )
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-
-                        {/* <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            IVA Exc :
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.ivaexcento ? "Si" : "No"}
-                          </Typography>
-                        </Stack> */}
-
-                  {/* <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            IIBB :
-                          </Typography>
-                          <Typography variant="body2">
-                            {pais == 7
-                              ? presupuestador.estHeader.iibb_total
-                                ? `${presupuestador.estHeader.iibb_total.toFixed(
-                                    2
-                                  )} %`
-                                : 0.0
-                              : "NA"}
-                          </Typography>
-                        </Stack> 
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1" color={"green"}>
-                            Ult. Modificacion :
-                          </Typography>
-                          <Typography variant="body2">
-                            {" "}
-                            {/* Para formato de fecha importar date-fns 
-                            {presupuestador.estHeader.htimestamp
-                              ? UtilidadesHelper.formatFechaYhora(
-                                  presupuestador.estHeader.htimestamp
-                                )
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid> */}
-
-                  {/* <Grid item xs={12} sm={6} md={4}>
-                    <Stack spacing={2}>
-                      <Typography variant="h4">
-                        Historico Presupuesto
-                        {showHistorico ? (
-                          <Tooltip title="Ver Historico completo">
-                            <VisibilityOutlinedIcon
-                              variant="text"
-                              onClick={() => setShowHistorico(!showHistorico)}
-                            />
-                          </Tooltip>
-                        ) : (
-                          <Tooltip title="Reducir Historico">
-                            <VisibilityOffOutlinedIcon
-                              variant="text"
-                              onClick={() => setShowHistorico(!showHistorico)}
-                            />
-                          </Tooltip>
-                        )}
-                      </Typography>
-                      {(showHistorico ? historico : historico.slice(0, 4)).map(
-                        (historial) => (
-                          <Stack spacing={0}>
-                            {/* <Typography variant="h6" sx={{ mb: 1 }}>
-                                                Carrier
-                                            </Typography>
-                            <Stack direction="row" spacing={1}>
-                              <Typography variant="subtitle1" color={"green"}>
-                                Version:
-                              </Typography>
-                              <Typography variant="body2">
-                                {historial.estvers ? historial.estvers : "#"}
-                              </Typography>
-                              <Typography variant="subtitle1" color={"green"}>
-                                Emisor:
-                              </Typography>
-                              <Typography variant="body2">
-                                {historial.own ? historial.own : "Sin data"}
-                              </Typography>
-                            </Stack>
-                            <Stack direction="row" spacing={1}>
-                              <Typography variant="subtitle1" color={"green"}>
-                                Fecha:
-                              </Typography>
-                              <Typography variant="body2">
-                                {" "}
-                                {historial.htimestamp
-                                  ? UtilidadesHelper.formatFecha(
-                                      historial.htimestamp
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                              <Typography variant="subtitle1" color={"green"}>
-                                Estado :
-                              </Typography>
-                              <Typography variant="body2">
-                                {historial.status ? historial.status : "0"}
-                              </Typography>
-                              <Typography variant="subtitle1" color={"green"}>
-                                Fob Total[USD]:
-                              </Typography>
-                              <Typography variant="body2">
-                                {historial.fob_grand_total
-                                  ? `${historial.fob_grand_total.toFixed(2)}`
-                                  : "Sin data"}
-                              </Typography>
-                            </Stack>
-                          </Stack>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Flete[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.gloc_flete ||
+                    presupuestador?.estHeader?.gloc_flete == 0
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador.estHeader.gloc_flete.toFixed(2)
                         )
-                      )}
-                    </Stack>
-                  </Grid> */}
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
 
-                  {/* <Grid item xs={12} sm={6} md={4}>
-                                    <Stack spacing={0} sx={{ mt: { xs: 0, md: 3 } }}>
-                                        <Stack direction="row" spacing={1}>
-                                            <Typography variant="subtitle1">Fulfillment status :</Typography>
-                                            <Typography variant="body2">Delivered</Typography>
-                                        </Stack>
-                                        <Stack direction="row" spacing={1}>
-                                            <Typography variant="subtitle1">Payment status :</Typography>
-                                            <Chip label="Paid" variant="outlined" size="small" chipcolor="success" />
-                                        </Stack>
-                                    </Stack>
-                                </Grid> */}
-                </Grid>
-              </Grid>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Freight Cost[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.freight_cost ||
+                    presupuestador?.estHeader?.freight_cost == 0
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador.estHeader.freight_cost.toFixed(2)
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
 
-              <Grid item xs={12}>
-                <Divider sx={sxDivider} />
-              </Grid>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Freight Insurance Cost[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.freight_insurance_cost ||
+                    presupuestador?.estHeader?.freight_insurance_cost == 0
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador?.estHeader?.freight_insurance_cost.toFixed(
+                            2
+                          )
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
 
-              {/* <Grid item xs={12}>
-                <Grid container spacing={gridSpacing}>
-                  <Grid item sm={6} md={4}>
-                    <Stack spacing={2}>
-                      <Typography variant="h4">Servicios</Typography>
-                      <Stack spacing={0}>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">
-                            Despachante:{" "}
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_despachantes !== null &&
-                            presupuestador.gloc_despachantes !== undefined
-                              ? presupuestador.gloc_despachantes
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">Flete: </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_flete !== null &&
-                            presupuestador.gloc_flete !== undefined
-                              ? presupuestador.gloc_flete.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">
-                            Gestion Dig:{" "}
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_gestdigdoc !== null &&
-                            presupuestador.gloc_gestdigdoc !== undefined
-                              ? presupuestador.gloc_gestdigdoc.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">Banco: </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_bancos !== null &&
-                            presupuestador.gloc_bancos !== undefined
-                              ? presupuestador.gloc_bancos.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">
-                            Terminal:{" "}
-                          </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_polizas !== null &&
-                            presupuestador.gloc_polizas !== undefined
-                              ? presupuestador.gloc_polizas.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">Fwd: </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.gloc_fwd !== null &&
-                            presupuestador.gloc_fwd !== undefined
-                              ? presupuestador.gloc_fwd.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid>
-                  <Grid item sm={6} md={4}>
-                    <Stack spacing={1}>
-                      <Typography variant="h4">Proveedores OEM</Typography>
-                      <Stack spacing={0}>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 1 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove1 !== null &&
-                            presupuestador.oemprove1 !== undefined &&
-                            presupuestador.oemprove1 !== ""
-                              ? presupuestador.oemprove1.toLowerCase()
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 2 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove2 !== null &&
-                            presupuestador.oemprove2 !== undefined &&
-                            presupuestador.oemprove2 !== ""
-                              ? presupuestador.oemprove2
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 3 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove3 !== null &&
-                            presupuestador.oemprove3 !== undefined &&
-                            presupuestador.oemprove3 !== ""
-                              ? presupuestador.oemprove3
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 4 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove4 !== null &&
-                            presupuestador.oemprove4 !== undefined &&
-                            presupuestador.oemprove4 !== ""
-                              ? presupuestador.oemprove4
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 5 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove5 !== null &&
-                            presupuestador.oemprove5 !== undefined &&
-                            presupuestador.oemprove5 !== ""
-                              ? presupuestador.oemprove5
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 6 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove6 !== null &&
-                            presupuestador.oemprove6 !== undefined &&
-                            presupuestador.oemprove6 !== ""
-                              ? presupuestador.oemprove6
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={1}>
-                          <Typography variant="subtitle1">OEM 7 : </Typography>
-                          <Typography variant="body2">
-                            {presupuestador.oemprove6 !== null &&
-                            presupuestador.oemprove6 !== undefined &&
-                            presupuestador.oemprove6 !== ""
-                              ? presupuestador.oemprove6
-                              : "Sin data"}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid>
-                </Grid>
-              </Grid> */}
-            </Grid>
-          </SubCard>
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Total CIF[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.cif_grand_total
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador.estHeader.cif_grand_total.toFixed(2)
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Impuestos[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.impuestos_total
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador?.estHeader?.impuestos_total.toFixed(2)
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
-      )}
-      <Grid item xs={12}>
-        <SubCard
-          title="Products"
-          content={false}
-          secondary={
-            <Typography variant="subtitle1">
-              {verMas ? (
-                <Tab
-                  container
-                  alignItems="right"
-                  label="Ver mas"
-                  icon={<FindInPageOutlinedIcon />}
-                  onClick={verMasImp}
-                />
-              ) : (
-                <Tab
-                  container
-                  alignItems="right"
-                  label="Ocultar"
-                  icon={<FindInPageOutlinedIcon />}
-                  onClick={verMasImp}
-                />
-              )}
-            </Typography>
-          }
+
+        <Grid
+          item
+          container
+          spacing={0}
+          alignItems="center"
+          justifyContent="center"
+          xs={12}
+          sm={5.5}
+          md={5.5}
         >
+          <Box
+            sx={{
+              width: 600,
+              height: 340,
+              borderRadius: 1,
+              // bgcolor: "aliceBlue",
+              // "&:hover": { bgcolor: "azure" },
+            }}
+          >
+            <Typography variant="h4" padding="10px 10px">
+              Contenedores:
+            </Typography>
+            <Grid
+              sx={{marginLeft: '30px'}}
+            >
+            <BarraContenedores
+              value={
+                (presupuestador?.estHeader?.cantidad_contenedores -
+                  Math.floor(
+                    presupuestador?.estHeader?.cantidad_contenedores
+                  )) *
+                100
+              } // sacamos la fraccion del contenedor restante
+              ent={Math.floor(presupuestador?.estHeader?.cantidad_contenedores)} // pasamos los contenedores a enteros
+              tipo={presupuestador?.carga_str}
+              longitudBarra={"75%"}
+            />
+            </Grid>
+            <Grid
+              container
+              spacing={1}
+              alignItems="center"
+              justifyContent="center"
+              marginTop={1}
+            >
+              <Grid item xs={12} sm={8} md={11}>
+                <TablaContenedores
+                  porcentaje={(presupuestador?.estHeader?.cantidad_contenedores - Math.floor(presupuestador?.estHeader?.cantidad_contenedores)) * 100 }
+                  carga={carga}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+
+        {/* <Grid container spacing={gridSpacing}> */}
+
+        <Grid item xs={12} sm={3} md={3}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    colSpan={2}
+                    className={classes.tableCellCabecera3}
+                    sx={{ backgroundColor: "coral" }}
+                  >
+                    <Typography variant="h4">Detalle Presupuesto</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+
+                
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    PRJ:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.project
+                      ? presupuestador.estHeader.project
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Detalle:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.description
+                      ? presupuestador.estHeader.description
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+
+
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Emisor :
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <Stack direction="row" spacing={2}>
+                      {presupuestador?.estHeader?.avatar_url != "" &&
+                      presupuestador?.estHeader?.avatar_url !== null ? (
+                        <Avatar
+                          alt={
+                            presupuestador?.estHeader?.own
+                              ? presupuestador.estHeader.own
+                              : "Sin data"
+                          }
+                          src={presupuestador?.estHeader?.avatar_url}
+                        />
+                      ) : null}
+                      <typography>
+                        {presupuestador?.estHeader?.own
+                          ? presupuestador.estHeader.own
+                          : "Sin data"}
+                      </typography>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Total Gastos loc.[USD]:
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {presupuestador?.estHeader?.gastos_loc_total ||
+                    presupuestador?.estHeader?.gastos_loc_total == 0
+                      ? UtilidadesHelper.formatNumber(
+                          presupuestador.estHeader.gastos_loc_total.toFixed(2)
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    Ult. Modificacion :
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {/* Para formato de fecha importar date-fns */}
+                    {presupuestador?.estHeader?.htimestamp
+                      ? UtilidadesHelper.formatFechaYhora(
+                          presupuestador.estHeader.htimestamp
+                        )
+                      : "Sin data"}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+
+      </Grid>
+
+      <Grid item xs={12} sx={{ marginTop: "0px" }}>
+        <SubCard>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TableContainer>
+                <Typography
+                  variant="h3"
+                  color={theme.palette.mode === "dark" ? "white" : "black"}
+                  display={"inline"}
+                >
+                  {"Detalles packing - "}
+                </Typography>
+                <Typography
+                  variant="h3"
+                  color={
+                    theme.palette.mode === "dark" ? "LightSkyBLue" : "grey"
+                  }
+                  display={"inline"}
+                >
+                  {"[ Resumen: " +
+                    presupuestador?.estHeader?.cantidad_contenedores.toFixed(
+                      2
+                    ) +
+                    " Cont." +
+                    presupuestador.carga_str +
+                    " / " +
+                    presupuestador?.estHeader?.gw_grand_total.toFixed(2) +
+                    " kg / " +
+                    presupuestador?.estHeader?.cbm_grand_total.toFixed(2) +
+                    " m3 ]"}
+                </Typography>
                 <Table>
+                  {/* DATOS PACKAGING */}
                   <TableHead>
                     <TableRow>
-                      {/*VISTA ABREVIADA*/}
-                      {verMas ? (
-                        <>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              minWidth: 100,
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            SKU
-                          </TableCell>
-                          <TableCell
-                            align="left"
-                            sx={{ minWidth: 400, backgroundColor: "#2196f3" }}
-                            className={classes.tableCell}
-                          >
-                            Description
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Imagen URL
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            NCM
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            EXW u. [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            FOB u. [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Qty[PCS]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              pl: 3,
-                              minWidth: 80,
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            PCS/CTN
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            CBM/CTN[m3]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            GW CTN [kg]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Total CBM [m3]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Total GW [kg]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            CIF TOT [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Tot Impuestos[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Tot Gasto Destino[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            EXTRA G. [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            COSTO u. [USD]
-                          </TableCell>
-                        </>
-                      ) : (
-                        <>
-                          {/*VISTA FULL*/}
-                          <TableCell
-                            align="right"
-                            sx={{
-                              minWidth: 100,
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            SKU
-                          </TableCell>
-                          <TableCell
-                            align="left"
-                            sx={{ minWidth: 400, backgroundColor: "#2196f3" }}
-                            className={classes.tableCell}
-                          >
-                            Description
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Imagen URL
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            NCM
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              minWidth: 180,
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Proveedor
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            EXW u. [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            FOB u. [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            PCS/CTN
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            CBM/CTN[m3]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            GW CTN [kg]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Qty[PCS]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Total CBM [m3]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Total GW [kg]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            Total FOB[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            FP [%]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            FREIGHT CHRG.[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            INSUR. CHRG.[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            CIF TOT[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            FOB to CIF[%]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            ARANC.[%]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            ARANC.[USD]
-                          </TableCell>
-                          {pais == 7 ? (
-                            <>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                TE%
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                TE[USD]
-                              </TableCell>
-                            </>
-                          ) : (
-                            <>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                DTA[%]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                DTA[USD]
-                              </TableCell>
-                            </>
-                          )}
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            BASE IVA[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            IVA[%]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                            className={classes.tableCell}
-                          >
-                            IVA[USD]
-                          </TableCell>
-                          {pais == 7 ? (
-                            <>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                IVA Ad[%]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                IVA Ad[USD]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                IIBB[%]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                IIBB[USD]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                GCIAS[%]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                                className={classes.tableCell}
-                              >
-                                GCIAS[USD]
-                              </TableCell>
-                            </>
-                          ) : (
-                            ""
-                          )}
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            IMP TOT[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Gasto Terminal[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Flete Interno[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Gasto Loc. FWD[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Gasto DESPA[USD]
-                          </TableCell>
-                          {pais == 7 ? (
-                            <>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                              >
-                                Gasto BANCO[USD]
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                sx={{
-                                  whiteSpace: "nowrap",
-                                  backgroundColor: "#2196f3",
-                                }}
-                              >
-                                Gasto CUST[USD]
-                              </TableCell>
-                            </>
-                          ) : (
-                            ""
-                          )}
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Total Gast Dest[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. SRC1[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. SRC2[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. SRC NOTAS
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. CMX1[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. CMX2[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. CMX3[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. CMX NOTAS
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. FIN1[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. FIN2[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. FIN3[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. FIN NOTAS
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gCMX1[USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gCMX2 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gCMX3 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gCMX4 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gCMX5 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gFIN1 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gFIN2 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gFIN3 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gFIN4 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. gFIN5 [USD]
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            Extrg. TOT.
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            sx={{
-                              whiteSpace: "nowrap",
-                              backgroundColor: "#2196f3",
-                            }}
-                          >
-                            COSTO u.[USD]
-                          </TableCell>
-                        </>
-                      )}
-                      <TableCell align="right" sx={{ pr: 3 }} />
+                    {DatosPackaging.map((data, index) => (
+                      <TableCell
+                        key={index}
+                        align={data.alineado}
+                        className={classes.tableCellCabecera3}
+                      >
+                        {data.nombre}
+                      </TableCell>
+                    ))}
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {rows.length === 0 ? (
                       <TableRow>
                         <TableCell>Cargando...</TableCell>
                       </TableRow>
                     ) : (
-                      rows.map((row, index) => (
+                      rows.map((row, rowIndex) => (
                         <TableRow
-                          key={index}
-                          hover
-                          role="checkbox"
+                          key={rowIndex}
+                          onClick={() => handleSelectRow(rowIndex)}
                           sx={{
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? selRow === rowIndex
+                                  ? "rgba(154, 246, 212, 0.19)"
+                                  : "grey600"
+                                : selRow === rowIndex
+                                ? "rgba(0, 0, 0, 0.09)"
+                                : "white",
                             fontSize: 20,
-                            "&:hover": {
-                              fontStyle: "italic",
-                            },
                           }}
                           className={classes.tableCell}
                         >
-                          <Tooltip
-                            title={`Costo U.[USD] ${row.costo_u.toFixed(3)}`}
-                          >
-                            <TableCell
-                              align="right"
-                              className={classes.tableCell}
-                            >
-                              {row.sku ? row.sku : 0}
-                            </TableCell>
-                          </Tooltip>
-                          <TableCell
-                            sx={{ pl: 3, maxWidth: 350 }}
-                            className={classes.tableCell}
-                          >
-                            <Typography
-                              align="left"
-                              variant="subtitle1"
-                              noWrap // evita que el texto se envuelva en nuevas líneas
-                              sx={{
-                                maxWidth: 500, // o cualquier otro valor que se ajuste a tus necesidades
-                                overflow: "hidden", // asegura que el contenido extra esté oculto
-                                textOverflow: "ellipsis", // agrega puntos suspensivos al final
-                                whiteSpace: "nowrap", // mantiene el texto en una sola línea
-                              }}
-                            >
-                              {row.description ? row.description : ""}
-                            </Typography>
-                          </TableCell>
-                          <TableCell
-                            align="right"
-                            className={classes.tableCell}
-                          >
-                            {row.imageurl ? (
-                              <>
-                                <ImagenAvatar
-                                  src={row.imageurl}
-                                  alt={row.sku}
-                                />
-                              </>
-                            ) : (
-                              "Sin imagen"
-                            )}
-                          </TableCell>
-                          {/* DATOS DE LA VISTA ABREVIADA */}
-                          {verMas ? (
-                            <>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {rowsAddData[index].ncm_str
-                                  ? rowsAddData[index].ncm_str
-                                  : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.exw_u ? row.exw_u.toFixed(3) : "0.0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.fob_u ? row.fob_u.toFixed(3) : "0.0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.qty ? row.qty : "0"}u.
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.pcsctn ? row.pcsctn : "0"}u.
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.cbmctn ? row.cbmctn.toFixed(4) : "0"}m3
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gwctn ? row.gwctn.toFixed(2) : "0"}kg
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalcbm ? row.totalcbm.toFixed(2) : "0"}m3
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalgw ? row.totalgw.toFixed(2) : "0"}kg
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalcif ? row.totalcif.toFixed(2) : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {sumImpuestosPais(row, pais).toFixed(2)}
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                {row.totalgastos_loc_y_extra
-                                  ? row.totalgastos_loc_y_extra.toFixed(2)
-                                  : 0}
-                                {/* {sumGlocPais(row, pais).toFixed(2)} */}
-                              </TableCell>
+                          {/* Mapeo anidado para generar el tbody de detalles packaging */}
+                          {/* el switchCase actua segun el tipo de dato */}
+                          {
+                            DatosPackaging.map((data, colIndex) => {
+                              let cellValue;
+                              switch(data.tipoDato){
+                                case 'index':
+                                  cellValue = rowIndex + 1;
+                                break;
+                                case 'string':
+                                  cellValue = row[data.atributo] ? row[data.atributo] : 'Sin data';
+                                break;
+                                case 'busquedaProveedor':
+                                  cellValue = rowsAddData[rowIndex].proveedor ? rowsAddData[rowIndex].proveedor : 'Sin proveedor'
+                                break;
+                                case 'imagen':
+                                  cellValue =  row[data.atributo] ? 
+                                                <ImagenAvatar
+                                                  src={row.imageurl}
+                                                  alt={row.sku}
+                                                /> :
+                                                'Sin Imagen';
+                                break;
+                                case 'busquedaNCM':
+                                  cellValue = rowsAddData[rowIndex].ncm_str ? rowsAddData[rowIndex].ncm_str : 'Sin Data'
+                                break;
+                                case 'unitario':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo]}u.` : '0u.';
+                                break;
+                                case 'metraje':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(3)}m3.` : '0.00m3';
+                                break;
+                                case 'peso':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(2)}Kg.` : '0.00Kg';
+                                break;
+                                case 'porciento':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(3)}%` : '0.00%';
+                                break;
+                                case 'number':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(2)}` : '0.00';
+                                break;
+                                default:
+                                  cellValue = row[data.atributo] ? cellValue = row[data.atributo] : 'Sin data';
+                                }
+                                
+                                return (
+                                  // aqui mostramos tooltip de costo u. solo si es el atributo SKU
+                                  <Tooltip
+                                    title={data.atributo === 'sku' ? `${row[data.atributo]}, Costo U.[USD] ${row.costo_u.toFixed(3)}` : ''}
+                                  >
+                                    <TableCell
+                                      key={colIndex}
+                                      align={data.alineado}
+                                      className={classes[data.claseStyle]}
+                                      >
+                                      {cellValue}
+                                    </TableCell>
+                                  </Tooltip>
+                                );
+                              })}
+                            </TableRow>
+                          ))
+                        )}
 
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {sumExtrag(row).toFixed(2)}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.costo_u ? row.costo_u.toFixed(3) : ""}
-                              </TableCell>
-                            </>
-                          ) : (
-                            <>
-                              {/* DATOS DE LA VISTA FULL */}
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {rowsAddData[index].ncm_str
-                                  ? rowsAddData[index].ncm_str
-                                  : 0}
-                              </TableCell>
-
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {rowsAddData[index].proveedor
-                                  ? rowsAddData[index].proveedor
-                                  : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.exw_u ? row.exw_u.toFixed(2) : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.fob_u ? row.fob_u.toFixed(2) : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.pcsctn ? row.pcsctn : 0} u.
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.cbmctn ? row.cbmctn.toFixed(4) : 0.0} m3
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gwctn ? row.gwctn.toFixed(2) : 0.0} kg
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.qty ? row.qty : 0}
-                                {/* {row.pcsctn > 1
-                                  ? Math.ceil(row.qty / row.pcsctn).toFixed(2)
-                                  : 0.0}
-                                u. */}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalcbm ? row.totalcbm.toFixed(2) : 0.0}{" "}
-                                m3
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalgw ? row.totalgw.toFixed(2) : 0.0} kg
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalfob ? row.totalfob.toFixed(2) : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.factorproducto
-                                  ? row.factorproducto.toFixed(2)
-                                  : 0.0}
-                                %
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.freightCharge
-                                  ? row.freightCharge.toFixed(2)
-                                  : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.insuranceCharge
-                                  ? row.insuranceCharge.toFixed(2)
-                                  : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalcif ? row.totalcif.toFixed(2) : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.totalfob > 0
-                                  ? (row.totalcif / row.totalfob).toFixed(3)
-                                  : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.ncm_arancel
-                                  ? row.ncm_arancel.toFixed(3)
-                                  : 0.0}{" "}
-                                %
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.arancelgrav_cif
-                                  ? row.arancelgrav_cif.toFixed(2)
-                                  : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.ncm_te_dta_otro
-                                  ? row.ncm_te_dta_otro.toFixed(3)
-                                  : 0.0}{" "}
-                                %
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.te_dta_otro_cif
-                                  ? row.te_dta_otro_cif.toFixed(2)
-                                  : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.baseiva ? row.baseiva.toFixed(2) : 0.0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.ncm_iva ? row.ncm_iva.toFixed(3) : 0.0} %
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.iva_cif ? row.iva_cif.toFixed(2) : 0.0}
-                              </TableCell>
-                              {pais == 7 ? (
-                                <>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.ncm_ivaad
-                                      ? row.ncm_ivaad.toFixed(3)
-                                      : 0.0}{" "}
-                                    %
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.ivaad_cif
-                                      ? row.ivaad_cif.toFixed(2)
-                                      : 0.0}
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {presupuestador.estHeader.iibb_total
-                                      ? presupuestador.estHeader.iibb_total.toFixed(
-                                          3
-                                        )
-                                      : 0.0}{" "}
-                                    %
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.iibb900 ? row.iibb900.toFixed(2) : 0.0}
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.gcias ? row.gcias.toFixed(3) : 0.0} %
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.gcias424
-                                      ? row.gcias424.toFixed(2)
-                                      : 0.0}
-                                  </TableCell>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                [USD] {sumImpuestosPais(row, pais).toFixed(2)}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gloc_terminales
-                                  ? row.gloc_terminales.toFixed(2)
-                                  : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gloc_flete ? row.gloc_flete.toFixed(2) : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gloc_fwd ? row.gloc_fwd.toFixed(2) : 0}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.gloc_despachantes
-                                  ? row.gloc_despachantes.toFixed(2)
-                                  : 2}
-                              </TableCell>
-
-                              {pais == 7 ? (
-                                <>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.gloc_bancos
-                                      ? row.gloc_bancos.toFixed(2)
-                                      : 0}
-                                  </TableCell>
-                                  <TableCell
-                                    align="right"
-                                    className={classes.tableCell}
-                                  >
-                                    {row.gloc_polizas
-                                      ? row.gloc_polizas.toFixed(2)
-                                      : 0.0}
-                                  </TableCell>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {sumGlocPais(row, pais).toFixed(2)}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_src1
-                                  ? row.extrag_src1.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_src2
-                                  ? row.extrag_src2.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_src_notas
-                                  ? row.extrag_src_notas
-                                  : ""}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_comex1
-                                  ? row.extrag_comex1.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_comex2
-                                  ? row.extrag_comex2.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_comex3
-                                  ? row.extrag_comex3.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_comex_notas
-                                  ? row.extrag_comex_notas
-                                  : ""}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_finan1
-                                  ? row.extrag_finan1.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_finan2
-                                  ? row.extrag_finan2.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_finan3
-                                  ? row.extrag_finan3.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_finan_notas
-                                  ? row.extrag_finan_notas
-                                  : ""}
-                              </TableCell>
-
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_comex1
-                                  ? row.extrag_glob_comex1.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_comex2
-                                  ? row.extrag_glob_comex2.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_comex3
-                                  ? row.extrag_glob_comex3.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_comex4
-                                  ? row.extrag_glob_comex4.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_comex5
-                                  ? row.extrag_glob_comex5.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_finan1
-                                  ? row.extrag_glob_finan1.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_finan2
-                                  ? row.extrag_glob_finan2.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_finan3
-                                  ? row.extrag_glob_finan3.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_finan4
-                                  ? row.extrag_glob_finan4.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {row.extrag_glob_finan5
-                                  ? row.extrag_glob_finan5.toFixed(2)
-                                  : "0"}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                              >
-                                {sumExtrag(row).toFixed(2)}
-                              </TableCell>
-                              <TableCell
-                                align="right"
-                                className={classes.tableCell}
-                                sx={{ pl: 10, whiteSpace: "nowrap" }}
-                              >
-                                {row.costo_u ? row.costo_u.toFixed(3) : ""}
-                              </TableCell>
-                            </>
-                          )}
-
-                          {/* ICONO DE BORRADO por ahora innecesario */}
-                          {/* <TableCell sx={{ pr: 3 }} align="right">
-                                                        <IconButton
-                                                            color="primary"
-                                                            size="large"
-                                                            aria-label="product delete"
-                                                            onClick={() => deteleDetails(row.id)}
-                                                        >
-                                                            <DeleteTwoToneIcon />
-                                                        </IconButton>
-                                                    </TableCell> */}
-                        </TableRow>
-                      ))
-                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
-            </Grid>
 
-            <Grid item xs={12}>
-              <SubCard
-                sx={{
-                  mx: 3,
-                  mb: 3,
-                  bgcolor:
-                    theme.palette.mode === "dark"
-                      ? theme.palette.dark.main
-                      : theme.palette.primary.light,
-                }}
-              >
-                <Grid container justifyContent="flex-end" spacing={gridSpacing}>
-                  {loading2 ? (
-                    <div
-                      style={{
-                        margin: "auto",
-                        display: "block",
-                        paddingTop: "25px",
+              <Grid sx={{ marginTop: "40px", marginBottom: "-35px" }}>
+                <Typography
+                  variant="h3"
+                  color={theme.palette.mode === "dark" ? "white" : "black"}
+                  display={"inline"}
+                >
+                  {"Detalle Arancelario / Gastos - "}
+                </Typography>
+                <Typography
+                  variant="h3"
+                  color={
+                    theme.palette.mode === "dark" ? "LightSkyBlue" : "grey"
+                  }
+                  display={"inline"}
+                >
+                  {"[ Resumen (USD) > CIF: " +
+                    presupuestador?.estHeader?.cif_grand_total.toFixed(2) +
+                    " / Impuestos: " +
+                    presupuestador?.estHeader?.impuestos_total.toFixed(2) +
+                    " / Gastos Loc.: " +
+                    presupuestador?.estHeader?.gastos_loc_total.toFixed(2) +
+                    " / Gastos Extr.: " +
+                    presupuestador?.estHeader?.extragastos_total.toFixed(2) +
+                    " ]"}
+                </Typography>
+
+                <Grid container justifyContent="flex-end">
+                  <AnimateButton>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background: "green",
+                        position: "relative", // Posición relativa  PARA COLOCAR EL BOTON A LA ALTURA DEL MAINCARD
+                        top: "-45px", // Posición desde la parte superior del contenedor
+                        // right: "-220px", // Posición desde la derecha del contenedor
+                        //margin: "25px",
                       }}
+                      display="inline"
+                      onClick={verMasImp}
                     >
-                      <CircularProgress margin="auto" />
-                    </div>
-                  ) : (
-                    <Grid item sm={6} md={4}>
-                      {/* RESULTADOS */}
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <Grid container spacing={1}>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="subtitle1">
-                                Fob Total[USD]:
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="body2">
-                                {presupuestador.estHeader.fob_grand_total ||
-                                presupuestador.estHeader.fob_grand_total == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.fob_grand_total.toFixed(
-                                        2
-                                      )
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="subtitle1">
-                                {/* Aranceles / Pagado (10%): */}
-                                Aranceles Pagados[USD] :
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="body2">
-                                {presupuestador.estHeader.impuestos_total ||
-                                presupuestador.estHeader.impuestos_total == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.impuestos_total.toFixed(
-                                        2
-                                      )
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="subtitle1">
-                                {/* Discount (5%) : */}
-                                Flete[USD] :
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="body2">
-                                {presupuestador.estHeader.gloc_flete ||
-                                presupuestador.estHeader.gloc_flete == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.gloc_flete.toFixed(
-                                        2
-                                      )
-                                    )
-                                  : "Sin dataa"}
-                              </Typography>
-                            </Grid>
-
-                            <Grid item xs={6}>
-                              <Typography
-                                align="right"
-                                // color="primary"
-                                variant="subtitle1"
-                              >
-                                Total CIF[USD]:
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography
-                                align="right"
-                                // color="primary"
-                                variant="body2"
-                                // sx={{ pl: 10, minWidth: 180 }}
-                              >
-                                {presupuestador.estHeader.cif_grand_total ||
-                                presupuestador.estHeader.cif_grand_total == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.cif_grand_total.toFixed(
-                                        2
-                                      )
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid>
-
-                            {/* <Grid item xs={6}>
-                              <Typography align="right" variant="subtitle1">
-                                Seguro:
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography align="right" variant="body2">
-                                [USD]{" "}
-                                {presupuestador.estHeader.seguro
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.seguro.toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid> */}
-                          </Grid>
-                        </Grid>
-
-                        {/* <Grid item xs={12}>
-                          <Divider sx={{ bgcolor: "dark.main" }} />
-                        </Grid> */}
-
-                        <Grid item xs={12}>
-                          {/* <Grid
-                            container
-                            // spacing={1}
-                          >
-                            <Grid item xs={6}>
-                              <Typography
-                                align="right"
-                                // color="primary"
-                                variant="subtitle1"
-                              >
-                                Total CIF[USD]:
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography
-                                align="right"
-                                // color="primary"
-                                variant="subtitle1"
-                                // sx={{ pl: 10, minWidth: 180 }}
-                              >
-                                {presupuestador.estHeader.cif_grand_total ||
-                                presupuestador.estHeader.cif_grand_total == 0
-                                  ? UtilidadesHelper.formatNumber(
-                                      presupuestador.estHeader.cif_grand_total.toFixed(
-                                        2
-                                      )
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid>
-                          </Grid> */}
-                          {/* <Grid container spacing={1}> */}
-                          {/* <Grid item xs={6}> */}
-                          {/* <Typography
-                                align="right"
-                                color="primary"
-                                variant="subtitle1"
-                              >
-                                CIF Total ARS:
-                              </Typography> */}
-                          {/* </Grid> */}
-                          {/* <Grid item xs={6}>
-                              <Typography
-                                align="right"
-                                color="primary"
-                                variant="subtitle1"
-                              >
-                                ARS{" "}
-                                {presupuestador.estHeader.cif_grand_total &&
-                                presupuestador.estHeader.dolar
-                                  ? UtilidadesHelper.formatNumber(
-                                      (
-                                        presupuestador.estHeader
-                                          .cif_grand_total *
-                                        presupuestador.estHeader.dolar
-                                      ).toFixed(2)
-                                    )
-                                  : "Sin data"}
-                              </Typography>
-                            </Grid> */}
-                          {/* </Grid> */}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  )}
+                      {verMas ? "Ver Detalle Calc" : "Ocultar Det. Calc."}
+                    </Button>
+                  </AnimateButton>
                 </Grid>
-              </SubCard>
+              </Grid>
+
+              {/* TABLANUEVA*/}
+              <TableContainer>
+                <Table>
+
+                  <TableHead>
+                    <TableRow>
+
+                    {DatosArancelarios
+                      .filter(data => verMas ? data.tipoDeVista === 'reducida' : true) // vista reducida o completa
+                      .sort((a, b) => verMas ? 0 : a.orden - b.orden) // Ordena solo si verMas es false
+                      .map((data, index) => (
+                        <TableCell
+                          key={index}
+                          align={data.alineado}
+                          className={classes.tableCellCabecera3}
+                        >
+                          {data.nombre}
+                        </TableCell>
+                      ))
+                    }
+
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {rows.length === 0 ? (
+                      <TableRow>
+                        <TableCell>Cargando...</TableCell>
+                      </TableRow>
+                    ) : (
+                      rows.map((row, rowIndex) => (
+                        <TableRow
+                          key={rowIndex}
+                          onClick={() => handleSelectRow(rowIndex)}
+                          sx={{
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? selRow === rowIndex
+                                  ? "rgba(154, 246, 212, 0.19)"
+                                  : "grey600"
+                                : selRow === rowIndex
+                                ? "rgba(0, 0, 0, 0.09)"
+                                : "white",
+                            fontSize: 20,
+                          }}
+                          className={classes.tableCell}
+                        >
+
+                          {
+                            DatosArancelarios
+                            .filter(data => verMas ? data.tipoDeVista === 'reducida' : true) // vista reducida o completa
+                            .sort((a, b) => verMas ? 0 : a.orden - b.orden) // Ordena solo si verMas es false
+                            .map((data, colIndex) => {
+                              let cellValue;
+                              switch(data.tipoDato){
+                                case 'index':
+                                  cellValue = rowIndex + 1;
+                                break;
+                                case 'string':
+                                  cellValue = row[data.atributo] ? row[data.atributo] : 'Sin data';
+                                break;
+                                case 'busquedaProveedor':
+                                  cellValue = rowsAddData[rowIndex].proveedor ? rowsAddData[rowIndex].proveedor : 'Sin proveedor'
+                                break;
+                                case 'busquedaNCM':
+                                  cellValue = rowsAddData[rowIndex].ncm_str ? rowsAddData[rowIndex].ncm_str : 'Sin Data'
+                                break;
+                                case 'unitario':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo]}u.` : '0u.';
+                                break;
+                                case 'metraje':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(3)}m3.` : '0.00m3';
+                                break;
+                                case 'peso':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(2)}Kg.` : '0.00Kg';
+                                break;
+                                case 'porciento':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(3)}%` : '0.00%';
+                                break;
+                                case 'number':
+                                  cellValue = row[data.atributo] ? `${row[data.atributo].toFixed(2)}` : '0.00';
+                                break;
+                                //caso de ejecucion de funciones y calculos
+                                case 'totalcif/totalfob':
+                                  cellValue = `${(row.totalcif / row.totalfob).toFixed(3)}%`;
+                                break;
+                                case 'funcion_sumImpuestosPais':
+                                  cellValue = `${sumImpuestosPais(row, pais).toFixed(2)}`;
+                                break;
+                                case 'funcion_sumGlocPais':
+                                  cellValue = `${sumGlocPais(row, pais).toFixed(2)}`;
+                                break
+                                case 'funcion_sumExtrag':
+                                  cellValue = `${sumExtrag(row, pais).toFixed(2)}`;
+                                break
+                                default:
+                                  cellValue = row[data.atributo] ? cellValue = row[data.atributo] : 'Sin data';
+                              }
+
+                              return (
+                                // aqui mostramos tooltip de costo u. solo si es el atributo SKU
+                              <Tooltip
+                                title={data.atributo === 'sku' ? `${row[data.atributo]}, Costo U.[USD] ${row.costo_u.toFixed(3)}` : ''}
+                              >
+                                <TableCell
+                                  key={colIndex}
+                                  align={data.alineado}
+                                  className={classes[data.claseStyle]}
+                                  >
+                                  {cellValue}
+                                </TableCell>
+                              </Tooltip>
+                              );
+                            })}
+                        </TableRow>
+                      ))
+                    )};
+
+                  </TableBody>
+
+                </Table>
+              </TableContainer>
             </Grid>
           </Grid>
         </SubCard>

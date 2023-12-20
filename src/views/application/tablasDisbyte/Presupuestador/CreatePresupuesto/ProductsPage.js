@@ -29,8 +29,8 @@ function ProductsPage({
   freightCost,
   insurancePorct,
 }) {
-  // console.log(productsData);
 
+  
   const useStyles = makeStyles({
     tableCell: {
       borderRight: "1px solid rgba(224, 224, 224, 1)", // Color y grosor del borde

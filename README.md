@@ -10,3 +10,6 @@ This is material design template created based on materially structure
 2. Deployment process
     - Goto full-version directory and open package.json. Update homepage URL to the production URL
     - Goto full-version directory and run 'npm run build / yarn build'
+
+3. se debe de instalar babel ya que cambio la version, esto aplica para windows
+    - yarn add @babel/plugin-proposal-private-property-in-object --dev

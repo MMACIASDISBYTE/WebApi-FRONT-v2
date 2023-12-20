@@ -25,6 +25,44 @@ export const PresupuestoHelper = {
     }
   },
 
+  //Consulta a la API
+  fetchDataSourcing: async function (accessToken) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/sourcing`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Incluye el token en la cabecera de la solicitud.
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const jsonData = await response.json();
+      // console.log('Res Presupuesto: ', jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error("Error", error);
+      return null;
+    }
+  },
+  fetchDataInbound: async function (accessToken) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/inbound`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Incluye el token en la cabecera de la solicitud.
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const jsonData = await response.json();
+      // console.log('Res Presupuesto: ', jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error("Error", error);
+      return null;
+    }
+  },
+
   fetchOwnersList: async function (accessToken) {
     try {
       const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/owners`, {
@@ -124,9 +162,32 @@ export const PresupuestoHelper = {
   },
   //CRUD PRESUPUESTO
   // Crear un registro en la tabla
-  createData: async function (newData) {
+  createDataSourcing: async function (newData) {
     try {
-      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}`, {
+      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/sourcing`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newData),
+      });
+      if (!response.ok) {
+        // Lanzar un error si el servidor responde con un estado de error
+        const errorMessage = await response.text(); // O response.json() si el error es un objeto JSON
+        throw new Error(errorMessage);
+      }
+
+      const jsonData = await response.json();
+      console.log("Helper", newData);
+      return jsonData;
+    } catch (error) {
+      console.error("Helper Error", error.message);
+      throw error;
+    }
+  },
+  createDataInbound: async function (newData) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${this.rutaTabla}/inbound`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -287,11 +348,38 @@ export const PresupuestoHelper = {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const jsonData = await response.json();
-      // console.log('Res Presupuesto: ', jsonData);
+      
       return jsonData;
     } catch (error) {
       console.error("Error", error);
       return null;
     }
   },
+  fetchLogHistorico: async function (estnumber) {
+    try {
+      const response = await fetch(`${this.baseUrl}/LogDiferencias/${estnumber}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const jsonData = await response.json();
+
+      return jsonData;
+    } catch (error) {
+      console.error("Error", error);
+      return null;
+    }
+  },
+  fetchLogHistoricoVersion: async (estnumber, vers) => {
+    try {
+        const response = await fetch(`${this.baseUrl}/LogDiferencias/${estnumber}/${vers}`);
+        if(!response.ok){
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const jsonData = await response.json();
+        return jsonData;
+    } catch (error) {
+        console.error('Error :', error)
+    }
+},
+
 };

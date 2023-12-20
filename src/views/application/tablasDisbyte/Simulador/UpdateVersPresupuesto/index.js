@@ -32,7 +32,7 @@ import ReplyAllRoundedIcon from "@mui/icons-material/ReplyAllRounded";
 
 // project imports
 import AddItemPage from "./AddItemPage";
-import AddItemPageUpdate from "./AddItemPageUpdate";
+import AddItemPageUpdate from "../../../../Components/DetailsProduct/AddDetailsSimuladorMexUpdate";
 import { gridSpacing } from "store/constant";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import MainCard from "ui-component/cards/MainCard";
@@ -41,7 +41,7 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 
 // third-party
 import * as yup from "yup";
-import ProductsPage from "./ProductsPage";
+import ProductsPage from "../../../../Components/DetailsProduct/UpdateDetailsListado";
 import { useFormik } from "formik";
 import useAuth from "hooks/useAuth";
 // Se importan helpers necesarios:
@@ -62,15 +62,12 @@ import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
 import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
 import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
 import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
-import { CustomSelect } from "../CreatePresupuesto/CustomSelect";
-import { CustomSelectUpdate } from "./CustomSelectUpdate";
+import { CustomSelectUpdate } from "./TextFieldOrSelectDeFormUpdate";
 import { ExtraCostos } from "./ExtraCostos";
-import { PesajeContenedorUpdate } from "./PesajeContenedorUpdate";
+import { PesajeContenedorUpdate } from "../../../../Components/Contenedores/PesajeContenedorUpdate";
 import { ExtraCostosArrBool } from "./ExtraCostoArrBool";
 import { Box } from "@mui/system";
-import { log } from "util";
 import { useAccessTokenJWT } from "helpers/useAccessTokenJWT";
-import { async } from "q";
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {

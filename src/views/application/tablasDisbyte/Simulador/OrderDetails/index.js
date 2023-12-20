@@ -8,7 +8,8 @@ import { Box, Tab, Tabs } from "@mui/material";
 
 // project imports
 import Details from "./Details";
-import Invoice from "./Invoice";
+import Historico from "./Historico";
+import Informe from "./Informe";
 import Status from "./Status";
 import MainCard from "ui-component/cards/MainCard";
 
@@ -19,6 +20,9 @@ import ReceiptTwoToneIcon from "@mui/icons-material/ReceiptTwoTone";
 
 import { PresupuestoHelper } from "helpers/PresupuestoHelper";
 import useAuth from "hooks/useAuth";
+import Diferencias from "./Diferencias";
+import AguardandoInfo from "../../../../Components/AguardandoInfo";
+import { StatusEstadosEmbarque } from "helpers/VariablesDeRepeticion";
 
 // const versionParams = useParams();
 
@@ -57,15 +61,18 @@ const OrderDetails = () => {
   const { user } = useAuth();
 
   const theme = useTheme();
+  const [loading, setLoading] = useState(false); //carga estado para que no crashee la app
   const [rows, setRows] = useState([]); //estoy almacenando la data
   const [rowsDoble, setRowsDoble] = useState([]);
   const [historico, setHistorico] = useState([]);
+  const [logDiferencias, setLogDiferencias] = useState([]); // dnd almaceno las diferencias
 
   const { estnumber, vers } = useParams();
 
   const accessToken = "";
 
   // set selected tab
+
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -103,15 +110,40 @@ const OrderDetails = () => {
     }
   };
 
+  //ENTRY que trae diferencias
+  const LogDiferencias = async (estnumber) => {
+    try {
+      const jsonData = await PresupuestoHelper.fetchLogHistorico(estnumber);
+      setLogDiferencias(jsonData);
+      // console.log('Diferencias en Index :', jsonData);
+    } catch (error) {
+      console.log('Error :', error);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
-    readDataEstVers(estnumber, vers, accessToken);
-    traerHistorico(estnumber);
-  }, []); // este useEffect se ejecutará solo una vez, al montar el componente
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        await fetchData(estnumber);
+        await readDataEstVers(estnumber, vers, accessToken);
+        await traerHistorico(estnumber);
+        await LogDiferencias(estnumber);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    loadData();
+  }, [estnumber]); // este useEffect se ejecutará solo una vez, al montar el componente
 
   useEffect(() => {
 
-  }, [rows, rowsDoble, historico]); // este useEffect se ejecutará cada vez que 'rows' cambie
+
+  }, [rows, rowsDoble, historico, StatusEstadosEmbarque]); // este useEffect se ejecutará cada vez que 'rows' cambie
+
 
   return (
     <MainCard>
@@ -149,29 +181,48 @@ const OrderDetails = () => {
           icon={<DescriptionTwoToneIcon />}
           component={Link}
           to="#"
-          label="Details"
+          label="Detalle"
           {...a11yProps(0)}
         />
 
-        {/* ESTO PERTENECE A ENVOICE */}
+        {/* ESTO PERTENECE A Informe */}
         <Tab
           icon={<ReceiptTwoToneIcon />}
           component={Link}
           to="#"
-          label="Historico"
+          label="Informe"
           {...a11yProps(1)}
         />
+
+        {/* ESTO PERTENECE A Historico */}
+        <Tab
+          icon={<ReceiptTwoToneIcon />}
+          component={Link}
+          to="#"
+          label="Diferencias"
+          {...a11yProps(2)}
+        />
         {/* <Tab icon={<LocalShippingTwoToneIcon />} component={Link} to="#" label="Status" {...a11yProps(2)} /> */}
+        
       </Tabs>
 
       {/* tab - details */}
       <TabPanel value={value} index={0}>
-        <Details presupuestador={rowsDoble} usuario={user} historico={historico} />
+        <Details presupuestador={rowsDoble} usuario={user} historico={historico} estados={StatusEstadosEmbarque} logDiferencias={logDiferencias} />
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
+        {!loading ? <Informe presupuestador={rowsDoble} usuario={user} historico={historico} estados={StatusEstadosEmbarque} logDiferencias={logDiferencias} /> : <AguardandoInfo/> }
       </TabPanel>
 
       {/* tab - invoice ESTO PERTENECE A ENVOICE / historico */}
-      <TabPanel value={value} index={1}>
-        <Invoice presupuestador={rowsDoble} usuario={user} historico={historico} />
+      {/* <TabPanel value={value} index={2}>
+        <Historico presupuestador={rowsDoble} usuario={user} historico={historico} estados={StatusEstadosEmbarque} />
+      </TabPanel> */}
+
+      {/* tab - invoice ESTO PERTENECE A ENVOICE / historico */}
+      <TabPanel value={value} index={2}>
+       {!loading ? <Diferencias presupuestador={rowsDoble} usuario={user} historico={historico} estados={StatusEstadosEmbarque} logDiferencias={logDiferencias} /> : <AguardandoInfo/> }
       </TabPanel>
 
       {/* tab - status */}

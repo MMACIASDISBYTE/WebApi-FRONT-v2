@@ -479,14 +479,17 @@ const masterTables = {
                 },
             ]
         },
-        {
-            id: 'IIBB',
-            title: <FormattedMessage id="IIBB" />,
-            type: 'item',
-            url: '/IIBB/IIBB', 
-            icon: PaidOutlinedIcon,
-            breadcrumbs: false
-        }
+
+        // TABLA IIBB
+        // {
+        //     id: 'IIBB',
+        //     title: <FormattedMessage id="IIBB" />,
+        //     type: 'item',
+        //     url: '/IIBB/IIBB', 
+        //     icon: PaidOutlinedIcon,
+        //     breadcrumbs: false
+        // }
+
     ]
 };
 

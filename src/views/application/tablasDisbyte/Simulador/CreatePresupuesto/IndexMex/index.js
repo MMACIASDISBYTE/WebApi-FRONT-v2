@@ -10,38 +10,28 @@ import {
   DialogContent,
   DialogContentText,
   Divider,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
   Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
   Tooltip,
   Typography,
   styled,
 } from "@mui/material";
-import Chip from "ui-component/extended/Chip";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import "@mui/lab";
-import { useTheme } from "@mui/material/styles";
 import AnimateButton from "ui-component/extended/AnimateButton";
 // Importa CircularProgress de Material UI
-import { CircularProgress, Select } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 // project imports
-import AddItemPage from "../AddItemPage";
 import { gridSpacing } from "store/constant";
 import InputLabel from "ui-component/extended/Form/InputLabel";
 import MainCard from "ui-component/cards/MainCard";
 
 // third-party
 import * as yup from "yup";
-import ProductsPage from "../ProductsPage";
 import { useFormik } from "formik";
 import useAuth from "hooks/useAuth";
 // Se importan helpers necesarios:
@@ -49,28 +39,23 @@ import { CargaHelper } from "helpers/CargaHelper";
 import { ProveedoresOemHelper } from "helpers/ProveedoresOemHelper";
 import { NcmHelper } from "helpers/NcmHelper";
 import { PresupuestoHelper } from "helpers/PresupuestoHelper";
-import { TarifasPolizaHelper } from "helpers/TarifasPolizaHelper";
 
 //importacion para poder opacar el placeholder del dolar
 import { makeStyles } from "@material-ui/core/styles";
 import { UtilidadesHelper } from "helpers/UtilidadesHelper";
-import { PesajeContenedor } from "../PesajeContenedor";
-import { CustomSelect } from "../CustomSelect";
+import { PesajeContenedor } from "../../../../../Components/Contenedores/PesajeContenedor";
+import { CustomSelect } from "../../../../../Components/Formularios/CustomSelect";
 import { PaisRegionHelper } from "helpers/PaisRegionHelper";
-import { TarifasFwdHelper } from "helpers/TarifasFwdHelper";
-import { TarifasFleteHelper } from "helpers/TarifasFleteHelper";
-import { TarifasTerminalHelper } from "helpers/TarifasTerminalHelper";
-import { TarifasDepositoHelper } from "helpers/TarifasDepositoHelper";
-import { TarifasDespachanteHelper } from "helpers/TarifasDespachanteHelper";
-import { TarifasBancosHelper } from "helpers/TarifasBancosHelper";
-import { TarifasGestDigDocHelper } from "helpers/TarifasGestDigHelper";
-import AddDetailsPage from "../AddDetailsPage";
-import { TarifarioArrBool } from "../TarifarioArrBool";
-import { ExtraCostosArrBool } from "../../UpdateVersPresupuesto/ExtraCostoArrBool";
 import { TarifonMexHelper } from "helpers/TarifonMexHelper";
 import { Box } from "@mui/system";
 import { ExtraCostoDobleClick } from "../../UpdateVersPresupuesto/ExtraCostoDobleClick";
 import { ProductosHelper } from "helpers/ProductosHelper";
+import ProductsPage from "../../../../../Components/DetailsProduct/DetailsListado";
+import AddDetailsPage from "../../../../../Components/DetailsProduct/AddDetailsSimuladorMex";
+import UpdateItemPage from "../../../../../Components/DetailsProduct/UpdateDetailsSimuladorMex";
+import { contenedorHelper } from "helpers/contenedorHelper";
+import { gastosLocMexHelper } from "helpers/gastosLocMexHelper";
+
 const useStyles = makeStyles((theme) => ({
   inputPlaceholder: {
     "&::placeholder": {
@@ -87,7 +72,7 @@ const validationSchema = yup.object({
   own: yup.string().required("Customer Name is Required"),
   dolar: yup.string().required("Tipo de cambio is Required"),
   ivaExcento: yup.string().required("Iva Status is required"),
-  description: yup.string().nullable().required("La descripcion is required"),
+  // description: yup.string().nullable().required("La descripcion is required"),
   // project: yup.string().nullable().required("El Prj is required"),
 
   carga_id: yup
@@ -106,81 +91,27 @@ const validationSchema = yup.object({
   //   .nullable()
   //   .required("Fwd Pais/Region is required"),
 
-  // tarifasfwd_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Fwd is required"),
-
-  // tarifasflete_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Flete is required"),
-
-  // tarifasterminales_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Terminal is required"),
-
-  // tarifaspolizas_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Poliza is required"),
-
-  // tarifasdepositos_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Deposito is required"),
-
-  // tarifasdespachantes_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Deposito is required"),
-
-  // tarifasbancos_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Deposito is Banco"),
-
-  // tarifasgestdigdoc_id: yup
-  //   .object()
-  //   .shape({
-  //     description: yup.string(),
-  //   })
-  //   .nullable()
-  //   .required("Tarifas Gest Dig is Banco"),
 });
+
+
+const alarmaContenedores=(prodData,miFormik)=>
+{
+  if(((contenedorHelper.calculaNumeroContenedores(prodData,miFormik?.values.carga_id).cantContEnt-miFormik?.values?.limite_carga.id)>0.01) & (miFormik?.values?.limite_carga.id>0) )
+  {
+      return true;
+  }
+  return false;
+}
 
 // ==============================|| CREATE INVOICE ||============================== //
 function CreateInvoice() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const theme = useTheme();
   const classes = useStyles(); // linea para implementar la clase para opacar el placeholder de dolar
 
   const [open, setOpen] = useState(false);
-  const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
-  const [valueIva, setValueIva] = React.useState("false");
+  // const [valueMonedaLocal, setValueMonedaLocal] = React.useState("false");
+  // const [valueIva, setValueIva] = React.useState("false");
   const [dataHelp, setDataHelp] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingEnvio, setLoadingEnvio] = useState(true);
@@ -207,14 +138,6 @@ function CreateInvoice() {
       await PresupuestoHelper.EstimateDisponibleNum();
     // const tipoCambio = await UtilidadesHelper.tipoCambioGeneral();
     const Paises = await PaisRegionHelper.fetchData();
-    const TarifasFwd = await TarifasFwdHelper.fetchData();
-    const TarifasFlete = await TarifasFleteHelper.fetchData();
-    const TarifasTerminal = await TarifasTerminalHelper.fetchData();
-    const TarifasPoliza = await TarifasPolizaHelper.fetchData();
-    const TarifasDepositos = await TarifasDepositoHelper.fetchData();
-    const TarifasDespachantes = await TarifasDespachanteHelper.fetchData();
-    const TarifasBanco = await TarifasBancosHelper.fetchDataFecha();
-    const TarifasGestDig = await TarifasGestDigDocHelper.fetchData();
     const ProductosDisbyte = await ProductosHelper.fetchData();
 
     const carga = await UtilidadesHelper.ordenadorDeArrayByDescription(
@@ -231,15 +154,9 @@ function CreateInvoice() {
       proximoEstDisponible,
       // tipoCambio,
       Paises,
-      TarifasFwd,
-      TarifasFlete,
-      TarifasTerminal,
-      TarifasPoliza,
-      TarifasDepositos,
-      TarifasDespachantes,
-      TarifasBanco,
-      TarifasGestDig,
       ProductosDisbyte,
+
+
     };
     setDataHelp(objData);
     setLoading(false); // Mueve esta línea aquí para establecer loading en false después de que las llamadas a la API se resuelvan
@@ -247,66 +164,8 @@ function CreateInvoice() {
   };
   // console.log(dataHelp);
 
-  const cellInput = [
-    {
-      id: "tarifasfwd_id",
-      name: "tarifasfwd_id",
-      em: "Seleccione una Tarifa Fwd",
-      inputLabel: "Fwd",
-      data: dataHelp.TarifasFwd,
-    },
-    {
-      id: "tarifasflete_id",
-      name: "tarifasflete_id",
-      em: "Seleccione una Tarifa Flete",
-      inputLabel: "Fletes",
-      data: dataHelp.TarifasFlete,
-    },
-    {
-      id: "tarifasterminales_id",
-      name: "tarifasterminales_id",
-      em: "Seleccione una Tarifa Terminal",
-      inputLabel: "Terminal",
-      data: dataHelp.TarifasTerminal,
-    },
-    {
-      id: "tarifaspolizas_id",
-      name: "tarifaspolizas_id",
-      em: "Seleccione una Tarifa Poliza",
-      inputLabel: "Poliza",
-      data: dataHelp.TarifasPoliza,
-    },
-    {
-      id: "tarifasdepositos_id",
-      name: "tarifasdepositos_id",
-      em: "Seleccione una Tarifa Deposito",
-      inputLabel: "Deposito",
-      data: dataHelp.TarifasDepositos,
-    },
-    {
-      id: "tarifasdespachantes_id",
-      name: "tarifasdespachantes_id",
-      em: "Seleccione una Tarifa Despachantes",
-      inputLabel: "Despachantes",
-      data: dataHelp.TarifasDespachantes,
-    },
-    {
-      id: "tarifasbancos_id",
-      name: "tarifasbancos_id",
-      em: "Seleccione una Tarifa banco",
-      inputLabel: "Banco",
-      data: dataHelp.TarifasBanco,
-    },
-    {
-      id: "tarifasgestdigdoc_id",
-      name: "tarifasgestdigdoc_id",
-      em: "Seleccione una Tarifa Gestion Digital",
-      inputLabel: "Gestion Digital",
-      data: dataHelp.TarifasGestDig,
-    },
-  ];
-  //   console.log(cellInput);
 
+  // AQUI LLAMAMOS A ELEMENTOS DEL FORMULARIO Y LOS MAPEAMOS EN UN COMPONENTE
   const cabeceraPais = [
     {
       id: "paisregion_id",
@@ -321,9 +180,28 @@ function CreateInvoice() {
     {
       id: "carga_id",
       name: "carga_id",
-      em: "Seleccione una Carga",
+      em: "Tipo de Equipo",
       inputLabel: "Carga",
       data: dataHelp.carga,
+    },
+  ];
+
+  const limitesDeCarga = [
+    {id:0, description: "Auto"},
+    {id:1, description: "1"},
+    {id:2, description: "2"},
+    {id:3, description: "3"},
+    {id:4, description: "4"},
+    {id:0, description: "5"},
+  ]
+
+  const cabeceraLimiteCarga = [
+    {
+      id: "limite_carga",
+      name: "limite_carga",
+      em: "Cantidad",
+      inputLabel: "Cantidad",
+      data: limitesDeCarga,
     },
   ];
 
@@ -343,6 +221,16 @@ function CreateInvoice() {
       name: "description",
       em: "Ingrese una Descripcion del Presupuesto", //placeholder en caso de String
       inputLabel: "Descripcion",
+      data: "String",
+    },
+  ];
+
+  const cabeceraCantContAuto = [
+    {
+      id: "canCont",
+      name: "Auto",
+      em: "--.--", //placeholder en caso de String
+      inputLabel: "Auto",
       data: "String",
     },
   ];
@@ -453,7 +341,7 @@ function CreateInvoice() {
       inputLabel: "Freight Insurance [USD]",
       data: dataHelp?.presupuestoEditable?.estHeader?.freight_insurance_cost,
       dataType: "number",
-      Xs_Xd: [12, 1.7],
+      Xs_Xd: [12, 1.8],
       blockDeGastos: true,
       ValorSwitch: null,
       ValorSwitchBase: dataHelp?.presupuestoEditable?.estHeader?.tarifupdate,
@@ -523,6 +411,8 @@ function CreateInvoice() {
       embarque: "",
       fecha_embarque: UtilidadesHelper.fechaParaDB(),
       bl: "",
+      oc: "",
+      carrier: "",
       estnumber: "",
       estvers: 1,
       status: 1,
@@ -536,6 +426,8 @@ function CreateInvoice() {
 
       usarmoneda_local: "false",
       carga_id: null,
+      limite_carga: {id:1,description:"1"},
+      cantContAuto: "--.--",
       //   polizaProv: null,
       dolar: "",
       tarifupdate: 0, //harcodeado (formula de calculo)
@@ -583,7 +475,6 @@ function CreateInvoice() {
       impuestos_total: 0,
       cantidad_contenedores: 0,
       iibb_total: 0,
-      tarifonmex_id: 0,
 
       gloc_fwd: 0,
       gloc_flete: 0,
@@ -592,6 +483,10 @@ function CreateInvoice() {
       gloc_descarga: 0,
       freight_cost: 0,
       freight_insurance_cost: 0,
+
+      // campos para trabajar con VirtualSeller
+      vs_ockey: 'webapp',
+      vs_oclastmodified: UtilidadesHelper.fechaParaDB(),
     },
     validationSchema,
     //configuracion de formik para validar cuando envio el formulario y no al iniciar
@@ -608,40 +503,20 @@ function CreateInvoice() {
             usarmoneda_local: values.usarmoneda_local === "true",
 
             // nuevos inputs
-            description: values.description ? values.description : "",
-
-            //AQUI ESTAN COMENTADOS YA QUE SINO PONEN EL ELEMENTO EN 0
-            // paisregion_id: values.paisregion_id ? values.paisregion_id.id : "", //HARCODEADO EN 5
-            // fwdpaisregion_id: values.fwdpaisregion_id ? values.fwdpaisregion_id.id : "",
+            description: values.description ? values.description : "Sin Notas",
 
             carga_id: values.carga_id ? values.carga_id.id : "", // Recupera la descripción
             embarque: values.embarque ? values.embarque : "",
+            limite_carga: values.limite_carga ? values.limite_carga.id : '', // envio el id de limite de carga siendo n!° entero
+            project: values.project ? values.project : 'Sin Especificar',
 
-            extrag_src1: values.extrag_src1 ? parseFloat(values.extrag_src1) : 0,
-            extrag_src2: values.extrag_src2 ? parseFloat(values.extrag_src2) : 0,
+            extrag_src1: values.extrag_src1
+              ? parseFloat(values.extrag_src1)
+              : 0,
+            extrag_src2: values.extrag_src2
+              ? parseFloat(values.extrag_src2)
+              : 0,
 
-            // tarifasfwd_id: values.tarifasfwd_id ? values.tarifasfwd_id.id : "",
-            // tarifasflete_id: values.tarifasflete_id
-            //   ? values.tarifasflete_id.id
-            //   : "",
-            // tarifasterminales_id: values.tarifasterminales_id
-            //   ? values.tarifasterminales_id.id
-            //   : "",
-            // tarifaspolizas_id: values.tarifaspolizas_id
-            //   ? values.tarifaspolizas_id.id
-            //   : "",
-            // tarifasdepositos_id: values.tarifasdepositos_id
-            //   ? values.tarifasdepositos_id.id
-            //   : "",
-            // tarifasdespachantes_id: values.tarifasdespachantes_id
-            //   ? values.tarifasdespachantes_id.id
-            //   : "",
-            // tarifasbancos_id: values.tarifasbancos_id
-            //   ? values.tarifasbancos_id.id
-            //   : "",
-            // tarifasgestdigdoc_id: values.tarifasgestdigdoc_id
-            //   ? values.tarifasgestdigdoc_id.id
-            //   : "",
           },
           estDetailsDB: productsData, // incluyo los productos (details)
         };
@@ -650,12 +525,12 @@ function CreateInvoice() {
           setOpen(true);
         }
 
-        console.log(postData);
+        console.log('Data Enviada', postData);
 
         // Solo se llama a createData si estDetailsDB tiene algún elemento.
         if (postData.estDetailsDB.length > 0) {
           try {
-            await PresupuestoHelper.createData(postData);
+            await PresupuestoHelper.createDataSourcing  (postData);
             console.log("Creacion exitosa de: ", postData);
             setProductsData([]);
             setLoadingEnvio(false);
@@ -671,11 +546,12 @@ function CreateInvoice() {
             throw error;
           }
         } else {
+          setTimeout(() => {
+            //repara el error de enviar mensaje para seguir con la carga
+            setLoadingEnvio(false);
+          }, 2000);
           throw new Error("estDetailsDB no contiene ningún elemento.");
         }
-        // setProductsData([]);
-        // setMensaje("Presupuesto creado Exitosamante");
-        // formik.resetForm();
       } catch (error) {
         setOpen(true);
         setMensaje(error.message || "Un error desconocido ocurrió.");
@@ -683,7 +559,6 @@ function CreateInvoice() {
       }
     },
   });
-  // console.log(formik.values);
 
   // Carga los elementos del estado inicial una vez llegado la dataHelp
   useEffect(() => {
@@ -700,50 +575,21 @@ function CreateInvoice() {
     }
   }, [dataHelp]);
 
-  const [allAmounts, setAllAmounts] = useState({
-    subTotal: 0,
-    appliedTaxValue: 0.1,
-    appliedDiscountValue: 0.05,
-    taxesAmount: 0,
-    discountAmount: 0,
-    totalAmount: 0,
-  });
 
   const [productsData, setProductsData] = useState([]);
   const [valueBasic, setValueBasic] = React.useState(new Date());
-  const [addItemClicked, setAddItemClicked] = useState(false);
-
-  // for calculating cost of all orders
-  const getTotalAmounts = () => {
-    const amounts = {
-      subTotal: 0,
-      appliedTaxValue: 0.1,
-      appliedDiscountValue: 0.05,
-      taxesAmount: 0,
-      discountAmount: 0,
-      totalAmount: 0,
-    };
-    productsData.forEach((item) => {
-      amounts.subTotal += item.total;
-    });
-    amounts.taxesAmount = amounts.subTotal * amounts.appliedTaxValue;
-    amounts.discountAmount =
-      (amounts.subTotal + amounts.taxesAmount) * amounts.appliedDiscountValue;
-    amounts.totalAmount =
-      amounts.subTotal + amounts.taxesAmount - amounts.discountAmount;
-    setAllAmounts(amounts);
-  };
-
-  // calculates costs when order-details change
-  useEffect(() => {
-    getTotalAmounts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsData]);
+  const [rowUpdate, SetRowUpdate] = useState([]);
 
   // to delete row in order details
-  const editProductHandler = (id) => {
-    console.log(`El producto seleccionado es el: `, id);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const editProductHandler = (rowUpdate) => {
+    // console.log(`El producto seleccionado es el: `, rowUpdate);
     // setProductsData(productsData.filter((item) => item.id !== id));
+    setOpenUpdate(true);
+    SetRowUpdate(rowUpdate);
+  };
+  const handleCloseUpdateDialog = () => {
+    setOpenUpdate(false);
   };
 
   // to delete row in order details
@@ -754,52 +600,49 @@ function CreateInvoice() {
   // Dialog Handler
   const handleDialogOk = () => {
     setOpen(false);
-    if (mensaje == "Presupuesto creado Exitosamante") {
-      // navigate("/estimate/estimate-list");
-      navigate(`/simuladorMEX/details/${dataHelp.proximoEstDisponible}/1`);
+    if (mensaje === "Presupuesto creado Exitosamante") {
+      navigate(`/simuladorMEX/details/${dataHelp.proximoEstDisponible}/1`); //Navego a la vista de detalle
     }
     setMensaje("");
     setLoadingEnvio(true);
   };
 
-  //VECTOR
-  // const [calculo, setCalculo ] = useState([]);
-  // const mapeoProductData = (productsData) => {
-  //   let provisorio = productsData.map((index, valor) => {return(index * 4)  });
-  //   console.log(provisorio);
-  //   setCalculo(...calculo, provisorio);
-  // };
-
-  // useState(()=>{
-  //   mapeoProductData(productsData);
-  //   console.log(productsData);
-  // },[productsData])
-
   // add item handler
-  const handleAddItem = (addingData) => {
-    setProductsData([
-      ...productsData,
-      {
+  const handleAddItem = (addingData, edicion = false) => { //false por defecto si es un nuevo producto, ira en true si es uno que se actualiza
+    if (edicion) {
+      // Encuentra el índice del producto en el arreglo productsData por su id
+      const index = productsData.findIndex(
+        (product) => product.id === addingData.id
+      );
+
+      if (index !== -1) {
+        // Elimina el producto existente de la lista
+        productsData.splice(index, 1);
+      }
+      function formatValue(value) {
+        return value === "0" ? 0 : value;
+      }
+
+      // Añade el producto actualizado a la lista
+      productsData.push({
+        // ... (mismos campos que tienes en el caso else)
         // VALORES DEL DETAILS
         id: addingData.id,
-        description: addingData.description,
+        description: addingData.description ? addingData.description : 'Sin data',
+        // description: addingData.desc,
         ncm_id: addingData.ncm_id,
         ncm_code: addingData.ncm_code,
         // total: addingData.totalAmount,
-        pcsctn: addingData.pcsctn,
-        gwctn: addingData.gwctn,
         ncm_ack: true, //aplicar el RadioGroup,
-        proovedores_name: addingData.proovedores_name
-          ? addingData.proovedores_name
-          : "Proveedor Provisorio",
+        proovedores_name: addingData.proovedores_name,
         proveedores_id: addingData.proveedores_id,
-        proveedor_prov: addingData.proveedor_prov,
         sku: addingData.sku,
 
-        productowner: user.name,
+        productowner: addingData.productowner,
         proforma_invoice: addingData.proforma_invoice,
         comercial_invoice: addingData.comercial_invoice,
         purchaseorder: addingData.purchaseorder,
+        proveedor_prov: addingData.proveedor_prov,
 
         imageurl: addingData.imageurl,
         exw_u: addingData.exw_u,
@@ -819,37 +662,100 @@ function CreateInvoice() {
         ncm_sp2: addingData.ncm_sp2,
         precio_u: addingData.precio_u,
 
-        extrag_comex1: addingData.extrag_comex1,
-        extrag_comex2: addingData.extrag_comex2,
-        extrag_comex3: addingData.extrag_comex3,
+        extrag_comex1: formatValue(addingData.extrag_comex1),
+        extrag_comex2: formatValue(addingData.extrag_comex2),
+        extrag_comex3: formatValue(addingData.extrag_comex3),
         extrag_comex_notas: addingData.extrag_comex_notas,
 
-        extrag_src1: addingData.extrag_src1,
-        extrag_src2: addingData.extrag_src2,
+        extrag_src1: formatValue(addingData.extrag_src1),
+        extrag_src2: formatValue(addingData.extrag_src2),
         extrag_src_notas: addingData.extrag_src_notas,
 
-        extrag_finan1: addingData.extrag_finan1,
-        extrag_finan2: addingData.extrag_finan2,
-        extrag_finan3: addingData.extrag_finan3,
+        extrag_finan1: formatValue(addingData.extrag_finan1),
+        extrag_finan2: formatValue(addingData.extrag_finan2),
+        extrag_finan3: formatValue(addingData.extrag_finan3),
         extrag_finan_notas: addingData.extrag_finan_notas,
 
         costo_u_est: addingData.costo_u_est,
         costo_u_prov: addingData.costo_u_prov,
         costo_u: addingData.costo_u,
-
         updated: addingData.updated,
         htimestamp: addingData.htimestamp,
         detailorder: addingData.detailorder,
-        // Calculo: calculo,
-      },
-    ]);
-    console.log(addingData);
+      });
 
-    setAddItemClicked(false);
+      // Actualiza el estado
+      setProductsData([...productsData]);
+    } else {
+      setProductsData([
+        ...productsData,
+        {
+          // VALORES DEL DETAILS
+          id: addingData.id,
+          description: addingData.description ? addingData.description : 'Sin data',
+          ncm_id: addingData.ncm_id,
+          ncm_code: addingData.ncm_code,
+          // total: addingData.totalAmount,
+          ncm_ack: true, //aplicar el RadioGroup,
+          proovedores_name: addingData.proovedores_name
+            ? addingData.proovedores_name
+            : "Proveedor Provisorio",
+          proveedores_id: addingData.proveedores_id,
+          proveedor_prov: addingData.proveedor_prov,
+          sku: addingData.sku,
+
+          productowner: addingData.productowner,
+          proforma_invoice: addingData.proforma_invoice,
+          comercial_invoice: addingData.comercial_invoice,
+          purchaseorder: addingData.purchaseorder,
+
+          imageurl: addingData.imageurl,
+          exw_u: addingData.exw_u,
+          fob_u: addingData.fob_u,
+          qty: addingData.qty,
+          pcsctn: addingData.pcsctn,
+          cbmctn: addingData.cbmctn,
+          gwctn: addingData.gwctn,
+
+          cambios_notas: addingData.cambios_notas,
+          ncm_arancel: addingData.ncm_arancel,
+          ncm_te_dta_otro: addingData.ncm_te_dta_otro,
+          ncm_iva: addingData.ncm_iva,
+          ncm_ivaad: addingData.ncm_ivaad,
+          gcias: addingData.gcias,
+          ncm_sp1: addingData.ncm_sp1,
+          ncm_sp2: addingData.ncm_sp2,
+          precio_u: addingData.precio_u,
+
+          extrag_comex1: addingData.extrag_comex1,
+          extrag_comex2: addingData.extrag_comex2,
+          extrag_comex3: addingData.extrag_comex3,
+          extrag_comex_notas: addingData.extrag_comex_notas,
+
+          extrag_src1: addingData.extrag_src1,
+          extrag_src2: addingData.extrag_src2,
+          extrag_src_notas: addingData.extrag_src_notas,
+
+          extrag_finan1: addingData.extrag_finan1,
+          extrag_finan2: addingData.extrag_finan2,
+          extrag_finan3: addingData.extrag_finan3,
+          extrag_finan_notas: addingData.extrag_finan_notas,
+
+          costo_u_est: addingData.costo_u_est,
+          costo_u_prov: addingData.costo_u_prov,
+          costo_u: addingData.costo_u,
+
+          updated: addingData.updated,
+          htimestamp: addingData.htimestamp,
+          detailorder: addingData.detailorder,
+        },
+      ]);
+
+    }
+    console.log(addingData);
   };
 
   //ventana de productos lateral
-
   const [open2, setOpen2] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen2(true);
@@ -869,20 +775,42 @@ function CreateInvoice() {
 
   const [gastoLocal, setGastoLocal] = useState({});
 
-  const CalculoDespachanteMex = (cif_grand_total) => {
+  /*const CalculoDespachanteMex = (cif_grand_total) => {
     return (
       cif_grand_total * gastoLocal?.gloc_despachante_var +
       gastoLocal?.gloc_despachante_fijo +
       gastoLocal?.gloc_despachante_otro1 +
       gastoLocal?.gloc_despachante_otro2
     );
-  };
+  };*/
+
+  const CalculoGastosLocales = (gastos,cantContenedores)=>{
+
+      formik.setFieldValue("freight_cost",Math.ceil(gastos?.freight_charge*cantContenedores));
+      formik.setFieldValue("gloc_fwd",Math.ceil(gastos?.gloc_fwd*cantContenedores));
+      formik.setFieldValue("gloc_descarga",Math.ceil(gastos?.gasto_descarga_depo*cantContenedores));
+      formik.setFieldValue("gloc_terminales",Math.ceil(gastos?.gasto_terminal*cantContenedores));
+
+      let cantContBase2 = Math.floor(cantContenedores/2);
+      // La cantidad de contenedores multiplo de 2, la puedo llevar en fletes dobles.
+      let glocFlete = (gastos?.flete_interno_doble)*cantContBase2;      
+      if((cantContenedores%2)>0.1)
+      { // Si la cantidad Impar de contenedores, sumo un flete simple, el resto va todos en fletes dobles.
+        glocFlete=glocFlete+gastos.flete_interno;        
+      }
+
+      console.log(glocFlete);
+      formik.setFieldValue("gloc_flete",glocFlete);
+  }
 
   const tarifonDataFetch = async (id) => {
     const tarifonData = await TarifonMexHelper.readDataByCargaId(id);
     setGastoLocal(tarifonData);
   };
 
+
+// Aca vigilo si seleccionan otra carga. Si lo hacwn consulto los gstos locales nuevamente al endpoint tarifon
+// Y aprovecho para pasivar todos los formik.
   useEffect(() => {
     formik.setFieldValue("gloc_descarga", "");
     formik.setFieldValue("gloc_terminales", "");
@@ -894,40 +822,98 @@ function CreateInvoice() {
     tarifonDataFetch(formik?.values?.carga_id?.id);
   }, [formik?.values?.carga_id]);
 
-
-
-  // Logica para decidir que valores van a los GLOC. Si el valor del JSON difiere del proviniente del tarifon,
-  // el mismo tiene prioridad y entonces se ingresa a fromik. Caso contrario se usan los del tarifon. 
+  // Refresca los gastos locales que son funcion de la carga.
+  // Revisa si cambia la cantidad de productos ingresado
+  // Cuando aun no hay prod calcula los gastos en base al limite de contenedores (VER !!!)
   useEffect(() => {
-
-    formik.setFieldValue("gloc_despachantes",CalculoDespachanteMex(formik?.values?.cif_grand_total));
-
-
-    if(gastoLocal?.freight_charge==undefined)
-    {
+   
+    let tmpCantCont=0;
+    // Este dato viene desde la API de gasto. Miesntras este roto, siginifica que el fetch de los valores no temrino
+    if (gastoLocal?.freight_charge === undefined) {
       formik.setFieldValue("gloc_descarga", "");
       formik.setFieldValue("gloc_terminales", "");
       formik.setFieldValue("gloc_fwd", "Aguarde ...");
       formik.setFieldValue("freight_cost", "");
       formik.setFieldValue("gloc_flete", "");
-      formik.setFieldValue("gloc_despachantes","");
-      formik.setFieldValue("gloc_despachantes")
-      formik.setFieldValue("freight_insurance_cost","")
-    }
-    else
+      formik.setFieldValue("gloc_despachantes", "");
+      formik.setFieldValue("gloc_despachantes");
+      formik.setFieldValue("freight_insurance_cost", "");
+    } 
+    else 
     {
-      formik.setFieldValue("gloc_fwd", gastoLocal?.gloc_fwd?.toFixed(2)); 
-      formik.setFieldValue("gloc_flete", gastoLocal?.flete_interno?.toFixed(2));
-      formik.setFieldValue("gloc_descarga", gastoLocal?.gasto_descarga_depo?.toFixed(2));
-      formik.setFieldValue("gloc_terminales", gastoLocal?.gasto_terminal?.toFixed(2));
-      formik.setFieldValue("freight_cost", gastoLocal?.freight_charge?.toFixed(2));
-    }  
-
-    // formik.setFieldValue("freight_insurance_cost", gastoLocal?.insurance_charge * formik?.values?.cif_grand_total );
+        // Auto tiene id=0
+        if(formik?.values?.limite_carga?.id>0)
+        { // No esta en "auto"
+              gastosLocMexHelper.calcAndSetGloc(formik,gastoLocal,formik?.values?.limite_carga.id);
+              formik.setFieldValue("cantContAuto","--.--");
+        }
+        else
+        { //Auto: Si tengo al menos 0.005 de contenedor, aplico la logica de gastos. Si no pongo TBD a todo
+          // Este useeffect tambien reacciona al cambio de lista de productos. Si cambia, recalcula los contenedores.
+          tmpCantCont=contenedorHelper.calculaNumeroContenedores(productsData,formik?.values.carga_id).cantContEnt
+          // La cantidad de ocntenedores es mayor a 0 ?
+          if((tmpCantCont).toFixed(3)>0.005)
+          {   // Si, se calculan los gastos con la cantidad de contenedores.
+              gastosLocMexHelper.calcAndSetGloc(formik,gastoLocal,Math.ceil(tmpCantCont));   
+              formik.setFieldValue("cantContAuto",Math.ceil(tmpCantCont).toFixed(0)+" ("+tmpCantCont.toFixed(2)+")");
+          }
+          else
+          {
+              formik.setFieldValue("gloc_descarga", "TBD");
+              formik.setFieldValue("gloc_terminales", "TBD");
+              formik.setFieldValue("gloc_fwd", "TBD");
+              formik.setFieldValue("freight_cost", "TBD");
+              formik.setFieldValue("gloc_flete", "TBD");
+              formik.setFieldValue("gloc_despachantes", "TBD");
+              formik.setFieldValue("gloc_despachantes","TBD");
+              formik.setFieldValue("freight_insurance_cost", "TBD");
+              formik.setFieldValue("cantContAuto","TBD")
+          }
+        }
+        //console.log(formik?.values);
+      }
 
     //console.log(formik.values);
-  }, [gastoLocal]);
+  }, [gastoLocal,formik?.values?.carga_id,formik?.values?.limite_carga,productsData]);
 
+
+
+
+  // Variable que uarda la seleccion anterior de la carga para detectar si cambio y recalcular.
+  /*const[cargaOld,setCargaOld]=useState({})
+
+
+  // Este Use effect detecta si cambian el select del tipo de carga. Escucha solo ese cambio.
+  // Y si ya existia una x ccantidad de contenedores, entonces recalcula la cantidad necesaria con la nueva carga
+  // elegida y luego recalcula los gastos locales.
+  useEffect(()=>{
+    if(cargaOld?.weight!=undefined & cargaOld!=formik?.values?.carga_id)
+    {
+      // Calculo la cantidad de contenedores que estabs usando con la carga original.
+      let tmpCantCont=contenedorHelper.calculaNumeroContenedores(cargaOld).cantContEnt;
+      // Actualizo con el valor elegido. Ya use el valor que tenia guardado.
+      setCargaOld(formik?.values?.carga_id);
+
+      if(tmpCantCont.toFixed(3)>0.005)    // Esto es simplemente preguntar si es distinto de cero. Pero son flotante,s no enteros. No me arriesgo.
+      {
+          // Cambiaron la carga. Llamo a la funcion del helper que me permite calcular la cantidad de contenedores nueva
+          // usando la carga elegida.
+          let newCantCont=contenedorHelper.calcularCantContFromPrev(cargaOld,tmpCantCont,formik?.values?.carga_id);
+          // Con la nueva cantidad recalculo los gastos locales.
+          gastosLocMexHelper.calcAndSetGloc(formik,gastoLocal,Math.ceil(newCantCont));
+      }
+    }
+
+  },formik?.values?.carga_id)*/
+
+
+  // Cuando se establece la carga
+  /*useEffect(()=>{
+      if(formik?.values?.limite_carga?.id==undefined)
+      {
+        formik.setFieldValue("limite_carga",{id:2,description:"2"});
+      }
+  },[formik?.values?.carga_id]);*/
 
   function handleTextClick() {
     const inputElement = document.getElementById("carga_id");
@@ -959,10 +945,11 @@ function CreateInvoice() {
     },
   }));
 
+  // // console.log('modal');
+
   return (
     <>
       <MainCard
-        // title={`Crear Presupuesto de Mexico : #00${ formik?.values?.estnumber }/00${ formik?.values?.estvers } Fecha: ${UtilidadesHelper.fechaParaVistaHoy()}`}
         title={`Crear Simulacion en Mexico:`}
       >
         <div
@@ -998,7 +985,7 @@ function CreateInvoice() {
         ) : (
           <form
             onKeyPress={(event) => {
-              if (event.key === "Enter") {
+              if (event.key === "Enter") { //aqui prevenimos que no se envie el formulario apretando enter
                 event.preventDefault();
               }
             }}
@@ -1062,7 +1049,7 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.2}
                   desactivado={true}
-                  ValorPorDefecto={"CHINA"}
+                  ValorPorDefecto={9} //envio el valor por defecto del array id:9, description: 'CHINA'
                   tooltip={"CHINA"}
                 />
               ))}
@@ -1076,7 +1063,7 @@ function CreateInvoice() {
                   XS={12}
                   MD={1.2}
                   desactivado={true}
-                  ValorPorDefecto={"MEXICO"}
+                  ValorPorDefecto={5} //envio el valor por defecto del array id:5, description: 'MEXICO'
                   tooltip={"MEXICO"}
                 />
               ))}
@@ -1121,8 +1108,21 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.2}
-                  tooltip={"Seleccione Carga"}
+                  MD={1}
+                  // tooltip={"Seleccione Carga"}
+                />
+              ))}
+
+              {/* LIMITE CARGA CABECERA */}
+              {cabeceraLimiteCarga.map((field) => (
+                <CustomSelect
+                  key={field.id}
+                  {...field}
+                  formik={formik}
+                  XS={12}
+                  MD={1}
+                  // tooltip={"Ingrese Limite de Carga"}
+                  desactivado={formik.values.carga_id != null ? false : true}
                 />
               ))}
 
@@ -1150,6 +1150,29 @@ function CreateInvoice() {
                 />
               </Grid> */}
 
+              <Grid item xs={12} md={0.8} align="left">
+                <Stack>
+                  <InputLabel>Auto</InputLabel>
+                  <Tooltip title="Numero de Equipo en modo Auto">
+                    <TextField
+                      id="Auto"
+                      name="Auto"
+                      type="string"
+                      value={formik.values.cantContAuto}
+                      onBlur={formik.handleBlur}
+                      disabled
+                      fullWidth
+                      placeholder="--.--"
+                      inputProps={{
+                        style: { textAlign: "left" },
+                        className: classes.inputPlaceholder,
+                      }} // Aquí se alinea el texto a la derecha y opacamos el dolar
+                      defaultValue="--.--"
+                    />
+                  </Tooltip>
+                </Stack>
+              </Grid>
+
               {/* PRJ CABECERA */}
               {cabeceraPRJ.map((field) => (
                 <CustomSelect
@@ -1157,7 +1180,7 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.5}
+                  MD={1.2}
                 />
               ))}
 
@@ -1168,195 +1191,17 @@ function CreateInvoice() {
                   {...field}
                   formik={formik}
                   XS={12}
-                  MD={1.5}
+                  MD={1.7}
                 />
               ))}
-
-              {/* NOTA CABECERA Embarque */}
-              {cabeceraEmbarque.map((field) => (
-                <CustomSelect
-                  key={field.id}
-                  {...field}
-                  formik={formik}
-                  XS={12}
-                  MD={1.5}
-                  desactivado={true}
-                />
-              ))}
-
-              {/* ESPACIO DE RELLENO */}
-              <Grid item md={0}></Grid>
-
-              {/* RADIO DE MONEDA LOCAL */}
-              {/* <Grid item xs={12} md={1.7} align="right">
-                <InputLabel required>Moneda Local</InputLabel>
-                <Tooltip title="USD por defecto">
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      aria-label="usarmoneda_local"
-                      value={valueMonedaLocal}
-                      onChange={(e) => setValueMonedaLocal(e.target.value)}
-                      name="row-radio-buttons-group"
-                    >
-                      <FormControlLabel
-                        value="true"
-                        control={
-                          <Radio
-                            sx={{
-                              color: theme.palette.primary.main,
-                              "&.Mui-checked": {
-                                color: theme.palette.primary.main,
-                              },
-                            }}
-                          />
-                        }
-                        label="Si"
-                      />
-                      <FormControlLabel
-                        value="false"
-                        control={
-                          <Radio
-                            sx={{
-                              color: theme.palette.error.main,
-                              "&.Mui-checked": {
-                                color: theme.palette.error.main,
-                              },
-                            }}
-                          />
-                        }
-                        label="No"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Tooltip>
-              </Grid> */}
-
-              {/* RADIO DEL IVA */}
-              {/* <Grid item xs={12} md={1.7} align="right">
-                <InputLabel required>Iva Exento</InputLabel>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    aria-label="ivaExcento"
-                    value={valueIva}
-                    onChange={(e) => setValueIva(e.target.value)}
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="true"
-                      control={
-                        <Radio
-                          sx={{
-                            color: theme.palette.primary.main,
-                            "&.Mui-checked": {
-                              color: theme.palette.primary.main,
-                            },
-                          }}
-                        />
-                      }
-                      label="Si"
-                    />
-                    <FormControlLabel
-                      value="false"
-                      control={
-                        <Radio
-                          sx={{
-                            color: theme.palette.error.main,
-                            "&.Mui-checked": {
-                              color: theme.palette.error.main,
-                            },
-                          }}
-                        />
-                      }
-                      label="No"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid> */}
-
-              {/* TIPO DE CAMBIO */}
-              {/* <Grid item xs={12} md={1} align="right">
-                <Stack>
-                  <InputLabel required>Dolar</InputLabel>
-                  <TextField
-                    id="dolar"
-                    name="dolar"
-                    type="number"
-                    value={formik.values.dolar}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.dolar && Boolean(formik.errors.dolar)}
-                    helperText={formik.touched.dolar && formik.errors.dolar}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="$$$"
-                    inputProps={{
-                      style: { textAlign: "right" },
-                      className: classes.inputPlaceholder,
-                    }} // Aquí se alinea el texto a la derecha y opacamos el dolar
-                  />
-                </Stack>
-              </Grid> */}
-
-              {/* DETALLE DE PRESUPUESTADOR */}
-              {/* <Grid item xs={12}>
-                <Divider />
-              </Grid> */}
-
-              {/* ESPACIO DE RELLENO */}
-              {/* <Grid item md={6}></Grid> */}
-
-              {/* NUM DE VERSION */}
-              {/* <Grid item xs={12} md={2}>
-                <Stack>
-                  <InputLabel required>Version</InputLabel>
-                  <TextField
-                    id="estvers"
-                    name="estvers"
-                    disabled
-                    value={formik.values.estvers}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.estvers && Boolean(formik.errors.estvers)
-                    }
-                    helperText={formik.touched.estvers && formik.errors.estvers}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    placeholder="Version #"
-                  />
-                </Stack>
-              </Grid> */}
-
-              {/* ESPACIO DE RELLENO */}
-              {/* <Grid item md={0}></Grid> */}
-
-              {/* DETALLE DE PRESUPUESTADOR */}
-              {/* <Grid item xs={12}>
-                <Divider />
-              </Grid> */}
-
-              {/* {
-                //COMPONENTE DE INPUTS que maneja la data de cellInput *
-                cellInput.map((field) => (
-                  <TarifarioArrBool
-                    key={field.id}
-                    {...field}
-                    formik={formik}
-                    XS={12}
-                    MD={1.5}
-                    PaisRegion={formik.values.paisregion_id}
-                  />
-                ))
-              } */}
 
               {formik.values.carga_id != null ? (
                 <>
                   <Grid
                     item
                     xs={12}
-                    style={{ position: "relative", marginTop: -50 }}
+                    style={{ position: "relative" }}
                   >
-                    {/* <Divider /> */}
                     <Typography
                       // color={"green"}
                       variant="h4"
@@ -1374,26 +1219,17 @@ function CreateInvoice() {
                     </Typography>
                   </Grid>
 
-                  {ExtraCostosLocal.map((input) => (
+                  {ExtraCostosLocal.map((field) => (
                     <ExtraCostoDobleClick
-                      key={input.id}
-                      id={input.id}
-                      name={input.name}
-                      em={input.em}
-                      inputLabel={input.inputLabel}
-                      data={input.data}
-                      dataType={input.dataType}
+                      key={field.id}
+                      id={field.id}
+                      name={field.name}
+                      em={field.em}
+                      inputLabel={field.inputLabel}
+                      data={field.data}
+                      dataType={field.dataType}
                       formik={formik}
-
-                      Xs_Xd={input.Xs_Xd}
-                      blockDeGastos={input.blockDeGastos}
-                      onSwitchChange={(newState) =>
-                        handleSwitchChangeInIndex(newState, input.arrPosition)
-                      }
-                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                      ValorSwitch={input.ValorSwitch}
-                      ValorSwitchBase={input.ValorSwitchBase}
-                      arrPosition={input.arrPosition}
+                      Xs_Xd={field.Xs_Xd}
                       gastoLocal={gastoLocal}
                     />
                   ))}
@@ -1408,7 +1244,7 @@ function CreateInvoice() {
                     width="100vw"
                   >
                     <StyledTypography
-                      color={"red"}
+                      color={"grey"}
                       variant="h2"
                       style={{ margin: "15px" }}
                       onClick={handleTextClick}
@@ -1421,9 +1257,6 @@ function CreateInvoice() {
 
               {/* DETALLE DE COSTOS Sourcing */}
               <>
-                <Grid item xs={12}>
-                  <Divider />
-                </Grid>
 
                 <Grid item xs={12}>
                   {formik.values.carga_id ? (
@@ -1439,7 +1272,6 @@ function CreateInvoice() {
                             />
                           </Tooltip>
                           <Grid item xs={12}>
-                            {/* <Divider /> */}
                             <Typography
                               // color={"green"}
                               variant="h3"
@@ -1474,35 +1306,28 @@ function CreateInvoice() {
                   ) : null}
                 </Grid>
 
-                {formik.values.carga_id &&
-                  showCostosSourcing &&
-                  ExtraCostosSourcing.map((input) => (
-                    <ExtraCostoDobleClick
-                      key={input.id}
-                      id={input.id}
-                      name={input.name}
-                      em={input.em}
-                      inputLabel={input.inputLabel}
-                      data={input.data}
-                      dataType={input.dataType}
-                      formik={formik}
-                      Xs_Xd={input.Xs_Xd}
-                      blockDeGastos={input.blockDeGastos}
-                      onSwitchChange={(newState) =>
-                        handleSwitchChangeInIndex(newState, input.arrPosition)
-                      }
-                      handleSwitchChangeInIndex={handleSwitchChangeInIndex}
-                      ValorSwitch={input.ValorSwitch}
-                      ValorSwitchBase={input.ValorSwitchBase}
-                      arrPosition={input.arrPosition}
-                    />
-                  ))}
+                {formik.values.carga_id && showCostosSourcing && (
+                  <>
+                    {ExtraCostosSourcing.map((field) => (
+                      <ExtraCostoDobleClick
+                        key={field.id}
+                        id={field.id}
+                        name={field.name}
+                        em={field.em}
+                        inputLabel={field.inputLabel}
+                        data={field.data}
+                        dataType={field.dataType}
+                        formik={formik}
+                        Xs_Xd={field.Xs_Xd}
+                      />
+                    ))}
+
+                  </>
+                )}
               </>
 
-              {/* CARGA DE PRODUCTOS */}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
+              {/* CARGA DE   PRODUCTOS */}
+
               <ProductsPage
                 productsData={productsData}
                 deleteProductHandler={deleteProductHandler}
@@ -1514,34 +1339,60 @@ function CreateInvoice() {
               />
               {open2 ? (
                 <Grid item xs={12}>
-                  {/* <AddItemPage
-                    handleAddItem={handleAddItem}
-                    setAddItemClicked={setAddItemClicked}
-                    dataHelp={dataHelp}
-                    formik={formik}
-                  /> */}
+                  
+                  <Grid item xs={12}>
+                    <Divider />
+                  </Grid>
                   <AddDetailsPage
                     handleAddItem={handleAddItem}
                     open={open2}
                     handleCloseDialog={handleCloseDialog}
                     dataHelp={dataHelp}
                     formik={formik}
+                    gastosLocales={gastoLocal}
+                    productsData={productsData}
+                    cantidadConte={contenedorHelper.calculaNumeroContenedores(productsData,formik?.values.carga_id).cantContEnt}
+                    limiteConte={formik.values.limite_carga.id}
                   />
                 </Grid>
               ) : formik.values.carga_id != null ? (
                 <>
-                  <Grid item>
-                    <Button
+                  <Grid item xs={12}>
+                    <Button display={"inline"}
                       variant="text"
-                      // onClick={() => setAddItemClicked(true)}
                       onClick={handleClickOpenDialog}
                     >
                       + Agregar Producto
                     </Button>
+                    <Typography            
+                            variant="h3"
+                            color={"red"}
+                            style={{ marginLeft: "60%" }}
+                            display={"inline"}
+                            >
+                            {alarmaContenedores(productsData,formik)?"ADVERTENCIA: Limite de Carga Excedido":""}
+                            {/* {console.log(formik?.values?.cantidad_contenedores)} */}
+                    </Typography> 
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} >
                     <Divider />
                   </Grid>
+                </>
+              ) : (
+                ""
+              )}
+
+              {openUpdate ? (
+                <>
+                  <UpdateItemPage
+                    handleAddItem={handleAddItem}
+                    open={openUpdate}
+                    handleCloseDialog={handleCloseUpdateDialog}
+                    dataHelp={dataHelp}
+                    rowUpdate={rowUpdate}
+                    formik={formik}
+                    ProductsDisbyte={dataHelp?.ProductosDisbyte}
+                  />
                 </>
               ) : (
                 ""
@@ -1551,28 +1402,27 @@ function CreateInvoice() {
               {ocultar ? (
                 ""
               ) : (
+                <>
+                
                 <PesajeContenedor
                   productsData={productsData}
-                  tipoContenedor={formik.values.carga_id}
+                  tipoContenedor={formik?.values?.carga_id}
                 />
+                </>
               )}
-
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
 
               <Grid
                 item
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{ display: "flex", justifyContent: "right" }}
                 xs={12}
               >
-                {formik.values.paisregion_id == "" ? (
+                {formik.values.paisregion_id === "" ? (
                   <Button variant="contained" color="warning" disabled>
                     Seleccione Pais
                   </Button>
                 ) : (
                   <Button variant="contained" type="submit">
-                    Simular
+                    Enviar
                   </Button>
                 )}
               </Grid>

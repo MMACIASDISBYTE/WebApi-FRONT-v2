@@ -5,7 +5,6 @@ import {
     Box,
     Button,
     CardContent,
-    Chip,
     Divider,
     Grid,
     LinearProgress,
@@ -34,7 +33,7 @@ import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 
-import Avatar3 from 'assets/images/users/avatar-3.png';
+// import Avatar3 from 'assets/images/users/avatar-3.png';
 
 // progress
 function LinearProgressWithLabel({ value, ...others }) {
@@ -75,7 +74,7 @@ function createData(name, calories, fat, carbs, protein) {
 const dev = 'dev-7qwkde4r318nfwz7/roles';
 
 const Profile = () => {
-    const { user, accessToken } = useAuth();
+    const { user } = useAuth();
 
     const rows = [
         createData('Full Name', ':', user?.name),
@@ -86,7 +85,7 @@ const Profile = () => {
         createData('Email', ':', user?.email),
         createData('Website', ':', 'https://www.disbyte.com/')
     ];
-    console .log(accessToken);
+    
 
     return (
         <Grid container spacing={gridSpacing}>
